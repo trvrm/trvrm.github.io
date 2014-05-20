@@ -10,7 +10,8 @@ TIMEZONE = 'Europe/Paris'
 BOOTSTRAP_THEME = 'flatly'
 PYGMENTS_STYLE = 'tango'
 DEFAULT_LANG = u'en'
-THEME = "/home/trevor/pelican-themes/pelican-bootstrap3"
+THEME = "../pelican-themes/pelican-bootstrap3"
+
 # Feed generation is usually not desired when developing
 FEED_ALL_ATOM = None
 CATEGORY_FEED_ATOM = None
