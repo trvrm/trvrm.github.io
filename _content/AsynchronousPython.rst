@@ -1,11 +1,10 @@
 Asynchronous Python
 ===================
 
-:date: 2014-05-20 14:00
 :tags: Python, gevent
 :category: Python
 :slug: asynchronous-python
-:author: Trevor Morgan
+:author: Trevor
 :summary: Python, Requests and gevent
 
 It's possible to get python to do node-like non-blocking requests, this could

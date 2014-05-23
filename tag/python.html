@@ -47,6 +47,9 @@ trvrm            </a>
                         <li >
                             <a href="/category/python.html">Python</a>
                         </li>
+                        <li >
+                            <a href="/category/systems-administration.html">Systems administration</a>
+                        </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="/archives.html"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
@@ -61,10 +64,34 @@ trvrm            </a>
         <div class="col-sm-9">
 
             <article>
+                <h2><a href="/nginx-uwsgi-ubuntu-14.html">Nginx and UWSGI on Ubuntu 14</a></h2>
+                <div class="summary"><p>The documentation for Nginx and UWSGI is long and complex, but with ubuntu 14
+it's actually pretty straightforward to get them up and running.</p>
+<p>I present here a a setup that uses nginx and uwsgi emperor to host
+multiple python web applications simultaneously on an ubuntu 14 machine.</p>
+<p>First ...</p>
+                    <a class="btn btn-default btn-xs" href="/nginx-uwsgi-ubuntu-14.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
                 <h2><a href="/asynchronous-python.html">Asynchronous Python</a></h2>
                 <div class="summary"><p class="first last">Python, Requests and gevent</p>
 
                     <a class="btn btn-default btn-xs" href="/asynchronous-python.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/basic-ipython-plotting.html">Basic IPython Plotting</a></h2>
+                <div class="summary"><p><strong>Things have changed a bit since IPython 1</strong></p>
+<p>Now apparently we want to manually specify the use of inline matplotlib
+rather than enable globally in the server.</p>
+<p><a class="reference external" href="http://nbviewer.ipython.org/github/ipython/ipython/blob/1.x/examples/notebooks/Part%203%20-%20Plotting%20with%20Matplotlib.ipynb">http://nbviewer.ipython.org/github/ipython/ipython/blob/1.x/examples/notebooks/Part%203%20-%20Plotting%20with%20Matplotlib.ipynb</a></p>
+<div class="highlight"><pre><span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+</pre></div>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">matplotlib ...</span></pre></div>
+                    <a class="btn btn-default btn-xs" href="/basic-ipython-plotting.html">more ...</a>
                 </div>
             </article>
             <hr/>
@@ -77,11 +104,8 @@ trvrm            </a>
         <ul class="list-group list-group-flush">
                 <li class="list-group-item"><h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Social</span></h4>
                   <ul class="list-group" id="social">
-                    <li class="list-group-item"><a href="#"><i
-                            class="fa fa-you can add links in your config file-square fa-lg"></i> You can add links in your config file
-                    </a></li>
-                    <li class="list-group-item"><a href="#"><i
-                            class="fa fa-another social link-square fa-lg"></i> Another social link
+                    <li class="list-group-item"><a href="https://twitter.com/trvrm"><i
+                            class="fa fa-twitter-square fa-lg"></i> twitter
                     </a></li>
                   </ul>
                 </li>
@@ -90,9 +114,24 @@ trvrm            </a>
 
                 <li class="list-group-item"><a href="/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
                     <ul class="list-group" id="tags">
-                        <li class="list-group-item tag-4">
+                        <li class="list-group-item tag-1">
                             <a href="/tag/python.html">
                                 Python
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="/tag/nginx.html">
+                                nginx
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="/tag/uwsgi.html">
+                                uwsgi
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="/tag/ipython.html">
+                                IPython
                             </a>
                         </li>
                         <li class="list-group-item tag-4">
@@ -120,8 +159,8 @@ trvrm            </a>
             </a>
         </li>
         <li class="list-group-item">
-            <a href="#" target="_blank">
-                You can modify those links in your config file
+            <a href="http://ipython.org/" target="_blank">
+                IPython
             </a>
         </li>
       </ul>
