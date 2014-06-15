@@ -68,4 +68,4 @@ introduce people to your work.  I'm very impressed.
 .. _tutorial: http://learn.ractivejs.org/hello-world/1/
 .. _Backbone: http://backbonejs.org/
 .. _Ractive.js: http://www.ractivejs.org/
-.. _Botle: http://bottlepy.org/docs/dev/_modules/bottle.html
+.. _Bottle: http://bottlepy.org/docs/dev/_modules/bottle.html
