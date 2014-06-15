@@ -3,7 +3,7 @@
       xmlns:og="http://ogp.me/ns#"
       xmlns:fb="https://www.facebook.com/2008/fbml">
 <head>
-    <title>IPython with Python 3 - trvrm</title>
+    <title>ractive - trvrm</title>
     <!-- Using the latest rendering mode for IE -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
@@ -11,10 +11,10 @@
     
 
     <!-- Open Graph tags -->
-            <meta property="og:type" content="article"/>
-            <meta property="og:title" content="IPython with Python 3"/>
-            <meta property="og:url" content="/ipython-with-python-3.html"/>
-            <meta property="og:description" content="Getting IPython running with IPython 3"/>
+            <meta property="og:type" content="website"/>
+            <meta property="og:title" content="trvrm"/>
+            <meta property="og:url" content=""/>
+            <meta property="og:description" content="trvrm"/>
 
     <!-- Bootstrap -->
         <link rel="stylesheet" href="/theme/css/bootstrap.flatly.min.css" type="text/css"/>
@@ -50,7 +50,7 @@ trvrm            </a>
                         <li >
                             <a href="/category/misc.html">Misc</a>
                         </li>
-                        <li class="active">
+                        <li >
                             <a href="/category/python.html">Python</a>
                         </li>
                         <li >
@@ -69,63 +69,14 @@ trvrm            </a>
     <div class="row">
         <div class="col-sm-9">
 
-    <section id="content">
-        <article>
-            <header class="page-header">
-                <h1>
-                    <a href="/ipython-with-python-3.html"
-                       rel="bookmark"
-                       title="Permalink to IPython with Python 3">
-                        IPython with Python 3
-                    </a>
-                </h1>
-            </header>
-            <div class="entry-content">
-                <div class="panel">
-                    <div class="panel-body">
-<footer class="post-info">
-    <span class="label label-default">Date</span>
-    <span class="published">
-        <i class="fa fa-calendar"></i><time datetime="2014-05-26T16:22:40.453869"> Mon 26 May 2014</time>
-    </span>
+            <article>
+                <h2><a href="/ractive-js.html">Ractive.js</a></h2>
+                <div class="summary"><p class="first last">Ractive.js javascript library</p>
 
-
-
-<span class="label label-default">Tags</span>
-	<a href="/tag/python.html">Python</a>
-        /
-	<a href="/tag/ipython.html">IPython</a>
-    
-</footer><!-- /.post-info -->                    </div>
+                    <a class="btn btn-default btn-xs" href="/ractive-js.html">more ...</a>
                 </div>
-                <p>This took me longer than I was expecting.</p>
-<p>In general when working with IPython I use <code>pip</code> rather than <code>apt-get</code>, as
-pip tends to have more up-to-date packages.</p>
-<p>In the end I found the simplest thing to do was to set up IPython in an isolated
-virtualenv environment.  The main trick is to let virtualenv know what version of
-Python you want it to use by default.</p>
-<div class="highlight"><pre><span class="nv">$ </span>virtualenv --python<span class="o">=</span>python3.4 python_3_demo
-<span class="nv">$ </span><span class="nb">cd </span>python_3_demo/
-<span class="nv">$ </span><span class="nb">source</span> ./bin/activate
-<span class="nv">$ </span>pip install ipython
-<span class="nv">$ </span>ipython
-</pre></div>
-<div class="highlight"><pre><span class="n">Python</span> <span class="mf">3.4</span><span class="o">.</span><span class="mi">0</span> <span class="p">(</span><span class="n">default</span><span class="p">,</span> <span class="n">Apr</span> <span class="mi">11</span> <span class="mi">2014</span><span class="p">,</span> <span class="mi">13</span><span class="p">:</span><span class="mo">05</span><span class="p">:</span><span class="mi">11</span><span class="p">)</span>
-<span class="o">...</span>
-
-<span class="n">In</span> <span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="kn">import</span> <span class="nn">sys</span>
-
-<span class="n">In</span> <span class="p">[</span><span class="mi">2</span><span class="p">]:</span> <span class="k">print</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">version</span><span class="p">)</span>
-<span class="mf">3.4</span><span class="o">.</span><span class="mi">0</span> <span class="p">(</span><span class="n">default</span><span class="p">,</span> <span class="n">Apr</span> <span class="mi">11</span> <span class="mi">2014</span><span class="p">,</span> <span class="mi">13</span><span class="p">:</span><span class="mo">05</span><span class="p">:</span><span class="mi">11</span><span class="p">)</span>
-<span class="p">[</span><span class="n">GCC</span> <span class="mf">4.8</span><span class="o">.</span><span class="mi">2</span><span class="p">]</span>
-</pre></div>
-<p>And voila, I have Python 3 in the best Python interpreter ever built, I'm ready to
-start wrapping my head around byte arrays and UTF-8 encodings.</p>
-
-            </div>
-            <!-- /.entry-content -->
-        </article>
-    </section>
+            </article>
+            <hr/>
 
         </div>
         <div class="col-sm-3 well well-sm" id="sidebar">
