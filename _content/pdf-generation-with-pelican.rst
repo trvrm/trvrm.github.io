@@ -1,6 +1,10 @@
 PDF Generation With Pelican
 ===========================
 
+:tags: python, pelican
+:category: Python
+:author: Trevor
+
 The existing documentation is a little unclear on this, because it says
 you need to add `PDF_GENERATOR=True`:code: to your `pelicanconf.py` file.
 
