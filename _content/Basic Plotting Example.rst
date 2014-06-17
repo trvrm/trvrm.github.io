@@ -31,5 +31,5 @@ http://nbviewer.ipython.org/github/ipython/ipython/blob/1.x/examples/notebooks/P
 
     
 .. image:: Basic%20Plotting%20Example_files/Basic%20Plotting%20Example_3_0.png
-
+  :alt: basic plotting example
 
