@@ -5,7 +5,6 @@ IPython with Python 3
 :category: Python
 :slug: ipython-with-python-3
 :author: Trevor
-:summary: Getting IPython running with IPython 3
 
 
 This took me longer than I was expecting.

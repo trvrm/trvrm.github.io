@@ -5,8 +5,6 @@ logrotate
 :category: Systems Administration
 :slug: logrotate
 :author: Trevor
-:summary: Adding things to logrotate
-
 
 I have a large, complex `mailing system <|filename|postfix.rst>`_ that processes
 a significant amount of data every hour.  While I'm developing it, I want to know

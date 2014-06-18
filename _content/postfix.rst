@@ -5,8 +5,6 @@ Postfix
 :category: Systems Administration
 :slug: postfix
 :author: Trevor
-:summary: Postfix
-
 
 Postfix is a ghastly horror that really should be quietly eliminated.  But that truism hides a deeper issue - email itself is a ghastly horror, the result of 30 years of hacks, edge-cases, non-conformant implementations and competing design constraints, that only persists because we still haven't come up with anything better.
 
