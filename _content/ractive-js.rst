@@ -5,7 +5,6 @@ Ractive.js
 :category: Javascript
 :slug: ractive-js
 :author: Trevor
-:summary: Ractive.js javascript library
 
 Ractive.js_ caught my eye this week.  I've been using Backbone_ for the last couple
 of years to develop single page client-side applications, and I've liked how
