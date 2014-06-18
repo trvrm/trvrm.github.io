@@ -3,7 +3,7 @@
       xmlns:og="http://ogp.me/ns#"
       xmlns:fb="https://www.facebook.com/2008/fbml">
 <head>
-    <title>PDF Generation With Pelican - trvrm</title>
+    <title>logrotate - trvrm</title>
     <!-- Using the latest rendering mode for IE -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
@@ -12,9 +12,9 @@
 
     <!-- Open Graph tags -->
             <meta property="og:type" content="article"/>
-            <meta property="og:title" content="PDF Generation With Pelican"/>
-            <meta property="og:url" content="/pdf-generation-with-pelican.html"/>
-            <meta property="og:description" content="The existing documentation is a little unclear on this, because it says you need to add PDF_GENERATOR=True to your pelicanconf.py file. This advice is out of date: PDF generation has been moved to a plugin. So you need to first make sure you have rst2pdf installed: $ sudo apt-get ..."/>
+            <meta property="og:title" content="logrotate"/>
+            <meta property="og:url" content="/logrotate.html"/>
+            <meta property="og:description" content="Adding things to logrotate"/>
 
     <!-- Bootstrap -->
         <link rel="stylesheet" href="/theme/css/bootstrap.flatly.min.css" type="text/css"/>
@@ -47,10 +47,10 @@ trvrm            </a>
                         <li >
                             <a href="/category/javascript.html">Javascript</a>
                         </li>
-                        <li class="active">
+                        <li >
                             <a href="/category/python.html">Python</a>
                         </li>
-                        <li >
+                        <li class="active">
                             <a href="/category/systems-administration.html">Systems administration</a>
                         </li>
             </ul>
@@ -70,10 +70,10 @@ trvrm            </a>
         <article>
             <header class="page-header">
                 <h1>
-                    <a href="/pdf-generation-with-pelican.html"
+                    <a href="/logrotate.html"
                        rel="bookmark"
-                       title="Permalink to PDF Generation With Pelican">
-                        PDF Generation With Pelican
+                       title="Permalink to logrotate">
+                        logrotate
                     </a>
                 </h1>
             </header>
@@ -83,32 +83,54 @@ trvrm            </a>
 <footer class="post-info">
     <span class="label label-default">Date</span>
     <span class="published">
-        <i class="fa fa-calendar"></i><time datetime="2014-06-15T21:48:43.730569"> Sun 15 June 2014</time>
+        <i class="fa fa-calendar"></i><time datetime="2014-06-18T12:45:40.237872"> Wed 18 June 2014</time>
     </span>
 
 
 
 <span class="label label-default">Tags</span>
-	<a href="/tag/python.html">python</a>
+	<a href="/tag/logrotate.html">logrotate</a>
         /
-	<a href="/tag/pelican.html">pelican</a>
+	<a href="/tag/linux.html">linux</a>
     
 </footer><!-- /.post-info -->                    </div>
                 </div>
-                <p>The existing documentation is a little unclear on this, because it says
-you need to add <code>PDF_GENERATOR=True</code> to your <cite>pelicanconf.py</cite> file.</p>
-<p>This advice is out of date: PDF generation has been moved to a plugin.</p>
-<p>So you need to first make sure you have <code>rst2pdf</code> installed:</p>
-<div class="highlight"><pre><span class="nv">$ </span>sudo apt-get install rst2pdf
+                <p>I have a large, complex <a class="reference external" href="/postfix.html">mailing system</a> that processes
+a significant amount of data every hour.  While I'm developing it, I want to know
+what it's doing, and whether it's having any problems.  So I use the excellent
+python <a class="reference external" href="https://docs.python.org/2/library/logging.html">logging</a> library to produce comprehensive monitoring data.</p>
+<p>The only problem is that these log files can get pretty big.  And because I don't
+know ahead of time when I'm going to need to hunt through them, I tend to leave
+the logging system in a fairly verbose state.</p>
+<p>Enter <a class="reference external" href="http://www.thegeekstuff.com/2010/07/logrotate-examples/">logrotate</a>.  This is a standard service on Ubuntu that regularly rotates
+your log files, throwing away old data, compressing middle-age data, and leaving
+young log files fresh and accessible.  Thus you are protected from
+runaway log file growth and nasty calls in the middle of the night from your
+monitoring service telling you that your server just died because the hard
+drives were full.</p>
+<p>A default ubuntu installation comes with logrotate already set up for various services.
+If you don't have it, install it with <code>apt-get install logrotate</code>, and
+then it's mostly just a question of copying a file from <code>/etc/logrotate.d/</code>
+and modifying it according to your needs.</p>
+<p><code>vi /etc/logrotate.d/myservice</code></p>
+<div class="highlight"><pre>/var/log/myservice/*.log <span class="o">{</span>
+  rotate 7
+  daily
+  compress
+  missingok
+  notifempty
+<span class="o">}</span>
 </pre></div>
-<p>and then add the following to <code>pelicanconf.py</code></p>
-<div class="highlight"><pre><span class="n">PLUGIN_PATH</span> <span class="o">=</span> <span class="s">&#39;../pelican-plugins&#39;</span>  <span class="c"># or wherever.</span>
-<span class="n">PLUGINS</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;pdf&#39;</span><span class="p">]</span>
+<p>And that's it!  The actually invocation of the <code>logrotate</code> command will
+get triggered regularly by a script in /etc/cron.daily</p>
+<p>You can also <strong>force</strong> a rotation, a useful option when testing out a new configuration,
+via</p>
+<div class="highlight"><pre>logrotate -f /etc/logrotate.d/myservice
 </pre></div>
-<p>However, doing this seems to screw up the pygments highlighting on my regular
-html output.  This is because deep in the rst2pdf code, in a file called <code>pygments2style.py</code>,
-all the pygment elements have their CSS classes prepended with <code>pygment-</code>.  I haven't
-figured out how to generate HTML and PDF nicely at the same time.</p>
+<p>One quick word of warning: if you're using the python <a class="reference external" href="https://docs.python.org/2/library/logging.html">logging</a> library, then
+you'll want to use the <code>WatchedFileHandler</code> class.  If the logfile gets
+rotated out while it's in use, WatchedFileHandler will notice this, close the file
+stream and open a new one.</p>
 
             </div>
             <!-- /.entry-content -->
