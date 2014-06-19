@@ -60,10 +60,15 @@ database server.
             run('psql -c "select datname from pg_database;"')
             
             
-And *voila*, a call to :code:`fab databases` gives me a company-wide view of all 
-our databases.
+And *voila*, a call to 
 
-One further demonstration - this blog itself is generated using fabric - see
+.. code-block:: sh
+
+    $ fab databases
+    
+gives me a company-wide view of all our databases.
+
+One further demonstration - this blog itself is generated using Fabric! For details, see
 the fabfile my Github_ repository.
 
 .. _Github: https://github.com/trvrm/trvrm.github.io/blob/master/fabfile.py
