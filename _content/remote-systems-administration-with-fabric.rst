@@ -5,7 +5,7 @@ Remote Systems Administration with Fabric
 :category: Systems Administration
 :author: Trevor
 
-A tool I'm finding myself using more and more these days is Fabric_
+A tool I'm finding myself using more and more these days is Fabric_.
 
 .. _Fabric: http://fabric.readthedocs.org/en/1.8/
 
