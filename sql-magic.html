@@ -3,7 +3,7 @@
       xmlns:og="http://ogp.me/ns#"
       xmlns:fb="https://www.facebook.com/2008/fbml">
 <head>
-    <title>Systems Administration - trvrm</title>
+    <title>SQL Magic - trvrm</title>
     <!-- Using the latest rendering mode for IE -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
@@ -11,10 +11,10 @@
     
 
     <!-- Open Graph tags -->
-            <meta property="og:type" content="website"/>
-            <meta property="og:title" content="trvrm"/>
-            <meta property="og:url" content=""/>
-            <meta property="og:description" content="trvrm"/>
+            <meta property="og:type" content="article"/>
+            <meta property="og:title" content="SQL Magic"/>
+            <meta property="og:url" content="/sql-magic.html"/>
+            <meta property="og:description" content="I'm finding the %sql magic function extremely useful. It turns IPython into a very nice front-end to Postgresql. First, make sure you have the ipython-sql extension installed: pip install ipython-sql https://pypi.python.org/pypi/ipython-sql Then we load the extension %load_ext sql Then we set up our database ..."/>
 
     <!-- Bootstrap -->
         <link rel="stylesheet" href="/theme/css/bootstrap.flatly.min.css" type="text/css"/>
@@ -47,10 +47,10 @@ trvrm            </a>
                         <li >
                             <a href="/category/javascript.html">Javascript</a>
                         </li>
-                        <li >
+                        <li class="active">
                             <a href="/category/python.html">Python</a>
                         </li>
-                        <li class="active">
+                        <li >
                             <a href="/category/systems-administration.html">Systems administration</a>
                         </li>
             </ul>
@@ -66,46 +66,160 @@ trvrm            </a>
     <div class="row">
         <div class="col-sm-9">
 
-            <article>
-                <h2><a href="/remote-systems-administration-with-fabric.html">Remote Systems Administration with Fabric</a></h2>
-                <div class="summary"><p>A tool I'm finding myself using more and more these days is <a class="reference external" href="http://fabric.readthedocs.org/en/1.8/">Fabric</a>.</p>
-<p>Fabric is a python utility and library for streamlining systems administration
-tasks on multiple machines.</p>
-<p>Although I'm primarily a developer and systems architect, I find that as our
-company grows I keep getting drawn into ...</p>
-                    <a class="btn btn-default btn-xs" href="/remote-systems-administration-with-fabric.html">more ...</a>
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="/sql-magic.html"
+                       rel="bookmark"
+                       title="Permalink to SQL Magic">
+                        SQL Magic
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2014-07-08T13:47:06.727547"> Tue 08 July 2014</time>
+    </span>
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="/tag/python.html">Python</a>
+        /
+	<a href="/tag/ipython.html">IPython</a>
+    
+</footer><!-- /.post-info -->                    </div>
                 </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/postfix.html">Postfix</a></h2>
-                <div class="summary"><p>Postfix is a ghastly horror that really should be quietly eliminated.  But that truism hides a deeper issue - email itself is a ghastly horror, the result of 30 years of hacks, edge-cases, non-conformant implementations and competing design constraints, that only persists because we still haven't come up with anything ...</p>
-                    <a class="btn btn-default btn-xs" href="/postfix.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/logrotate.html">logrotate</a></h2>
-                <div class="summary"><p>I have a large, complex <a class="reference external" href="/postfix.html">mailing system</a> that processes
-a significant amount of data every hour.  While I'm developing it, I want to know
-what it's doing, and whether it's having any problems.  So I use the excellent
-python <a class="reference external" href="https://docs.python.org/2/library/logging.html">logging</a> library to produce comprehensive monitoring data.</p>
-<p>The ...</p>
-                    <a class="btn btn-default btn-xs" href="/logrotate.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/nginx-uwsgi-ubuntu-14.html">Nginx and UWSGI on Ubuntu 14</a></h2>
-                <div class="summary"><p>The documentation for Nginx and UWSGI is long and complex, but with ubuntu 14
-it's actually pretty straightforward to get them up and running.</p>
-<p>I present here a a setup that uses nginx and uwsgi emperor to host
-multiple python web applications simultaneously on an ubuntu 14 machine.</p>
-<p>First ...</p>
-                    <a class="btn btn-default btn-xs" href="/nginx-uwsgi-ubuntu-14.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
+                <p>I'm finding the <tt class="docutils literal">%sql</tt> magic function extremely useful. It turns
+IPython into a very nice front-end to Postgresql.</p>
+<p>First, make sure you have the <tt class="docutils literal"><span class="pre">ipython-sql</span></tt> extension installed:</p>
+<p><tt class="docutils literal">pip install <span class="pre">ipython-sql</span></tt></p>
+<p><a class="reference external" href="https://pypi.python.org/pypi/ipython-sql">https://pypi.python.org/pypi/ipython-sql</a></p>
+<p>Then we load the extension</p>
+<pre class="code python literal-block">
+<span class="o">%</span><span class="n">load_ext</span> <span class="n">sql</span>
+</pre>
+<p>Then we set up our database connection.</p>
+<pre class="code python literal-block">
+<span class="o">%%</span><span class="n">sql</span>
+<span class="n">postgresql</span><span class="p">:</span><span class="o">//</span><span class="n">testuser</span><span class="p">:</span><span class="n">password</span><span class="nd">&#64;localhost</span><span class="o">/</span><span class="n">test</span>
+</pre>
+<pre class="literal-block">
+u'Connected: <a class="reference external" href="mailto:testuser&#64;test">testuser&#64;test</a>'
+</pre>
+<p>And now we can start interacting directly with the database as if we
+were at the <tt class="docutils literal">psql</tt> command line.</p>
+<pre class="code python literal-block">
+<span class="o">%%</span><span class="n">sql</span>
+<span class="n">CREATE</span> <span class="n">TABLE</span> <span class="n">people</span> <span class="p">(</span><span class="n">first</span> <span class="n">text</span><span class="p">,</span> <span class="n">last</span> <span class="n">text</span><span class="p">,</span> <span class="n">drink</span> <span class="n">text</span><span class="p">);</span>
+<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">people</span> <span class="p">(</span><span class="n">first</span><span class="p">,</span><span class="n">last</span><span class="p">,</span><span class="n">drink</span><span class="p">)</span>
+<span class="n">VALUES</span>
+    <span class="p">(</span><span class="s">'zaphod'</span><span class="p">,</span><span class="s">'beeblebrox'</span><span class="p">,</span><span class="s">'pan galactic gargle blaster'</span><span class="p">),</span>
+    <span class="p">(</span><span class="s">'arthur'</span><span class="p">,</span><span class="s">'dent'</span><span class="p">,</span><span class="s">'tea'</span><span class="p">),</span>
+    <span class="p">(</span><span class="s">'ford'</span><span class="p">,</span><span class="s">'prefect'</span><span class="p">,</span><span class="s">'old janx spirit'</span><span class="p">)</span>
+    <span class="p">;</span>
+</pre>
+<pre class="literal-block">
+Done.
+3 rows affected.
+</pre>
+<pre class="literal-block">
+[]
+</pre>
+<pre class="code python literal-block">
+<span class="o">%</span><span class="n">sql</span> <span class="n">select</span> <span class="o">*</span> <span class="kn">from</span> <span class="nn">people</span>
+</pre>
+<pre class="literal-block">
+3 rows affected.
+</pre>
+<table>
+    <tr>
+        <th>first</th>
+        <th>last</th>
+        <th>drink</th>
+    </tr>
+    <tr>
+        <td>zaphod</td>
+        <td>beeblebrox</td>
+        <td>pan galactic gargle blaster</td>
+    </tr>
+    <tr>
+        <td>arthur</td>
+        <td>dent</td>
+        <td>tea</td>
+    </tr>
+    <tr>
+        <td>ford</td>
+        <td>prefect</td>
+        <td>old janx spirit</td>
+    </tr>
+</table><p>We can access the results as a python object:</p>
+<pre class="code python literal-block">
+<span class="n">result</span> <span class="o">=</span> <span class="o">%</span><span class="n">sql</span> <span class="n">select</span> <span class="o">*</span> <span class="kn">from</span> <span class="nn">people</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</pre>
+<pre class="literal-block">
+3
+</pre>
+<p>And we can even get our recordset as a <strong>pandas</strong> dataframe</p>
+<pre class="code python literal-block">
+<span class="o">%</span><span class="n">config</span> <span class="n">SqlMagic</span><span class="o">.</span><span class="n">autopandas</span><span class="o">=</span><span class="bp">True</span>
+</pre>
+<pre class="code python literal-block">
+<span class="n">frame</span> <span class="o">=</span> <span class="o">%</span><span class="n">sql</span> <span class="n">select</span> <span class="o">*</span> <span class="kn">from</span> <span class="nn">people</span>
+<span class="n">frame</span>
+</pre>
+<div style="max-height:1000px;max-width:1500px;overflow:auto;">
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>first</th>
+      <th>last</th>
+      <th>drink</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td> zaphod</td>
+      <td> beeblebrox</td>
+      <td> pan galactic gargle blaster</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td> arthur</td>
+      <td>       dent</td>
+      <td>                         tea</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>   ford</td>
+      <td>    prefect</td>
+      <td>             old janx spirit</td>
+    </tr>
+  </tbody>
+</table>
+<p>3 rows × 3 columns</p>
+</div><pre class="code python literal-block">
+<span class="n">frame</span><span class="p">[</span><span class="s">'first'</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+</pre>
+<pre class="literal-block">
+0    ZAPHOD
+1    ARTHUR
+2      FORD
+Name: first, dtype: object
+</pre>
+
+            </div>
+            <!-- /.entry-content -->
+        </article>
+    </section>
 
         </div>
         <div class="col-sm-3 well well-sm" id="sidebar">
