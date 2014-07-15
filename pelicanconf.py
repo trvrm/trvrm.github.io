@@ -7,7 +7,7 @@ SITENAME = u'trvrm'
 SITEURL = ''
 
 TIMEZONE = 'Europe/Paris'
-BOOTSTRAP_THEME = 'flatly'
+BOOTSTRAP_THEME = 'yeti'
 PYGMENTS_STYLE = 'tango'
 DEFAULT_LANG = u'en'
 THEME = "../pelican-themes/pelican-bootstrap3"
