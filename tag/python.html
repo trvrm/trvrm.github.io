@@ -17,7 +17,7 @@
             <meta property="og:description" content="trvrm"/>
 
     <!-- Bootstrap -->
-        <link rel="stylesheet" href="/theme/css/bootstrap.yeti.min.css" type="text/css"/>
+        <link rel="stylesheet" href="/theme/css/bootstrap.flatly.min.css" type="text/css"/>
     <link href="/theme/css/font-awesome.min.css" rel="stylesheet">
 
     <link href="/theme/css/pygments/tango.css" rel="stylesheet">
@@ -68,7 +68,49 @@ trvrm            </a>
 
             <article>
                 <h2><a href="/reportlab.html">Rendering ReportLab Objects in IPython</a></h2>
-                <div class="summary">None
+                <div class="summary"><html><body><div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>With a bit of work we can get IPython to render ReportLab objects directly to the page as Matplotlib plots.</p>
+<p>Huge thanks to github user <a href="https://github.com/deeplook">deeplook</a>, this is basically a modification of <a href="http://nbviewer.ipython.org/gist/deeplook/5162445">this</a> IPython notebook.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>First our imports.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In [1]:
+</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight-ipynb"><pre class="ipynb"><span class="kn">from</span> <span class="nn">reportlab.lib</span> <span class="kn">import</span> <span class="n">colors</span>
+<span class="kn">from</span> <span class="nn">reportlab.graphics</span> <span class="kn">import</span> <span class="n">renderPM</span>
+<span class="kn">from</span> <span class="nn">reportlab.graphics.shapes</span> <span class="kn">import</span> <span class="n">Drawing</span><span class="p">,</span> <span class="n">Rect</span>
+<span class="kn">from</span> <span class="nn">reportlab.graphics.charts.linecharts</span> <span class="kn">import</span> <span class="n">HorizontalLineChart</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In [2]:
+</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight-ipynb"><pre class="ipynb"><span class="kn">from</span> <span class="nn">io</span>...
                     <a class="btn btn-default btn-xs" href="/reportlab.html">more ...</a>
                 </div>
             </article>
@@ -197,28 +239,13 @@ rather than enable globally in the server.</p>
                             </a>
                         </li>
                         <li class="list-group-item tag-4">
-                            <a href="/tag/email.html">
-                                email
+                            <a href="/tag/postfix.html">
+                                postfix
                             </a>
                         </li>
                         <li class="list-group-item tag-4">
-                            <a href="/tag/pelican.html">
-                                pelican
-                            </a>
-                        </li>
-                        <li class="list-group-item tag-4">
-                            <a href="/tag/uwsgi.html">
-                                uwsgi
-                            </a>
-                        </li>
-                        <li class="list-group-item tag-4">
-                            <a href="/tag/gevent.html">
-                                gevent
-                            </a>
-                        </li>
-                        <li class="list-group-item tag-4">
-                            <a href="/tag/logrotate.html">
-                                logrotate
+                            <a href="/tag/nginx.html">
+                                nginx
                             </a>
                         </li>
                         <li class="list-group-item tag-4">
@@ -232,18 +259,33 @@ rather than enable globally in the server.</p>
                             </a>
                         </li>
                         <li class="list-group-item tag-4">
-                            <a href="/tag/postfix.html">
-                                postfix
+                            <a href="/tag/email.html">
+                                email
                             </a>
                         </li>
                         <li class="list-group-item tag-4">
-                            <a href="/tag/nginx.html">
-                                nginx
+                            <a href="/tag/gevent.html">
+                                gevent
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="/tag/uwsgi.html">
+                                uwsgi
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="/tag/pelican.html">
+                                pelican
                             </a>
                         </li>
                         <li class="list-group-item tag-4">
                             <a href="/tag/coffeescript.html">
                                 coffeescript
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="/tag/logrotate.html">
+                                logrotate
                             </a>
                         </li>
                     </ul>

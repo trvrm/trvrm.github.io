@@ -38,4 +38,3 @@ PLUGIN_PATH = '../pelican-plugins'
 #enabling the PDF plugin messes up regular pygments output.
 PLUGINS = ['ipythonnb']
 
-
