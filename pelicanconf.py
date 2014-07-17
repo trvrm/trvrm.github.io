@@ -7,7 +7,7 @@ SITENAME = u'trvrm'
 SITEURL = ''
 
 TIMEZONE = 'Europe/Paris'
-BOOTSTRAP_THEME = 'yeti'
+BOOTSTRAP_THEME = 'flatly'
 PYGMENTS_STYLE = 'tango'
 DEFAULT_LANG = u'en'
 THEME = "../pelican-themes/pelican-bootstrap3"
@@ -34,6 +34,8 @@ DEFAULT_PAGINATION = False
 DEFAULT_DATE = "fs"
 
 
-#PLUGIN_PATH = '../pelican-plugins'
+PLUGIN_PATH = '../pelican-plugins'
 #enabling the PDF plugin messes up regular pygments output.
-#PLUGINS = ['pdf']
+PLUGINS = ['ipythonnb']
+
+
