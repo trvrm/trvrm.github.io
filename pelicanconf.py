@@ -7,7 +7,7 @@ SITENAME = u'trvrm'
 SITEURL = ''
 
 TIMEZONE = 'Europe/Paris'
-BOOTSTRAP_THEME = 'readable'
+
 PYGMENTS_STYLE = 'tango'
 DEFAULT_LANG = u'en'
 
@@ -29,13 +29,9 @@ SOCIAL = (('twitter', 'https://twitter.com/trvrm',),)
 
 DEFAULT_PAGINATION = False
 
-# Uncomment following line if you want document-relative URLs when developing
-#RELATIVE_URLS = True
-
 DEFAULT_DATE = "fs"
 
-#PLUGIN_PATHS = ['../pelican-plugins']
-#enabling the PDF plugin messes up regular pygments output.
-#PLUGINS = ['ipythonnb']
 
-
+#theme options
+BOOTSTRAP_NAVBAR_INVERSE=True
+BOOTSTRAP_THEME = 'yeti'
