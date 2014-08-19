@@ -19,13 +19,13 @@ https://pypi.python.org/pypi/ipython-sql
 
 Then we load the extension
 
-.. code:: python
+.. code-block:: python
 
     %load_ext sql
     
 Then we set up our database connection.
 
-.. code:: python
+.. code-block:: python
 
     %%sql 
     postgresql://testuser:password@localhost/test
@@ -41,7 +41,7 @@ Then we set up our database connection.
 And now we can start interacting directly with the database as if we
 were at the ``psql`` command line.
 
-.. code:: python
+.. code-block:: python
 
     %%sql 
     CREATE TABLE people (first text, last text, drink text);
@@ -67,7 +67,7 @@ were at the ``psql`` command line.
 
 
 
-.. code:: python
+.. code-block:: python
 
     %sql select * from people
 
@@ -80,7 +80,7 @@ were at the ``psql`` command line.
 
 .. raw:: html
 
-    <table>
+    <table class="table table-bordered table-striped">
         <tr>
             <th>first</th>
             <th>last</th>
@@ -107,7 +107,7 @@ were at the ``psql`` command line.
 
 We can access the results as a python object:
 
-.. code:: python
+.. code-block:: python
 
     result = %sql select * from people
     len(result)
@@ -123,10 +123,10 @@ We can access the results as a python object:
 
 And we can even get our recordset as a **pandas** dataframe
 
-.. code:: python
+.. code-block:: python
 
     %config SqlMagic.autopandas=True
-.. code:: python
+.. code-block:: python
 
     frame = %sql select * from people
     frame
@@ -136,7 +136,7 @@ And we can even get our recordset as a **pandas** dataframe
 .. raw:: html
 
     <div style="max-height:1000px;max-width:1500px;overflow:auto;">
-    <table border="1" class="dataframe">
+    <table class="table table-bordered table-striped">
       <thead>
         <tr style="text-align: right;">
           <th></th>
@@ -171,7 +171,7 @@ And we can even get our recordset as a **pandas** dataframe
 
 
 
-.. code:: python
+.. code-block:: python
 
     frame['first'].str.upper()
 
