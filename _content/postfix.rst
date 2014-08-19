@@ -2,7 +2,7 @@ Postfix
 =======
 
 :tags: postfix, email
-:category: Systems Administration
+:category: Systems
 :slug: postfix
 :author: Trevor
 

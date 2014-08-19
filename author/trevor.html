@@ -50,16 +50,13 @@ trvrm            </a>
                              About
                           </a></li>
                         <li >
-                            <a href="/category/javascript.html">Javascript</a>
+                            <a href="/category/database.html">Database</a>
                         </li>
                         <li >
-                            <a href="/category/postrgres.html">Postrgres</a>
+                            <a href="/category/software.html">Software</a>
                         </li>
                         <li >
-                            <a href="/category/python.html">Python</a>
-                        </li>
-                        <li >
-                            <a href="/category/systems-administration.html">Systems administration</a>
+                            <a href="/category/systems.html">Systems</a>
                         </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
@@ -86,22 +83,6 @@ the timestamps are precise and meaningful ...</p>
             </article>
             <hr/>
             <article>
-                <h2><a href="/reportlab-images-in-ipython.html">Reportlab Images in IPython</a></h2>
-                <div class="summary"><p>With a bit of work we can get IPython to render ReportLab objects
-directly to the page as Matplotlib plots.</p>
-<p>Huge thanks to github user <a class="reference external" href="https://github.com/deeplook">deeplook</a>,
-this is basically a modification of
-<a class="reference external" href="http://nbviewer.ipython.org/gist/deeplook/5162445">this</a> IPython
-notebook.</p>
-<p>First our imports.</p>
-<div class="highlight"><pre><span class="kn">from</span> <span class="nn">reportlab.lib</span> <span class="kn">import</span> <span class="n">colors</span>
-<span class="kn">from</span> <span class="nn">reportlab.graphics</span> <span class="kn">import</span> <span class="n">renderPM</span>
-<span class="kn">from</span> <span class="nn">reportlab ...</span></pre></div>
-                    <a class="btn btn-default btn-xs" href="/reportlab-images-in-ipython.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
                 <h2><a href="/sql-magic.html">SQL Magic</a></h2>
                 <div class="summary"><p>I'm finding the <tt class="docutils literal">%sql</tt> magic function extremely useful. It turns
 IPython into a very nice front-end to Postgresql.</p>
@@ -117,13 +98,18 @@ IPython into a very nice front-end to Postgresql.</p>
             </article>
             <hr/>
             <article>
-                <h2><a href="/coffeescript.html">CoffeeScript</a></h2>
-                <div class="summary"><p>Through a bizarre twist of history, the entire client-side web runs on a <a class="reference external" href="http://en.wikipedia.org/wiki/Brendan_Eich#Netscape_and_JavaScript">language</a>
-that was thrown together in 10 days.</p>
-<p>Despite huge investments in their own proprietary technology by the likes of Sun
-Microsystems, Adobe and Microsoft, this weird little spinoff of <strong>self</strong> and <strong>scheme</strong>
-is everywhere, while client-side ...</p>
-                    <a class="btn btn-default btn-xs" href="/coffeescript.html">more ...</a>
+                <h2><a href="/reportlab-images-in-ipython.html">Reportlab Images in IPython</a></h2>
+                <div class="summary"><p>With a bit of work we can get IPython to render ReportLab objects
+directly to the page as Matplotlib plots.</p>
+<p>Huge thanks to github user <a class="reference external" href="https://github.com/deeplook">deeplook</a>,
+this is basically a modification of
+<a class="reference external" href="http://nbviewer.ipython.org/gist/deeplook/5162445">this</a> IPython
+notebook.</p>
+<p>First our imports.</p>
+<div class="highlight"><pre><span class="kn">from</span> <span class="nn">reportlab.lib</span> <span class="kn">import</span> <span class="n">colors</span>
+<span class="kn">from</span> <span class="nn">reportlab.graphics</span> <span class="kn">import</span> <span class="n">renderPM</span>
+<span class="kn">from</span> <span class="nn">reportlab ...</span></pre></div>
+                    <a class="btn btn-default btn-xs" href="/reportlab-images-in-ipython.html">more ...</a>
                 </div>
             </article>
             <hr/>
@@ -149,42 +135,9 @@ it doesn't get in your way, but simply allows you to get on with your work.</p>
             </article>
             <hr/>
             <article>
-                <h2><a href="/ipython-with-python-3.html">IPython with Python 3</a></h2>
-                <div class="summary"><p>This took me longer than I was expecting.</p>
-<p>In general when working with IPython I use <code>pip</code> rather than <code>apt-get</code>, as
-pip tends to have more up-to-date packages.</p>
-<p>In the end I found the simplest thing to do was to set up IPython in an isolated
-virtualenv environment.  The main ...</p>
-                    <a class="btn btn-default btn-xs" href="/ipython-with-python-3.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
                 <h2><a href="/postfix.html">Postfix</a></h2>
                 <div class="summary"><p>Postfix is a ghastly horror that really should be quietly eliminated.  But that truism hides a deeper issue - email itself is a ghastly horror, the result of 30 years of hacks, edge-cases, non-conformant implementations and competing design constraints, that only persists because we still haven't come up with anything ...</p>
                     <a class="btn btn-default btn-xs" href="/postfix.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/logrotate.html">logrotate</a></h2>
-                <div class="summary"><p>I have a large, complex <a class="reference external" href="/postfix.html">mailing system</a> that processes
-a significant amount of data every hour.  While I'm developing it, I want to know
-what it's doing, and whether it's having any problems.  So I use the excellent
-python <a class="reference external" href="https://docs.python.org/2/library/logging.html">logging</a> library to produce comprehensive monitoring data.</p>
-<p>The ...</p>
-                    <a class="btn btn-default btn-xs" href="/logrotate.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/asynchronous-python.html">Asynchronous Python</a></h2>
-                <div class="summary"><p>It's possible to get python to do node-like non-blocking requests, this could
-take away one of the key reasons for using node.</p>
-<p>The following is a full bottle-based python web application.</p>
-<p>A client can sucessfully call /test while another client is waiting for
-/slowproxy to return a result from ...</p>
-                    <a class="btn btn-default btn-xs" href="/asynchronous-python.html">more ...</a>
                 </div>
             </article>
             <hr/>
@@ -207,6 +160,50 @@ it's actually pretty straightforward to get them up and running.</p>
 multiple python web applications simultaneously on an ubuntu 14 machine.</p>
 <p>First ...</p>
                     <a class="btn btn-default btn-xs" href="/nginx-uwsgi-ubuntu-14.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/logrotate.html">logrotate</a></h2>
+                <div class="summary"><p>I have a large, complex <a class="reference external" href="/postfix.html">mailing system</a> that processes
+a significant amount of data every hour.  While I'm developing it, I want to know
+what it's doing, and whether it's having any problems.  So I use the excellent
+python <a class="reference external" href="https://docs.python.org/2/library/logging.html">logging</a> library to produce comprehensive monitoring data.</p>
+<p>The ...</p>
+                    <a class="btn btn-default btn-xs" href="/logrotate.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/ipython-with-python-3.html">IPython with Python 3</a></h2>
+                <div class="summary"><p>This took me longer than I was expecting.</p>
+<p>In general when working with IPython I use <code>pip</code> rather than <code>apt-get</code>, as
+pip tends to have more up-to-date packages.</p>
+<p>In the end I found the simplest thing to do was to set up IPython in an isolated
+virtualenv environment.  The main ...</p>
+                    <a class="btn btn-default btn-xs" href="/ipython-with-python-3.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/coffeescript.html">CoffeeScript</a></h2>
+                <div class="summary"><p>Through a bizarre twist of history, the entire client-side web runs on a <a class="reference external" href="http://en.wikipedia.org/wiki/Brendan_Eich#Netscape_and_JavaScript">language</a>
+that was thrown together in 10 days.</p>
+<p>Despite huge investments in their own proprietary technology by the likes of Sun
+Microsystems, Adobe and Microsoft, this weird little spinoff of <strong>self</strong> and <strong>scheme</strong>
+is everywhere, while client-side ...</p>
+                    <a class="btn btn-default btn-xs" href="/coffeescript.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/asynchronous-python.html">Asynchronous Python</a></h2>
+                <div class="summary"><p>It's possible to get python to do node-like non-blocking requests, this could
+take away one of the key reasons for using node.</p>
+<p>The following is a full bottle-based python web application.</p>
+<p>A client can sucessfully call /test while another client is waiting for
+/slowproxy to return a result from ...</p>
+                    <a class="btn btn-default btn-xs" href="/asynchronous-python.html">more ...</a>
                 </div>
             </article>
             <hr/>
@@ -248,8 +245,13 @@ multiple python web applications simultaneously on an ubuntu 14 machine.</p>
                             </a>
                         </li>
                         <li class="list-group-item tag-4">
-                            <a href="/tag/postgres.html">
-                                Postgres
+                            <a href="/tag/logrotate.html">
+                                logrotate
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="/tag/ractive.html">
+                                ractive
                             </a>
                         </li>
                         <li class="list-group-item tag-4">
@@ -263,13 +265,18 @@ multiple python web applications simultaneously on an ubuntu 14 machine.</p>
                             </a>
                         </li>
                         <li class="list-group-item tag-4">
-                            <a href="/tag/logrotate.html">
-                                logrotate
+                            <a href="/tag/email.html">
+                                email
                             </a>
                         </li>
                         <li class="list-group-item tag-4">
-                            <a href="/tag/email.html">
-                                email
+                            <a href="/tag/gevent.html">
+                                gevent
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="/tag/postgres.html">
+                                Postgres
                             </a>
                         </li>
                         <li class="list-group-item tag-4">
@@ -285,16 +292,6 @@ multiple python web applications simultaneously on an ubuntu 14 machine.</p>
                         <li class="list-group-item tag-4">
                             <a href="/tag/uwsgi.html">
                                 uwsgi
-                            </a>
-                        </li>
-                        <li class="list-group-item tag-4">
-                            <a href="/tag/gevent.html">
-                                gevent
-                            </a>
-                        </li>
-                        <li class="list-group-item tag-4">
-                            <a href="/tag/ractive.html">
-                                ractive
                             </a>
                         </li>
                     </ul>

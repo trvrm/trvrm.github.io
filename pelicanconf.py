@@ -10,7 +10,8 @@ TIMEZONE = 'Europe/Paris'
 BOOTSTRAP_THEME = 'readable'
 PYGMENTS_STYLE = 'tango'
 DEFAULT_LANG = u'en'
-#THEME = "../pelican-themes/pelican-bootstrap3"
+
+
 THEME = "../pelican-themes-2/pelican-bootstrap3"
 # Feed generation is usually not desired when developing
 FEED_ALL_ATOM = None
@@ -33,12 +34,8 @@ DEFAULT_PAGINATION = False
 
 DEFAULT_DATE = "fs"
 
-
-PLUGIN_PATHS = ['../pelican-plugins']
+#PLUGIN_PATHS = ['../pelican-plugins']
 #enabling the PDF plugin messes up regular pygments output.
-PLUGINS = ['ipythonnb']
-#PLUGINS = [ 'liquid_tags.notebook']
-#NOTEBOOK_DIR = '/home/trevor/Notebooks/code_samples'
+#PLUGINS = ['ipythonnb']
 
 
-#DOCUTILS_SETTINGS={'report_level':'quiet'}

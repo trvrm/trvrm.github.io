@@ -2,7 +2,7 @@ IPython with Python 3
 =====================
 
 :tags: Python, IPython
-:category: Python
+:category: Software
 :slug: ipython-with-python-3
 :author: Trevor
 

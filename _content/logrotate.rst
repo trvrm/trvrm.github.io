@@ -2,7 +2,7 @@ logrotate
 =========
 
 :tags: logrotate, linux
-:category: Systems Administration
+:category: Systems
 :slug: logrotate
 :author: Trevor
 

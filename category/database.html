@@ -2,7 +2,7 @@
 <html lang="en"
 >
 <head>
-    <title>Systems Administration - trvrm</title>
+    <title>Database - trvrm</title>
     <!-- Using the latest rendering mode for IE -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
@@ -12,7 +12,7 @@
 
 
     <meta name="author" content="trvrm" />
-    <meta name="keywords" content="Systems Administration" />
+    <meta name="keywords" content="Database" />
 
     <!-- Open Graph tags -->
         <meta property="og:site_name" content="trvrm" />
@@ -50,17 +50,14 @@ trvrm            </a>
                          <li><a href="/pages/about.html">
                              About
                           </a></li>
-                        <li >
-                            <a href="/category/javascript.html">Javascript</a>
-                        </li>
-                        <li >
-                            <a href="/category/postrgres.html">Postrgres</a>
-                        </li>
-                        <li >
-                            <a href="/category/python.html">Python</a>
-                        </li>
                         <li class="active">
-                            <a href="/category/systems-administration.html">Systems administration</a>
+                            <a href="/category/database.html">Database</a>
+                        </li>
+                        <li >
+                            <a href="/category/software.html">Software</a>
+                        </li>
+                        <li >
+                            <a href="/category/systems.html">Systems</a>
                         </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
@@ -76,42 +73,13 @@ trvrm            </a>
         <div class="col-sm-9">
 
             <article>
-                <h2><a href="/remote-systems-administration-with-fabric.html">Remote Systems Administration with Fabric</a></h2>
-                <div class="summary"><p>A tool I'm finding myself using more and more these days is <a class="reference external" href="http://fabric.readthedocs.org/en/1.8/">Fabric</a>.</p>
-<p>Fabric is a python utility and library for streamlining systems administration
-tasks on multiple machines.</p>
-<p>Although I'm primarily a developer and systems architect, I find that as our
-company grows I keep getting drawn into ...</p>
-                    <a class="btn btn-default btn-xs" href="/remote-systems-administration-with-fabric.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/postfix.html">Postfix</a></h2>
-                <div class="summary"><p>Postfix is a ghastly horror that really should be quietly eliminated.  But that truism hides a deeper issue - email itself is a ghastly horror, the result of 30 years of hacks, edge-cases, non-conformant implementations and competing design constraints, that only persists because we still haven't come up with anything ...</p>
-                    <a class="btn btn-default btn-xs" href="/postfix.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/logrotate.html">logrotate</a></h2>
-                <div class="summary"><p>I have a large, complex <a class="reference external" href="/postfix.html">mailing system</a> that processes
-a significant amount of data every hour.  While I'm developing it, I want to know
-what it's doing, and whether it's having any problems.  So I use the excellent
-python <a class="reference external" href="https://docs.python.org/2/library/logging.html">logging</a> library to produce comprehensive monitoring data.</p>
-<p>The ...</p>
-                    <a class="btn btn-default btn-xs" href="/logrotate.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/nginx-uwsgi-ubuntu-14.html">Nginx and UWSGI on Ubuntu 14</a></h2>
-                <div class="summary"><p>The documentation for Nginx and UWSGI is long and complex, but with ubuntu 14
-it's actually pretty straightforward to get them up and running.</p>
-<p>I present here a a setup that uses nginx and uwsgi emperor to host
-multiple python web applications simultaneously on an ubuntu 14 machine.</p>
-<p>First ...</p>
-                    <a class="btn btn-default btn-xs" href="/nginx-uwsgi-ubuntu-14.html">more ...</a>
+                <h2><a href="/postgres-timestamps.html">Postgres Timestamps</a></h2>
+                <div class="summary"><p>At my company, I maintain a large distributed. data collection platform
+. Pretty much every record we collect needs to be stamped with a
+<tt class="docutils literal">created</tt> field. But because the incoming data comes from sources on
+various devices in multiple countries and timezones, making sure that
+the timestamps are precise and meaningful ...</p>
+                    <a class="btn btn-default btn-xs" href="/postgres-timestamps.html">more ...</a>
                 </div>
             </article>
             <hr/>
@@ -153,8 +121,13 @@ multiple python web applications simultaneously on an ubuntu 14 machine.</p>
                             </a>
                         </li>
                         <li class="list-group-item tag-4">
-                            <a href="/tag/postgres.html">
-                                Postgres
+                            <a href="/tag/logrotate.html">
+                                logrotate
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="/tag/ractive.html">
+                                ractive
                             </a>
                         </li>
                         <li class="list-group-item tag-4">
@@ -168,13 +141,18 @@ multiple python web applications simultaneously on an ubuntu 14 machine.</p>
                             </a>
                         </li>
                         <li class="list-group-item tag-4">
-                            <a href="/tag/logrotate.html">
-                                logrotate
+                            <a href="/tag/email.html">
+                                email
                             </a>
                         </li>
                         <li class="list-group-item tag-4">
-                            <a href="/tag/email.html">
-                                email
+                            <a href="/tag/gevent.html">
+                                gevent
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="/tag/postgres.html">
+                                Postgres
                             </a>
                         </li>
                         <li class="list-group-item tag-4">
@@ -190,16 +168,6 @@ multiple python web applications simultaneously on an ubuntu 14 machine.</p>
                         <li class="list-group-item tag-4">
                             <a href="/tag/uwsgi.html">
                                 uwsgi
-                            </a>
-                        </li>
-                        <li class="list-group-item tag-4">
-                            <a href="/tag/gevent.html">
-                                gevent
-                            </a>
-                        </li>
-                        <li class="list-group-item tag-4">
-                            <a href="/tag/ractive.html">
-                                ractive
                             </a>
                         </li>
                     </ul>

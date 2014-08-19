@@ -2,7 +2,7 @@ Asynchronous Python
 ===================
 
 :tags: Python, gevent
-:category: Python
+:category: Software
 :slug: asynchronous-python
 :author: Trevor
 

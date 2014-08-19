@@ -4,7 +4,7 @@ Basic IPython Plotting
 
 :date: 2014-05-20 16:00
 :tags: Python, IPython
-:category: Python
+:category: Software
 :author: Trevor Morgan
 
 **Things have changed a bit since IPython 1**

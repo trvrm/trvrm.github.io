@@ -2,7 +2,7 @@ Reportlab Images in IPython
 ===========================
 
 :tags: Python, IPython
-:category: Python
+:category: Software
 :author: Trevor
 
 

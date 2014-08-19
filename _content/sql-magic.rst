@@ -2,7 +2,7 @@ SQL Magic
 =========
 
 :tags: Python, IPython
-:category: Python
+:category: Software
 :slug: sql-magic
 :author: Trevor
 

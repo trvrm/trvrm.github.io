@@ -2,7 +2,7 @@
 <html lang="en"
 >
 <head>
-    <title>Python - trvrm</title>
+    <title>Software - trvrm</title>
     <!-- Using the latest rendering mode for IE -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
@@ -12,7 +12,7 @@
 
 
     <meta name="author" content="trvrm" />
-    <meta name="keywords" content="Python" />
+    <meta name="keywords" content="Software" />
 
     <!-- Open Graph tags -->
         <meta property="og:site_name" content="trvrm" />
@@ -51,16 +51,13 @@ trvrm            </a>
                              About
                           </a></li>
                         <li >
-                            <a href="/category/javascript.html">Javascript</a>
-                        </li>
-                        <li >
-                            <a href="/category/postrgres.html">Postrgres</a>
+                            <a href="/category/database.html">Database</a>
                         </li>
                         <li class="active">
-                            <a href="/category/python.html">Python</a>
+                            <a href="/category/software.html">Software</a>
                         </li>
                         <li >
-                            <a href="/category/systems-administration.html">Systems administration</a>
+                            <a href="/category/systems.html">Systems</a>
                         </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
@@ -75,6 +72,21 @@ trvrm            </a>
     <div class="row">
         <div class="col-sm-9">
 
+            <article>
+                <h2><a href="/sql-magic.html">SQL Magic</a></h2>
+                <div class="summary"><p>I'm finding the <tt class="docutils literal">%sql</tt> magic function extremely useful. It turns
+IPython into a very nice front-end to Postgresql.</p>
+<p>First, make sure you have the <tt class="docutils literal"><span class="pre">ipython-sql</span></tt> extension installed:</p>
+<p><tt class="docutils literal">pip install <span class="pre">ipython-sql</span></tt></p>
+<p><a class="reference external" href="https://pypi.python.org/pypi/ipython-sql">https://pypi.python.org/pypi/ipython-sql</a></p>
+<p>Then we load the extension</p>
+<div class="highlight"><pre><span class="o">%</span><span class="n">load_ext</span> <span class="n">sql</span>
+</pre></div>
+<p>Then we set up our database ...</p>
+                    <a class="btn btn-default btn-xs" href="/sql-magic.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
             <article>
                 <h2><a href="/reportlab-images-in-ipython.html">Reportlab Images in IPython</a></h2>
                 <div class="summary"><p>With a bit of work we can get IPython to render ReportLab objects
@@ -92,17 +104,23 @@ notebook.</p>
             </article>
             <hr/>
             <article>
-                <h2><a href="/sql-magic.html">SQL Magic</a></h2>
-                <div class="summary"><p>I'm finding the <tt class="docutils literal">%sql</tt> magic function extremely useful. It turns
-IPython into a very nice front-end to Postgresql.</p>
-<p>First, make sure you have the <tt class="docutils literal"><span class="pre">ipython-sql</span></tt> extension installed:</p>
-<p><tt class="docutils literal">pip install <span class="pre">ipython-sql</span></tt></p>
-<p><a class="reference external" href="https://pypi.python.org/pypi/ipython-sql">https://pypi.python.org/pypi/ipython-sql</a></p>
-<p>Then we load the extension</p>
-<div class="highlight"><pre><span class="o">%</span><span class="n">load_ext</span> <span class="n">sql</span>
-</pre></div>
-<p>Then we set up our database ...</p>
-                    <a class="btn btn-default btn-xs" href="/sql-magic.html">more ...</a>
+                <h2><a href="/ractive-js.html">Ractive.js</a></h2>
+                <div class="summary"><p><a class="reference external" href="http://www.ractivejs.org/">Ractive.js</a> caught my eye this week.  I've been using <a class="reference external" href="http://backbonejs.org/">Backbone</a> for the last couple
+of years to develop single page client-side applications, and I've liked how
+it doesn't get in your way, but simply allows you to get on with your work.</p>
+<p>When I noticed that ...</p>
+                    <a class="btn btn-default btn-xs" href="/ractive-js.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/pdf-generation-with-pelican.html">PDF Generation With Pelican</a></h2>
+                <div class="summary"><p>The existing documentation is a little unclear on this, because it says
+you need to add <code>PDF_GENERATOR=True</code> to your <cite>pelicanconf.py</cite> file.</p>
+<p>This advice is out of date: PDF generation has been moved to a plugin.</p>
+<p>So you need to first make sure you have <code>rst2pdf</code> installed:</p>
+<div class="highlight"><pre><span class="nv">$ </span>sudo apt-get ...</pre></div>
+                    <a class="btn btn-default btn-xs" href="/pdf-generation-with-pelican.html">more ...</a>
                 </div>
             </article>
             <hr/>
@@ -118,6 +136,17 @@ virtualenv environment.  The main ...</p>
             </article>
             <hr/>
             <article>
+                <h2><a href="/coffeescript.html">CoffeeScript</a></h2>
+                <div class="summary"><p>Through a bizarre twist of history, the entire client-side web runs on a <a class="reference external" href="http://en.wikipedia.org/wiki/Brendan_Eich#Netscape_and_JavaScript">language</a>
+that was thrown together in 10 days.</p>
+<p>Despite huge investments in their own proprietary technology by the likes of Sun
+Microsystems, Adobe and Microsoft, this weird little spinoff of <strong>self</strong> and <strong>scheme</strong>
+is everywhere, while client-side ...</p>
+                    <a class="btn btn-default btn-xs" href="/coffeescript.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
                 <h2><a href="/asynchronous-python.html">Asynchronous Python</a></h2>
                 <div class="summary"><p>It's possible to get python to do node-like non-blocking requests, this could
 take away one of the key reasons for using node.</p>
@@ -125,17 +154,6 @@ take away one of the key reasons for using node.</p>
 <p>A client can sucessfully call /test while another client is waiting for
 /slowproxy to return a result from ...</p>
                     <a class="btn btn-default btn-xs" href="/asynchronous-python.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/pdf-generation-with-pelican.html">PDF Generation With Pelican</a></h2>
-                <div class="summary"><p>The existing documentation is a little unclear on this, because it says
-you need to add <code>PDF_GENERATOR=True</code> to your <cite>pelicanconf.py</cite> file.</p>
-<p>This advice is out of date: PDF generation has been moved to a plugin.</p>
-<p>So you need to first make sure you have <code>rst2pdf</code> installed:</p>
-<div class="highlight"><pre><span class="nv">$ </span>sudo apt-get ...</pre></div>
-                    <a class="btn btn-default btn-xs" href="/pdf-generation-with-pelican.html">more ...</a>
                 </div>
             </article>
             <hr/>
@@ -190,8 +208,13 @@ rather than enable globally in the server.</p>
                             </a>
                         </li>
                         <li class="list-group-item tag-4">
-                            <a href="/tag/postgres.html">
-                                Postgres
+                            <a href="/tag/logrotate.html">
+                                logrotate
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="/tag/ractive.html">
+                                ractive
                             </a>
                         </li>
                         <li class="list-group-item tag-4">
@@ -205,13 +228,18 @@ rather than enable globally in the server.</p>
                             </a>
                         </li>
                         <li class="list-group-item tag-4">
-                            <a href="/tag/logrotate.html">
-                                logrotate
+                            <a href="/tag/email.html">
+                                email
                             </a>
                         </li>
                         <li class="list-group-item tag-4">
-                            <a href="/tag/email.html">
-                                email
+                            <a href="/tag/gevent.html">
+                                gevent
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="/tag/postgres.html">
+                                Postgres
                             </a>
                         </li>
                         <li class="list-group-item tag-4">
@@ -227,16 +255,6 @@ rather than enable globally in the server.</p>
                         <li class="list-group-item tag-4">
                             <a href="/tag/uwsgi.html">
                                 uwsgi
-                            </a>
-                        </li>
-                        <li class="list-group-item tag-4">
-                            <a href="/tag/gevent.html">
-                                gevent
-                            </a>
-                        </li>
-                        <li class="list-group-item tag-4">
-                            <a href="/tag/ractive.html">
-                                ractive
                             </a>
                         </li>
                     </ul>

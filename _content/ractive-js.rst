@@ -2,7 +2,7 @@ Ractive.js
 ==========
 
 :tags: javascript, ractive
-:category: Javascript
+:category: Software
 :slug: ractive-js
 :author: Trevor
 

@@ -2,7 +2,7 @@ Postgres Timestamps
 ===================
 
 :tags: Python, Postgres
-:category: Postrgres
+:category: Database
 :author: Trevor
 
 At my company, I maintain a large distributed. data collection platform

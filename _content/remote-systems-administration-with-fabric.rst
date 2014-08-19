@@ -2,7 +2,7 @@ Remote Systems Administration with Fabric
 =========================================
 
 :tags: linux, python
-:category: Systems Administration
+:category: Systems
 :author: Trevor
 
 A tool I'm finding myself using more and more these days is Fabric_.

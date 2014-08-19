@@ -2,7 +2,7 @@ CoffeeScript
 ============
 
 :tags: coffeescript, javascript
-:category: Javascript
+:category: Software
 :author: Trevor
 
 Through a bizarre twist of history, the entire client-side web runs on a language_

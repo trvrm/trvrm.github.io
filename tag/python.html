@@ -51,16 +51,13 @@ trvrm            </a>
                              About
                           </a></li>
                         <li >
-                            <a href="/category/javascript.html">Javascript</a>
+                            <a href="/category/database.html">Database</a>
                         </li>
                         <li >
-                            <a href="/category/postrgres.html">Postrgres</a>
+                            <a href="/category/software.html">Software</a>
                         </li>
                         <li >
-                            <a href="/category/python.html">Python</a>
-                        </li>
-                        <li >
-                            <a href="/category/systems-administration.html">Systems administration</a>
+                            <a href="/category/systems.html">Systems</a>
                         </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
@@ -87,6 +84,21 @@ the timestamps are precise and meaningful ...</p>
             </article>
             <hr/>
             <article>
+                <h2><a href="/sql-magic.html">SQL Magic</a></h2>
+                <div class="summary"><p>I'm finding the <tt class="docutils literal">%sql</tt> magic function extremely useful. It turns
+IPython into a very nice front-end to Postgresql.</p>
+<p>First, make sure you have the <tt class="docutils literal"><span class="pre">ipython-sql</span></tt> extension installed:</p>
+<p><tt class="docutils literal">pip install <span class="pre">ipython-sql</span></tt></p>
+<p><a class="reference external" href="https://pypi.python.org/pypi/ipython-sql">https://pypi.python.org/pypi/ipython-sql</a></p>
+<p>Then we load the extension</p>
+<div class="highlight"><pre><span class="o">%</span><span class="n">load_ext</span> <span class="n">sql</span>
+</pre></div>
+<p>Then we set up our database ...</p>
+                    <a class="btn btn-default btn-xs" href="/sql-magic.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
                 <h2><a href="/reportlab-images-in-ipython.html">Reportlab Images in IPython</a></h2>
                 <div class="summary"><p>With a bit of work we can get IPython to render ReportLab objects
 directly to the page as Matplotlib plots.</p>
@@ -103,21 +115,6 @@ notebook.</p>
             </article>
             <hr/>
             <article>
-                <h2><a href="/sql-magic.html">SQL Magic</a></h2>
-                <div class="summary"><p>I'm finding the <tt class="docutils literal">%sql</tt> magic function extremely useful. It turns
-IPython into a very nice front-end to Postgresql.</p>
-<p>First, make sure you have the <tt class="docutils literal"><span class="pre">ipython-sql</span></tt> extension installed:</p>
-<p><tt class="docutils literal">pip install <span class="pre">ipython-sql</span></tt></p>
-<p><a class="reference external" href="https://pypi.python.org/pypi/ipython-sql">https://pypi.python.org/pypi/ipython-sql</a></p>
-<p>Then we load the extension</p>
-<div class="highlight"><pre><span class="o">%</span><span class="n">load_ext</span> <span class="n">sql</span>
-</pre></div>
-<p>Then we set up our database ...</p>
-                    <a class="btn btn-default btn-xs" href="/sql-magic.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
                 <h2><a href="/remote-systems-administration-with-fabric.html">Remote Systems Administration with Fabric</a></h2>
                 <div class="summary"><p>A tool I'm finding myself using more and more these days is <a class="reference external" href="http://fabric.readthedocs.org/en/1.8/">Fabric</a>.</p>
 <p>Fabric is a python utility and library for streamlining systems administration
@@ -125,28 +122,6 @@ tasks on multiple machines.</p>
 <p>Although I'm primarily a developer and systems architect, I find that as our
 company grows I keep getting drawn into ...</p>
                     <a class="btn btn-default btn-xs" href="/remote-systems-administration-with-fabric.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/ipython-with-python-3.html">IPython with Python 3</a></h2>
-                <div class="summary"><p>This took me longer than I was expecting.</p>
-<p>In general when working with IPython I use <code>pip</code> rather than <code>apt-get</code>, as
-pip tends to have more up-to-date packages.</p>
-<p>In the end I found the simplest thing to do was to set up IPython in an isolated
-virtualenv environment.  The main ...</p>
-                    <a class="btn btn-default btn-xs" href="/ipython-with-python-3.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/asynchronous-python.html">Asynchronous Python</a></h2>
-                <div class="summary"><p>It's possible to get python to do node-like non-blocking requests, this could
-take away one of the key reasons for using node.</p>
-<p>The following is a full bottle-based python web application.</p>
-<p>A client can sucessfully call /test while another client is waiting for
-/slowproxy to return a result from ...</p>
-                    <a class="btn btn-default btn-xs" href="/asynchronous-python.html">more ...</a>
                 </div>
             </article>
             <hr/>
@@ -169,6 +144,28 @@ it's actually pretty straightforward to get them up and running.</p>
 multiple python web applications simultaneously on an ubuntu 14 machine.</p>
 <p>First ...</p>
                     <a class="btn btn-default btn-xs" href="/nginx-uwsgi-ubuntu-14.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/ipython-with-python-3.html">IPython with Python 3</a></h2>
+                <div class="summary"><p>This took me longer than I was expecting.</p>
+<p>In general when working with IPython I use <code>pip</code> rather than <code>apt-get</code>, as
+pip tends to have more up-to-date packages.</p>
+<p>In the end I found the simplest thing to do was to set up IPython in an isolated
+virtualenv environment.  The main ...</p>
+                    <a class="btn btn-default btn-xs" href="/ipython-with-python-3.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/asynchronous-python.html">Asynchronous Python</a></h2>
+                <div class="summary"><p>It's possible to get python to do node-like non-blocking requests, this could
+take away one of the key reasons for using node.</p>
+<p>The following is a full bottle-based python web application.</p>
+<p>A client can sucessfully call /test while another client is waiting for
+/slowproxy to return a result from ...</p>
+                    <a class="btn btn-default btn-xs" href="/asynchronous-python.html">more ...</a>
                 </div>
             </article>
             <hr/>
@@ -223,8 +220,13 @@ rather than enable globally in the server.</p>
                             </a>
                         </li>
                         <li class="list-group-item tag-4">
-                            <a href="/tag/postgres.html">
-                                Postgres
+                            <a href="/tag/logrotate.html">
+                                logrotate
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="/tag/ractive.html">
+                                ractive
                             </a>
                         </li>
                         <li class="list-group-item tag-4">
@@ -238,13 +240,18 @@ rather than enable globally in the server.</p>
                             </a>
                         </li>
                         <li class="list-group-item tag-4">
-                            <a href="/tag/logrotate.html">
-                                logrotate
+                            <a href="/tag/email.html">
+                                email
                             </a>
                         </li>
                         <li class="list-group-item tag-4">
-                            <a href="/tag/email.html">
-                                email
+                            <a href="/tag/gevent.html">
+                                gevent
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="/tag/postgres.html">
+                                Postgres
                             </a>
                         </li>
                         <li class="list-group-item tag-4">
@@ -260,16 +267,6 @@ rather than enable globally in the server.</p>
                         <li class="list-group-item tag-4">
                             <a href="/tag/uwsgi.html">
                                 uwsgi
-                            </a>
-                        </li>
-                        <li class="list-group-item tag-4">
-                            <a href="/tag/gevent.html">
-                                gevent
-                            </a>
-                        </li>
-                        <li class="list-group-item tag-4">
-                            <a href="/tag/ractive.html">
-                                ractive
                             </a>
                         </li>
                     </ul>

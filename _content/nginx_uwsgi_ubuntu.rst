@@ -2,7 +2,7 @@ Nginx and UWSGI on Ubuntu 14
 ============================
 
 :tags: Python, nginx, uwsgi
-:category: Systems Administration
+:category: Systems
 :author: Trevor
 :slug: nginx-uwsgi-ubuntu-14
 

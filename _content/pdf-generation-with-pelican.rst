@@ -2,7 +2,7 @@ PDF Generation With Pelican
 ===========================
 
 :tags: python, pelican
-:category: Python
+:category: Software
 :author: Trevor
 
 The existing documentation is a little unclear on this, because it says
