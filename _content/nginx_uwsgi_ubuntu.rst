@@ -42,11 +42,11 @@ Now set up a site by creating a file in :code:`/etc/nginx/sites-available`
         server_name     your_host_name;
         
         location /app1 {
-            uwsgi_pass unix:/run/uwsgi/app1.socket;
+            uwsgi_pass unix:/tmp/app1.socket;
             include uwsgi_params;
         }
         location /app2 {
-            uwsgi_pass unix:/run/uwsgi/app2.socket;
+            uwsgi_pass unix:/tmp/app2.socket;
             include uwsgi_params;
         }
     }
@@ -59,7 +59,14 @@ Then,
     $ sudo ln -s /etc/nginx/apps-available/mysite /etc/nginx/sites-enabled
     
     
-Make sure that :code:`/run/uwsgi` exists and is writeable
+
+.. alert-warning::
+    **Warning**
+    
+    A previous version of this tutorial had the sockets placed in :code:`/run/uwsgi`. 
+    This was a mistake, because under Ubuntu :code:`/run` is mounted as a :code:`tmpfs`, and its content will be deleted on reboot
+    Your uwsgi sub-directory will vanish and the uwsgi services will not restart.
+
 
 Next, set up your 'vassals' (http://uwsgi-docs.readthedocs.org/en/latest/Emperor.html)
 
@@ -70,7 +77,7 @@ Create  :code:`/etc/uwsgi-emperor/vassals/app1.ini` as follows:
     [uwsgi]
     plugin = python
     processes = 2
-    socket = /run/uwsgi/app1.socket
+    socket = /tmp/app1.socket
     chmod-socket = 666
     
     chdir = /srv/app1
@@ -87,7 +94,7 @@ And for your second application, create  :code:`/etc/uwsgi-emperor/vassals/app2.
     [uwsgi]
     plugin = python
     processes = 2
-    socket = /run/uwsgi/app2.socket
+    socket = /tmp/app2.socket
     chmod-socket = 666
     
     chdir = /srv/app1

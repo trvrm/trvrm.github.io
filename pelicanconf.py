@@ -35,3 +35,8 @@ DEFAULT_DATE = "fs"
 #theme options
 BOOTSTRAP_NAVBAR_INVERSE=True
 BOOTSTRAP_THEME = 'yeti'
+GITHUB_USER='trvrm'
+
+
+PLUGIN_PATHS = ["/home/trevor/pelican-plugins"]
+PLUGINS=['twitter_bootstrap_rst_directives']

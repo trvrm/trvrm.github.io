@@ -1,5 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>trvrm</title><link>/</link><description></description><atom:link href="/feeds/trevor.rss.xml" rel="self"></atom:link><lastBuildDate>Tue, 19 Aug 2014 13:42:43 +0200</lastBuildDate><item><title>Postgres Timestamps</title><link>/postgres-timestamps.html</link><description>&lt;p&gt;At my company, I maintain a large distributed. data collection platform
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>trvrm</title><link>/</link><description></description><atom:link href="/feeds/trevor.rss.xml" rel="self"></atom:link><lastBuildDate>Fri, 05 Sep 2014 10:29:20 +0200</lastBuildDate><item><title>Nginx and UWSGI on Ubuntu 14</title><link>/nginx-uwsgi-ubuntu-14.html</link><description>&lt;p&gt;The documentation for Nginx and UWSGI is long and complex, but with ubuntu 14
+it's actually pretty straightforward to get them up and running.&lt;/p&gt;
+&lt;p&gt;I present here a a setup that uses nginx and uwsgi emperor to host
+multiple python web applications simultaneously on an ubuntu 14 machine.&lt;/p&gt;
+&lt;p&gt;First, the packages&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;sudo apt-get install nginx
+&lt;span class="nv"&gt;$ &lt;/span&gt;sudo apt-get install uwsgi uwsgi-emperor uwsgi-plugin-python
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Our configuration files will now be under &lt;code class="code"&gt;
+/etc/nginx&lt;/code&gt;
+ and &lt;code class="code"&gt;
+/etc/uwsgi-emperor&lt;/code&gt;
+&lt;/p&gt;
+&lt;p&gt;You can start, stop, and reload nginx as follows:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;sudo service nginx start
+&lt;span class="nv"&gt;$ &lt;/span&gt;sudo service nginx stop
+&lt;span class="nv"&gt;$ &lt;/span&gt;sudo service nginx reload
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;The last command is useful when changing configuration settings.&lt;/p&gt;
+&lt;p&gt;Now set up a site by creating a file in &lt;code class="code"&gt;
+/etc/nginx/sites-available&lt;/code&gt;
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;#/etc/nginx/sites-available/mysite&lt;/span&gt;
+server&lt;span class="o"&gt;{&lt;/span&gt;
+
+    server_name     your_host_name;
+
+    location /app1 &lt;span class="o"&gt;{&lt;/span&gt;
+        uwsgi_pass unix:/tmp/app1.socket;
+        include uwsgi_params;
+    &lt;span class="o"&gt;}&lt;/span&gt;
+    location /app2 &lt;span class="o"&gt;{&lt;/span&gt;
+        uwsgi_pass unix:/tmp/app2.socket;
+        include uwsgi_params;
+    &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Then,&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;sudo ln -s /etc/nginx/apps-available/mysite /etc/nginx/sites-enabled
+&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="alert  alert-warning compound"&gt;
+&lt;p class="compound-first"&gt;&lt;strong&gt;Warning&lt;/strong&gt;&lt;/p&gt;
+&lt;p class="compound-last"&gt;A previous version of this tutorial had the sockets placed in &lt;code class="code"&gt;
+/run/uwsgi&lt;/code&gt;
+.
+This was a mistake, because under Ubuntu &lt;code class="code"&gt;
+/run&lt;/code&gt;
+ is mounted as a &lt;code class="code"&gt;
+tmpfs&lt;/code&gt;
+, and its content will be deleted on reboot
+Your uwsgi sub-directory will vanish and the uwsgi services will not restart.&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;Next, set up your 'vassals' (&lt;a class="reference external" href="http://uwsgi-docs.readthedocs.org/en/latest/Emperor.html"&gt;http://uwsgi-docs.readthedocs.org/en/latest/Emperor.html&lt;/a&gt;)&lt;/p&gt;
+&lt;p&gt;Create  &lt;code class="code"&gt;
+/etc/uwsgi-emperor/vassals/app1.ini&lt;/code&gt;
+ as follows:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;[uwsgi]&lt;/span&gt;
+&lt;span class="na"&gt;plugin&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;python&lt;/span&gt;
+&lt;span class="na"&gt;processes&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;2&lt;/span&gt;
+&lt;span class="na"&gt;socket&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;/tmp/app1.socket&lt;/span&gt;
+&lt;span class="na"&gt;chmod-socket&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;666&lt;/span&gt;
+
+&lt;span class="na"&gt;chdir&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;/srv/app1&lt;/span&gt;
+&lt;span class="na"&gt;wsgi-file&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;/srv/app1/main.py&lt;/span&gt;
+
+&lt;span class="na"&gt;uid&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;www-data&lt;/span&gt;
+&lt;span class="na"&gt;gid&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;www-data&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;And for your second application, create  &lt;code class="code"&gt;
+/etc/uwsgi-emperor/vassals/app2.ini&lt;/code&gt;
+ as similarly:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;[uwsgi]&lt;/span&gt;
+&lt;span class="na"&gt;plugin&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;python&lt;/span&gt;
+&lt;span class="na"&gt;processes&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;2&lt;/span&gt;
+&lt;span class="na"&gt;socket&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;/tmp/app2.socket&lt;/span&gt;
+&lt;span class="na"&gt;chmod-socket&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;666&lt;/span&gt;
+
+&lt;span class="na"&gt;chdir&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;/srv/app1&lt;/span&gt;
+&lt;span class="na"&gt;wsgi-file&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;/srv/app2/main.py&lt;/span&gt;
+
+&lt;span class="na"&gt;uid&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;www-data&lt;/span&gt;
+&lt;span class="na"&gt;gid&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;www-data&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;The simple act of &lt;em&gt;creating&lt;/em&gt; or touching a .ini file in &lt;code class="code"&gt;
+/etc/uwsgi-emperor/vassals&lt;/code&gt;
+ will cause
+the emperor process to try to restart your application.&lt;/p&gt;
+&lt;p&gt;Of course, your applications don't exist yet, so let's create them.  The simplest wsgi
+application can be only a few lines long:&lt;/p&gt;
+&lt;p&gt;Create &lt;code class="code"&gt;
+/srv/app1/main.py&lt;/code&gt;
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;application&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;start_response&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;start_response&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;200 OK&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;[(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;Content-Type&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;text/html&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)])&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Hello World, I am app1&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;And &lt;code class="code"&gt;
+/srv/app2/main.py&lt;/code&gt;
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;application&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;start_response&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;start_response&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;200 OK&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;[(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;Content-Type&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;text/html&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)])&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;I, however, am app2. &amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;And that's it!&lt;/p&gt;
+&lt;p&gt;Visiting &lt;a class="reference external" href="http://your_host_name/app1"&gt;http://your_host_name/app1&lt;/a&gt; or &lt;a class="reference external" href="http://your_host_name/app2"&gt;http://your_host_name/app2&lt;/a&gt; should return the text
+you put in the python files.&lt;/p&gt;
+</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Trevor</dc:creator><pubDate>Fri, 05 Sep 2014 10:29:20 +0200</pubDate><guid>tag:,2014-09-05:nginx-uwsgi-ubuntu-14.html</guid><category>Python</category><category>nginx</category><category>uwsgi</category></item><item><title>Postgres Timestamps</title><link>/postgres-timestamps.html</link><description>&lt;p&gt;At my company, I maintain a large distributed. data collection platform
 . Pretty much every record we collect needs to be stamped with a
 &lt;tt class="docutils literal"&gt;created&lt;/tt&gt; field. But because the incoming data comes from sources on
 various devices in multiple countries and timezones, making sure that
@@ -591,86 +697,7 @@ you need to add &lt;code&gt;PDF_GENERATOR=True&lt;/code&gt; to your &lt;cite&gt;
 html output.  This is because deep in the rst2pdf code, in a file called &lt;code&gt;pygments2style.py&lt;/code&gt;,
 all the pygment elements have their CSS classes prepended with &lt;code&gt;pygment-&lt;/code&gt;.  I haven't
 figured out how to generate HTML and PDF nicely at the same time.&lt;/p&gt;
-</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Trevor</dc:creator><pubDate>Tue, 19 Aug 2014 13:42:16 +0200</pubDate><guid>tag:,2014-08-19:pdf-generation-with-pelican.html</guid><category>python</category><category>pelican</category></item><item><title>Nginx and UWSGI on Ubuntu 14</title><link>/nginx-uwsgi-ubuntu-14.html</link><description>&lt;p&gt;The documentation for Nginx and UWSGI is long and complex, but with ubuntu 14
-it's actually pretty straightforward to get them up and running.&lt;/p&gt;
-&lt;p&gt;I present here a a setup that uses nginx and uwsgi emperor to host
-multiple python web applications simultaneously on an ubuntu 14 machine.&lt;/p&gt;
-&lt;p&gt;First, the packages&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;sudo apt-get install nginx
-&lt;span class="nv"&gt;$ &lt;/span&gt;sudo apt-get install uwsgi uwsgi-emperor uwsgi-plugin-python
-&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Our configuration files will now be under &lt;code&gt;/etc/nginx&lt;/code&gt; and &lt;code&gt;/etc/uwsgi-emperor&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;You can start, stop, and reload nginx as follows:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;sudo service nginx start
-&lt;span class="nv"&gt;$ &lt;/span&gt;sudo service nginx stop
-&lt;span class="nv"&gt;$ &lt;/span&gt;sudo service nginx reload
-&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;The last command is useful when changing configuration settings.&lt;/p&gt;
-&lt;p&gt;Now set up a site by creating a file in &lt;code&gt;/etc/nginx/sites-available&lt;/code&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;#/etc/nginx/sites-available/mysite&lt;/span&gt;
-server&lt;span class="o"&gt;{&lt;/span&gt;
-
-    server_name     your_host_name;
-
-    location /app1 &lt;span class="o"&gt;{&lt;/span&gt;
-        uwsgi_pass unix:/run/uwsgi/app1.socket;
-        include uwsgi_params;
-    &lt;span class="o"&gt;}&lt;/span&gt;
-    location /app2 &lt;span class="o"&gt;{&lt;/span&gt;
-        uwsgi_pass unix:/run/uwsgi/app2.socket;
-        include uwsgi_params;
-    &lt;span class="o"&gt;}&lt;/span&gt;
-&lt;span class="o"&gt;}&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Then,&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;sudo ln -s /etc/nginx/apps-available/mysite /etc/nginx/sites-enabled
-&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Make sure that &lt;code&gt;/run/uwsgi&lt;/code&gt; exists and is writeable&lt;/p&gt;
-&lt;p&gt;Next, set up your 'vassals' (&lt;a class="reference external" href="http://uwsgi-docs.readthedocs.org/en/latest/Emperor.html"&gt;http://uwsgi-docs.readthedocs.org/en/latest/Emperor.html&lt;/a&gt;)&lt;/p&gt;
-&lt;p&gt;Create  &lt;code&gt;/etc/uwsgi-emperor/vassals/app1.ini&lt;/code&gt; as follows:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;[uwsgi]&lt;/span&gt;
-&lt;span class="na"&gt;plugin&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;python&lt;/span&gt;
-&lt;span class="na"&gt;processes&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;2&lt;/span&gt;
-&lt;span class="na"&gt;socket&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;/run/uwsgi/app1.socket&lt;/span&gt;
-&lt;span class="na"&gt;chmod-socket&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;666&lt;/span&gt;
-
-&lt;span class="na"&gt;chdir&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;/srv/app1&lt;/span&gt;
-&lt;span class="na"&gt;wsgi-file&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;/srv/app1/main.py&lt;/span&gt;
-
-&lt;span class="na"&gt;uid&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;www-data&lt;/span&gt;
-&lt;span class="na"&gt;gid&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;www-data&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;And for your second application, create  &lt;code&gt;/etc/uwsgi-emperor/vassals/app2.ini&lt;/code&gt; as similarly:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;[uwsgi]&lt;/span&gt;
-&lt;span class="na"&gt;plugin&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;python&lt;/span&gt;
-&lt;span class="na"&gt;processes&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;2&lt;/span&gt;
-&lt;span class="na"&gt;socket&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;/run/uwsgi/app2.socket&lt;/span&gt;
-&lt;span class="na"&gt;chmod-socket&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;666&lt;/span&gt;
-
-&lt;span class="na"&gt;chdir&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;/srv/app1&lt;/span&gt;
-&lt;span class="na"&gt;wsgi-file&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;/srv/app2/main.py&lt;/span&gt;
-
-&lt;span class="na"&gt;uid&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;www-data&lt;/span&gt;
-&lt;span class="na"&gt;gid&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;www-data&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;The simple act of &lt;em&gt;creating&lt;/em&gt; or touching a .ini file in &lt;code&gt;/etc/uwsgi-emperor/vassals&lt;/code&gt; will cause
-the emperor process to try to restart your application.&lt;/p&gt;
-&lt;p&gt;Of course, your applications don't exist yet, so let's create them.  The simplest wsgi
-application can be only a few lines long:&lt;/p&gt;
-&lt;p&gt;Create &lt;code&gt;/srv/app1/main.py&lt;/code&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;application&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;start_response&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-    &lt;span class="n"&gt;start_response&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;200 OK&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;[(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;Content-Type&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;text/html&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)])&lt;/span&gt;
-    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Hello World, I am app1&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;And &lt;code&gt;/srv/app2/main.py&lt;/code&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;application&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;start_response&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-    &lt;span class="n"&gt;start_response&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;200 OK&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;[(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;Content-Type&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;text/html&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)])&lt;/span&gt;
-    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;I, however, am app2. &amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;And that's it!&lt;/p&gt;
-&lt;p&gt;Visiting &lt;a class="reference external" href="http://your_host_name/app1"&gt;http://your_host_name/app1&lt;/a&gt; or &lt;a class="reference external" href="http://your_host_name/app2"&gt;http://your_host_name/app2&lt;/a&gt; should return the text
-you put in the python files.&lt;/p&gt;
-</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Trevor</dc:creator><pubDate>Tue, 19 Aug 2014 13:42:13 +0200</pubDate><guid>tag:,2014-08-19:nginx-uwsgi-ubuntu-14.html</guid><category>Python</category><category>nginx</category><category>uwsgi</category></item><item><title>logrotate</title><link>/logrotate.html</link><description>&lt;p&gt;I have a large, complex &lt;a class="reference external" href="/postfix.html"&gt;mailing system&lt;/a&gt; that processes
+</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Trevor</dc:creator><pubDate>Tue, 19 Aug 2014 13:42:16 +0200</pubDate><guid>tag:,2014-08-19:pdf-generation-with-pelican.html</guid><category>python</category><category>pelican</category></item><item><title>logrotate</title><link>/logrotate.html</link><description>&lt;p&gt;I have a large, complex &lt;a class="reference external" href="/postfix.html"&gt;mailing system&lt;/a&gt; that processes
 a significant amount of data every hour.  While I'm developing it, I want to know
 what it's doing, and whether it's having any problems.  So I use the excellent
 python &lt;a class="reference external" href="https://docs.python.org/2/library/logging.html"&gt;logging&lt;/a&gt; library to produce comprehensive monitoring data.&lt;/p&gt;
