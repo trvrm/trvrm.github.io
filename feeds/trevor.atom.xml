@@ -1,5 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>trvrm</title><link href="/" rel="alternate"></link><link href="/feeds/trevor.atom.xml" rel="self"></link><id>/</id><updated>2014-10-05T21:16:47+02:00</updated><entry><title>Python Comprehensions</title><link href="/python-comprehensions.html" rel="alternate"></link><updated>2014-10-05T21:16:47+02:00</updated><author><name>Trevor</name></author><id>tag:,2014-10-05:python-comprehensions.html</id><summary type="html">&lt;p&gt;Python &lt;strong&gt;list comprehensions&lt;/strong&gt; are one of the most powerful and useful
+<feed xmlns="http://www.w3.org/2005/Atom"><title>trvrm</title><link href="/" rel="alternate"></link><link href="/feeds/trevor.atom.xml" rel="self"></link><id>/</id><updated>2014-10-06T19:07:23+02:00</updated><entry><title>More Ractive</title><link href="/more-ractive.html" rel="alternate"></link><updated>2014-10-06T19:07:23+02:00</updated><author><name>Trevor</name></author><id>tag:,2014-10-06:more-ractive.html</id><summary type="html">&lt;p&gt;I've used &lt;a class="reference external" href="http://www.ractivejs.org/"&gt;Ractive&lt;/a&gt; for several projects recently.
+It's been like a breath of fresh air.  I've been writing user interfaces of one
+kind or another for more than a decade, and keeping &lt;em&gt;what's displayed to the user&lt;/em&gt;
+in sync with &lt;em&gt;what's stored in the data structures&lt;/em&gt; has often been a source of
+frustration.&lt;/p&gt;
+&lt;p&gt;In the javascript world, I've mostly used &lt;a class="reference external" href="http://backbonejs.org/"&gt;backbone&lt;/a&gt;  and
+&lt;a class="reference external" href="http://jquery.com/"&gt;jQuery&lt;/a&gt; for creating interactive web pages.  While these
+tools are very good at what they do, I still find myself writing a fair amount
+of code to update data in the model whenever a user interacts with a control, and
+to update the control displays whenever data in the model changes.&lt;/p&gt;
+&lt;p&gt;Enter &lt;strong&gt;Ractive&lt;/strong&gt;.  It's not the only library to handle 2-way data binding - Angular,
+Knockout and React all play in this space, but it's my current favourite.&lt;/p&gt;
+&lt;p&gt;Anyway, here's a little demo....&lt;/p&gt;
+&lt;p&gt;Given a ractive template like this:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;p&amp;gt;&lt;/span&gt;Type in the boxes below.&lt;span class="err"&gt;&amp;lt;&lt;/span&gt;\p&amp;gt;
+&lt;span class="nt"&gt;&amp;lt;input&lt;/span&gt; &lt;span class="na"&gt;class=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;form-control&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;value=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;{{var1}}&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;input&lt;/span&gt; &lt;span class="na"&gt;class=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;form-control&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;value=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;{{var2}}&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;p&amp;gt;&lt;/span&gt;Current values are var1:&lt;span class="nt"&gt;&amp;lt;code&amp;gt;&lt;/span&gt;{{var1}}&lt;span class="nt"&gt;&amp;lt;/code&amp;gt;&lt;/span&gt;, var2:&lt;span class="nt"&gt;&amp;lt;code&amp;gt;&lt;/span&gt;{{var2}}&lt;span class="nt"&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;button&lt;/span&gt; &lt;span class="na"&gt;class=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;btn btn-primary&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;on-click=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;changeme&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;Set var1&lt;span class="nt"&gt;&amp;lt;/button&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;and javascript like this:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;ractive&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="nx"&gt;Ractive&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt;
+   &lt;span class="nx"&gt;el&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;#demo&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+   &lt;span class="nx"&gt;template&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="nx"&gt;template&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+   &lt;span class="nx"&gt;data&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="nx"&gt;var1&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;beeblebrox&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nx"&gt;var2&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;lintilla&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;});&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;We get:&lt;/p&gt;
+&lt;script src='http://cdn.ractivejs.org/latest/ractive.js'&gt;&lt;/script&gt;
+
+&lt;div id="demo" class="well"&gt;&lt;/div&gt;
+&lt;script type="text/javascript"&gt;
+
+     var template='&lt;p&gt;Type in the boxes below.&lt;\p&gt; \
+                  &lt;input class="form-control" value="{{var1}}"&gt;  \
+                  &lt;input class="form-control" value="{{var2}}"&gt;  \
+                  &lt;p&gt;Current values are var1:&lt;code&gt;{{var1}}&lt;/code&gt;, var2:&lt;code&gt;{{var2}}&lt;/p&gt;\
+                  &lt;br&gt;&lt;button class="btn btn-primary" on-click="changeme"&gt;Set var1&lt;/button&gt;';
+
+     var ractive = new Ractive({
+        el:"#demo",
+        template:template,
+        data:{var1:'beeblebrox',var2:'lintilla'}
+     });
+
+     ractive.on('changeme',function(){
+        ractive.set('var1','zarniwoop');
+     });
+&lt;/script&gt;&lt;p&gt;Neat, huh?  I haven't had to write any code to manually react to keyup, or change events
+in the input controls - Ractive simply takes care of the fact that I refer to &lt;code class="code"&gt;
+var1&lt;/code&gt;
+
+in both the output paragraph and the control value, and binds the two elements together,
+refreshing them whenever needed.&lt;/p&gt;
+&lt;p&gt;The code for responding to the button click is simply:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nx"&gt;ractive&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;on&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;changeme&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(){&lt;/span&gt;
+    &lt;span class="nx"&gt;ractive&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;set&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;var1&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;zarniwoop&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;});&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;By setting data in the underlying model, the user interface automatically updates,
+again without any manual intervention.&lt;/p&gt;
+&lt;div class="section" id="ui-development-might-be-fun-again"&gt;
+&lt;h2&gt;UI development might be fun again....&lt;/h2&gt;
+&lt;p&gt;I have the same feeling on discovering Ractive that I had when I was first shown
+jQuery.  All of a sudden, a bunch of boring, fiddly manual tasks are taken care
+of in an intuitive way.  And unlike other frameworks, &lt;em&gt;all&lt;/em&gt; ractive does is data-binding.
+It doesn't try to be a control library, an AJAX toolkit or a Model-View-Controller
+framework.  For those who like all-in-one solutions, this will be a weakness, but as
+someone who believes in the unix philosophy of building systems from tools that
+each do one thing well, I'm very impressed.&lt;/p&gt;
+&lt;/div&gt;
+</summary><category term="javascript"></category><category term="ractive"></category></entry><entry><title>Python Comprehensions</title><link href="/python-comprehensions.html" rel="alternate"></link><updated>2014-10-05T21:16:47+02:00</updated><author><name>Trevor</name></author><id>tag:,2014-10-05:python-comprehensions.html</id><summary type="html">&lt;p&gt;Python &lt;strong&gt;list comprehensions&lt;/strong&gt; are one of the most powerful and useful
 features of the language. However, I've noticed even quite experienced
 Python programmers using less powerful idioms when a list comprehension
 would be the perfect solution to their problem, and even though I've
