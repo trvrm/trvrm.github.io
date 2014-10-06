@@ -1,5 +1,292 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>trvrm</title><link>/</link><description></description><atom:link href="/feeds/trevor.rss.xml" rel="self"></atom:link><lastBuildDate>Fri, 05 Sep 2014 10:29:20 +0200</lastBuildDate><item><title>Nginx and UWSGI on Ubuntu 14</title><link>/nginx-uwsgi-ubuntu-14.html</link><description>&lt;p&gt;The documentation for Nginx and UWSGI is long and complex, but with ubuntu 14
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>trvrm</title><link>/</link><description></description><atom:link href="/feeds/trevor.rss.xml" rel="self"></atom:link><lastBuildDate>Sun, 05 Oct 2014 21:16:47 +0200</lastBuildDate><item><title>Python Comprehensions</title><link>/python-comprehensions.html</link><description>&lt;p&gt;Python &lt;strong&gt;list comprehensions&lt;/strong&gt; are one of the most powerful and useful
+features of the language. However, I've noticed even quite experienced
+Python programmers using less powerful idioms when a list comprehension
+would be the perfect solution to their problem, and even though I've
+been a Python developer for more than a decade, I've recently learned
+some very nice aspects of this feature.&lt;/p&gt;
+&lt;div class="section" id="what-s-a-list-comprehension"&gt;
+&lt;h2&gt;What's a List Comprehension?&lt;/h2&gt;
+&lt;p&gt;Python is such a strong language in part because of its willingness to
+steal ideas from other languages. Python list comprehensions are an idea
+that comes from
+&lt;a class="reference external" href="http://www.haskell.org/haskellwiki/List_comprehension"&gt;Haskell&lt;/a&gt;.
+Fundamentally, they are a kind of 'syntactic sugar' for construct lists
+from other data sources in a tight, elegant fashion.&lt;/p&gt;
+&lt;p&gt;One of the things I like most about them is they eliminate the need to
+manually create loop structures and extra variables. So consider the
+following:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;squares&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;list&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;squares&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;squares&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;pre class="literal-block"&gt;
+[1, 1, 4, 27, 256, 3125, 46656, 823543, 16777216, 387420489]
+&lt;/pre&gt;
+&lt;p&gt;With List Comprehensions we can eliminate both the &lt;code class="code"&gt;
+for&lt;/code&gt;
+ loop and the
+calls to &lt;code class="code"&gt;
+append()&lt;/code&gt;
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;)]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;pre class="literal-block"&gt;
+[1, 1, 4, 27, 256, 3125, 46656, 823543, 16777216, 387420489]
+&lt;/pre&gt;
+&lt;p&gt;Comprehensions work with any kind of iterable as an import source:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="nb"&gt;ord&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;letter&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;letter&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;hello world&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;pre class="literal-block"&gt;
+[104, 101, 108, 108, 111, 32, 119, 111, 114, 108, 100]
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="multiple-generators"&gt;
+&lt;h2&gt;Multiple generators&lt;/h2&gt;
+&lt;p&gt;To make things a little more complex, we can specifiy more than one
+input data source:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="p"&gt;[(&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;j&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;xrange&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;j&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;xrange&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;)]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;pre class="literal-block"&gt;
+[(0, 0), (0, 1), (0, 2), (1, 0), (1, 1), (1, 2)]
+&lt;/pre&gt;
+&lt;p&gt;Instead of just boring numbers, we could use this to construct some
+sentences.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="p"&gt;[(&lt;/span&gt;&lt;span class="n"&gt;number&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;animal&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;number&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;animal&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;cats&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;dogs&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;elephants&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;pre class="literal-block"&gt;
+[(0, 'cats'),
+ (0, 'dogs'),
+ (0, 'elephants'),
+ (1, 'cats'),
+ (1, 'dogs'),
+ (1, 'elephants'),
+ (2, 'cats'),
+ (2, 'dogs'),
+ (2, 'elephants')]
+&lt;/pre&gt;
+&lt;p&gt;Furthermore, we have a lot of control over &lt;em&gt;how&lt;/em&gt; we construct the final
+output objects - we can put any valid python expression in the
+left-hand-side.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="p"&gt;[&lt;/span&gt;
+    &lt;span class="s"&gt;&amp;quot;{0} {1}&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;adjective&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;animal&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;adjective&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;red&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;cute&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;hungry&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;animal&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;cat&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;puppy&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;hippo&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;pre class="literal-block"&gt;
+['red cat',
+ 'red puppy',
+ 'red hippo',
+ 'cute cat',
+ 'cute puppy',
+ 'cute hippo',
+ 'hungry cat',
+ 'hungry puppy',
+ 'hungry hippo']
+&lt;/pre&gt;
+&lt;p&gt;or even&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="p"&gt;[&lt;/span&gt;
+    &lt;span class="s"&gt;&amp;quot;There are {0} {1} {2}&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;number&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;adjective&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;animal&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;number&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;adjective&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;cute&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;hungry&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;animal&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;puppys&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;bats&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;pre class="literal-block"&gt;
+['There are 2 cute puppys',
+ 'There are 2 cute bats',
+ 'There are 2 hungry puppys',
+ 'There are 2 hungry bats',
+ 'There are 3 cute puppys',
+ 'There are 3 cute bats',
+ 'There are 3 hungry puppys',
+ 'There are 3 hungry bats']
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="dictionary-comprehensions"&gt;
+&lt;h2&gt;Dictionary Comprehensions&lt;/h2&gt;
+&lt;p&gt;An equally powerful construct is the &lt;em&gt;dictionary comprehension&lt;/em&gt;. Just
+like list comprehensions, this enables you to construct python
+dictionaries using a very similar syntax.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;
+        &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;k&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;v&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+        &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;foo&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;bar&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+        &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;this&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;that&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;pre class="literal-block"&gt;
+{'foo': 'bar', 'k': 'v', 'this': 'that'}
+&lt;/pre&gt;
+&lt;p&gt;Armed with these tools, we can write very concise code to transform data
+from one structure to another. Recently I've found them &lt;em&gt;very&lt;/em&gt; helpful
+for unpacking nested data structures.&lt;/p&gt;
+&lt;p&gt;Consider a simple org-structure:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;departments&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;
+    &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;name&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;Manufacturing&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;staff&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Jacob&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Jonah&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Chloe&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Liam&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]},&lt;/span&gt;
+    &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;name&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;Marketing&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;staff&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:[&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Emily&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Shawn&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Alex&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]},&lt;/span&gt;
+    &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;name&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;HR&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;staff&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:[&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;David&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Jessica&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]},&lt;/span&gt;
+    &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;name&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;Accounts&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;staff&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:[&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Nicole&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]}&lt;/span&gt;
+&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Now let's extract some data from it.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;#Department names&lt;/span&gt;
+&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;department&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;name&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;department&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;departments&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;pre class="literal-block"&gt;
+['Manufacturing', 'Marketing', 'HR', 'Accounts']
+&lt;/pre&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;#Staff count&lt;/span&gt;
+&lt;span class="nb"&gt;sum&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;department&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;staff&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;department&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;departments&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;pre class="literal-block"&gt;
+10
+&lt;/pre&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;#All staff names&lt;/span&gt;
+&lt;span class="p"&gt;[&lt;/span&gt;
+    &lt;span class="n"&gt;name&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;department&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;departments&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;name&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;department&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;staff&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;pre class="literal-block"&gt;
+['Jacob',
+ 'Jonah',
+ 'Chloe',
+ 'Liam',
+ 'Emily',
+ 'Shawn',
+ 'Alex',
+ 'David',
+ 'Jessica',
+ 'Nicole']
+&lt;/pre&gt;
+&lt;p&gt;Note how in the last example the &lt;em&gt;second&lt;/em&gt; data-generating clause,
+&lt;code class="code"&gt;
+department['staff']&lt;/code&gt;
+, used a reference from the &lt;em&gt;first&lt;/em&gt; one.&lt;/p&gt;
+&lt;p&gt;We can take this even further. Let's make our org-chart a little more
+complicated...&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;departments&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;
+    &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="s"&gt;&amp;#39;name&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;Manufacturing&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="s"&gt;&amp;#39;staff&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;
+            &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;name&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Jacob&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;salary&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;50000&lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;
+            &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;name&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Chloe&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;salary&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;60000&lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;
+            &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;name&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Liam&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;salary&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;70000&lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;
+            &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;name&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Jonah&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;salary&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;55000&lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;
+        &lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="p"&gt;},&lt;/span&gt;
+    &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="s"&gt;&amp;#39;name&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;Marketing&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="s"&gt;&amp;#39;staff&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:[&lt;/span&gt;
+            &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;name&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Emily&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;salary&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;50000&lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;
+            &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;name&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Shawn&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;salary&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;45000&lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;
+            &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;name&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Alex&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;salary&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;40000&lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;
+        &lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="p"&gt;},&lt;/span&gt;
+    &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="s"&gt;&amp;#39;name&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;HR&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="s"&gt;&amp;#39;staff&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:[&lt;/span&gt;
+
+            &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;name&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;David&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;salary&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;50000&lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;
+            &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;name&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Jessica&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;salary&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;60000&lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;
+       &lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="p"&gt;},&lt;/span&gt;
+    &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="s"&gt;&amp;#39;name&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;Accounts&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="s"&gt;&amp;#39;staff&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:[&lt;/span&gt;
+            &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;name&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Nicole&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;salary&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;40000&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+        &lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Calculate the total salary:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nb"&gt;sum&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+    &lt;span class="n"&gt;person&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;salary&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;department&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;departments&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;person&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;department&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;staff&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;pre class="literal-block"&gt;
+520000
+&lt;/pre&gt;
+&lt;p&gt;Now let's calculate the wages bill by department, and put the results in
+a dictionary&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;department&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;name&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;sum&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;person&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;salary&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;person&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;department&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;staff&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;department&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;departments&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;pre class="literal-block"&gt;
+{'Accounts': 40000, 'HR': 110000, 'Manufacturing': 235000, 'Marketing': 135000}
+&lt;/pre&gt;
+&lt;div class="section" id="conclusion"&gt;
+&lt;h3&gt;Conclusion&lt;/h3&gt;
+&lt;p&gt;I've been finding this type of approach &lt;em&gt;very&lt;/em&gt; helpful when working with
+document-oriented data stores. We store a lot of data in JSON documents,
+either on the file system or in Postgresql. For that data to be useful,
+we have to be able to quickly mine, explore, select and transform it.
+Tools like &lt;a class="reference external" href="http://jsonselect.org/#overview"&gt;JSONSelect&lt;/a&gt; do exist,
+but JSONSelect is only available in Javascript, and doesn't allow you to
+do the kind of rich expression-based transforms as you roll up the data
+that Python does.&lt;/p&gt;
+&lt;p&gt;I also find that it avoids many common programming pitfalls:
+mis-assigned variables, off-by-one errors and so on. You'll note that in
+all the examples above I &lt;em&gt;never&lt;/em&gt; need to create a temporary variable or
+explicitly construct a &lt;code class="code"&gt;
+for&lt;/code&gt;
+-loop.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Trevor</dc:creator><pubDate>Sun, 05 Oct 2014 21:16:47 +0200</pubDate><guid>tag:,2014-10-05:python-comprehensions.html</guid><category>Python</category></item><item><title>Ractive.js</title><link>/ractive-js.html</link><description>&lt;p&gt;&lt;a class="reference external" href="http://www.ractivejs.org/"&gt;Ractive.js&lt;/a&gt; caught my eye this week.  I've been using &lt;a class="reference external" href="http://backbonejs.org/"&gt;Backbone&lt;/a&gt; for the last couple
+of years to develop single page client-side applications, and I've liked how
+it doesn't get in your way, but simply allows you to get on with your work.&lt;/p&gt;
+&lt;p&gt;When I noticed that three of the tools I was using: Coffeescript, Underscore, and
+&lt;a class="reference external" href="http://backbonejs.org/"&gt;Backbone&lt;/a&gt; were all written by the same guy, I realised that Jeremy Ashkenas
+is a seriously genius level developer.  I've loved working with his tools; and I
+love the fact that the code that he produces is so readable.  I'm always more comfortable
+working with a library when I can read through the entire source code if I run
+into problems.  Check out the nicely annotated source code for Backbone, for example,
+here: &lt;a class="reference external" href="http://backbonejs.org/docs/backbone.html"&gt;http://backbonejs.org/docs/backbone.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;(On that note, I love working with &lt;a class="reference external" href="http://bottlepy.org/docs/dev/_modules/bottle.html"&gt;Bottle&lt;/a&gt; for exactly the same reason - the entire
+framework is contained in a single, very readable, Python file.)&lt;/p&gt;
+&lt;p&gt;But one problem that comes up time and time again, no matter what library or framework
+you're using, is the problem of binding data to controls.  Currently in my Backbone-based
+code I have event handling code that reacts to user input and updates the model, and
+I have more code that reacts to changes in the data model and updates the UI.  Wouldn't
+it be nice if this two-way data binding could happen automatically?  Wouldn't it be
+nice, for example, if you could do something like this:&lt;/p&gt;
+&lt;p&gt;Imagine having a user interface like this:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;label&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;input&lt;/span&gt; &lt;span class="na"&gt;type=&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;checkbox&amp;#39;&lt;/span&gt; &lt;span class="na"&gt;checked=&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;{{visible}}&amp;#39;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt; visible?
+&lt;span class="nt"&gt;&amp;lt;/label&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;And underlying data like this:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nx"&gt;data&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="s2"&gt;&amp;quot;visible&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="kc"&gt;false&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;And imagine if all the data binding was handled for you, so that clicking on the checkbox
+will automatically change the value of the underlying javascript object, and changing
+the value of the object via &lt;code class="code"&gt;
+ractive.set('visible',true)&lt;/code&gt;
+ updated the interface.&lt;/p&gt;
+&lt;p&gt;That is exactly what Ractive does.  I haven't tried using it in production yet, but
+at the moment it feels like the next logical iteration in javascript frameworks.&lt;/p&gt;
+&lt;p&gt;I was busy using Backbone heavily when Angular and Knockout came out, so I don't have
+much experience with them, but asking around the shop the consensus seems to be that
+Ractive looks significantly nicer to use than Knockout.&lt;/p&gt;
+&lt;p&gt;And the best feature so far is their &lt;em&gt;awesome&lt;/em&gt; &lt;a class="reference external" href="http://learn.ractivejs.org/hello-world/1/"&gt;tutorial&lt;/a&gt;.  This is, apparently, entirely
+written in Ractive, and guides you step by step through all the basic concepts of
+the library in an elegant, interactive fashion.  No more jumping through package installations
+and dependency hell before you can try out a new framework.  &lt;em&gt;This&lt;/em&gt; is the way to
+introduce people to your work.  I'm very impressed.&lt;/p&gt;
+</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Trevor</dc:creator><pubDate>Sat, 04 Oct 2014 18:36:48 +0200</pubDate><guid>tag:,2014-10-04:ractive-js.html</guid><category>javascript</category><category>ractive</category></item><item><title>Nginx and UWSGI on Ubuntu 14</title><link>/nginx-uwsgi-ubuntu-14.html</link><description>&lt;p&gt;The documentation for Nginx and UWSGI is long and complex, but with ubuntu 14
 it's actually pretty straightforward to get them up and running.&lt;/p&gt;
 &lt;p&gt;I present here a a setup that uses nginx and uwsgi emperor to host
 multiple python web applications simultaneously on an ubuntu 14 machine.&lt;/p&gt;
@@ -570,48 +857,7 @@ database server.&lt;/p&gt;
 &lt;p&gt;gives me a company-wide view of all our databases.&lt;/p&gt;
 &lt;p&gt;One further demonstration - this blog itself is generated using Fabric! For details, see
 the fabfile my &lt;a class="reference external" href="https://github.com/trvrm/trvrm.github.io/blob/master/fabfile.py"&gt;Github&lt;/a&gt; repository.&lt;/p&gt;
-</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Trevor</dc:creator><pubDate>Tue, 19 Aug 2014 13:42:35 +0200</pubDate><guid>tag:,2014-08-19:remote-systems-administration-with-fabric.html</guid><category>linux</category><category>python</category></item><item><title>Ractive.js</title><link>/ractive-js.html</link><description>&lt;p&gt;&lt;a class="reference external" href="http://www.ractivejs.org/"&gt;Ractive.js&lt;/a&gt; caught my eye this week.  I've been using &lt;a class="reference external" href="http://backbonejs.org/"&gt;Backbone&lt;/a&gt; for the last couple
-of years to develop single page client-side applications, and I've liked how
-it doesn't get in your way, but simply allows you to get on with your work.&lt;/p&gt;
-&lt;p&gt;When I noticed that three of the tools I was using: Coffeescript, Underscore, and
-&lt;a class="reference external" href="http://backbonejs.org/"&gt;Backbone&lt;/a&gt; were all written by the same guy, I realised that Jeremy Ashkenas
-is a seriously genius level developer.  I've loved working with his tools; and I
-love the fact that the code that he produces is so readable.  I'm always more comfortable
-working with a library when I can read through the entire source code if I run
-into problems.  Check out the nicely annotated source code for Backbone, for example,
-here: &lt;a class="reference external" href="http://backbonejs.org/docs/backbone.html"&gt;http://backbonejs.org/docs/backbone.html&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;(On that note, I love working with &lt;a class="reference external" href="http://bottlepy.org/docs/dev/_modules/bottle.html"&gt;Bottle&lt;/a&gt; for exactly the same reason - the entire
-framework is contained in a single, very readable, Python file.)&lt;/p&gt;
-&lt;p&gt;But one problem that comes up time and time again, no matter what library or framework
-you're using, is the problem of binding data to controls.  Currently in my Backbone-based
-code I have event handling code that reacts to user input and updates the model, and
-I have more code that reacts to changes in the data model and updates the UI.  Wouldn't
-it be nice if this two-way data binding could happen automatically?  Wouldn't it be
-nice, for example, if you could do something like this:&lt;/p&gt;
-&lt;p&gt;Imagine having a user interface like this:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;label&amp;gt;&lt;/span&gt;
-    &lt;span class="nt"&gt;&amp;lt;input&lt;/span&gt; &lt;span class="na"&gt;type=&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;checkbox&amp;#39;&lt;/span&gt; &lt;span class="na"&gt;checked=&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;{{visible}}&amp;#39;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt; visible?
-&lt;span class="nt"&gt;&amp;lt;/label&amp;gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;And underlying data like this:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nx"&gt;data&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
-  &lt;span class="s2"&gt;&amp;quot;visible&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="kc"&gt;false&lt;/span&gt;
-&lt;span class="p"&gt;}&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;And imagine if all the data binding was handled for you, so that clicking on the checkbox
-will automatically change the value of the underlying javascript object, and changing
-the value of the object via &lt;code&gt;ractive.set('visible',true)&lt;/code&gt; updated the interface.&lt;/p&gt;
-&lt;p&gt;That is exactly what Ractive does.  I haven't tried using it in production yet, but
-at the moment it feels like the next logical iteration in javascript frameworks.&lt;/p&gt;
-&lt;p&gt;I was busy using Backbone heavily when Angular and Knockout came out, so I don't have
-much experience with them, but asking around the shop the consensus seems to be that
-Ractive looks significantly nicer to use than Knockout.&lt;/p&gt;
-&lt;p&gt;And the best feature so far is their &lt;em&gt;awesome&lt;/em&gt; &lt;a class="reference external" href="http://learn.ractivejs.org/hello-world/1/"&gt;tutorial&lt;/a&gt;.  This is, apparently, entirely
-written in Ractive, and guides you step by step through all the basic concepts of
-the library in an elegant, interactive fashion.  No more jumping through package installations
-and dependency hell before you can try out a new framework.  &lt;em&gt;This&lt;/em&gt; is the way to
-introduce people to your work.  I'm very impressed.&lt;/p&gt;
-</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Trevor</dc:creator><pubDate>Tue, 19 Aug 2014 13:42:32 +0200</pubDate><guid>tag:,2014-08-19:ractive-js.html</guid><category>javascript</category><category>ractive</category></item><item><title>Postfix</title><link>/postfix.html</link><description>&lt;p&gt;Postfix is a ghastly horror that really should be quietly eliminated.  But that truism hides a deeper issue - email itself is a ghastly horror, the result of 30 years of hacks, edge-cases, non-conformant implementations and competing design constraints, that only persists because we still haven't come up with anything better.&lt;/p&gt;
+</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Trevor</dc:creator><pubDate>Tue, 19 Aug 2014 13:42:35 +0200</pubDate><guid>tag:,2014-08-19:remote-systems-administration-with-fabric.html</guid><category>linux</category><category>python</category></item><item><title>Postfix</title><link>/postfix.html</link><description>&lt;p&gt;Postfix is a ghastly horror that really should be quietly eliminated.  But that truism hides a deeper issue - email itself is a ghastly horror, the result of 30 years of hacks, edge-cases, non-conformant implementations and competing design constraints, that only persists because we still haven't come up with anything better.&lt;/p&gt;
 &lt;p&gt;Take the simple question 'what is a valid email address'.&lt;/p&gt;
 &lt;p&gt;I have a couple of standard regexes I use to validate email addresses,
 such as &lt;code&gt;^[A-Z0-9._%+-]+&amp;#64;[A-Z0-9.-]+\.[A-Z]{2,4}$&lt;/code&gt;,
