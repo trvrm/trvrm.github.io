@@ -2,7 +2,7 @@
 <html lang="en"
 >
 <head>
-    <title> - trvrm</title>
+    <title>Postgres JSON Aggregation - trvrm</title>
     <!-- Using the latest rendering mode for IE -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
@@ -10,10 +10,11 @@
 
 
 
-<link rel="canonical" href="/.html">
+<link rel="canonical" href="/postgres-json-aggregation.html">
 
-        <meta name="author" content="trvrm" />
-        <meta name="description" content="Postgres JSON Aggregation tags:Python, Postgres category:Database author:Trevor Rolling up aggregated values in Postgres I&#39;ve been using the new JSON functionality in Postgres a lot recently: I&#39;m fond of saying that Postgresql is the best NoSQL database available today. I&#39;m quite serious about this: having ..." />
+        <meta name="author" content="Trevor" />
+        <meta name="keywords" content="Python,Postgres" />
+        <meta name="description" content="I&#39;ve been using the new JSON functionality in Postgres a lot recently: I&#39;m fond of saying that Postgresql is the best NoSQL database available today. I&#39;m quite serious about this: having used key-value and JSON stores such as CouchDB in the past, it&#39;s amazing to me ..." />
 
 
 
@@ -45,11 +46,8 @@ trvrm            </a>
                          <li><a href="/pages/about.html">
                              About
                           </a></li>
-                        <li >
-                            <a href="/category/database.html">Database</a>
-                        </li>
                         <li class="active">
-                            <a href="/category/misc.html">Misc</a>
+                            <a href="/category/database.html">Database</a>
                         </li>
                         <li >
                             <a href="/category/software.html">Software</a>
@@ -74,10 +72,10 @@ trvrm            </a>
         <article>
             <header class="page-header">
                 <h1>
-                    <a href="/.html"
+                    <a href="/postgres-json-aggregation.html"
                        rel="bookmark"
-                       title="Permalink to ">
-                        
+                       title="Permalink to Postgres JSON Aggregation">
+                        Postgres JSON Aggregation
                     </a>
                 </h1>
             </header>
@@ -87,32 +85,19 @@ trvrm            </a>
 <footer class="post-info">
     <span class="label label-default">Date</span>
     <span class="published">
-        <i class="fa fa-calendar"></i><time datetime="2014-11-08T18:07:13.464304"> Sat 08 November 2014</time>
+        <i class="fa fa-calendar"></i><time datetime="2014-11-08T18:11:19.079363"> Sat 08 November 2014</time>
     </span>
 
 
 
+<span class="label label-default">Tags</span>
+	<a href="/tag/python.html">Python</a>
+        /
+	<a href="/tag/postgres.html">Postgres</a>
     
 </footer><!-- /.post-info -->                    </div>
                 </div>
-                <div class="section" id="postgres-json-aggregation">
-<h2>Postgres JSON Aggregation</h2>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field"><th class="field-name">tags:</th><td class="field-body">Python, Postgres</td>
-</tr>
-<tr class="field"><th class="field-name">category:</th><td class="field-body">Database</td>
-</tr>
-<tr class="field"><th class="field-name">author:</th><td class="field-body">Trevor</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="section" id="rolling-up-aggregated-values-in-postgres">
-<h2>Rolling up aggregated values in Postgres</h2>
-<p>I've been using the new JSON functionality in Postgres a lot recently:
+                <p>I've been using the new JSON functionality in Postgres a lot recently:
 I'm fond of saying that Postgresql is the best NoSQL database available
 today. I'm quite serious about this: having used key-value and JSON
 stores such as CouchDB in the past, it's amazing to me how the Postgres
@@ -152,7 +137,7 @@ u'Connected: <a class="reference external" href="mailto:testuser&#64;test">testu
 <p>We can query this in the usual way:</p>
 <div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="o">*</span> <span class="n">FROM</span> <span class="n">person</span><span class="p">;</span>
 </pre></div>
-<table>
+<table class="table table-bordered">
     <tr>
         <th>name</th>
     </tr>
@@ -173,7 +158,7 @@ json_agg()</code>
 </p>
 <div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="n">json_agg</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="n">FROM</span> <span class="n">person</span>
 </pre></div>
-<table>
+<table class="table table-bordered">
     <tr>
         <th>json_agg</th>
     </tr>
@@ -207,7 +192,7 @@ JOINS</code>
 they've performed, we <em>could</em> do it this way:</p>
 <div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="n">person</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>  <span class="n">action</span><span class="o">.</span><span class="n">type</span> <span class="p">,</span> <span class="n">action</span><span class="o">.</span><span class="n">created</span> <span class="n">FROM</span> <span class="n">action</span> <span class="n">JOIN</span> <span class="n">person</span> <span class="n">ON</span> <span class="n">action</span><span class="o">.</span><span class="n">person_name</span><span class="o">=</span><span class="n">person</span><span class="o">.</span><span class="n">name</span>
 </pre></div>
-<table>
+<table class="table table-bordered">
     <tr>
         <th>name</th>
         <th>type</th>
@@ -251,7 +236,7 @@ json_agg()</code>
 </p>
 <div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="n">person</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>  <span class="n">json_agg</span><span class="p">(</span><span class="n">action</span><span class="p">)</span> <span class="n">FROM</span> <span class="n">action</span> <span class="n">JOIN</span> <span class="n">person</span> <span class="n">ON</span> <span class="n">action</span><span class="o">.</span><span class="n">person_name</span><span class="o">=</span><span class="n">person</span><span class="o">.</span><span class="n">name</span> <span class="n">GROUP</span> <span class="n">BY</span> <span class="n">person</span><span class="o">.</span><span class="n">name</span>
 </pre></div>
-<table>
+<table class="table table-bordered">
     <tr>
         <th>name</th>
         <th>json_agg</th>
@@ -298,7 +283,6 @@ nicki
 <p>So now we've managed to easily convert relational Postgres data into a
 hierarchical Python data structure. From here we can easily continue to
 XML, JSON, HTML or whatever document type suits your need.</p>
-</div>
 
             </div>
             <!-- /.entry-content -->
@@ -327,18 +311,18 @@ XML, JSON, HTML or whatever document type suits your need.</p>
                             </a>
                         </li>
                         <li class="list-group-item tag-2">
-                            <a href="/tag/javascript.html">
-                                javascript
-                            </a>
-                        </li>
-                        <li class="list-group-item tag-2">
                             <a href="/tag/ipython.html">
                                 IPython
                             </a>
                         </li>
+                        <li class="list-group-item tag-2">
+                            <a href="/tag/javascript.html">
+                                javascript
+                            </a>
+                        </li>
                         <li class="list-group-item tag-3">
-                            <a href="/tag/linux.html">
-                                linux
+                            <a href="/tag/postgres.html">
+                                Postgres
                             </a>
                         </li>
                         <li class="list-group-item tag-3">
@@ -346,19 +330,9 @@ XML, JSON, HTML or whatever document type suits your need.</p>
                                 ractive
                             </a>
                         </li>
-                        <li class="list-group-item tag-4">
-                            <a href="/tag/coffeescript.html">
-                                coffeescript
-                            </a>
-                        </li>
-                        <li class="list-group-item tag-4">
-                            <a href="/tag/logrotate.html">
-                                logrotate
-                            </a>
-                        </li>
-                        <li class="list-group-item tag-4">
-                            <a href="/tag/email.html">
-                                email
+                        <li class="list-group-item tag-3">
+                            <a href="/tag/linux.html">
+                                linux
                             </a>
                         </li>
                         <li class="list-group-item tag-4">
@@ -367,13 +341,23 @@ XML, JSON, HTML or whatever document type suits your need.</p>
                             </a>
                         </li>
                         <li class="list-group-item tag-4">
+                            <a href="/tag/nginx.html">
+                                nginx
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
                             <a href="/tag/uwsgi.html">
                                 uwsgi
                             </a>
                         </li>
                         <li class="list-group-item tag-4">
-                            <a href="/tag/postgres.html">
-                                Postgres
+                            <a href="/tag/logrotate.html">
+                                logrotate
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="/tag/coffeescript.html">
+                                coffeescript
                             </a>
                         </li>
                         <li class="list-group-item tag-4">
@@ -382,8 +366,8 @@ XML, JSON, HTML or whatever document type suits your need.</p>
                             </a>
                         </li>
                         <li class="list-group-item tag-4">
-                            <a href="/tag/nginx.html">
-                                nginx
+                            <a href="/tag/email.html">
+                                email
                             </a>
                         </li>
                         <li class="list-group-item tag-4">
