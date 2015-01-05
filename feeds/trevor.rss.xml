@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>trvrm</title><link>/</link><description></description><atom:link href="/feeds/trevor.rss.xml" rel="self"></atom:link><lastBuildDate>Sat, 08 Nov 2014 18:11:19 +0100</lastBuildDate><item><title>Postgres JSON Aggregation</title><link>/postgres-json-aggregation.html</link><description>&lt;p&gt;I've been using the new JSON functionality in Postgres a lot recently:
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>trvrm</title><link>/</link><description></description><atom:link href="/feeds/trevor.rss.xml" rel="self"></atom:link><lastBuildDate>Mon, 01 Dec 2014 20:49:24 +0100</lastBuildDate><item><title>Configuring Systems with Fabric and Cuisine</title><link>/configuring-systems-with-fabric-and-cuisine.html</link><description>&lt;p&gt;I've mentioned &lt;a class="reference external" href="http://fabric.readthedocs.org/en/1.8/"&gt;Fabric&lt;/a&gt; before on this blog.  Because so much of my development time is spent in Python, it makes
+sense for me to look for system administration tools that are also written in Python.  Fabric fits the bill
+perfectly, and allows me to run tasks remotely on multiple machines simultaneously.&lt;/p&gt;
+&lt;p&gt;A useful addition to Fabric is &lt;a class="reference external" href="https://github.com/sebastien/cuisine"&gt;Cuisine&lt;/a&gt;.  &lt;strong&gt;Cuisine is a small set of functions that sit on top of Fabric,
+to abstract common administration operations such as file/dir operations, user/group creation,
+package install/upgrade, making it easier to write portable administration and deployment scripts.&lt;/strong&gt;&lt;/p&gt;
+</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Trevor</dc:creator><pubDate>Mon, 01 Dec 2014 20:49:24 +0100</pubDate><guid>tag:,2014-12-01:configuring-systems-with-fabric-and-cuisine.html</guid><category>linux</category><category>python</category><category>fabric</category></item><item><title>Postgres JSON Aggregation</title><link>/postgres-json-aggregation.html</link><description>&lt;p&gt;I've been using the new JSON functionality in Postgres a lot recently:
 I'm fond of saying that Postgresql is the best NoSQL database available
 today. I'm quite serious about this: having used key-value and JSON
 stores such as CouchDB in the past, it's amazing to me how the Postgres

@@ -2,7 +2,7 @@
 <html lang="en"
 >
 <head>
-    <title>misc - trvrm</title>
+    <title>Configuring Systems with Fabric and Cuisine - trvrm</title>
     <!-- Using the latest rendering mode for IE -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
@@ -10,16 +10,12 @@
 
 
 
+<link rel="canonical" href="/configuring-systems-with-fabric-and-cuisine.html">
 
-    <meta name="author" content="trvrm" />
-    <meta name="keywords" content="misc" />
+        <meta name="author" content="Trevor" />
+        <meta name="keywords" content="linux,python,fabric" />
+        <meta name="description" content="I&#39;ve mentioned Fabric before on this blog. Because so much of my development time is spent in Python, it makes sense for me to look for system administration tools that are also written in Python. Fabric fits the bill perfectly, and allows me to run tasks remotely on multiple ..." />
 
-    <!-- Open Graph tags -->
-        <meta property="og:site_name" content="trvrm" />
-        <meta property="og:type" content="website"/>
-        <meta property="og:title" content="trvrm"/>
-        <meta property="og:url" content=""/>
-        <meta property="og:description" content="trvrm"/>
 
 
     <!-- Bootstrap -->
@@ -53,13 +49,10 @@ trvrm            </a>
                         <li >
                             <a href="/category/database.html">Database</a>
                         </li>
-                        <li class="active">
-                            <a href="/category/misc.html">Misc</a>
-                        </li>
                         <li >
                             <a href="/category/software.html">Software</a>
                         </li>
-                        <li >
+                        <li class="active">
                             <a href="/category/systems.html">Systems</a>
                         </li>
             </ul>
@@ -75,32 +68,48 @@ trvrm            </a>
     <div class="row">
         <div class="col-sm-9">
 
-            <article>
-                <h2><a href="/.html"></a></h2>
-                <div class="summary"><div class="section" id="postgres-json-aggregation">
-<h2>Postgres JSON Aggregation</h2>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field"><th class="field-name">tags:</th><td class="field-body">Python, Postgres</td>
-</tr>
-<tr class="field"><th class="field-name">category:</th><td class="field-body">Database</td>
-</tr>
-<tr class="field"><th class="field-name">author:</th><td class="field-body">Trevor</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="section" id="rolling-up-aggregated-values-in-postgres">
-<h2>Rolling up aggregated values in Postgres</h2>
-<p>I've been using the new JSON functionality in Postgres a lot recently:
-I'm fond of saying that Postgresql is the best NoSQL database available
-today. I'm quite serious about this: having ...</p></div>
-                    <a class="btn btn-default btn-xs" href="/.html">more ...</a>
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="/configuring-systems-with-fabric-and-cuisine.html"
+                       rel="bookmark"
+                       title="Permalink to Configuring Systems with Fabric and Cuisine">
+                        Configuring Systems with Fabric and Cuisine
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2014-12-01T20:49:24.447537"> Mon 01 December 2014</time>
+    </span>
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="/tag/linux.html">linux</a>
+        /
+	<a href="/tag/python.html">python</a>
+        /
+	<a href="/tag/fabric.html">fabric</a>
+    
+</footer><!-- /.post-info -->                    </div>
                 </div>
-            </article>
-            <hr/>
+                <p>I've mentioned <a class="reference external" href="http://fabric.readthedocs.org/en/1.8/">Fabric</a> before on this blog.  Because so much of my development time is spent in Python, it makes
+sense for me to look for system administration tools that are also written in Python.  Fabric fits the bill
+perfectly, and allows me to run tasks remotely on multiple machines simultaneously.</p>
+<p>A useful addition to Fabric is <a class="reference external" href="https://github.com/sebastien/cuisine">Cuisine</a>.  <strong>Cuisine is a small set of functions that sit on top of Fabric,
+to abstract common administration operations such as file/dir operations, user/group creation,
+package install/upgrade, making it easier to write portable administration and deployment scripts.</strong></p>
+
+            </div>
+            <!-- /.entry-content -->
+        </article>
+    </section>
 
         </div>
         <div class="col-sm-3 well well-sm" id="sidebar">
@@ -120,7 +129,12 @@ today. I'm quite serious about this: having ...</p></div>
                     <ul class="list-group " id="tags">
                         <li class="list-group-item tag-1">
                             <a href="/tag/python.html">
-                                Python
+                                python
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-2">
+                            <a href="/tag/linux.html">
+                                linux
                             </a>
                         </li>
                         <li class="list-group-item tag-2">
@@ -134,8 +148,8 @@ today. I'm quite serious about this: having ...</p></div>
                             </a>
                         </li>
                         <li class="list-group-item tag-3">
-                            <a href="/tag/linux.html">
-                                linux
+                            <a href="/tag/postgres.html">
+                                Postgres
                             </a>
                         </li>
                         <li class="list-group-item tag-3">
@@ -144,23 +158,8 @@ today. I'm quite serious about this: having ...</p></div>
                             </a>
                         </li>
                         <li class="list-group-item tag-4">
-                            <a href="/tag/coffeescript.html">
-                                coffeescript
-                            </a>
-                        </li>
-                        <li class="list-group-item tag-4">
-                            <a href="/tag/logrotate.html">
-                                logrotate
-                            </a>
-                        </li>
-                        <li class="list-group-item tag-4">
-                            <a href="/tag/email.html">
-                                email
-                            </a>
-                        </li>
-                        <li class="list-group-item tag-4">
-                            <a href="/tag/gevent.html">
-                                gevent
+                            <a href="/tag/postfix.html">
+                                postfix
                             </a>
                         </li>
                         <li class="list-group-item tag-4">
@@ -169,8 +168,8 @@ today. I'm quite serious about this: having ...</p></div>
                             </a>
                         </li>
                         <li class="list-group-item tag-4">
-                            <a href="/tag/postgres.html">
-                                Postgres
+                            <a href="/tag/email.html">
+                                email
                             </a>
                         </li>
                         <li class="list-group-item tag-4">
@@ -179,13 +178,28 @@ today. I'm quite serious about this: having ...</p></div>
                             </a>
                         </li>
                         <li class="list-group-item tag-4">
-                            <a href="/tag/nginx.html">
-                                nginx
+                            <a href="/tag/logrotate.html">
+                                logrotate
                             </a>
                         </li>
                         <li class="list-group-item tag-4">
-                            <a href="/tag/postfix.html">
-                                postfix
+                            <a href="/tag/fabric.html">
+                                fabric
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="/tag/coffeescript.html">
+                                coffeescript
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="/tag/gevent.html">
+                                gevent
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="/tag/nginx.html">
+                                nginx
                             </a>
                         </li>
                     </ul>
