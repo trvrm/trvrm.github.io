@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>trvrm</title><link href="/" rel="alternate"></link><link href="/feeds/trevor.atom.xml" rel="self"></link><id>/</id><updated>2015-01-10T22:23:07+01:00</updated><entry><title>A Seriously Subtle Bug</title><link href="/seriously-subtle-bug.html" rel="alternate"></link><updated>2015-01-10T22:23:07+01:00</updated><author><name>Trevor</name></author><id>tag:,2015-01-10:seriously-subtle-bug.html</id><summary type="html">&lt;p&gt;I build and maintain a number of web applications built using &lt;a class="reference external" href="http://python.org"&gt;Python&lt;/a&gt;, &lt;a class="reference external" href="http://bottlepy.org/docs/dev/index.html"&gt;Bottle&lt;/a&gt;, and &lt;a class="reference external" href="http://uwsgi-docs.readthedocs.org/en/latest/index.html"&gt;uWSGI&lt;/a&gt;.
+<feed xmlns="http://www.w3.org/2005/Atom"><title>trvrm</title><link href="/" rel="alternate"></link><link href="/feeds/trevor.atom.xml" rel="self"></link><id>/</id><updated>2015-01-10T22:25:26+01:00</updated><entry><title>A Seriously Subtle Bug</title><link href="/seriously-subtle-bug.html" rel="alternate"></link><updated>2015-01-10T22:25:26+01:00</updated><author><name>Trevor</name></author><id>tag:,2015-01-10:seriously-subtle-bug.html</id><summary type="html">&lt;p&gt;I build and maintain a number of web applications built using &lt;a class="reference external" href="http://python.org"&gt;Python&lt;/a&gt;, &lt;a class="reference external" href="http://bottlepy.org/docs/dev/index.html"&gt;Bottle&lt;/a&gt;, and &lt;a class="reference external" href="http://uwsgi-docs.readthedocs.org/en/latest/index.html"&gt;uWSGI&lt;/a&gt;.
 In general, I've found this a very powerful and robust software stack.  However, this week
 we encountered a very strange issue that took us many hours to fully diagnose.&lt;/p&gt;
 &lt;p&gt;Our first indication that something was wrong was when our automated monitoring tools warned
@@ -189,7 +189,7 @@ a &lt;em&gt;file&lt;/em&gt; then it treats it specially.  The smoking gun code i
 gets passed through this code block twice, because it's getting handled recursively.  And, indeed, if &lt;code class="code"&gt;
 wsgi.file_wrapper&lt;/code&gt;
 
-isn't specified, then :&lt;code class="code"&gt;
+isn't specified, then &lt;code class="code"&gt;
 WSGIFileWrapper&lt;/code&gt;
  is used, and everything is fine.  But in our case, we're serving this application
 via uWSGI, which &lt;em&gt;does&lt;/em&gt; define &lt;code class="code"&gt;
@@ -235,8 +235,7 @@ wsgi.file_wrapper&lt;/code&gt;
  is
 supposed to do - I clearly have more research to do, time permitting.  And because this bug only occurred when Bottle and uWSGI
 &lt;em&gt;interacted&lt;/em&gt; -  I couldn't trigger it in one or other environment on its own - it's hard to say that either project has
-a bug.  But on the off-chance that I can save someone else from the hours of work that I just had to go to; I thought
-I better produce a write-up of some kind.&lt;/p&gt;
+a bug.  But hopefully this analysis will help prevent others from going through the same headaches I just did.&lt;/p&gt;
 &lt;/div&gt;
 </summary><category term="linux"></category><category term="python"></category><category term="uwsgi"></category><category term="bottle"></category></entry><entry><title>Configuring Systems with Fabric and Cuisine</title><link href="/configuring-systems-with-fabric-and-cuisine.html" rel="alternate"></link><updated>2014-12-01T20:49:24+01:00</updated><author><name>Trevor</name></author><id>tag:,2014-12-01:configuring-systems-with-fabric-and-cuisine.html</id><summary type="html">&lt;p&gt;I've mentioned &lt;a class="reference external" href="http://fabric.readthedocs.org/en/1.8/"&gt;Fabric&lt;/a&gt; before on this blog.  Because so much of my development time is spent in Python, it makes
 sense for me to look for system administration tools that are also written in Python.  Fabric fits the bill

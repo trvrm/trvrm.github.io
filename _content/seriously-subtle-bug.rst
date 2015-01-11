@@ -248,7 +248,7 @@ https://github.com/bottlepy/bottle/blob/854fbd7f88aa2f809f54dd724aea7ecf918a3b6e
             
 Which *looks* innocent enough, and indeed is in the first version of our code.  But in the *second* version, our file handler
 gets passed through this code block twice, because it's getting handled recursively.  And, indeed, if :code:`wsgi.file_wrapper`
-isn't specified, then ::code:`WSGIFileWrapper` is used, and everything is fine.  But in our case, we're serving this application
+isn't specified, then :code:`WSGIFileWrapper` is used, and everything is fine.  But in our case, we're serving this application
 via uWSGI, which *does* define :code:`wsgi.file_wrapper`.  Now, I'm still not 100% clear what this wrapping function is
 *supposed* to do, but on inspecting the uWSGI source_ I see that it is set to call this C function:
 
@@ -300,5 +300,4 @@ Concluding Thoughts
 At the moment, I'm not exactly sure whether this is a bug or a misunderstanding.  I'm not sure what :code:`wsgi.file_wrapper` is
 supposed to do - I clearly have more research to do, time permitting.  And because this bug only occurred when Bottle and uWSGI
 *interacted* -  I couldn't trigger it in one or other environment on its own - it's hard to say that either project has
-a bug.  But on the off-chance that I can save someone else from the hours of work that I just had to go to; I thought
-I better produce a write-up of some kind.
+a bug.  But hopefully this analysis will help prevent others from going through the same headaches I just did.

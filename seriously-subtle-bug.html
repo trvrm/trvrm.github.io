@@ -85,7 +85,7 @@ trvrm            </a>
 <footer class="post-info">
     <span class="label label-default">Date</span>
     <span class="published">
-        <i class="fa fa-calendar"></i><time datetime="2015-01-10T22:23:07.071702"> Sat 10 January 2015</time>
+        <i class="fa fa-calendar"></i><time datetime="2015-01-10T22:25:26.292176"> Sat 10 January 2015</time>
     </span>
 
 
@@ -291,7 +291,7 @@ a <em>file</em> then it treats it specially.  The smoking gun code is here:
 gets passed through this code block twice, because it's getting handled recursively.  And, indeed, if <code class="code">
 wsgi.file_wrapper</code>
 
-isn't specified, then :<code class="code">
+isn't specified, then <code class="code">
 WSGIFileWrapper</code>
  is used, and everything is fine.  But in our case, we're serving this application
 via uWSGI, which <em>does</em> define <code class="code">
@@ -337,8 +337,7 @@ wsgi.file_wrapper</code>
  is
 supposed to do - I clearly have more research to do, time permitting.  And because this bug only occurred when Bottle and uWSGI
 <em>interacted</em> -  I couldn't trigger it in one or other environment on its own - it's hard to say that either project has
-a bug.  But on the off-chance that I can save someone else from the hours of work that I just had to go to; I thought
-I better produce a write-up of some kind.</p>
+a bug.  But hopefully this analysis will help prevent others from going through the same headaches I just did.</p>
 </div>
 
             </div>
@@ -368,13 +367,13 @@ I better produce a write-up of some kind.</p>
                             </a>
                         </li>
                         <li class="list-group-item tag-2">
-                            <a href="/tag/linux.html">
-                                linux
+                            <a href="/tag/ipython.html">
+                                IPython
                             </a>
                         </li>
                         <li class="list-group-item tag-2">
-                            <a href="/tag/ipython.html">
-                                IPython
+                            <a href="/tag/linux.html">
+                                linux
                             </a>
                         </li>
                         <li class="list-group-item tag-2">
@@ -383,13 +382,13 @@ I better produce a write-up of some kind.</p>
                             </a>
                         </li>
                         <li class="list-group-item tag-3">
-                            <a href="/tag/postgres.html">
-                                Postgres
+                            <a href="/tag/uwsgi.html">
+                                uwsgi
                             </a>
                         </li>
                         <li class="list-group-item tag-3">
-                            <a href="/tag/uwsgi.html">
-                                uwsgi
+                            <a href="/tag/postgres.html">
+                                Postgres
                             </a>
                         </li>
                         <li class="list-group-item tag-3">
@@ -398,18 +397,33 @@ I better produce a write-up of some kind.</p>
                             </a>
                         </li>
                         <li class="list-group-item tag-4">
-                            <a href="/tag/bottle.html">
-                                bottle
-                            </a>
-                        </li>
-                        <li class="list-group-item tag-4">
                             <a href="/tag/gevent.html">
                                 gevent
                             </a>
                         </li>
                         <li class="list-group-item tag-4">
+                            <a href="/tag/pelican.html">
+                                pelican
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="/tag/email.html">
+                                email
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
                             <a href="/tag/fabric.html">
                                 fabric
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="/tag/bottle.html">
+                                bottle
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="/tag/logrotate.html">
+                                logrotate
                             </a>
                         </li>
                         <li class="list-group-item tag-4">
@@ -420,21 +434,6 @@ I better produce a write-up of some kind.</p>
                         <li class="list-group-item tag-4">
                             <a href="/tag/postfix.html">
                                 postfix
-                            </a>
-                        </li>
-                        <li class="list-group-item tag-4">
-                            <a href="/tag/pelican.html">
-                                pelican
-                            </a>
-                        </li>
-                        <li class="list-group-item tag-4">
-                            <a href="/tag/logrotate.html">
-                                logrotate
-                            </a>
-                        </li>
-                        <li class="list-group-item tag-4">
-                            <a href="/tag/email.html">
-                                email
                             </a>
                         </li>
                         <li class="list-group-item tag-4">

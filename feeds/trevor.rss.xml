@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>trvrm</title><link>/</link><description></description><atom:link href="/feeds/trevor.rss.xml" rel="self"></atom:link><lastBuildDate>Sat, 10 Jan 2015 22:23:07 +0100</lastBuildDate><item><title>A Seriously Subtle Bug</title><link>/seriously-subtle-bug.html</link><description>&lt;p&gt;I build and maintain a number of web applications built using &lt;a class="reference external" href="http://python.org"&gt;Python&lt;/a&gt;, &lt;a class="reference external" href="http://bottlepy.org/docs/dev/index.html"&gt;Bottle&lt;/a&gt;, and &lt;a class="reference external" href="http://uwsgi-docs.readthedocs.org/en/latest/index.html"&gt;uWSGI&lt;/a&gt;.
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>trvrm</title><link>/</link><description></description><atom:link href="/feeds/trevor.rss.xml" rel="self"></atom:link><lastBuildDate>Sat, 10 Jan 2015 22:25:26 +0100</lastBuildDate><item><title>A Seriously Subtle Bug</title><link>/seriously-subtle-bug.html</link><description>&lt;p&gt;I build and maintain a number of web applications built using &lt;a class="reference external" href="http://python.org"&gt;Python&lt;/a&gt;, &lt;a class="reference external" href="http://bottlepy.org/docs/dev/index.html"&gt;Bottle&lt;/a&gt;, and &lt;a class="reference external" href="http://uwsgi-docs.readthedocs.org/en/latest/index.html"&gt;uWSGI&lt;/a&gt;.
 In general, I've found this a very powerful and robust software stack.  However, this week
 we encountered a very strange issue that took us many hours to fully diagnose.&lt;/p&gt;
 &lt;p&gt;Our first indication that something was wrong was when our automated monitoring tools warned
@@ -189,7 +189,7 @@ a &lt;em&gt;file&lt;/em&gt; then it treats it specially.  The smoking gun code i
 gets passed through this code block twice, because it's getting handled recursively.  And, indeed, if &lt;code class="code"&gt;
 wsgi.file_wrapper&lt;/code&gt;
 
-isn't specified, then :&lt;code class="code"&gt;
+isn't specified, then &lt;code class="code"&gt;
 WSGIFileWrapper&lt;/code&gt;
  is used, and everything is fine.  But in our case, we're serving this application
 via uWSGI, which &lt;em&gt;does&lt;/em&gt; define &lt;code class="code"&gt;
@@ -235,10 +235,9 @@ wsgi.file_wrapper&lt;/code&gt;
  is
 supposed to do - I clearly have more research to do, time permitting.  And because this bug only occurred when Bottle and uWSGI
 &lt;em&gt;interacted&lt;/em&gt; -  I couldn't trigger it in one or other environment on its own - it's hard to say that either project has
-a bug.  But on the off-chance that I can save someone else from the hours of work that I just had to go to; I thought
-I better produce a write-up of some kind.&lt;/p&gt;
+a bug.  But hopefully this analysis will help prevent others from going through the same headaches I just did.&lt;/p&gt;
 &lt;/div&gt;
-</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Trevor</dc:creator><pubDate>Sat, 10 Jan 2015 22:23:07 +0100</pubDate><guid>tag:,2015-01-10:seriously-subtle-bug.html</guid><category>linux</category><category>python</category><category>uwsgi</category><category>bottle</category></item><item><title>Configuring Systems with Fabric and Cuisine</title><link>/configuring-systems-with-fabric-and-cuisine.html</link><description>&lt;p&gt;I've mentioned &lt;a class="reference external" href="http://fabric.readthedocs.org/en/1.8/"&gt;Fabric&lt;/a&gt; before on this blog.  Because so much of my development time is spent in Python, it makes
+</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Trevor</dc:creator><pubDate>Sat, 10 Jan 2015 22:25:26 +0100</pubDate><guid>tag:,2015-01-10:seriously-subtle-bug.html</guid><category>linux</category><category>python</category><category>uwsgi</category><category>bottle</category></item><item><title>Configuring Systems with Fabric and Cuisine</title><link>/configuring-systems-with-fabric-and-cuisine.html</link><description>&lt;p&gt;I've mentioned &lt;a class="reference external" href="http://fabric.readthedocs.org/en/1.8/"&gt;Fabric&lt;/a&gt; before on this blog.  Because so much of my development time is spent in Python, it makes
 sense for me to look for system administration tools that are also written in Python.  Fabric fits the bill
 perfectly, and allows me to run tasks remotely on multiple machines simultaneously.&lt;/p&gt;
 &lt;p&gt;A useful addition to Fabric is &lt;a class="reference external" href="https://github.com/sebastien/cuisine"&gt;Cuisine&lt;/a&gt;.  &lt;strong&gt;Cuisine is a small set of functions that sit on top of Fabric,
