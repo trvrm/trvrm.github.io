@@ -1,5 +1,244 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>trvrm</title><link>/</link><description></description><atom:link href="/feeds/trevor.rss.xml" rel="self"></atom:link><lastBuildDate>Mon, 01 Dec 2014 20:49:24 +0100</lastBuildDate><item><title>Configuring Systems with Fabric and Cuisine</title><link>/configuring-systems-with-fabric-and-cuisine.html</link><description>&lt;p&gt;I've mentioned &lt;a class="reference external" href="http://fabric.readthedocs.org/en/1.8/"&gt;Fabric&lt;/a&gt; before on this blog.  Because so much of my development time is spent in Python, it makes
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>trvrm</title><link>/</link><description></description><atom:link href="/feeds/trevor.rss.xml" rel="self"></atom:link><lastBuildDate>Sat, 10 Jan 2015 22:11:55 +0100</lastBuildDate><item><title>A Seriously Subtle Bug</title><link>/seriously-subtle-bug.html</link><description>&lt;p&gt;I build and maintain a number of web applications built using &lt;a class="reference external" href="http://python.org"&gt;Python&lt;/a&gt;, &lt;a class="reference external" href="http://bottlepy.org/docs/dev/index.html"&gt;Bottle&lt;/a&gt;, and &lt;a class="reference external" href="http://uwsgi-docs.readthedocs.org/en/latest/index.html"&gt;uWSGI&lt;/a&gt;.
+In general, I've found this a very powerful and robust software stack.  However, this week
+we encountered a very strange issue that took us many hours to fully diagnose.&lt;/p&gt;
+&lt;p&gt;Our first indication that something was wrong was when our automated monitoring tools warned
+us that one of our sites was offline.  We manage our applications through the uWSGI &lt;a class="reference external" href="http://uwsgi-docs.readthedocs.org/en/latest/Emperor.html"&gt;Emperor&lt;/a&gt;
+service, which makes it easy to restart errant applications.  Simply touching the config file for
+the application in question causes it to be reloaded&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;touch /etc/uwsgi-emperor/vassals/myapp.ini
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;This brought our systems back up, but obviously didn't explain the problem, and over the coming weeks
+it recurred several times, usually several days apart.  So, obviously my first step was to look at
+the log files.   Our first indication of trouble was a log line from our database connection layer:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;OperationalError: could not create socket: too many open files
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Which actually led us away from the real cause of the bug to start with - at first we thought that
+we were simply creating too many database connections.  But further examination reassured us that yes,
+our database layer was fine, our connections were getting opened and closed correctly. Postgres has
+&lt;em&gt;excellent&lt;/em&gt; introspective tools, if you know how to use them; in this case the following is very
+helpful:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;SELECT&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="k"&gt;FROM&lt;/span&gt; &lt;span class="n"&gt;pg_stat_activity&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Which revealed that we had no more database connections open than expected.  So, my next step was the
+linux systems administration tool &lt;code class="code"&gt;
+lsof&lt;/code&gt;
+.  This tool lists information about currently open files&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;sudo lsof &amp;gt; lsof.txt
+
+COMMAND     PID   TID       USER   FD      TYPE             DEVICE  SIZE/OFF       NODE NAME
+init          1             root  cwd       DIR                8,1      4096          2 /
+init          1             root  rtd       DIR                8,1      4096          2 /
+init          1             root  txt       REG                8,1    265848   14422298 /sbin/init
+...
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;... followed by thousands more lines.  Armed with this information, we could figure out how many files
+each process was using.&lt;/p&gt;
+&lt;div class="section" id="enter-pandas"&gt;
+&lt;h2&gt;Enter Pandas&lt;/h2&gt;
+&lt;p&gt;While it would be quite possible to search and filter this data using traditional Unix tools such as &lt;code class="code"&gt;
+awk&lt;/code&gt;
+
+and &lt;code class="code"&gt;
+grep&lt;/code&gt;
+, I'm finding that more and more I'm staying inside the python ecosystem to do systems administration
+and analysis tasks.  I use the &lt;a class="reference external" href="http://pandas.pydata.org/"&gt;Pandas&lt;/a&gt; data analysis library heavily, and it was a perfect fit for this particular task.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;ipython
+&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;pandas&lt;/span&gt;
+&lt;span class="n"&gt;widths&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;9&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;11&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;19&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;12&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;200&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="n"&gt;frame&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;pandas&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;read_fwf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;lsof.txt&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;widths&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;widths&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;frame&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;columns&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;pre class="literal-block"&gt;
+Index([u'COMMAND', u'PID', u'TID', u'USER', u'FD', u'TYPE', u'DEVICE', u'SIZE/OFF', u'NODE', u'NAME'], dtype='object')
+&lt;/pre&gt;
+&lt;p&gt;So now we have a DataFrame (a construct very similar to an Excel worksheet) with a list of every open file on the system, along
+with the process id and name of the program that is holding it open.  My next step was to ask Pandas to tell me which processes
+had the &lt;em&gt;most&lt;/em&gt; files open&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;frame&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;PID&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;value_counts&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;head&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;pre class="literal-block"&gt;
+2445     745
+2454     745
+...
+&lt;/pre&gt;
+&lt;p&gt;So process &lt;strong&gt;2445&lt;/strong&gt; has 745 open files.  OK, what is that process?&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;frame&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;frame&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;PID&lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;&lt;span class="mi"&gt;2445&lt;/span&gt;&lt;span class="p"&gt;][[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;USER&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;COMMAND&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;pre class="literal-block"&gt;
+          USER    COMMAND
+3083  www-data  uwsgi-cor
+3084  www-data  uwsgi-cor
+3085  www-data  uwsgi-cor
+...
+&lt;/pre&gt;
+&lt;p&gt;So we've learned, then, that a uWSGI process belonging to www-data is holding open more than 700 files.  Now, under
+Ubuntu, this is going to be a problem very soon, because the maximum number of files that www-data may have open
+per-process is 1024.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;sudo su www-data
+&lt;span class="nv"&gt;$ &lt;/span&gt;&lt;span class="nb"&gt;ulimit&lt;/span&gt; -n
+&lt;/pre&gt;&lt;/div&gt;
+&lt;pre class="literal-block"&gt;
+1024
+&lt;/pre&gt;
+&lt;p&gt;So, clearly one of our web application processes is opening files and not closing them again.  This is the kind of
+bug that I &lt;em&gt;hate&lt;/em&gt; as a programmer, because it wouldn't show up in development, when I'm frequently restarting the
+application, or even in testing, but only appears under real-world load.  But at least now we have a path towards
+temporary remediation.  So first I simply increased the limits in &lt;code class="code"&gt;
+ulimit&lt;/code&gt;
+ so that the service would run longer
+before this bug re-appeared.  But we still wanted to understand &lt;em&gt;why&lt;/em&gt; this was happening.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="next-steps"&gt;
+&lt;h2&gt;Next Steps&lt;/h2&gt;
+&lt;p&gt;Again,  I used Pandas to interrogate the output of &lt;code class="code"&gt;
+lsof&lt;/code&gt;
+, but this time to find out whether there was a pattern
+to the filenames that were being left open&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;frame&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;NAME&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;value_counts&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;head&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Which revealed to me that the the vast majority of the files being left open were ones that we were delivering through
+our Bottle Python application. Specifically, they were being served through the &lt;a class="reference external" href="http://bottlepy.org/docs/dev/tutorial.html#tutorial-static-files"&gt;static_file&lt;/a&gt; function.&lt;/p&gt;
+&lt;p&gt;I verified this by hitting the url that was serving up those static files, and watching the output of lsof.  Immediately I
+saw that yes, every time we served that file, the open count for that file went up.  So, we clearly had a resource leak
+on our hands.  Now, this surprised me, because usually the memory management and garbage collection
+in Python is excellent, and I've left the days of manually tracking resources in C long behind me.&lt;/p&gt;
+&lt;p&gt;So, next we constructed some test cases. Firstly, I ran our software on a test virtual machine to verify that I could
+recreate the bug.  Then, I wrote a very bare-bones Bottle app that simply served a static file:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;bottle&lt;/span&gt;
+
+&lt;span class="n"&gt;application&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;bottle&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Bottle&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+
+&lt;span class="nd"&gt;@application.get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;/diagnose&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;test&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;bottle&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;static_file&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;cat.jpg&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;.&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;And I immediately saw that this &lt;em&gt;didn't&lt;/em&gt; trigger any kind of file leak.  The main difference between the two was that our
+production application uses Bottle's &lt;em&gt;mounting&lt;/em&gt; capability to namespace URLS.  So I changed my test application as follows:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;bottle&lt;/span&gt;
+
+&lt;span class="n"&gt;app&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;bottle&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Bottle&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+
+&lt;span class="nd"&gt;@app.get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;/&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;test&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;bottle&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;static_file&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;cat.jpg&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;.&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;rootapp&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;bottle&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Bottle&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="n"&gt;rootapp&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;mount&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;/diagnose&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;app&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;application&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;rootapp&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;And   &lt;code class="code"&gt;
+lsof&lt;/code&gt;
+ indicated that we &lt;em&gt;were&lt;/em&gt; leaking files.  Every time I hit &lt;cite&gt;/diagnose&lt;/cite&gt;, the open file count for &lt;cite&gt;cats.jpg&lt;/cite&gt;
+increased by one.&lt;/p&gt;
+&lt;p&gt;So, we could simply re-write our application to not use &lt;code class="code"&gt;
+Bottle.mount&lt;/code&gt;
+, but that wasn't good enough for me.  I wanted
+to understand &lt;em&gt;why&lt;/em&gt; such a simple change would trigger a resource leak.  At this point, it turns out it's good that
+I have Aspergers, and with it a tendency to hyper-focus on interesting problems, because it took a long time.  In
+fact, I ended up taking the Bottle library, and manually stripping it of every line of code that wasn't related to
+simply handling that single URL, in an attempt to understand exactly what the different code paths were between the
+leaking program and the safe one.&lt;/p&gt;
+&lt;p&gt;In doing so, I was greatly aided by the &lt;em&gt;amazing&lt;/em&gt; introspective powers of Python.  We felt sure that we were
+dealing with some kind of resource leak - in Python, every file is handled by a &lt;code class="code"&gt;
+file&lt;/code&gt;
+ object, and when that object
+gets cleaned up by garbage collection, the underlying file handle is closed.  So firstly, I replaced the relevant call to
+the &lt;code class="code"&gt;
+file&lt;/code&gt;
+ constructor with my own object that derived from &lt;code class="code"&gt;
+file&lt;/code&gt;
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;MonitoredFile&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;file&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;__init__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;mode&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="n"&gt;logging&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;info&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Opening {0}&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+        &lt;span class="nb"&gt;file&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;__init__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;mode&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;__del__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="n"&gt;logging&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;info&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;file.__del__({0})&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;So this object behaves exactly like a regular file, but logs events when it is created and when it is destroyed.  And sure enough,
+I saw that in the file-leaking version of my code, &lt;code class="code"&gt;
+MonitoredFile:__del__()&lt;/code&gt;
+ was never getting called.  Now in
+Python an object should get deleted when its reference count drops to zero, and indeed the Python sys library provides
+the &lt;code class="code"&gt;
+getrefcount&lt;/code&gt;
+ function (&lt;a class="reference external" href="https://docs.python.org/2/library/sys.html#sys.getrefcount"&gt;https://docs.python.org/2/library/sys.html#sys.getrefcount&lt;/a&gt;). By adding some logging statements
+with calls to &lt;code class="code"&gt;
+sys.getrefcount()&lt;/code&gt;
+, I saw that in the leaking-version of my code, the refcount for our file object was
+one higher than in the non-leaking code when it was returned from the main application handler function.&lt;/p&gt;
+&lt;p&gt;Why should this be?  Eventually, by stripping out all extraneous code from the Bottle library, I discovered that in the version
+that was using &lt;code class="code"&gt;
+Bottle.mount()&lt;/code&gt;
+, the response object was passed twice through the &lt;code class="code"&gt;
+_cast()&lt;/code&gt;
+ function.  Bottle can
+handle all sorts of things as response objects - strings, dictionaries, JSON objects, lists, but if it notices that it is handling
+a &lt;em&gt;file&lt;/em&gt; then it treats it specially.  The smoking gun code is here:
+&lt;a class="reference external" href="https://github.com/bottlepy/bottle/blob/854fbd7f88aa2f809f54dd724aea7ecf918a3b6e/bottle.py#L913"&gt;https://github.com/bottlepy/bottle/blob/854fbd7f88aa2f809f54dd724aea7ecf918a3b6e/bottle.py#L913&lt;/a&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="nb"&gt;hasattr&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;out&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;read&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;wsgi.file_wrapper&amp;#39;&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;request&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;environ&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;request&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;environ&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;wsgi.file_wrapper&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;](&lt;/span&gt;&lt;span class="n"&gt;out&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;elif&lt;/span&gt; &lt;span class="nb"&gt;hasattr&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;out&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;close&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="ow"&gt;or&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="nb"&gt;hasattr&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;out&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;__iter__&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;WSGIFileWrapper&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;out&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Which &lt;em&gt;looks&lt;/em&gt; innocent enough, and indeed is in the first version of our code.  But in the &lt;em&gt;second&lt;/em&gt; version, our file handler
+gets passed through this code block twice, because it's getting handled recursively.  And, indeed, if &lt;code class="code"&gt;
+wsgi.file_wrapper&lt;/code&gt;
+
+isn't specified, then :&lt;code class="code"&gt;
+WSGIFileWrapper&lt;/code&gt;
+ is used, and everything is fine.  But in our case, we're serving this application
+via uWSGI, which &lt;em&gt;does&lt;/em&gt; define &lt;code class="code"&gt;
+wsgi.file_wrapper&lt;/code&gt;
+.  Now, I'm still not 100% clear what this wrapping function is
+&lt;em&gt;supposed&lt;/em&gt; to do, but on inspecting the uWSGI &lt;a class="reference external" href="https://github.com/unbit/uwsgi/blob/ed2ca5d33325dc925f6fc5558d0b817447327049/plugins/python/wsgi_handlers.c#L463"&gt;source&lt;/a&gt; I see that it is set to call this C function:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;PyObject&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="nf"&gt;py_uwsgi_sendfile&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;PyObject&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;PyObject&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+
+    &lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="n"&gt;wsgi_request&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;wsgi_req&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;py_current_wsgi_req&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="n"&gt;PyArg_ParseTuple&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;O|i:uwsgi_sendfile&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;wsgi_req&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;async_sendfile&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;wsgi_req&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;sendfile_fd_chunk&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nb"&gt;NULL&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+
+
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;PyFile_Check&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;PyObject&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="n"&gt;wsgi_req&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;async_sendfile&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="n"&gt;Py_INCREF&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;PyObject&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="n"&gt;wsgi_req&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;async_sendfile&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+        &lt;span class="n"&gt;wsgi_req&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;sendfile_fd&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;PyObject_AsFileDescriptor&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;wsgi_req&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;async_sendfile&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+
+    &lt;span class="c1"&gt;// PEP 333 hack&lt;/span&gt;
+    &lt;span class="n"&gt;wsgi_req&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;sendfile_obj&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;wsgi_req&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;async_sendfile&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="c1"&gt;//wsgi_req-&amp;gt;sendfile_obj = (void *) PyTuple_New(0);&lt;/span&gt;
+
+    &lt;span class="n"&gt;Py_INCREF&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;PyObject&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="n"&gt;wsgi_req&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;sendfile_obj&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;PyObject&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="n"&gt;wsgi_req&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;sendfile_obj&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;And we can clearly see that &lt;code class="code"&gt;
+Py_INCREF&lt;/code&gt;
+ is getting called on the file object.  So if this function is called twice,
+presumably the internal reference count is incremented twice, but only decremented once elsewhere.&lt;/p&gt;
+&lt;p&gt;And indeed, as soon as I added:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;wsgi.file_wrapper&amp;#39;&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;environ&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="k"&gt;del&lt;/span&gt; &lt;span class="n"&gt;environ&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;wsgi.file_wrapper&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;to my application code, the file leaking stopped.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="concluding-thoughts"&gt;
+&lt;h2&gt;Concluding Thoughts&lt;/h2&gt;
+&lt;p&gt;At the moment, I'm not exactly sure whether this is a bug or a misunderstanding.  I'm not sure what &lt;code class="code"&gt;
+wsgi.file_wrapper&lt;/code&gt;
+ is
+supposed to do - I clearly have more research to do, time permitting.  And because this bug only occurred when Bottle and uWSGI
+&lt;em&gt;interacted&lt;/em&gt; -  I couldn't trigger it in one or other environment on its own - it's hard to say that either project has
+a bug.  But on the off-chance that I can save someone else from the hours of work that I just had to go to; I thought
+I better produce a write-up of some kind.&lt;/p&gt;
+&lt;/div&gt;
+</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Trevor</dc:creator><pubDate>Sat, 10 Jan 2015 22:11:55 +0100</pubDate><guid>tag:,2015-01-10:seriously-subtle-bug.html</guid><category>linux</category><category>python</category><category>uwsgi</category><category>bottle</category></item><item><title>Configuring Systems with Fabric and Cuisine</title><link>/configuring-systems-with-fabric-and-cuisine.html</link><description>&lt;p&gt;I've mentioned &lt;a class="reference external" href="http://fabric.readthedocs.org/en/1.8/"&gt;Fabric&lt;/a&gt; before on this blog.  Because so much of my development time is spent in Python, it makes
 sense for me to look for system administration tools that are also written in Python.  Fabric fits the bill
 perfectly, and allows me to run tasks remotely on multiple machines simultaneously.&lt;/p&gt;
 &lt;p&gt;A useful addition to Fabric is &lt;a class="reference external" href="https://github.com/sebastien/cuisine"&gt;Cuisine&lt;/a&gt;.  &lt;strong&gt;Cuisine is a small set of functions that sit on top of Fabric,
