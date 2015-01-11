@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>trvrm</title><link href="/" rel="alternate"></link><link href="/feeds/trevor.atom.xml" rel="self"></link><id>/</id><updated>2015-01-10T22:11:55+01:00</updated><entry><title>A Seriously Subtle Bug</title><link href="/seriously-subtle-bug.html" rel="alternate"></link><updated>2015-01-10T22:11:55+01:00</updated><author><name>Trevor</name></author><id>tag:,2015-01-10:seriously-subtle-bug.html</id><summary type="html">&lt;p&gt;I build and maintain a number of web applications built using &lt;a class="reference external" href="http://python.org"&gt;Python&lt;/a&gt;, &lt;a class="reference external" href="http://bottlepy.org/docs/dev/index.html"&gt;Bottle&lt;/a&gt;, and &lt;a class="reference external" href="http://uwsgi-docs.readthedocs.org/en/latest/index.html"&gt;uWSGI&lt;/a&gt;.
+<feed xmlns="http://www.w3.org/2005/Atom"><title>trvrm</title><link href="/" rel="alternate"></link><link href="/feeds/trevor.atom.xml" rel="self"></link><id>/</id><updated>2015-01-10T22:23:07+01:00</updated><entry><title>A Seriously Subtle Bug</title><link href="/seriously-subtle-bug.html" rel="alternate"></link><updated>2015-01-10T22:23:07+01:00</updated><author><name>Trevor</name></author><id>tag:,2015-01-10:seriously-subtle-bug.html</id><summary type="html">&lt;p&gt;I build and maintain a number of web applications built using &lt;a class="reference external" href="http://python.org"&gt;Python&lt;/a&gt;, &lt;a class="reference external" href="http://bottlepy.org/docs/dev/index.html"&gt;Bottle&lt;/a&gt;, and &lt;a class="reference external" href="http://uwsgi-docs.readthedocs.org/en/latest/index.html"&gt;uWSGI&lt;/a&gt;.
 In general, I've found this a very powerful and robust software stack.  However, this week
 we encountered a very strange issue that took us many hours to fully diagnose.&lt;/p&gt;
 &lt;p&gt;Our first indication that something was wrong was when our automated monitoring tools warned
 us that one of our sites was offline.  We manage our applications through the uWSGI &lt;a class="reference external" href="http://uwsgi-docs.readthedocs.org/en/latest/Emperor.html"&gt;Emperor&lt;/a&gt;
 service, which makes it easy to restart errant applications.  Simply touching the config file for
-the application in question causes it to be reloaded&lt;/p&gt;
+the application in question causes it to be reloaded:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;touch /etc/uwsgi-emperor/vassals/myapp.ini
 &lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;This brought our systems back up, but obviously didn't explain the problem, and over the coming weeks
@@ -20,7 +20,7 @@ our database layer was fine, our connections were getting opened and closed corr
 helpful:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;SELECT&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="k"&gt;FROM&lt;/span&gt; &lt;span class="n"&gt;pg_stat_activity&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Which revealed that we had no more database connections open than expected.  So, my next step was the
+&lt;p&gt;which revealed that we had no more database connections open than expected.  So, our next step was the
 linux systems administration tool &lt;code class="code"&gt;
 lsof&lt;/code&gt;
 .  This tool lists information about currently open files&lt;/p&gt;
@@ -54,8 +54,8 @@ and analysis tasks.  I use the &lt;a class="reference external" href="http://pan
 Index([u'COMMAND', u'PID', u'TID', u'USER', u'FD', u'TYPE', u'DEVICE', u'SIZE/OFF', u'NODE', u'NAME'], dtype='object')
 &lt;/pre&gt;
 &lt;p&gt;So now we have a DataFrame (a construct very similar to an Excel worksheet) with a list of every open file on the system, along
-with the process id and name of the program that is holding it open.  My next step was to ask Pandas to tell me which processes
-had the &lt;em&gt;most&lt;/em&gt; files open&lt;/p&gt;
+with the process id and name of the program that is holding it open.  Our next step was to ask Pandas to tell us which processes
+had the &lt;em&gt;most&lt;/em&gt; files open:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;frame&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;PID&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;value_counts&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;head&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;pre class="literal-block"&gt;
@@ -85,26 +85,26 @@ per-process is 1024.&lt;/p&gt;
 &lt;p&gt;So, clearly one of our web application processes is opening files and not closing them again.  This is the kind of
 bug that I &lt;em&gt;hate&lt;/em&gt; as a programmer, because it wouldn't show up in development, when I'm frequently restarting the
 application, or even in testing, but only appears under real-world load.  But at least now we have a path towards
-temporary remediation.  So first I simply increased the limits in &lt;code class="code"&gt;
+temporary remediation.  So first we simply increased the limits in &lt;code class="code"&gt;
 ulimit&lt;/code&gt;
  so that the service would run longer
 before this bug re-appeared.  But we still wanted to understand &lt;em&gt;why&lt;/em&gt; this was happening.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class="section" id="next-steps"&gt;
 &lt;h2&gt;Next Steps&lt;/h2&gt;
-&lt;p&gt;Again,  I used Pandas to interrogate the output of &lt;code class="code"&gt;
+&lt;p&gt;Again, we used Pandas to interrogate the output of &lt;code class="code"&gt;
 lsof&lt;/code&gt;
 , but this time to find out whether there was a pattern
 to the filenames that were being left open&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;frame&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;NAME&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;value_counts&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;head&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Which revealed to me that the the vast majority of the files being left open were ones that we were delivering through
+&lt;p&gt;Which revealed to us that the the vast majority of the files being left open were ones that we were delivering through
 our Bottle Python application. Specifically, they were being served through the &lt;a class="reference external" href="http://bottlepy.org/docs/dev/tutorial.html#tutorial-static-files"&gt;static_file&lt;/a&gt; function.&lt;/p&gt;
-&lt;p&gt;I verified this by hitting the url that was serving up those static files, and watching the output of lsof.  Immediately I
+&lt;p&gt;We verified this by hitting the url that was serving up those static files, and watching the output of lsof.  Immediately we
 saw that yes, every time we served that file, the open count for that file went up.  So, we clearly had a resource leak
 on our hands.  Now, this surprised me, because usually the memory management and garbage collection
 in Python is excellent, and I've left the days of manually tracking resources in C long behind me.&lt;/p&gt;
-&lt;p&gt;So, next we constructed some test cases. Firstly, I ran our software on a test virtual machine to verify that I could
+&lt;p&gt;So, next I constructed some test cases. Firstly, I ran our software on a test virtual machine to verify that I could
 recreate the bug.  Then, I wrote a very bare-bones Bottle app that simply served a static file:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;bottle&lt;/span&gt;
 

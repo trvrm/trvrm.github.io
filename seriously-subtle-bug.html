@@ -85,7 +85,7 @@ trvrm            </a>
 <footer class="post-info">
     <span class="label label-default">Date</span>
     <span class="published">
-        <i class="fa fa-calendar"></i><time datetime="2015-01-10T22:11:55.524855"> Sat 10 January 2015</time>
+        <i class="fa fa-calendar"></i><time datetime="2015-01-10T22:23:07.071702"> Sat 10 January 2015</time>
     </span>
 
 
@@ -107,7 +107,7 @@ we encountered a very strange issue that took us many hours to fully diagnose.</
 <p>Our first indication that something was wrong was when our automated monitoring tools warned
 us that one of our sites was offline.  We manage our applications through the uWSGI <a class="reference external" href="http://uwsgi-docs.readthedocs.org/en/latest/Emperor.html">Emperor</a>
 service, which makes it easy to restart errant applications.  Simply touching the config file for
-the application in question causes it to be reloaded</p>
+the application in question causes it to be reloaded:</p>
 <div class="highlight"><pre><span class="nv">$ </span>touch /etc/uwsgi-emperor/vassals/myapp.ini
 </pre></div>
 <p>This brought our systems back up, but obviously didn't explain the problem, and over the coming weeks
@@ -122,7 +122,7 @@ our database layer was fine, our connections were getting opened and closed corr
 helpful:</p>
 <div class="highlight"><pre><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">pg_stat_activity</span><span class="p">;</span>
 </pre></div>
-<p>Which revealed that we had no more database connections open than expected.  So, my next step was the
+<p>which revealed that we had no more database connections open than expected.  So, our next step was the
 linux systems administration tool <code class="code">
 lsof</code>
 .  This tool lists information about currently open files</p>
@@ -156,8 +156,8 @@ and analysis tasks.  I use the <a class="reference external" href="http://pandas
 Index([u'COMMAND', u'PID', u'TID', u'USER', u'FD', u'TYPE', u'DEVICE', u'SIZE/OFF', u'NODE', u'NAME'], dtype='object')
 </pre>
 <p>So now we have a DataFrame (a construct very similar to an Excel worksheet) with a list of every open file on the system, along
-with the process id and name of the program that is holding it open.  My next step was to ask Pandas to tell me which processes
-had the <em>most</em> files open</p>
+with the process id and name of the program that is holding it open.  Our next step was to ask Pandas to tell us which processes
+had the <em>most</em> files open:</p>
 <div class="highlight"><pre><span class="n">frame</span><span class="o">.</span><span class="n">PID</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 <pre class="literal-block">
@@ -187,26 +187,26 @@ per-process is 1024.</p>
 <p>So, clearly one of our web application processes is opening files and not closing them again.  This is the kind of
 bug that I <em>hate</em> as a programmer, because it wouldn't show up in development, when I'm frequently restarting the
 application, or even in testing, but only appears under real-world load.  But at least now we have a path towards
-temporary remediation.  So first I simply increased the limits in <code class="code">
+temporary remediation.  So first we simply increased the limits in <code class="code">
 ulimit</code>
  so that the service would run longer
 before this bug re-appeared.  But we still wanted to understand <em>why</em> this was happening.</p>
 </div>
 <div class="section" id="next-steps">
 <h2>Next Steps</h2>
-<p>Again,  I used Pandas to interrogate the output of <code class="code">
+<p>Again, we used Pandas to interrogate the output of <code class="code">
 lsof</code>
 , but this time to find out whether there was a pattern
 to the filenames that were being left open</p>
 <div class="highlight"><pre><span class="n">frame</span><span class="o">.</span><span class="n">NAME</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
-<p>Which revealed to me that the the vast majority of the files being left open were ones that we were delivering through
+<p>Which revealed to us that the the vast majority of the files being left open were ones that we were delivering through
 our Bottle Python application. Specifically, they were being served through the <a class="reference external" href="http://bottlepy.org/docs/dev/tutorial.html#tutorial-static-files">static_file</a> function.</p>
-<p>I verified this by hitting the url that was serving up those static files, and watching the output of lsof.  Immediately I
+<p>We verified this by hitting the url that was serving up those static files, and watching the output of lsof.  Immediately we
 saw that yes, every time we served that file, the open count for that file went up.  So, we clearly had a resource leak
 on our hands.  Now, this surprised me, because usually the memory management and garbage collection
 in Python is excellent, and I've left the days of manually tracking resources in C long behind me.</p>
-<p>So, next we constructed some test cases. Firstly, I ran our software on a test virtual machine to verify that I could
+<p>So, next I constructed some test cases. Firstly, I ran our software on a test virtual machine to verify that I could
 recreate the bug.  Then, I wrote a very bare-bones Bottle app that simply served a static file:</p>
 <div class="highlight"><pre><span class="kn">import</span> <span class="nn">bottle</span>
 
@@ -368,11 +368,6 @@ I better produce a write-up of some kind.</p>
                             </a>
                         </li>
                         <li class="list-group-item tag-2">
-                            <a href="/tag/javascript.html">
-                                javascript
-                            </a>
-                        </li>
-                        <li class="list-group-item tag-2">
                             <a href="/tag/linux.html">
                                 linux
                             </a>
@@ -380,6 +375,16 @@ I better produce a write-up of some kind.</p>
                         <li class="list-group-item tag-2">
                             <a href="/tag/ipython.html">
                                 IPython
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-2">
+                            <a href="/tag/javascript.html">
+                                javascript
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-3">
+                            <a href="/tag/postgres.html">
+                                Postgres
                             </a>
                         </li>
                         <li class="list-group-item tag-3">
@@ -392,39 +397,14 @@ I better produce a write-up of some kind.</p>
                                 ractive
                             </a>
                         </li>
-                        <li class="list-group-item tag-3">
-                            <a href="/tag/postgres.html">
-                                Postgres
-                            </a>
-                        </li>
-                        <li class="list-group-item tag-4">
-                            <a href="/tag/postfix.html">
-                                postfix
-                            </a>
-                        </li>
                         <li class="list-group-item tag-4">
                             <a href="/tag/bottle.html">
                                 bottle
                             </a>
                         </li>
                         <li class="list-group-item tag-4">
-                            <a href="/tag/logrotate.html">
-                                logrotate
-                            </a>
-                        </li>
-                        <li class="list-group-item tag-4">
-                            <a href="/tag/pelican.html">
-                                pelican
-                            </a>
-                        </li>
-                        <li class="list-group-item tag-4">
-                            <a href="/tag/nginx.html">
-                                nginx
-                            </a>
-                        </li>
-                        <li class="list-group-item tag-4">
-                            <a href="/tag/email.html">
-                                email
+                            <a href="/tag/gevent.html">
+                                gevent
                             </a>
                         </li>
                         <li class="list-group-item tag-4">
@@ -433,13 +413,33 @@ I better produce a write-up of some kind.</p>
                             </a>
                         </li>
                         <li class="list-group-item tag-4">
-                            <a href="/tag/coffeescript.html">
-                                coffeescript
+                            <a href="/tag/nginx.html">
+                                nginx
                             </a>
                         </li>
                         <li class="list-group-item tag-4">
-                            <a href="/tag/gevent.html">
-                                gevent
+                            <a href="/tag/postfix.html">
+                                postfix
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="/tag/pelican.html">
+                                pelican
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="/tag/logrotate.html">
+                                logrotate
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="/tag/email.html">
+                                email
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="/tag/coffeescript.html">
+                                coffeescript
                             </a>
                         </li>
                     </ul>

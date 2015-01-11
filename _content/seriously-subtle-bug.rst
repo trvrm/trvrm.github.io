@@ -19,7 +19,7 @@ we encountered a very strange issue that took us many hours to fully diagnose.
 Our first indication that something was wrong was when our automated monitoring tools warned
 us that one of our sites was offline.  We manage our applications through the uWSGI Emperor_
 service, which makes it easy to restart errant applications.  Simply touching the config file for  
-the application in question causes it to be reloaded
+the application in question causes it to be reloaded:
 
 .. code-block:: sh
 
@@ -49,7 +49,7 @@ helpful:
     SELECT * FROM pg_stat_activity;
     
     
-Which revealed that we had no more database connections open than expected.  So, my next step was the
+which revealed that we had no more database connections open than expected.  So, our next step was the
 linux systems administration tool :code:`lsof`.  This tool lists information about currently open files
 
 .. code-block:: sh
@@ -91,8 +91,8 @@ and analysis tasks.  I use the Pandas_ data analysis library heavily, and it was
     
 
 So now we have a DataFrame (a construct very similar to an Excel worksheet) with a list of every open file on the system, along
-with the process id and name of the program that is holding it open.  My next step was to ask Pandas to tell me which processes
-had the *most* files open
+with the process id and name of the program that is holding it open.  Our next step was to ask Pandas to tell us which processes
+had the *most* files open:
 
 .. code-block:: python
 
@@ -138,13 +138,13 @@ per-process is 1024.
 So, clearly one of our web application processes is opening files and not closing them again.  This is the kind of
 bug that I *hate* as a programmer, because it wouldn't show up in development, when I'm frequently restarting the 
 application, or even in testing, but only appears under real-world load.  But at least now we have a path towards
-temporary remediation.  So first I simply increased the limits in :code:`ulimit` so that the service would run longer
+temporary remediation.  So first we simply increased the limits in :code:`ulimit` so that the service would run longer
 before this bug re-appeared.  But we still wanted to understand *why* this was happening.
 
 Next Steps
 ----------
 
-Again,  I used Pandas to interrogate the output of :code:`lsof`, but this time to find out whether there was a pattern
+Again, we used Pandas to interrogate the output of :code:`lsof`, but this time to find out whether there was a pattern
 to the filenames that were being left open
 
 .. code-block:: python
@@ -152,18 +152,18 @@ to the filenames that were being left open
     frame.NAME.value_counts().head()
     
     
-Which revealed to me that the the vast majority of the files being left open were ones that we were delivering through
+Which revealed to us that the the vast majority of the files being left open were ones that we were delivering through
 our Bottle Python application. Specifically, they were being served through the static_file_ function.
 
 .. _static_file: http://bottlepy.org/docs/dev/tutorial.html#tutorial-static-files
 
 
-I verified this by hitting the url that was serving up those static files, and watching the output of lsof.  Immediately I 
+We verified this by hitting the url that was serving up those static files, and watching the output of lsof.  Immediately we 
 saw that yes, every time we served that file, the open count for that file went up.  So, we clearly had a resource leak
 on our hands.  Now, this surprised me, because usually the memory management and garbage collection 
 in Python is excellent, and I've left the days of manually tracking resources in C long behind me.
 
-So, next we constructed some test cases. Firstly, I ran our software on a test virtual machine to verify that I could
+So, next I constructed some test cases. Firstly, I ran our software on a test virtual machine to verify that I could
 recreate the bug.  Then, I wrote a very bare-bones Bottle app that simply served a static file:
 
 .. code-block:: python
