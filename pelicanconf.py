@@ -34,7 +34,7 @@ DEFAULT_DATE = "fs"
 
 #theme options
 BOOTSTRAP_NAVBAR_INVERSE=True
-BOOTSTRAP_THEME = 'yeti'
+BOOTSTRAP_THEME = 'flatly'
 GITHUB_USER='trvrm'
 
 
