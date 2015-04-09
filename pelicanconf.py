@@ -36,7 +36,7 @@ DEFAULT_DATE = "fs"
 BOOTSTRAP_NAVBAR_INVERSE=False
 BOOTSTRAP_THEME = 'flatly'
 GITHUB_USER='trvrm'
-
+TWITTER_WIDGET_ID='586183094564220928'
 
 PLUGIN_PATHS = ["/home/trevor/pelican-plugins"]
 PLUGINS=['twitter_bootstrap_rst_directives']
