@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>trvrm</title><link>/</link><description></description><atom:link href="/feeds/conan-doyle.rss.xml" rel="self"></atom:link><lastBuildDate>Sun, 05 Dec 2010 19:30:00 +0100</lastBuildDate><item><title>My super title</title><link>/my-super-post.html</link><description>&lt;p&gt;I could get used to this I feel.&lt;/p&gt;
+&lt;p&gt;I &lt;em&gt;understand&lt;/em&gt; that there are some differences between .rst and .md&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;but&lt;/strong&gt; I think that we can live with them.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;this&lt;/li&gt;
+&lt;li&gt;may&lt;/li&gt;
+&lt;li&gt;be&lt;/li&gt;
+&lt;li&gt;the&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Way to go!&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;especially&lt;/code&gt; because this is the syntax that IPython notebooks use in general.&lt;/p&gt;
+&lt;h2&gt;Can I do code samples?&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt; &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;foo&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;bar&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+     &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;this&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+     &lt;span class="k"&gt;yield&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;that&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;or this&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;CONSTANT&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;variable_using_triple_colon&lt;/span&gt;
+&lt;span class="n"&gt;foo&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;lambda&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;OK I could really get used to this. Does Pelican understand MD?&lt;/p&gt;
+&lt;h2&gt;backticks for code&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;i_should_be_python_code&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;i_use_backticks&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+   &lt;span class="sd"&gt;&amp;#39;&amp;#39;&amp;#39;I think this is the way to go&amp;#39;&amp;#39;&amp;#39;&lt;/span&gt;
+   &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="bp"&gt;True&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Alexis Metaireau</dc:creator><pubDate>Sun, 05 Dec 2010 19:30:00 +0100</pubDate><guid>tag:,2010-12-03:my-super-post.html</guid><category>pelican</category><category>publishing</category></item></channel></rss>
