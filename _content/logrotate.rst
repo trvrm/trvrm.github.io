@@ -5,11 +5,12 @@ logrotate
 :category: Systems
 :slug: logrotate
 :author: Trevor
+:date: 2015-01-01
 
 I have a large, complex `mailing system <|filename|postfix.rst>`_ that processes
 a significant amount of data every hour.  While I'm developing it, I want to know
 what it's doing, and whether it's having any problems.  So I use the excellent
-python logging_ library to produce comprehensive monitoring data.  
+python logging_ library to produce comprehensive monitoring data.
 
 .. _logging: https://docs.python.org/2/library/logging.html
 
@@ -29,7 +30,7 @@ drives were full.
 
 A default ubuntu installation comes with logrotate already set up for various services.
 If you don't have it, install it with :code:`apt-get install logrotate`, and
-then it's mostly just a question of copying a file from :code:`/etc/logrotate.d/` 
+then it's mostly just a question of copying a file from :code:`/etc/logrotate.d/`
 and modifying it according to your needs.
 
 :code:`vi /etc/logrotate.d/myservice`
@@ -43,21 +44,21 @@ and modifying it according to your needs.
     missingok
     notifempty
   }
-  
-  
+
+
 And that's it!  The actually invocation of the :code:`logrotate` command will
 get triggered regularly by a script in /etc/cron.daily
 
-You can also **force** a rotation, a useful option when testing out a new configuration, 
-via 
+You can also **force** a rotation, a useful option when testing out a new configuration,
+via
 
 .. code-block:: sh
 
   logrotate -f /etc/logrotate.d/myservice
-  
-  
-  
-  
+
+
+
+
 One quick word of warning: if you're using the python logging_ library, then
 you'll want to use the :code:`WatchedFileHandler` class.  If the logfile gets
 rotated out while it's in use, WatchedFileHandler will notice this, close the file

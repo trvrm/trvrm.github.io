@@ -4,6 +4,7 @@ PDF Generation With Pelican
 :tags: python, pelican
 :category: Software
 :author: Trevor
+:date: 2015-01-01
 
 The existing documentation is a little unclear on this, because it says
 you need to add `PDF_GENERATOR=True`:code: to your `pelicanconf.py` file.
@@ -22,10 +23,10 @@ and then add the following to :code:`pelicanconf.py`
 
     PLUGIN_PATH = '../pelican-plugins'  # or wherever.
     PLUGINS = ['pdf']
-    
-    
 
-    
+
+
+
 However, doing this seems to screw up the pygments highlighting on my regular
 html output.  This is because deep in the rst2pdf code, in a file called :code:`pygments2style.py`,
 all the pygment elements have their CSS classes prepended with :code:`pygment-`.  I haven't

@@ -1,5 +1,672 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>trvrm</title><link>/</link><description></description><atom:link href="/feeds/trevor.rss.xml" rel="self"></atom:link><lastBuildDate>Fri, 26 Jun 2015 17:03:12 +0200</lastBuildDate><item><title>Postgres Timestamps</title><link>/postgres-timestamps.html</link><description>&lt;p&gt;At my company, I maintain a large distributed. data collection platform
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>trvrm</title><link>/</link><description></description><atom:link href="/feeds/trevor.rss.xml" rel="self"></atom:link><lastBuildDate>Fri, 26 Jun 2015 00:00:00 +0200</lastBuildDate><item><title>Pelican, Atom and Markdown</title><link>/pelican-atom-and-markdown.html</link><description>&lt;p&gt;I've been using reStructured text in general to write this blog, but I think I'm
+going to be switching to Markdown.  As an experiment, I'm writing this post in Markdown.&lt;/p&gt;
+&lt;p&gt;I'm also writing it in the Atom text editor (https://atom.io/), which has really come on a
+long way since I last tried it.  Specifically, it includes a Markdown preview function, so
+I can see the effects of the markup that I'm writing as I write it.&lt;/p&gt;
+&lt;p&gt;Mostly, I want a rapid way of creating and publishing code snippets, without the mental
+overhead of switching between markup languages. Although reStructured text and markdown
+are broadly similar, there are subtle differences between them when it comes to things
+like syntax highlighting.  But I've discovered today that if I use the triple-backtick
+syntax, I can get the same output from Pelican, Atom, and IPython notebooks.&lt;/p&gt;
+&lt;p&gt;So&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;    ```python
+    def syntax(highlighting=True):
+        return &amp;quot;cool huh?&amp;quot;
+    ```
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;yields&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt; &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;syntax&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;highlighting&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+   &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;cool huh?&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;And if I paste that into a markdown cell in an IPython notebook, I get the same effect, as
+can be seen here: https://github.com/trvrm/notebooks/blob/master/Markdown%20Demo.ipynb&lt;/p&gt;
+&lt;p&gt;So this seems to be the general way that the open-source ecosystem is going: Markdown
+allows me to use the same syntax for my GitHub documentation, my IPython notebooks, and
+my blog posts.  &lt;/p&gt;
+&lt;p&gt;I do use &lt;strong&gt;Sphinx&lt;/strong&gt; in various places for Python code documentation, so that will still
+require reStructured text, but elsewhere I think Markdown is the way to go&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Trevor</dc:creator><pubDate>Fri, 26 Jun 2015 00:00:00 +0200</pubDate><guid>tag:,2015-06-26:pelican-atom-and-markdown.html</guid><category>pelican</category><category>markdown</category></item><item><title>Asynchronous Python</title><link>/asynchronous-python.html</link><description>&lt;p&gt;It's possible to get python to do node-like non-blocking requests, this could
+take away one of the key reasons for using node.&lt;/p&gt;
+&lt;p&gt;The following is a full bottle-based python web application.&lt;/p&gt;
+&lt;p&gt;A client can sucessfully call /test while another client is waiting for
+/slowproxy to return a result from a slow web service.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;gevent&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;monkey&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;monkey&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;patch_all&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;bottle&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;route&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;run&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;time&lt;/span&gt;
+
+&lt;span class="nd"&gt;@route&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;/sleep/&amp;lt;seconds:int&amp;gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;sleep&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;seconds&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;time&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sleep&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;seconds&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Slept For {0}&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;seconds&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="nd"&gt;@route&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;/test&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;test&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+     &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;test&amp;#39;&lt;/span&gt;
+
+
+&lt;span class="nd"&gt;@route&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;/slowproxy/&amp;lt;seconds:int&amp;gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;slowproxy&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;seconds&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;requests&lt;/span&gt;
+    &lt;span class="n"&gt;url&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;https://s.nooro.com/sleeptest.php?seconds=&lt;/span&gt;&lt;span class="si"&gt;%i&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;seconds&lt;/span&gt;
+    &lt;span class="n"&gt;response&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;requests&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;url&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;response&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;raise_for_status&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;response&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;text&lt;/span&gt;
+
+&lt;span class="n"&gt;run&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;host&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;0.0.0.0&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;port&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;8080&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;server&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;gevent&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;My first attempt used grequests, but apparently that's not even necessary.&lt;/p&gt;
+&lt;p&gt;I guess that the call to monkey.patch_all() even patches the socket code
+that requests uses.  I'm very impressed.&lt;/p&gt;
+</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Trevor</dc:creator><pubDate>Thu, 01 Jan 2015 00:00:00 +0100</pubDate><guid>tag:,2015-01-01:asynchronous-python.html</guid><category>Python</category><category>gevent</category></item><item><title>CoffeeScript</title><link>/coffeescript.html</link><description>&lt;p&gt;Through a bizarre twist of history, the entire client-side web runs on a &lt;a class="reference external" href="http://en.wikipedia.org/wiki/Brendan_Eich#Netscape_and_JavaScript"&gt;language&lt;/a&gt;
+that was thrown together in 10 days.&lt;/p&gt;
+&lt;p&gt;Despite huge investments in their own proprietary technology by the likes of Sun
+Microsystems, Adobe and Microsoft, this weird little spinoff of &lt;strong&gt;self&lt;/strong&gt; and &lt;strong&gt;scheme&lt;/strong&gt;
+is everywhere, while client-side Java, ActiveX and Flash fade into obscurity.&lt;/p&gt;
+&lt;p&gt;Unsurprisingly for a language developed so quickly, Javascript is pretty ugly.
+I'm fond of saying that it's a horrible language, with a really nice language
+inside trying to get out.  It gets some things, like scoping rules, very, very
+wrong.  But it got other things, like anonymous functions, exactly right, long before
+they were adopted in Java, C#, or C++.  Even Python, my favourite language ever,
+doesn't get them quite right.&lt;/p&gt;
+&lt;p&gt;Several people have attempted to build a nicer syntax on top of the javascript
+virtual machine.  In fact, the &lt;a class="reference external" href="https://github.com/jashkenas/coffeescript/wiki/List-of-languages-that-compile-to-JS"&gt;list&lt;/a&gt; of languages that compile to JS is startlingly
+big.&lt;/p&gt;
+&lt;p&gt;For the last couple of years I've been using &lt;a class="reference external" href="http://coffeescript.org/"&gt;CoffeeScript&lt;/a&gt; as my standard javascript syntax.&lt;/p&gt;
+&lt;p&gt;From the project page:&lt;/p&gt;
+&lt;blockquote&gt;
+&amp;quot;CoffeeScript is a little language that compiles into JavaScript.
+Underneath that awkward Java-esque patina, JavaScript has always
+had a gorgeous heart. CoffeeScript is an attempt to expose the
+good parts of JavaScript in a simple way.&amp;quot;&lt;/blockquote&gt;
+&lt;p&gt;and I think it achieves this admirably.  It doesn't solve &lt;em&gt;all&lt;/em&gt; of javascript's problems -
+you can still get into trouble with the Infamous Loop Problem, but it does make the language
+considerably more succinct, mostly by stealing ideas from Python and Haskell.&lt;/p&gt;
+&lt;div class="section" id="examples"&gt;
+&lt;h2&gt;Examples&lt;/h2&gt;
+&lt;p&gt;Function definitions go from&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="nx"&gt;d&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;x&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="nx"&gt;x&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;to&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;d = &lt;/span&gt;&lt;span class="nf"&gt;(x) -&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="nx"&gt;x&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;This makes for very quick object construction:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;math =&lt;/span&gt;
+    &lt;span class="nv"&gt;root: &lt;/span&gt;  &lt;span class="nb"&gt;Math&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;sqrt&lt;/span&gt;
+    &lt;span class="nv"&gt;square: &lt;/span&gt;&lt;span class="nx"&gt;square&lt;/span&gt;
+    &lt;span class="nv"&gt;cube: &lt;/span&gt;  &lt;span class="nf"&gt;(x) -&amp;gt;&lt;/span&gt; &lt;span class="nx"&gt;x&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="nx"&gt;square&lt;/span&gt; &lt;span class="nx"&gt;x&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;It also borrows Python's list comprehension syntax:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nx"&gt;values&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;option&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;value&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="nx"&gt;option&lt;/span&gt; &lt;span class="k"&gt;in&lt;/span&gt; &lt;span class="nx"&gt;question&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;options&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;The near complete absense of curly brackets saves a lot of wasted lines in
+my source code, and enables me to see what's going on a lot clearer than in raw
+javascript.  On the downside, I do find myself fairly regularly testing out code
+snippets in the &lt;a class="reference external" href="http://coffeescript.org/"&gt;CoffeeScript&lt;/a&gt; online compiler to make sure that I've properly understood
+how they will be interpreted.&lt;/p&gt;
+&lt;p&gt;Because CoffeeScript is a compiled language, to work with it effectively requires
+integrating the compiler into your toolchain.  For my larger projects I've hand-written
+a tool using Python's &lt;a class="reference external" href="https://pypi.python.org/pypi/watchdog"&gt;Watchdog&lt;/a&gt; package to monitor my source code directories and
+output compiled javascript everytime a file changes.&lt;/p&gt;
+&lt;p&gt;As a nice little extra, my tool jams in a warning message wrapped in an &lt;code class="code"&gt;
+alert&lt;/code&gt;
+ call
+if the compliation fails, so if I introduce a syntax error in my coffeescript, as soon
+as I refresh the page that is using it I'll be presented with the source of the problem.&lt;/p&gt;
+&lt;/div&gt;
+</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Trevor</dc:creator><pubDate>Thu, 01 Jan 2015 00:00:00 +0100</pubDate><guid>tag:,2015-01-01:coffeescript.html</guid><category>coffeescript</category><category>javascript</category></item><item><title>Configuring Systems with Fabric and Cuisine</title><link>/configuring-systems-with-fabric-and-cuisine.html</link><description>&lt;p&gt;I've mentioned &lt;a class="reference external" href="http://fabric.readthedocs.org/en/1.8/"&gt;Fabric&lt;/a&gt; before on this blog.  Because so much of my development time is spent in Python, it makes
+sense for me to look for system administration tools that are also written in Python.  Fabric fits the bill
+perfectly, and allows me to run tasks remotely on multiple machines simultaneously.&lt;/p&gt;
+&lt;p&gt;A useful addition to Fabric is &lt;a class="reference external" href="https://github.com/sebastien/cuisine"&gt;Cuisine&lt;/a&gt;.  &lt;strong&gt;Cuisine is a small set of functions that sit on top of Fabric,
+to abstract common administration operations such as file/dir operations, user/group creation,
+package install/upgrade, making it easier to write portable administration and deployment scripts.&lt;/strong&gt;&lt;/p&gt;
+</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Trevor</dc:creator><pubDate>Thu, 01 Jan 2015 00:00:00 +0100</pubDate><guid>tag:,2015-01-01:configuring-systems-with-fabric-and-cuisine.html</guid><category>linux</category><category>python</category><category>fabric</category></item><item><title>IPython with Python 3</title><link>/ipython-with-python-3.html</link><description>&lt;p&gt;This took me longer than I was expecting.&lt;/p&gt;
+&lt;p&gt;In general when working with IPython I use &lt;code class="code"&gt;
+pip&lt;/code&gt;
+ rather than &lt;code class="code"&gt;
+apt-get&lt;/code&gt;
+, as
+pip tends to have more up-to-date packages.&lt;/p&gt;
+&lt;p&gt;In the end I found the simplest thing to do was to set up IPython in an isolated
+virtualenv environment.  The main trick is to let virtualenv know what version of
+Python you want it to use by default.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;virtualenv --python&lt;span class="o"&gt;=&lt;/span&gt;python3.4 python_3_demo
+&lt;span class="nv"&gt;$ &lt;/span&gt;&lt;span class="nb"&gt;cd &lt;/span&gt;python_3_demo/
+&lt;span class="nv"&gt;$ &lt;/span&gt;&lt;span class="nb"&gt;source&lt;/span&gt; ./bin/activate
+&lt;span class="nv"&gt;$ &lt;/span&gt;pip install ipython
+&lt;span class="nv"&gt;$ &lt;/span&gt;ipython
+&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;Python&lt;/span&gt; &lt;span class="mf"&gt;3.4&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;default&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Apr&lt;/span&gt; &lt;span class="mi"&gt;11&lt;/span&gt; &lt;span class="mi"&gt;2014&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;13&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mo"&gt;05&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;11&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="o"&gt;...&lt;/span&gt;
+
+&lt;span class="n"&gt;In&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]:&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;sys&lt;/span&gt;
+
+&lt;span class="n"&gt;In&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;]:&lt;/span&gt; &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sys&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;version&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="mf"&gt;3.4&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;default&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Apr&lt;/span&gt; &lt;span class="mi"&gt;11&lt;/span&gt; &lt;span class="mi"&gt;2014&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;13&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mo"&gt;05&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;11&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;GCC&lt;/span&gt; &lt;span class="mf"&gt;4.8&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;And voila, I have Python 3 in the best Python interpreter ever built, I'm ready to
+start wrapping my head around byte arrays and UTF-8 encodings.&lt;/p&gt;
+</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Trevor</dc:creator><pubDate>Thu, 01 Jan 2015 00:00:00 +0100</pubDate><guid>tag:,2015-01-01:ipython-with-python-3.html</guid><category>Python</category><category>IPython</category></item><item><title>logrotate</title><link>/logrotate.html</link><description>&lt;p&gt;I have a large, complex &lt;a class="reference external" href="/postfix.html"&gt;mailing system&lt;/a&gt; that processes
+a significant amount of data every hour.  While I'm developing it, I want to know
+what it's doing, and whether it's having any problems.  So I use the excellent
+python &lt;a class="reference external" href="https://docs.python.org/2/library/logging.html"&gt;logging&lt;/a&gt; library to produce comprehensive monitoring data.&lt;/p&gt;
+&lt;p&gt;The only problem is that these log files can get pretty big.  And because I don't
+know ahead of time when I'm going to need to hunt through them, I tend to leave
+the logging system in a fairly verbose state.&lt;/p&gt;
+&lt;p&gt;Enter &lt;a class="reference external" href="http://www.thegeekstuff.com/2010/07/logrotate-examples/"&gt;logrotate&lt;/a&gt;.  This is a standard service on Ubuntu that regularly rotates
+your log files, throwing away old data, compressing middle-age data, and leaving
+young log files fresh and accessible.  Thus you are protected from
+runaway log file growth and nasty calls in the middle of the night from your
+monitoring service telling you that your server just died because the hard
+drives were full.&lt;/p&gt;
+&lt;p&gt;A default ubuntu installation comes with logrotate already set up for various services.
+If you don't have it, install it with &lt;code class="code"&gt;
+apt-get install logrotate&lt;/code&gt;
+, and
+then it's mostly just a question of copying a file from &lt;code class="code"&gt;
+/etc/logrotate.d/&lt;/code&gt;
+
+and modifying it according to your needs.&lt;/p&gt;
+&lt;p&gt;&lt;code class="code"&gt;
+vi /etc/logrotate.d/myservice&lt;/code&gt;
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;/var/log/myservice/*.log &lt;span class="o"&gt;{&lt;/span&gt;
+  rotate 7
+  daily
+  compress
+  missingok
+  notifempty
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;And that's it!  The actually invocation of the &lt;code class="code"&gt;
+logrotate&lt;/code&gt;
+ command will
+get triggered regularly by a script in /etc/cron.daily&lt;/p&gt;
+&lt;p&gt;You can also &lt;strong&gt;force&lt;/strong&gt; a rotation, a useful option when testing out a new configuration,
+via&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;logrotate -f /etc/logrotate.d/myservice
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;One quick word of warning: if you're using the python &lt;a class="reference external" href="https://docs.python.org/2/library/logging.html"&gt;logging&lt;/a&gt; library, then
+you'll want to use the &lt;code class="code"&gt;
+WatchedFileHandler&lt;/code&gt;
+ class.  If the logfile gets
+rotated out while it's in use, WatchedFileHandler will notice this, close the file
+stream and open a new one.&lt;/p&gt;
+</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Trevor</dc:creator><pubDate>Thu, 01 Jan 2015 00:00:00 +0100</pubDate><guid>tag:,2015-01-01:logrotate.html</guid><category>logrotate</category><category>linux</category></item><item><title>More Ractive</title><link>/more-ractive.html</link><description>&lt;p&gt;I've used &lt;a class="reference external" href="http://www.ractivejs.org/"&gt;Ractive&lt;/a&gt; for several projects recently.
+It's been like a breath of fresh air.  I've been writing user interfaces of one
+kind or another for more than a decade, and keeping &lt;em&gt;what's displayed to the user&lt;/em&gt;
+in sync with &lt;em&gt;what's stored in the data structures&lt;/em&gt; has often been a source of
+frustration.&lt;/p&gt;
+&lt;p&gt;In the javascript world, I've mostly used &lt;a class="reference external" href="http://backbonejs.org/"&gt;backbone&lt;/a&gt;  and
+&lt;a class="reference external" href="http://jquery.com/"&gt;jQuery&lt;/a&gt; for creating interactive web pages.  While these
+tools are very good at what they do, I still find myself writing a fair amount
+of code to update data in the model whenever a user interacts with a control, and
+to update the control displays whenever data in the model changes.&lt;/p&gt;
+&lt;p&gt;Enter &lt;strong&gt;Ractive&lt;/strong&gt;.  It's not the only library to handle 2-way data binding - Angular,
+Knockout and React all play in this space, but it's my current favourite.&lt;/p&gt;
+&lt;p&gt;Anyway, here's a little demo....&lt;/p&gt;
+&lt;p&gt;Given a ractive template like this:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;p&amp;gt;&lt;/span&gt;Type in the boxes below.&lt;span class="err"&gt;&amp;lt;&lt;/span&gt;\p&amp;gt;
+&lt;span class="nt"&gt;&amp;lt;input&lt;/span&gt; &lt;span class="na"&gt;class=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;form-control&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;value=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;{{var1}}&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;input&lt;/span&gt; &lt;span class="na"&gt;class=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;form-control&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;value=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;{{var2}}&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;p&amp;gt;&lt;/span&gt;Current values are var1:&lt;span class="nt"&gt;&amp;lt;code&amp;gt;&lt;/span&gt;{{var1}}&lt;span class="nt"&gt;&amp;lt;/code&amp;gt;&lt;/span&gt;, var2:&lt;span class="nt"&gt;&amp;lt;code&amp;gt;&lt;/span&gt;{{var2}}&lt;span class="nt"&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;button&lt;/span&gt; &lt;span class="na"&gt;class=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;btn btn-primary&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;on-click=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;changeme&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;Set var1&lt;span class="nt"&gt;&amp;lt;/button&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;and javascript like this:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;ractive&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="nx"&gt;Ractive&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt;
+   &lt;span class="nx"&gt;el&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;#demo&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+   &lt;span class="nx"&gt;template&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="nx"&gt;template&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+   &lt;span class="nx"&gt;data&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="nx"&gt;var1&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;beeblebrox&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nx"&gt;var2&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;lintilla&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;});&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;We get:&lt;/p&gt;
+&lt;script src='http://cdn.ractivejs.org/latest/ractive.js'&gt;&lt;/script&gt;
+
+&lt;div id="demo" class="well"&gt;&lt;/div&gt;
+&lt;script type="text/javascript"&gt;
+
+     var template='&lt;p&gt;Type in the boxes below.&lt;\p&gt; \
+                  &lt;input class="form-control" value="{{var1}}"&gt;  \
+                  &lt;input class="form-control" value="{{var2}}"&gt;  \
+                  &lt;p&gt;Current values are var1:&lt;code&gt;{{var1}}&lt;/code&gt;, var2:&lt;code&gt;{{var2}}&lt;/p&gt;\
+                  &lt;br&gt;&lt;button class="btn btn-primary" on-click="changeme"&gt;Set var1&lt;/button&gt;';
+
+     var ractive = new Ractive({
+        el:"#demo",
+        template:template,
+        data:{var1:'beeblebrox',var2:'lintilla'}
+     });
+
+     ractive.on('changeme',function(){
+        ractive.set('var1','zarniwoop');
+     });
+&lt;/script&gt;&lt;p&gt;Neat, huh?  I haven't had to write any code to manually react to keyup, or change events
+in the input controls - Ractive simply takes care of the fact that I refer to &lt;code class="code"&gt;
+var1&lt;/code&gt;
+
+in both the output paragraph and the control value, and binds the two elements together,
+refreshing them whenever needed.&lt;/p&gt;
+&lt;p&gt;The code for responding to the button click is simply:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nx"&gt;ractive&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;on&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;changeme&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(){&lt;/span&gt;
+    &lt;span class="nx"&gt;ractive&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;set&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;var1&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;zarniwoop&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;});&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;By setting data in the underlying model, the user interface automatically updates,
+again without any manual intervention.&lt;/p&gt;
+&lt;div class="section" id="ui-development-might-be-fun-again"&gt;
+&lt;h2&gt;UI development might be fun again....&lt;/h2&gt;
+&lt;p&gt;I have the same feeling on discovering Ractive that I had when I was first shown
+jQuery.  All of a sudden, a bunch of boring, fiddly manual tasks are taken care
+of in an intuitive way.  And unlike other frameworks, &lt;em&gt;all&lt;/em&gt; ractive does is data-binding.
+It doesn't try to be a control library, an AJAX toolkit or a Model-View-Controller
+framework.  For those who like all-in-one solutions, this will be a weakness, but as
+someone who believes in the unix philosophy of building systems from tools that
+each do one thing well, I'm very impressed.&lt;/p&gt;
+&lt;/div&gt;
+</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Trevor</dc:creator><pubDate>Thu, 01 Jan 2015 00:00:00 +0100</pubDate><guid>tag:,2015-01-01:more-ractive.html</guid><category>javascript</category><category>ractive</category></item><item><title>Nginx and UWSGI on Ubuntu 14</title><link>/nginx-uwsgi-ubuntu-14.html</link><description>&lt;p&gt;The documentation for Nginx and UWSGI is long and complex, but with ubuntu 14
+it's actually pretty straightforward to get them up and running.&lt;/p&gt;
+&lt;p&gt;I present here a a setup that uses nginx and uwsgi emperor to host
+multiple python web applications simultaneously on an ubuntu 14 machine.&lt;/p&gt;
+&lt;p&gt;First, the packages&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;sudo apt-get install nginx
+&lt;span class="nv"&gt;$ &lt;/span&gt;sudo apt-get install uwsgi uwsgi-emperor uwsgi-plugin-python
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Our configuration files will now be under &lt;code class="code"&gt;
+/etc/nginx&lt;/code&gt;
+ and &lt;code class="code"&gt;
+/etc/uwsgi-emperor&lt;/code&gt;
+&lt;/p&gt;
+&lt;p&gt;You can start, stop, and reload nginx as follows:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;sudo service nginx start
+&lt;span class="nv"&gt;$ &lt;/span&gt;sudo service nginx stop
+&lt;span class="nv"&gt;$ &lt;/span&gt;sudo service nginx reload
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;The last command is useful when changing configuration settings.&lt;/p&gt;
+&lt;p&gt;Now set up a site by creating a file in &lt;code class="code"&gt;
+/etc/nginx/sites-available&lt;/code&gt;
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;#/etc/nginx/sites-available/mysite&lt;/span&gt;
+server&lt;span class="o"&gt;{&lt;/span&gt;
+
+    server_name     your_host_name&lt;span class="p"&gt;;&lt;/span&gt;
+
+    location /app1 &lt;span class="o"&gt;{&lt;/span&gt;
+        uwsgi_pass unix:/tmp/app1.socket&lt;span class="p"&gt;;&lt;/span&gt;
+        include uwsgi_params&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="o"&gt;}&lt;/span&gt;
+    location /app2 &lt;span class="o"&gt;{&lt;/span&gt;
+        uwsgi_pass unix:/tmp/app2.socket&lt;span class="p"&gt;;&lt;/span&gt;
+        include uwsgi_params&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Then,&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;sudo ln -s /etc/nginx/apps-available/mysite /etc/nginx/sites-enabled
+&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="alert  alert-warning compound"&gt;
+&lt;p class="compound-first"&gt;&lt;strong&gt;Warning&lt;/strong&gt;&lt;/p&gt;
+&lt;p class="compound-last"&gt;A previous version of this tutorial had the sockets placed in &lt;code class="code"&gt;
+/run/uwsgi&lt;/code&gt;
+.
+This was a mistake, because under Ubuntu &lt;code class="code"&gt;
+/run&lt;/code&gt;
+ is mounted as a &lt;code class="code"&gt;
+tmpfs&lt;/code&gt;
+, and its content will be deleted on reboot
+Your uwsgi sub-directory will vanish and the uwsgi services will not restart.&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;Next, set up your 'vassals' (&lt;a class="reference external" href="http://uwsgi-docs.readthedocs.org/en/latest/Emperor.html"&gt;http://uwsgi-docs.readthedocs.org/en/latest/Emperor.html&lt;/a&gt;)&lt;/p&gt;
+&lt;p&gt;Create  &lt;code class="code"&gt;
+/etc/uwsgi-emperor/vassals/app1.ini&lt;/code&gt;
+ as follows:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;[uwsgi]&lt;/span&gt;
+&lt;span class="na"&gt;plugin&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;python&lt;/span&gt;
+&lt;span class="na"&gt;processes&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;2&lt;/span&gt;
+&lt;span class="na"&gt;socket&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;/tmp/app1.socket&lt;/span&gt;
+&lt;span class="na"&gt;chmod-socket&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;666&lt;/span&gt;
+
+&lt;span class="na"&gt;chdir&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;/srv/app1&lt;/span&gt;
+&lt;span class="na"&gt;wsgi-file&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;/srv/app1/main.py&lt;/span&gt;
+
+&lt;span class="na"&gt;uid&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;www-data&lt;/span&gt;
+&lt;span class="na"&gt;gid&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;www-data&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;And for your second application, create  &lt;code class="code"&gt;
+/etc/uwsgi-emperor/vassals/app2.ini&lt;/code&gt;
+ as similarly:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;[uwsgi]&lt;/span&gt;
+&lt;span class="na"&gt;plugin&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;python&lt;/span&gt;
+&lt;span class="na"&gt;processes&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;2&lt;/span&gt;
+&lt;span class="na"&gt;socket&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;/tmp/app2.socket&lt;/span&gt;
+&lt;span class="na"&gt;chmod-socket&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;666&lt;/span&gt;
+
+&lt;span class="na"&gt;chdir&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;/srv/app1&lt;/span&gt;
+&lt;span class="na"&gt;wsgi-file&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;/srv/app2/main.py&lt;/span&gt;
+
+&lt;span class="na"&gt;uid&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;www-data&lt;/span&gt;
+&lt;span class="na"&gt;gid&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;www-data&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;The simple act of &lt;em&gt;creating&lt;/em&gt; or touching a .ini file in &lt;code class="code"&gt;
+/etc/uwsgi-emperor/vassals&lt;/code&gt;
+ will cause
+the emperor process to try to restart your application.&lt;/p&gt;
+&lt;p&gt;Of course, your applications don't exist yet, so let's create them.  The simplest wsgi
+application can be only a few lines long:&lt;/p&gt;
+&lt;p&gt;Create &lt;code class="code"&gt;
+/srv/app1/main.py&lt;/code&gt;
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;application&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;start_response&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;start_response&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;200 OK&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;[(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;Content-Type&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;text/html&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)])&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Hello World, I am app1&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;And &lt;code class="code"&gt;
+/srv/app2/main.py&lt;/code&gt;
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;application&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;start_response&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;start_response&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;200 OK&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;[(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;Content-Type&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;text/html&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)])&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;I, however, am app2. &amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;And that's it!&lt;/p&gt;
+&lt;p&gt;Visiting &lt;a class="reference external" href="http://your_host_name/app1"&gt;http://your_host_name/app1&lt;/a&gt; or &lt;a class="reference external" href="http://your_host_name/app2"&gt;http://your_host_name/app2&lt;/a&gt; should return the text
+you put in the python files.&lt;/p&gt;
+</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Trevor</dc:creator><pubDate>Thu, 01 Jan 2015 00:00:00 +0100</pubDate><guid>tag:,2015-01-01:nginx-uwsgi-ubuntu-14.html</guid><category>Python</category><category>nginx</category><category>uwsgi</category></item><item><title>PDF Generation With Pelican</title><link>/pdf-generation-with-pelican.html</link><description>&lt;p&gt;The existing documentation is a little unclear on this, because it says
+you need to add &lt;code class="code"&gt;
+PDF_GENERATOR=True&lt;/code&gt;
+ to your &lt;cite&gt;pelicanconf.py&lt;/cite&gt; file.&lt;/p&gt;
+&lt;p&gt;This advice is out of date: PDF generation has been moved to a plugin.&lt;/p&gt;
+&lt;p&gt;So you need to first make sure you have &lt;code class="code"&gt;
+rst2pdf&lt;/code&gt;
+ installed:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;sudo apt-get install rst2pdf
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;and then add the following to &lt;code class="code"&gt;
+pelicanconf.py&lt;/code&gt;
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;PLUGIN_PATH&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;../pelican-plugins&amp;#39;&lt;/span&gt;  &lt;span class="c"&gt;# or wherever.&lt;/span&gt;
+&lt;span class="n"&gt;PLUGINS&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;pdf&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;However, doing this seems to screw up the pygments highlighting on my regular
+html output.  This is because deep in the rst2pdf code, in a file called &lt;code class="code"&gt;
+pygments2style.py&lt;/code&gt;
+,
+all the pygment elements have their CSS classes prepended with &lt;code class="code"&gt;
+pygment-&lt;/code&gt;
+.  I haven't
+figured out how to generate HTML and PDF nicely at the same time.&lt;/p&gt;
+</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Trevor</dc:creator><pubDate>Thu, 01 Jan 2015 00:00:00 +0100</pubDate><guid>tag:,2015-01-01:pdf-generation-with-pelican.html</guid><category>python</category><category>pelican</category></item><item><title>Postfix</title><link>/postfix.html</link><description>&lt;p&gt;Postfix is a ghastly horror that really should be quietly eliminated.  But that truism hides a deeper issue - email itself is a ghastly horror, the result of 30 years of hacks, edge-cases, non-conformant implementations and competing design constraints, that only persists because we still haven't come up with anything better.&lt;/p&gt;
+&lt;p&gt;Take the simple question 'what is a valid email address'.&lt;/p&gt;
+&lt;p&gt;I have a couple of standard regexes I use to validate email addresses,
+such as &lt;code class="code"&gt;
+^[A-Z0-9._%+-]+&amp;#64;[A-Z0-9.-]+ .[A-Z]{2,4}$&lt;/code&gt;
+,
+but having spent years building mailing systems,
+the best answer I can come up with is
+&lt;em&gt;a valid email address is one that gets delivered to its destination&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;So, Postfix.  If you ever need a taste of purgatory, take some time to browse through
+the source code, a terrifying mix of old-school C and Perl.  I once needed to create
+a utility to monitor the state of a Postfix DEFERRED queue, and found it was vastly
+easier to write my own queue parser in Python than understand the source to the existing
+&lt;code class="code"&gt;
+qshape&lt;/code&gt;
+ utility.  Whoever wrote that clearly has an aversion to variable names
+that are more than one character long.&lt;/p&gt;
+&lt;p&gt;Actually configuring a functional Postfix system requires commiting yourself to a long
+pilgrimage across the net, picking up scattered bits of wisdom from the hardy travellers
+who have passed this way before, and recorded their insights in ancient forgotten blog
+posts and wiki pages.&lt;/p&gt;
+&lt;p&gt;Documents such as &lt;a class="reference external" href="http://www.howtoforge.com/virtual-users-domains-postfix-courier-mysql-squirrelmail-ubuntu-10.04"&gt;http://www.howtoforge.com/virtual-users-domains-postfix-courier-mysql-squirrelmail-ubuntu-10.04&lt;/a&gt;
+include gems like &lt;em&gt;'this howto is meant as a practical guide; it does not cover the
+theoretical backgrounds'&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;You have been warned, it seems to be saying.  Configuring this system really requires at
+the very least a Masters degree in Advanced Email Hackery.&lt;/p&gt;
+&lt;a class="reference external image-reference" href="http://www.linuxjournal.com/article/9454"&gt;&lt;img alt="postfix flowchart" src="images/postfix_flowchart.jpg" /&gt;&lt;/a&gt;
+&lt;p&gt;That image is from this &lt;a class="reference external" href="http://www.linuxjournal.com/article/9454"&gt;article&lt;/a&gt; at Linux Journal, which is actually
+a pretty good and comprehensive introduction to the architecture of Postfix&lt;/p&gt;
+&lt;p&gt;The &lt;em&gt;key&lt;/em&gt; insight that everything else hangs on is that Postfix is &lt;em&gt;not&lt;/em&gt; a program.  Postfix is a large
+&lt;em&gt;collection&lt;/em&gt; of programs: some of which interact with the user, and a large number which run in the
+background and perform all the various tasks of gathering, processing and delivering email.&lt;/p&gt;
+&lt;p&gt;These programs, together with a rather complex set of folders under &lt;code class="code"&gt;
+/var/spool/postfix&lt;/code&gt;
+ that store messages as they work their way through
+the system, and another set of rather complex configuration files under &lt;code class="code"&gt;
+/etc/postfix&lt;/code&gt;
+, are what comprises the
+complete mail delivery system.&lt;/p&gt;
+&lt;p&gt;To add to the fun, many postfix configuration settings can be stored in MySQL, and it's possible to run multiple postfix instances in
+parallel with each other.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;pstree -a
+
+├─master
+│   ├─anvil -l -t unix -u -c
+│   ├─pickup -l -t unix -u -c
+│   ├─qmgr -l -t unix -u
+│   ├─smtpd -n smtp -t inet -u -c -o &lt;span class="nv"&gt;stress&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt; -s 2
+│   ├─smtpd -n smtp -t inet -u -c -o &lt;span class="nv"&gt;stress&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt; -s 2
+│   └─tlsmgr -l -t unix -u -c
+├─master
+│   ├─anvil -l -t unix -u -c
+│   ├─pickup -l -t unix -u -c
+│   ├─qmgr -l -t unix -u
+│   ├─smtpd -n smtp -t inet -u -c -o &lt;span class="nv"&gt;stress&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;
+│   └─smtpd -n smtp -t inet -u -c -o &lt;span class="nv"&gt;stress&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;
+├─master
+│   ├─anvil -l -t unix -u -c
+│   ├─pickup -l -t unix -u -c
+│   ├─qmgr -l -t unix -u
+│   ├─smtpd -n smtp -t inet -u -c -o &lt;span class="nv"&gt;stress&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;
+│   └─smtpd -n smtp -t inet -u -c -o &lt;span class="nv"&gt;stress&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;
+├─master
+│   ├─anvil -l -t unix -u -c
+│   ├─pickup -l -t unix -u -c
+│   ├─qmgr -l -t unix -u
+│   ├─smtpd -n smtp -t inet -u -c -o &lt;span class="nv"&gt;stress&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;
+│   └─smtpd -n smtp -t inet -u -c -o &lt;span class="nv"&gt;stress&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;
+├─master
+│   ├─anvil -l -t unix -u -c
+│   ├─pickup -l -t unix -u -c
+│   ├─qmgr -l -t unix -u
+│   ├─smtpd -n smtp -t inet -u -c -o &lt;span class="nv"&gt;stress&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;
+│   └─smtpd -n smtp -t inet -u -c -o &lt;span class="nv"&gt;stress&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;That's a lot of processes....&lt;/p&gt;
+&lt;p&gt;And yet, despite this, Postfix seems to be about the best there is.  Over the last
+few years I've built and maintained a massively parallel mail delivery, management
+and monitoring system on top of Postfix that, at the last count, had successfully
+delivered almost 10 million messages for clients of &lt;a class="reference external" href="http://nooro.com"&gt;Nooro Online Research&lt;/a&gt;.&lt;/p&gt;
+</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Trevor</dc:creator><pubDate>Thu, 01 Jan 2015 00:00:00 +0100</pubDate><guid>tag:,2015-01-01:postfix.html</guid><category>postfix</category><category>email</category></item><item><title>Postgres JSON Aggregation</title><link>/postgres-json-aggregation.html</link><description>&lt;p&gt;I've been using the new JSON functionality in Postgres a lot recently:
+I'm fond of saying that Postgresql is the best NoSQL database available
+today. I'm quite serious about this: having used key-value and JSON
+stores such as CouchDB in the past, it's amazing to me how the Postgres
+developers have managed to marry the best of traditional relational
+technology with the flexibility of schema-free JSON documents.&lt;/p&gt;
+&lt;p&gt;As of version 9.3, postgres allows you to create JSON column types, and
+provides a number of functions to access and iterate through the data
+stored in them.&lt;/p&gt;
+&lt;p&gt;This week I discovered another hidden gem - &lt;code class="code"&gt;
+json_agg()&lt;/code&gt;
+. This
+function lets you take the results from an aggregation operation and
+convert them into a JSON block - very helpful if you're then going to
+work with the returned data in a language like Python&lt;/p&gt;
+&lt;p&gt;To demonstrate this, we'll first set up some simple tables.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;load_ext&lt;/span&gt; &lt;span class="n"&gt;sql&lt;/span&gt;
+&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;config&lt;/span&gt; &lt;span class="n"&gt;SqlMagic&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;feedback&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;False&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="o"&gt;%%&lt;/span&gt;&lt;span class="n"&gt;sql&lt;/span&gt;
+&lt;span class="n"&gt;postgresql&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="n"&gt;testuser&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;password&lt;/span&gt;&lt;span class="nd"&gt;@localhost&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;test&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;pre class="literal-block"&gt;
+u'Connected: &lt;a class="reference external" href="mailto:testuser&amp;#64;test"&gt;testuser&amp;#64;test&lt;/a&gt;'
+&lt;/pre&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="o"&gt;%%&lt;/span&gt;&lt;span class="n"&gt;sql&lt;/span&gt;
+&lt;span class="n"&gt;CREATE&lt;/span&gt; &lt;span class="n"&gt;TABLE&lt;/span&gt; &lt;span class="n"&gt;IF&lt;/span&gt; &lt;span class="n"&gt;NOT&lt;/span&gt; &lt;span class="n"&gt;EXISTS&lt;/span&gt; &lt;span class="n"&gt;person&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;
+    &lt;span class="n"&gt;name&lt;/span&gt; &lt;span class="n"&gt;text&lt;/span&gt; &lt;span class="n"&gt;primary&lt;/span&gt; &lt;span class="n"&gt;key&lt;/span&gt;
+&lt;span class="p"&gt;);&lt;/span&gt;
+
+&lt;span class="n"&gt;INSERT&lt;/span&gt; &lt;span class="n"&gt;INTO&lt;/span&gt; &lt;span class="n"&gt;person&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="n"&gt;VALUES&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;emily&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;),(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;arthur&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;),(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;nicki&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;),(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;oliver&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;pre class="literal-block"&gt;
+[]
+&lt;/pre&gt;
+&lt;p&gt;We can query this in the usual way:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;sql&lt;/span&gt; &lt;span class="n"&gt;SELECT&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;FROM&lt;/span&gt; &lt;span class="n"&gt;person&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;table class="table table-bordered"&gt;
+    &lt;tr&gt;
+        &lt;th&gt;name&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;emily&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;arthur&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;nicki&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;oliver&lt;/td&gt;
+    &lt;/tr&gt;
+&lt;/table&gt;&lt;p&gt;But we can also use &lt;code class="code"&gt;
+json_agg()&lt;/code&gt;
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;sql&lt;/span&gt; &lt;span class="n"&gt;SELECT&lt;/span&gt; &lt;span class="n"&gt;json_agg&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="n"&gt;FROM&lt;/span&gt; &lt;span class="n"&gt;person&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;table class="table table-bordered"&gt;
+    &lt;tr&gt;
+        &lt;th&gt;json_agg&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;[u'emily', u'arthur', u'nicki', u'oliver']&lt;/td&gt;
+    &lt;/tr&gt;
+&lt;/table&gt;&lt;p&gt;Which gives us a single object to work with. So far, this isn't
+particularly helpful, but it becomes very useful when we start doing
+&lt;code class="code"&gt;
+JOINS&lt;/code&gt;
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="o"&gt;%%&lt;/span&gt;&lt;span class="n"&gt;sql&lt;/span&gt;
+&lt;span class="n"&gt;CREATE&lt;/span&gt; &lt;span class="n"&gt;TABLE&lt;/span&gt; &lt;span class="n"&gt;IF&lt;/span&gt; &lt;span class="n"&gt;NOT&lt;/span&gt; &lt;span class="n"&gt;EXISTS&lt;/span&gt; &lt;span class="n"&gt;action&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+    &lt;span class="nb"&gt;id&lt;/span&gt; &lt;span class="n"&gt;serial&lt;/span&gt; &lt;span class="n"&gt;primary&lt;/span&gt; &lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="n"&gt;created&lt;/span&gt; &lt;span class="n"&gt;timestamp&lt;/span&gt; &lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="n"&gt;time&lt;/span&gt; &lt;span class="n"&gt;zone&lt;/span&gt; &lt;span class="n"&gt;default&lt;/span&gt; &lt;span class="n"&gt;now&lt;/span&gt;&lt;span class="p"&gt;(),&lt;/span&gt;
+    &lt;span class="n"&gt;person_name&lt;/span&gt; &lt;span class="n"&gt;text&lt;/span&gt; &lt;span class="n"&gt;references&lt;/span&gt; &lt;span class="n"&gt;person&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="nb"&gt;type&lt;/span&gt; &lt;span class="n"&gt;text&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="n"&gt;null&lt;/span&gt;
+&lt;span class="p"&gt;);&lt;/span&gt;
+
+&lt;span class="n"&gt;INSERT&lt;/span&gt; &lt;span class="n"&gt;INTO&lt;/span&gt; &lt;span class="n"&gt;action&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;person_name&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;type&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="n"&gt;VALUES&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;emily&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;login&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="n"&gt;INSERT&lt;/span&gt; &lt;span class="n"&gt;INTO&lt;/span&gt; &lt;span class="n"&gt;action&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;person_name&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;type&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="n"&gt;VALUES&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;emily&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;pageview&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="n"&gt;INSERT&lt;/span&gt; &lt;span class="n"&gt;INTO&lt;/span&gt; &lt;span class="n"&gt;action&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;person_name&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;type&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="n"&gt;VALUES&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;arthur&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;login&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="n"&gt;INSERT&lt;/span&gt; &lt;span class="n"&gt;INTO&lt;/span&gt; &lt;span class="n"&gt;action&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;person_name&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;type&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="n"&gt;VALUES&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;emily&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;logout&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="n"&gt;INSERT&lt;/span&gt; &lt;span class="n"&gt;INTO&lt;/span&gt; &lt;span class="n"&gt;action&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;person_name&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;type&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="n"&gt;VALUES&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;nicki&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;password_change&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="n"&gt;INSERT&lt;/span&gt; &lt;span class="n"&gt;INTO&lt;/span&gt; &lt;span class="n"&gt;action&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;person_name&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;type&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="n"&gt;VALUES&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;nicki&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;createpost&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;pre class="literal-block"&gt;
+[]
+&lt;/pre&gt;
+&lt;p&gt;If we want to ask Postgres to give us every user and every action
+they've performed, we &lt;em&gt;could&lt;/em&gt; do it this way:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;sql&lt;/span&gt; &lt;span class="n"&gt;SELECT&lt;/span&gt; &lt;span class="n"&gt;person&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;  &lt;span class="n"&gt;action&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;type&lt;/span&gt; &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;action&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;created&lt;/span&gt; &lt;span class="n"&gt;FROM&lt;/span&gt; &lt;span class="n"&gt;action&lt;/span&gt; &lt;span class="n"&gt;JOIN&lt;/span&gt; &lt;span class="n"&gt;person&lt;/span&gt; &lt;span class="n"&gt;ON&lt;/span&gt; &lt;span class="n"&gt;action&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;person_name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;person&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;table class="table table-bordered"&gt;
+    &lt;tr&gt;
+        &lt;th&gt;name&lt;/th&gt;
+        &lt;th&gt;type&lt;/th&gt;
+        &lt;th&gt;created&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;emily&lt;/td&gt;
+        &lt;td&gt;login&lt;/td&gt;
+        &lt;td&gt;2014-11-08 17:45:05.963569-05:00&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;emily&lt;/td&gt;
+        &lt;td&gt;pageview&lt;/td&gt;
+        &lt;td&gt;2014-11-08 17:45:05.964663-05:00&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;arthur&lt;/td&gt;
+        &lt;td&gt;login&lt;/td&gt;
+        &lt;td&gt;2014-11-08 17:45:05.965214-05:00&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;emily&lt;/td&gt;
+        &lt;td&gt;logout&lt;/td&gt;
+        &lt;td&gt;2014-11-08 17:45:05.965741-05:00&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;nicki&lt;/td&gt;
+        &lt;td&gt;password_change&lt;/td&gt;
+        &lt;td&gt;2014-11-08 17:45:05.966274-05:00&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;nicki&lt;/td&gt;
+        &lt;td&gt;createpost&lt;/td&gt;
+        &lt;td&gt;2014-11-08 17:45:05.966824-05:00&lt;/td&gt;
+    &lt;/tr&gt;
+&lt;/table&gt;&lt;p&gt;But then iterating through this recordset is a pain - I can't easily
+construct a nested for loop to iterate through each person and then
+through each action.&lt;/p&gt;
+&lt;p&gt;Enter &lt;code class="code"&gt;
+json_agg()&lt;/code&gt;
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;sql&lt;/span&gt; &lt;span class="n"&gt;SELECT&lt;/span&gt; &lt;span class="n"&gt;person&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;  &lt;span class="n"&gt;json_agg&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;action&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="n"&gt;FROM&lt;/span&gt; &lt;span class="n"&gt;action&lt;/span&gt; &lt;span class="n"&gt;JOIN&lt;/span&gt; &lt;span class="n"&gt;person&lt;/span&gt; &lt;span class="n"&gt;ON&lt;/span&gt; &lt;span class="n"&gt;action&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;person_name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;person&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt; &lt;span class="n"&gt;GROUP&lt;/span&gt; &lt;span class="n"&gt;BY&lt;/span&gt; &lt;span class="n"&gt;person&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;table class="table table-bordered"&gt;
+    &lt;tr&gt;
+        &lt;th&gt;name&lt;/th&gt;
+        &lt;th&gt;json_agg&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;arthur&lt;/td&gt;
+        &lt;td&gt;[{u'person_name': u'arthur', u'type': u'login', u'id': 3, u'created': u'2014-11-08 17:45:05.965214-05'}]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;emily&lt;/td&gt;
+        &lt;td&gt;[{u'person_name': u'emily', u'type': u'login', u'id': 1, u'created': u'2014-11-08 17:45:05.963569-05'}, {u'person_name': u'emily', u'type': u'pageview', u'id': 2, u'created': u'2014-11-08 17:45:05.964663-05'}, {u'person_name': u'emily', u'type': u'logout', u'id': 4, u'created': u'2014-11-08 17:45:05.965741-05'}]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;nicki&lt;/td&gt;
+        &lt;td&gt;[{u'person_name': u'nicki', u'type': u'password_change', u'id': 5, u'created': u'2014-11-08 17:45:05.966274-05'}, {u'person_name': u'nicki', u'type': u'createpost', u'id': 6, u'created': u'2014-11-08 17:45:05.966824-05'}]&lt;/td&gt;
+    &lt;/tr&gt;
+&lt;/table&gt;&lt;p&gt;Which becomes much more usable in Python:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;people&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;sql&lt;/span&gt; &lt;span class="n"&gt;SELECT&lt;/span&gt; &lt;span class="n"&gt;person&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;  &lt;span class="n"&gt;json_agg&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;action&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="n"&gt;FROM&lt;/span&gt; &lt;span class="n"&gt;action&lt;/span&gt; &lt;span class="n"&gt;JOIN&lt;/span&gt; &lt;span class="n"&gt;person&lt;/span&gt; &lt;span class="n"&gt;ON&lt;/span&gt; &lt;span class="n"&gt;action&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;person_name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;person&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt; &lt;span class="n"&gt;GROUP&lt;/span&gt; &lt;span class="n"&gt;BY&lt;/span&gt; &lt;span class="n"&gt;person&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;actions&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;people&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="n"&gt;name&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;pre class="literal-block"&gt;
+arthur
+emily
+nicki
+&lt;/pre&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;actions&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;people&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="n"&gt;name&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;action&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;actions&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;&lt;/span&gt;&lt;span class="se"&gt;\t&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;action&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;type&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;pre class="literal-block"&gt;
+arthur
+    login
+emily
+    login
+    pageview
+    logout
+nicki
+    password_change
+    createpost
+&lt;/pre&gt;
+&lt;p&gt;So now we've managed to easily convert relational Postgres data into a
+hierarchical Python data structure. From here we can easily continue to
+XML, JSON, HTML or whatever document type suits your need.&lt;/p&gt;
+</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Trevor</dc:creator><pubDate>Thu, 01 Jan 2015 00:00:00 +0100</pubDate><guid>tag:,2015-01-01:postgres-json-aggregation.html</guid><category>Python</category><category>Postgres</category></item><item><title>Postgres Timestamps</title><link>/postgres-timestamps.html</link><description>&lt;p&gt;At my company, I maintain a large distributed. data collection platform
 . Pretty much every record we collect needs to be stamped with a
 &lt;pre&gt;
 created&lt;/pre&gt;
@@ -288,764 +955,7 @@ and we're going to store it in the database via some Python code.&lt;/p&gt;
 &lt;/table&gt;&lt;p&gt;And now we're getting to the point where all our timestamp data is both
 stored and displayed unambiguously.&lt;/p&gt;
 &lt;/div&gt;
-</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Trevor</dc:creator><pubDate>Fri, 26 Jun 2015 17:03:12 +0200</pubDate><guid>tag:,2015-06-26:postgres-timestamps.html</guid><category>Python</category><category>Postgres</category></item><item><title>SQL Magic</title><link>/sql-magic.html</link><description>&lt;p&gt;I'm finding the &lt;pre&gt;
-%sql&lt;/pre&gt;
- magic function extremely useful. It turns
-IPython into a very nice front-end to Postgresql.&lt;/p&gt;
-&lt;p&gt;First, make sure you have the &lt;pre&gt;
-ipython-sql&lt;/pre&gt;
- extension installed:&lt;/p&gt;
-&lt;p&gt;&lt;pre&gt;
-pip install ipython-sql&lt;/pre&gt;
-&lt;/p&gt;
-&lt;p&gt;&lt;a class="reference external" href="https://pypi.python.org/pypi/ipython-sql"&gt;https://pypi.python.org/pypi/ipython-sql&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;Then we load the extension&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;load_ext&lt;/span&gt; &lt;span class="n"&gt;sql&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Then we set up our database connection.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="o"&gt;%%&lt;/span&gt;&lt;span class="n"&gt;sql&lt;/span&gt;
-&lt;span class="n"&gt;postgresql&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="n"&gt;testuser&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;password&lt;/span&gt;&lt;span class="nd"&gt;@localhost&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;test&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;pre class="literal-block"&gt;
-u'Connected: &lt;a class="reference external" href="mailto:testuser&amp;#64;test"&gt;testuser&amp;#64;test&lt;/a&gt;'
-&lt;/pre&gt;
-&lt;p&gt;And now we can start interacting directly with the database as if we
-were at the &lt;pre&gt;
-psql&lt;/pre&gt;
- command line.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="o"&gt;%%&lt;/span&gt;&lt;span class="n"&gt;sql&lt;/span&gt;
-&lt;span class="n"&gt;CREATE&lt;/span&gt; &lt;span class="n"&gt;TABLE&lt;/span&gt; &lt;span class="n"&gt;people&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;first&lt;/span&gt; &lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;last&lt;/span&gt; &lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;drink&lt;/span&gt; &lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
-&lt;span class="n"&gt;INSERT&lt;/span&gt; &lt;span class="n"&gt;INTO&lt;/span&gt; &lt;span class="n"&gt;people&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;first&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;last&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;drink&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="n"&gt;VALUES&lt;/span&gt;
-    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;zaphod&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;beeblebrox&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;pan galactic gargle blaster&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
-    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;arthur&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;dent&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;tea&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
-    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;ford&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;prefect&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;old janx spirit&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-    &lt;span class="p"&gt;;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;pre class="literal-block"&gt;
-Done.
-3 rows affected.
-&lt;/pre&gt;
-&lt;pre class="literal-block"&gt;
-[]
-&lt;/pre&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;sql&lt;/span&gt; &lt;span class="n"&gt;select&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;people&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;pre class="literal-block"&gt;
-3 rows affected.
-&lt;/pre&gt;
-&lt;table class="table table-bordered table-striped"&gt;
-    &lt;tr&gt;
-        &lt;th&gt;first&lt;/th&gt;
-        &lt;th&gt;last&lt;/th&gt;
-        &lt;th&gt;drink&lt;/th&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-        &lt;td&gt;zaphod&lt;/td&gt;
-        &lt;td&gt;beeblebrox&lt;/td&gt;
-        &lt;td&gt;pan galactic gargle blaster&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-        &lt;td&gt;arthur&lt;/td&gt;
-        &lt;td&gt;dent&lt;/td&gt;
-        &lt;td&gt;tea&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-        &lt;td&gt;ford&lt;/td&gt;
-        &lt;td&gt;prefect&lt;/td&gt;
-        &lt;td&gt;old janx spirit&lt;/td&gt;
-    &lt;/tr&gt;
-&lt;/table&gt;&lt;p&gt;We can access the results as a python object:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;result&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;sql&lt;/span&gt; &lt;span class="n"&gt;select&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;people&lt;/span&gt;
-&lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;result&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;pre class="literal-block"&gt;
-3
-&lt;/pre&gt;
-&lt;p&gt;And we can even get our recordset as a &lt;strong&gt;pandas&lt;/strong&gt; dataframe&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;config&lt;/span&gt; &lt;span class="n"&gt;SqlMagic&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;autopandas&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;frame&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;sql&lt;/span&gt; &lt;span class="n"&gt;select&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;people&lt;/span&gt;
-&lt;span class="n"&gt;frame&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;div style="max-height:1000px;max-width:1500px;overflow:auto;"&gt;
-&lt;table class="table table-bordered table-striped"&gt;
-  &lt;thead&gt;
-    &lt;tr style="text-align: right;"&gt;
-      &lt;th&gt;&lt;/th&gt;
-      &lt;th&gt;first&lt;/th&gt;
-      &lt;th&gt;last&lt;/th&gt;
-      &lt;th&gt;drink&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;th&gt;0&lt;/th&gt;
-      &lt;td&gt; zaphod&lt;/td&gt;
-      &lt;td&gt; beeblebrox&lt;/td&gt;
-      &lt;td&gt; pan galactic gargle blaster&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;th&gt;1&lt;/th&gt;
-      &lt;td&gt; arthur&lt;/td&gt;
-      &lt;td&gt;       dent&lt;/td&gt;
-      &lt;td&gt;                         tea&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;th&gt;2&lt;/th&gt;
-      &lt;td&gt;   ford&lt;/td&gt;
-      &lt;td&gt;    prefect&lt;/td&gt;
-      &lt;td&gt;             old janx spirit&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-&lt;p&gt;3 rows × 3 columns&lt;/p&gt;
-&lt;/div&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;frame&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;first&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;str&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;upper&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;pre class="literal-block"&gt;
-0    ZAPHOD
-1    ARTHUR
-2      FORD
-Name: first, dtype: object
-&lt;/pre&gt;
-</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Trevor</dc:creator><pubDate>Fri, 26 Jun 2015 17:03:12 +0200</pubDate><guid>tag:,2015-06-26:sql-magic.html</guid><category>Python</category><category>IPython</category></item><item><title>Asynchronous Python</title><link>/asynchronous-python.html</link><description>&lt;p&gt;It's possible to get python to do node-like non-blocking requests, this could
-take away one of the key reasons for using node.&lt;/p&gt;
-&lt;p&gt;The following is a full bottle-based python web application.&lt;/p&gt;
-&lt;p&gt;A client can sucessfully call /test while another client is waiting for
-/slowproxy to return a result from a slow web service.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;gevent&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;monkey&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;monkey&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;patch_all&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
-
-&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;bottle&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;route&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;run&lt;/span&gt;
-&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;time&lt;/span&gt;
-
-&lt;span class="nd"&gt;@route&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;/sleep/&amp;lt;seconds:int&amp;gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;sleep&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;seconds&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-    &lt;span class="n"&gt;time&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sleep&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;seconds&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Slept For {0}&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;seconds&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-
-&lt;span class="nd"&gt;@route&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;/test&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;test&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
-     &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;test&amp;#39;&lt;/span&gt;
-
-
-&lt;span class="nd"&gt;@route&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;/slowproxy/&amp;lt;seconds:int&amp;gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;slowproxy&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;seconds&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-    &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;requests&lt;/span&gt;
-    &lt;span class="n"&gt;url&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;https://s.nooro.com/sleeptest.php?seconds=&lt;/span&gt;&lt;span class="si"&gt;%i&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;seconds&lt;/span&gt;
-    &lt;span class="n"&gt;response&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;requests&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;url&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-    &lt;span class="n"&gt;response&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;raise_for_status&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
-    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;response&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;text&lt;/span&gt;
-
-&lt;span class="n"&gt;run&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;host&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;0.0.0.0&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;port&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;8080&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;server&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;gevent&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;My first attempt used grequests, but apparently that's not even necessary.&lt;/p&gt;
-&lt;p&gt;I guess that the call to monkey.patch_all() even patches the socket code
-that requests uses.  I'm very impressed.&lt;/p&gt;
-</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Trevor</dc:creator><pubDate>Fri, 26 Jun 2015 17:03:12 +0200</pubDate><guid>tag:,2015-06-26:asynchronous-python.html</guid><category>Python</category><category>gevent</category></item><item><title>CoffeeScript</title><link>/coffeescript.html</link><description>&lt;p&gt;Through a bizarre twist of history, the entire client-side web runs on a &lt;a class="reference external" href="http://en.wikipedia.org/wiki/Brendan_Eich#Netscape_and_JavaScript"&gt;language&lt;/a&gt;
-that was thrown together in 10 days.&lt;/p&gt;
-&lt;p&gt;Despite huge investments in their own proprietary technology by the likes of Sun
-Microsystems, Adobe and Microsoft, this weird little spinoff of &lt;strong&gt;self&lt;/strong&gt; and &lt;strong&gt;scheme&lt;/strong&gt;
-is everywhere, while client-side Java, ActiveX and Flash fade into obscurity.&lt;/p&gt;
-&lt;p&gt;Unsurprisingly for a language developed so quickly, Javascript is pretty ugly.
-I'm fond of saying that it's a horrible language, with a really nice language
-inside trying to get out.  It gets some things, like scoping rules, very, very
-wrong.  But it got other things, like anonymous functions, exactly right, long before
-they were adopted in Java, C#, or C++.  Even Python, my favourite language ever,
-doesn't get them quite right.&lt;/p&gt;
-&lt;p&gt;Several people have attempted to build a nicer syntax on top of the javascript
-virtual machine.  In fact, the &lt;a class="reference external" href="https://github.com/jashkenas/coffeescript/wiki/List-of-languages-that-compile-to-JS"&gt;list&lt;/a&gt; of languages that compile to JS is startlingly
-big.&lt;/p&gt;
-&lt;p&gt;For the last couple of years I've been using &lt;a class="reference external" href="http://coffeescript.org/"&gt;CoffeeScript&lt;/a&gt; as my standard javascript syntax.&lt;/p&gt;
-&lt;p&gt;From the project page:&lt;/p&gt;
-&lt;blockquote&gt;
-&amp;quot;CoffeeScript is a little language that compiles into JavaScript.
-Underneath that awkward Java-esque patina, JavaScript has always
-had a gorgeous heart. CoffeeScript is an attempt to expose the
-good parts of JavaScript in a simple way.&amp;quot;&lt;/blockquote&gt;
-&lt;p&gt;and I think it achieves this admirably.  It doesn't solve &lt;em&gt;all&lt;/em&gt; of javascript's problems -
-you can still get into trouble with the Infamous Loop Problem, but it does make the language
-considerably more succinct, mostly by stealing ideas from Python and Haskell.&lt;/p&gt;
-&lt;div class="section" id="examples"&gt;
-&lt;h2&gt;Examples&lt;/h2&gt;
-&lt;p&gt;Function definitions go from&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="nx"&gt;d&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;x&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
-    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="nx"&gt;x&lt;/span&gt;
-&lt;span class="p"&gt;}&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;to&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;d = &lt;/span&gt;&lt;span class="nf"&gt;(x) -&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="nx"&gt;x&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;This makes for very quick object construction:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;math =&lt;/span&gt;
-    &lt;span class="nv"&gt;root: &lt;/span&gt;  &lt;span class="nb"&gt;Math&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;sqrt&lt;/span&gt;
-    &lt;span class="nv"&gt;square: &lt;/span&gt;&lt;span class="nx"&gt;square&lt;/span&gt;
-    &lt;span class="nv"&gt;cube: &lt;/span&gt;  &lt;span class="nf"&gt;(x) -&amp;gt;&lt;/span&gt; &lt;span class="nx"&gt;x&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="nx"&gt;square&lt;/span&gt; &lt;span class="nx"&gt;x&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;It also borrows Python's list comprehension syntax:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nx"&gt;values&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;option&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;value&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="nx"&gt;option&lt;/span&gt; &lt;span class="k"&gt;in&lt;/span&gt; &lt;span class="nx"&gt;question&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;options&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;The near complete absense of curly brackets saves a lot of wasted lines in
-my source code, and enables me to see what's going on a lot clearer than in raw
-javascript.  On the downside, I do find myself fairly regularly testing out code
-snippets in the &lt;a class="reference external" href="http://coffeescript.org/"&gt;CoffeeScript&lt;/a&gt; online compiler to make sure that I've properly understood
-how they will be interpreted.&lt;/p&gt;
-&lt;p&gt;Because CoffeeScript is a compiled language, to work with it effectively requires
-integrating the compiler into your toolchain.  For my larger projects I've hand-written
-a tool using Python's &lt;a class="reference external" href="https://pypi.python.org/pypi/watchdog"&gt;Watchdog&lt;/a&gt; package to monitor my source code directories and
-output compiled javascript everytime a file changes.&lt;/p&gt;
-&lt;p&gt;As a nice little extra, my tool jams in a warning message wrapped in an &lt;code class="code"&gt;
-alert&lt;/code&gt;
- call
-if the compliation fails, so if I introduce a syntax error in my coffeescript, as soon
-as I refresh the page that is using it I'll be presented with the source of the problem.&lt;/p&gt;
-&lt;/div&gt;
-</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Trevor</dc:creator><pubDate>Fri, 26 Jun 2015 17:03:12 +0200</pubDate><guid>tag:,2015-06-26:coffeescript.html</guid><category>coffeescript</category><category>javascript</category></item><item><title>Configuring Systems with Fabric and Cuisine</title><link>/configuring-systems-with-fabric-and-cuisine.html</link><description>&lt;p&gt;I've mentioned &lt;a class="reference external" href="http://fabric.readthedocs.org/en/1.8/"&gt;Fabric&lt;/a&gt; before on this blog.  Because so much of my development time is spent in Python, it makes
-sense for me to look for system administration tools that are also written in Python.  Fabric fits the bill
-perfectly, and allows me to run tasks remotely on multiple machines simultaneously.&lt;/p&gt;
-&lt;p&gt;A useful addition to Fabric is &lt;a class="reference external" href="https://github.com/sebastien/cuisine"&gt;Cuisine&lt;/a&gt;.  &lt;strong&gt;Cuisine is a small set of functions that sit on top of Fabric,
-to abstract common administration operations such as file/dir operations, user/group creation,
-package install/upgrade, making it easier to write portable administration and deployment scripts.&lt;/strong&gt;&lt;/p&gt;
-</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Trevor</dc:creator><pubDate>Fri, 26 Jun 2015 17:03:12 +0200</pubDate><guid>tag:,2015-06-26:configuring-systems-with-fabric-and-cuisine.html</guid><category>linux</category><category>python</category><category>fabric</category></item><item><title>IPython with Python 3</title><link>/ipython-with-python-3.html</link><description>&lt;p&gt;This took me longer than I was expecting.&lt;/p&gt;
-&lt;p&gt;In general when working with IPython I use &lt;code class="code"&gt;
-pip&lt;/code&gt;
- rather than &lt;code class="code"&gt;
-apt-get&lt;/code&gt;
-, as
-pip tends to have more up-to-date packages.&lt;/p&gt;
-&lt;p&gt;In the end I found the simplest thing to do was to set up IPython in an isolated
-virtualenv environment.  The main trick is to let virtualenv know what version of
-Python you want it to use by default.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;virtualenv --python&lt;span class="o"&gt;=&lt;/span&gt;python3.4 python_3_demo
-&lt;span class="nv"&gt;$ &lt;/span&gt;&lt;span class="nb"&gt;cd &lt;/span&gt;python_3_demo/
-&lt;span class="nv"&gt;$ &lt;/span&gt;&lt;span class="nb"&gt;source&lt;/span&gt; ./bin/activate
-&lt;span class="nv"&gt;$ &lt;/span&gt;pip install ipython
-&lt;span class="nv"&gt;$ &lt;/span&gt;ipython
-&lt;/pre&gt;&lt;/div&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;Python&lt;/span&gt; &lt;span class="mf"&gt;3.4&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;default&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Apr&lt;/span&gt; &lt;span class="mi"&gt;11&lt;/span&gt; &lt;span class="mi"&gt;2014&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;13&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mo"&gt;05&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;11&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="o"&gt;...&lt;/span&gt;
-
-&lt;span class="n"&gt;In&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]:&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;sys&lt;/span&gt;
-
-&lt;span class="n"&gt;In&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;]:&lt;/span&gt; &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sys&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;version&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="mf"&gt;3.4&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;default&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Apr&lt;/span&gt; &lt;span class="mi"&gt;11&lt;/span&gt; &lt;span class="mi"&gt;2014&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;13&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mo"&gt;05&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;11&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;GCC&lt;/span&gt; &lt;span class="mf"&gt;4.8&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;And voila, I have Python 3 in the best Python interpreter ever built, I'm ready to
-start wrapping my head around byte arrays and UTF-8 encodings.&lt;/p&gt;
-</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Trevor</dc:creator><pubDate>Fri, 26 Jun 2015 17:03:12 +0200</pubDate><guid>tag:,2015-06-26:ipython-with-python-3.html</guid><category>Python</category><category>IPython</category></item><item><title>logrotate</title><link>/logrotate.html</link><description>&lt;p&gt;I have a large, complex &lt;a class="reference external" href="/postfix.html"&gt;mailing system&lt;/a&gt; that processes
-a significant amount of data every hour.  While I'm developing it, I want to know
-what it's doing, and whether it's having any problems.  So I use the excellent
-python &lt;a class="reference external" href="https://docs.python.org/2/library/logging.html"&gt;logging&lt;/a&gt; library to produce comprehensive monitoring data.&lt;/p&gt;
-&lt;p&gt;The only problem is that these log files can get pretty big.  And because I don't
-know ahead of time when I'm going to need to hunt through them, I tend to leave
-the logging system in a fairly verbose state.&lt;/p&gt;
-&lt;p&gt;Enter &lt;a class="reference external" href="http://www.thegeekstuff.com/2010/07/logrotate-examples/"&gt;logrotate&lt;/a&gt;.  This is a standard service on Ubuntu that regularly rotates
-your log files, throwing away old data, compressing middle-age data, and leaving
-young log files fresh and accessible.  Thus you are protected from
-runaway log file growth and nasty calls in the middle of the night from your
-monitoring service telling you that your server just died because the hard
-drives were full.&lt;/p&gt;
-&lt;p&gt;A default ubuntu installation comes with logrotate already set up for various services.
-If you don't have it, install it with &lt;code class="code"&gt;
-apt-get install logrotate&lt;/code&gt;
-, and
-then it's mostly just a question of copying a file from &lt;code class="code"&gt;
-/etc/logrotate.d/&lt;/code&gt;
-
-and modifying it according to your needs.&lt;/p&gt;
-&lt;p&gt;&lt;code class="code"&gt;
-vi /etc/logrotate.d/myservice&lt;/code&gt;
-&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;/var/log/myservice/*.log &lt;span class="o"&gt;{&lt;/span&gt;
-  rotate 7
-  daily
-  compress
-  missingok
-  notifempty
-&lt;span class="o"&gt;}&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;And that's it!  The actually invocation of the &lt;code class="code"&gt;
-logrotate&lt;/code&gt;
- command will
-get triggered regularly by a script in /etc/cron.daily&lt;/p&gt;
-&lt;p&gt;You can also &lt;strong&gt;force&lt;/strong&gt; a rotation, a useful option when testing out a new configuration,
-via&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;logrotate -f /etc/logrotate.d/myservice
-&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;One quick word of warning: if you're using the python &lt;a class="reference external" href="https://docs.python.org/2/library/logging.html"&gt;logging&lt;/a&gt; library, then
-you'll want to use the &lt;code class="code"&gt;
-WatchedFileHandler&lt;/code&gt;
- class.  If the logfile gets
-rotated out while it's in use, WatchedFileHandler will notice this, close the file
-stream and open a new one.&lt;/p&gt;
-</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Trevor</dc:creator><pubDate>Fri, 26 Jun 2015 17:03:12 +0200</pubDate><guid>tag:,2015-06-26:logrotate.html</guid><category>logrotate</category><category>linux</category></item><item><title>More Ractive</title><link>/more-ractive.html</link><description>&lt;p&gt;I've used &lt;a class="reference external" href="http://www.ractivejs.org/"&gt;Ractive&lt;/a&gt; for several projects recently.
-It's been like a breath of fresh air.  I've been writing user interfaces of one
-kind or another for more than a decade, and keeping &lt;em&gt;what's displayed to the user&lt;/em&gt;
-in sync with &lt;em&gt;what's stored in the data structures&lt;/em&gt; has often been a source of
-frustration.&lt;/p&gt;
-&lt;p&gt;In the javascript world, I've mostly used &lt;a class="reference external" href="http://backbonejs.org/"&gt;backbone&lt;/a&gt;  and
-&lt;a class="reference external" href="http://jquery.com/"&gt;jQuery&lt;/a&gt; for creating interactive web pages.  While these
-tools are very good at what they do, I still find myself writing a fair amount
-of code to update data in the model whenever a user interacts with a control, and
-to update the control displays whenever data in the model changes.&lt;/p&gt;
-&lt;p&gt;Enter &lt;strong&gt;Ractive&lt;/strong&gt;.  It's not the only library to handle 2-way data binding - Angular,
-Knockout and React all play in this space, but it's my current favourite.&lt;/p&gt;
-&lt;p&gt;Anyway, here's a little demo....&lt;/p&gt;
-&lt;p&gt;Given a ractive template like this:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;p&amp;gt;&lt;/span&gt;Type in the boxes below.&lt;span class="err"&gt;&amp;lt;&lt;/span&gt;\p&amp;gt;
-&lt;span class="nt"&gt;&amp;lt;input&lt;/span&gt; &lt;span class="na"&gt;class=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;form-control&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;value=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;{{var1}}&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
-&lt;span class="nt"&gt;&amp;lt;input&lt;/span&gt; &lt;span class="na"&gt;class=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;form-control&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;value=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;{{var2}}&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
-&lt;span class="nt"&gt;&amp;lt;p&amp;gt;&lt;/span&gt;Current values are var1:&lt;span class="nt"&gt;&amp;lt;code&amp;gt;&lt;/span&gt;{{var1}}&lt;span class="nt"&gt;&amp;lt;/code&amp;gt;&lt;/span&gt;, var2:&lt;span class="nt"&gt;&amp;lt;code&amp;gt;&lt;/span&gt;{{var2}}&lt;span class="nt"&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
-&lt;span class="nt"&gt;&amp;lt;button&lt;/span&gt; &lt;span class="na"&gt;class=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;btn btn-primary&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;on-click=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;changeme&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;Set var1&lt;span class="nt"&gt;&amp;lt;/button&amp;gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;and javascript like this:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;ractive&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="nx"&gt;Ractive&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt;
-   &lt;span class="nx"&gt;el&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;#demo&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-   &lt;span class="nx"&gt;template&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="nx"&gt;template&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-   &lt;span class="nx"&gt;data&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="nx"&gt;var1&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;beeblebrox&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nx"&gt;var2&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;lintilla&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
-&lt;span class="p"&gt;});&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;We get:&lt;/p&gt;
-&lt;script src='http://cdn.ractivejs.org/latest/ractive.js'&gt;&lt;/script&gt;
-
-&lt;div id="demo" class="well"&gt;&lt;/div&gt;
-&lt;script type="text/javascript"&gt;
-
-     var template='&lt;p&gt;Type in the boxes below.&lt;\p&gt; \
-                  &lt;input class="form-control" value="{{var1}}"&gt;  \
-                  &lt;input class="form-control" value="{{var2}}"&gt;  \
-                  &lt;p&gt;Current values are var1:&lt;code&gt;{{var1}}&lt;/code&gt;, var2:&lt;code&gt;{{var2}}&lt;/p&gt;\
-                  &lt;br&gt;&lt;button class="btn btn-primary" on-click="changeme"&gt;Set var1&lt;/button&gt;';
-
-     var ractive = new Ractive({
-        el:"#demo",
-        template:template,
-        data:{var1:'beeblebrox',var2:'lintilla'}
-     });
-
-     ractive.on('changeme',function(){
-        ractive.set('var1','zarniwoop');
-     });
-&lt;/script&gt;&lt;p&gt;Neat, huh?  I haven't had to write any code to manually react to keyup, or change events
-in the input controls - Ractive simply takes care of the fact that I refer to &lt;code class="code"&gt;
-var1&lt;/code&gt;
-
-in both the output paragraph and the control value, and binds the two elements together,
-refreshing them whenever needed.&lt;/p&gt;
-&lt;p&gt;The code for responding to the button click is simply:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nx"&gt;ractive&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;on&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;changeme&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(){&lt;/span&gt;
-    &lt;span class="nx"&gt;ractive&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;set&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;var1&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;zarniwoop&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
-&lt;span class="p"&gt;});&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;By setting data in the underlying model, the user interface automatically updates,
-again without any manual intervention.&lt;/p&gt;
-&lt;div class="section" id="ui-development-might-be-fun-again"&gt;
-&lt;h2&gt;UI development might be fun again....&lt;/h2&gt;
-&lt;p&gt;I have the same feeling on discovering Ractive that I had when I was first shown
-jQuery.  All of a sudden, a bunch of boring, fiddly manual tasks are taken care
-of in an intuitive way.  And unlike other frameworks, &lt;em&gt;all&lt;/em&gt; ractive does is data-binding.
-It doesn't try to be a control library, an AJAX toolkit or a Model-View-Controller
-framework.  For those who like all-in-one solutions, this will be a weakness, but as
-someone who believes in the unix philosophy of building systems from tools that
-each do one thing well, I'm very impressed.&lt;/p&gt;
-&lt;/div&gt;
-</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Trevor</dc:creator><pubDate>Fri, 26 Jun 2015 17:03:12 +0200</pubDate><guid>tag:,2015-06-26:more-ractive.html</guid><category>javascript</category><category>ractive</category></item><item><title>Nginx and UWSGI on Ubuntu 14</title><link>/nginx-uwsgi-ubuntu-14.html</link><description>&lt;p&gt;The documentation for Nginx and UWSGI is long and complex, but with ubuntu 14
-it's actually pretty straightforward to get them up and running.&lt;/p&gt;
-&lt;p&gt;I present here a a setup that uses nginx and uwsgi emperor to host
-multiple python web applications simultaneously on an ubuntu 14 machine.&lt;/p&gt;
-&lt;p&gt;First, the packages&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;sudo apt-get install nginx
-&lt;span class="nv"&gt;$ &lt;/span&gt;sudo apt-get install uwsgi uwsgi-emperor uwsgi-plugin-python
-&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Our configuration files will now be under &lt;code class="code"&gt;
-/etc/nginx&lt;/code&gt;
- and &lt;code class="code"&gt;
-/etc/uwsgi-emperor&lt;/code&gt;
-&lt;/p&gt;
-&lt;p&gt;You can start, stop, and reload nginx as follows:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;sudo service nginx start
-&lt;span class="nv"&gt;$ &lt;/span&gt;sudo service nginx stop
-&lt;span class="nv"&gt;$ &lt;/span&gt;sudo service nginx reload
-&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;The last command is useful when changing configuration settings.&lt;/p&gt;
-&lt;p&gt;Now set up a site by creating a file in &lt;code class="code"&gt;
-/etc/nginx/sites-available&lt;/code&gt;
-&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;#/etc/nginx/sites-available/mysite&lt;/span&gt;
-server&lt;span class="o"&gt;{&lt;/span&gt;
-
-    server_name     your_host_name&lt;span class="p"&gt;;&lt;/span&gt;
-
-    location /app1 &lt;span class="o"&gt;{&lt;/span&gt;
-        uwsgi_pass unix:/tmp/app1.socket&lt;span class="p"&gt;;&lt;/span&gt;
-        include uwsgi_params&lt;span class="p"&gt;;&lt;/span&gt;
-    &lt;span class="o"&gt;}&lt;/span&gt;
-    location /app2 &lt;span class="o"&gt;{&lt;/span&gt;
-        uwsgi_pass unix:/tmp/app2.socket&lt;span class="p"&gt;;&lt;/span&gt;
-        include uwsgi_params&lt;span class="p"&gt;;&lt;/span&gt;
-    &lt;span class="o"&gt;}&lt;/span&gt;
-&lt;span class="o"&gt;}&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Then,&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;sudo ln -s /etc/nginx/apps-available/mysite /etc/nginx/sites-enabled
-&lt;/pre&gt;&lt;/div&gt;
-&lt;div class="alert  alert-warning compound"&gt;
-&lt;p class="compound-first"&gt;&lt;strong&gt;Warning&lt;/strong&gt;&lt;/p&gt;
-&lt;p class="compound-last"&gt;A previous version of this tutorial had the sockets placed in &lt;code class="code"&gt;
-/run/uwsgi&lt;/code&gt;
-.
-This was a mistake, because under Ubuntu &lt;code class="code"&gt;
-/run&lt;/code&gt;
- is mounted as a &lt;code class="code"&gt;
-tmpfs&lt;/code&gt;
-, and its content will be deleted on reboot
-Your uwsgi sub-directory will vanish and the uwsgi services will not restart.&lt;/p&gt;
-&lt;/div&gt;
-&lt;p&gt;Next, set up your 'vassals' (&lt;a class="reference external" href="http://uwsgi-docs.readthedocs.org/en/latest/Emperor.html"&gt;http://uwsgi-docs.readthedocs.org/en/latest/Emperor.html&lt;/a&gt;)&lt;/p&gt;
-&lt;p&gt;Create  &lt;code class="code"&gt;
-/etc/uwsgi-emperor/vassals/app1.ini&lt;/code&gt;
- as follows:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;[uwsgi]&lt;/span&gt;
-&lt;span class="na"&gt;plugin&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;python&lt;/span&gt;
-&lt;span class="na"&gt;processes&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;2&lt;/span&gt;
-&lt;span class="na"&gt;socket&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;/tmp/app1.socket&lt;/span&gt;
-&lt;span class="na"&gt;chmod-socket&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;666&lt;/span&gt;
-
-&lt;span class="na"&gt;chdir&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;/srv/app1&lt;/span&gt;
-&lt;span class="na"&gt;wsgi-file&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;/srv/app1/main.py&lt;/span&gt;
-
-&lt;span class="na"&gt;uid&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;www-data&lt;/span&gt;
-&lt;span class="na"&gt;gid&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;www-data&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;And for your second application, create  &lt;code class="code"&gt;
-/etc/uwsgi-emperor/vassals/app2.ini&lt;/code&gt;
- as similarly:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;[uwsgi]&lt;/span&gt;
-&lt;span class="na"&gt;plugin&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;python&lt;/span&gt;
-&lt;span class="na"&gt;processes&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;2&lt;/span&gt;
-&lt;span class="na"&gt;socket&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;/tmp/app2.socket&lt;/span&gt;
-&lt;span class="na"&gt;chmod-socket&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;666&lt;/span&gt;
-
-&lt;span class="na"&gt;chdir&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;/srv/app1&lt;/span&gt;
-&lt;span class="na"&gt;wsgi-file&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;/srv/app2/main.py&lt;/span&gt;
-
-&lt;span class="na"&gt;uid&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;www-data&lt;/span&gt;
-&lt;span class="na"&gt;gid&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;www-data&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;The simple act of &lt;em&gt;creating&lt;/em&gt; or touching a .ini file in &lt;code class="code"&gt;
-/etc/uwsgi-emperor/vassals&lt;/code&gt;
- will cause
-the emperor process to try to restart your application.&lt;/p&gt;
-&lt;p&gt;Of course, your applications don't exist yet, so let's create them.  The simplest wsgi
-application can be only a few lines long:&lt;/p&gt;
-&lt;p&gt;Create &lt;code class="code"&gt;
-/srv/app1/main.py&lt;/code&gt;
-&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;application&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;start_response&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-    &lt;span class="n"&gt;start_response&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;200 OK&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;[(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;Content-Type&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;text/html&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)])&lt;/span&gt;
-    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Hello World, I am app1&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;And &lt;code class="code"&gt;
-/srv/app2/main.py&lt;/code&gt;
-&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;application&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;start_response&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-    &lt;span class="n"&gt;start_response&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;200 OK&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;[(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;Content-Type&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;text/html&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)])&lt;/span&gt;
-    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;I, however, am app2. &amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;And that's it!&lt;/p&gt;
-&lt;p&gt;Visiting &lt;a class="reference external" href="http://your_host_name/app1"&gt;http://your_host_name/app1&lt;/a&gt; or &lt;a class="reference external" href="http://your_host_name/app2"&gt;http://your_host_name/app2&lt;/a&gt; should return the text
-you put in the python files.&lt;/p&gt;
-</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Trevor</dc:creator><pubDate>Fri, 26 Jun 2015 17:03:12 +0200</pubDate><guid>tag:,2015-06-26:nginx-uwsgi-ubuntu-14.html</guid><category>Python</category><category>nginx</category><category>uwsgi</category></item><item><title>PDF Generation With Pelican</title><link>/pdf-generation-with-pelican.html</link><description>&lt;p&gt;The existing documentation is a little unclear on this, because it says
-you need to add &lt;code class="code"&gt;
-PDF_GENERATOR=True&lt;/code&gt;
- to your &lt;cite&gt;pelicanconf.py&lt;/cite&gt; file.&lt;/p&gt;
-&lt;p&gt;This advice is out of date: PDF generation has been moved to a plugin.&lt;/p&gt;
-&lt;p&gt;So you need to first make sure you have &lt;code class="code"&gt;
-rst2pdf&lt;/code&gt;
- installed:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;sudo apt-get install rst2pdf
-&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;and then add the following to &lt;code class="code"&gt;
-pelicanconf.py&lt;/code&gt;
-&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;PLUGIN_PATH&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;../pelican-plugins&amp;#39;&lt;/span&gt;  &lt;span class="c"&gt;# or wherever.&lt;/span&gt;
-&lt;span class="n"&gt;PLUGINS&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;pdf&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;However, doing this seems to screw up the pygments highlighting on my regular
-html output.  This is because deep in the rst2pdf code, in a file called &lt;code class="code"&gt;
-pygments2style.py&lt;/code&gt;
-,
-all the pygment elements have their CSS classes prepended with &lt;code class="code"&gt;
-pygment-&lt;/code&gt;
-.  I haven't
-figured out how to generate HTML and PDF nicely at the same time.&lt;/p&gt;
-</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Trevor</dc:creator><pubDate>Fri, 26 Jun 2015 17:03:12 +0200</pubDate><guid>tag:,2015-06-26:pdf-generation-with-pelican.html</guid><category>python</category><category>pelican</category></item><item><title>Postfix</title><link>/postfix.html</link><description>&lt;p&gt;Postfix is a ghastly horror that really should be quietly eliminated.  But that truism hides a deeper issue - email itself is a ghastly horror, the result of 30 years of hacks, edge-cases, non-conformant implementations and competing design constraints, that only persists because we still haven't come up with anything better.&lt;/p&gt;
-&lt;p&gt;Take the simple question 'what is a valid email address'.&lt;/p&gt;
-&lt;p&gt;I have a couple of standard regexes I use to validate email addresses,
-such as &lt;code class="code"&gt;
-^[A-Z0-9._%+-]+&amp;#64;[A-Z0-9.-]+ .[A-Z]{2,4}$&lt;/code&gt;
-,
-but having spent years building mailing systems,
-the best answer I can come up with is
-&lt;em&gt;a valid email address is one that gets delivered to its destination&lt;/em&gt;.&lt;/p&gt;
-&lt;p&gt;So, Postfix.  If you ever need a taste of purgatory, take some time to browse through
-the source code, a terrifying mix of old-school C and Perl.  I once needed to create
-a utility to monitor the state of a Postfix DEFERRED queue, and found it was vastly
-easier to write my own queue parser in Python than understand the source to the existing
-&lt;code class="code"&gt;
-qshape&lt;/code&gt;
- utility.  Whoever wrote that clearly has an aversion to variable names
-that are more than one character long.&lt;/p&gt;
-&lt;p&gt;Actually configuring a functional Postfix system requires commiting yourself to a long
-pilgrimage across the net, picking up scattered bits of wisdom from the hardy travellers
-who have passed this way before, and recorded their insights in ancient forgotten blog
-posts and wiki pages.&lt;/p&gt;
-&lt;p&gt;Documents such as &lt;a class="reference external" href="http://www.howtoforge.com/virtual-users-domains-postfix-courier-mysql-squirrelmail-ubuntu-10.04"&gt;http://www.howtoforge.com/virtual-users-domains-postfix-courier-mysql-squirrelmail-ubuntu-10.04&lt;/a&gt;
-include gems like &lt;em&gt;'this howto is meant as a practical guide; it does not cover the
-theoretical backgrounds'&lt;/em&gt;.&lt;/p&gt;
-&lt;p&gt;You have been warned, it seems to be saying.  Configuring this system really requires at
-the very least a Masters degree in Advanced Email Hackery.&lt;/p&gt;
-&lt;a class="reference external image-reference" href="http://www.linuxjournal.com/article/9454"&gt;&lt;img alt="postfix flowchart" src="images/postfix_flowchart.jpg" /&gt;&lt;/a&gt;
-&lt;p&gt;That image is from this &lt;a class="reference external" href="http://www.linuxjournal.com/article/9454"&gt;article&lt;/a&gt; at Linux Journal, which is actually
-a pretty good and comprehensive introduction to the architecture of Postfix&lt;/p&gt;
-&lt;p&gt;The &lt;em&gt;key&lt;/em&gt; insight that everything else hangs on is that Postfix is &lt;em&gt;not&lt;/em&gt; a program.  Postfix is a large
-&lt;em&gt;collection&lt;/em&gt; of programs: some of which interact with the user, and a large number which run in the
-background and perform all the various tasks of gathering, processing and delivering email.&lt;/p&gt;
-&lt;p&gt;These programs, together with a rather complex set of folders under &lt;code class="code"&gt;
-/var/spool/postfix&lt;/code&gt;
- that store messages as they work their way through
-the system, and another set of rather complex configuration files under &lt;code class="code"&gt;
-/etc/postfix&lt;/code&gt;
-, are what comprises the
-complete mail delivery system.&lt;/p&gt;
-&lt;p&gt;To add to the fun, many postfix configuration settings can be stored in MySQL, and it's possible to run multiple postfix instances in
-parallel with each other.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;pstree -a
-
-├─master
-│   ├─anvil -l -t unix -u -c
-│   ├─pickup -l -t unix -u -c
-│   ├─qmgr -l -t unix -u
-│   ├─smtpd -n smtp -t inet -u -c -o &lt;span class="nv"&gt;stress&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt; -s 2
-│   ├─smtpd -n smtp -t inet -u -c -o &lt;span class="nv"&gt;stress&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt; -s 2
-│   └─tlsmgr -l -t unix -u -c
-├─master
-│   ├─anvil -l -t unix -u -c
-│   ├─pickup -l -t unix -u -c
-│   ├─qmgr -l -t unix -u
-│   ├─smtpd -n smtp -t inet -u -c -o &lt;span class="nv"&gt;stress&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;
-│   └─smtpd -n smtp -t inet -u -c -o &lt;span class="nv"&gt;stress&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;
-├─master
-│   ├─anvil -l -t unix -u -c
-│   ├─pickup -l -t unix -u -c
-│   ├─qmgr -l -t unix -u
-│   ├─smtpd -n smtp -t inet -u -c -o &lt;span class="nv"&gt;stress&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;
-│   └─smtpd -n smtp -t inet -u -c -o &lt;span class="nv"&gt;stress&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;
-├─master
-│   ├─anvil -l -t unix -u -c
-│   ├─pickup -l -t unix -u -c
-│   ├─qmgr -l -t unix -u
-│   ├─smtpd -n smtp -t inet -u -c -o &lt;span class="nv"&gt;stress&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;
-│   └─smtpd -n smtp -t inet -u -c -o &lt;span class="nv"&gt;stress&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;
-├─master
-│   ├─anvil -l -t unix -u -c
-│   ├─pickup -l -t unix -u -c
-│   ├─qmgr -l -t unix -u
-│   ├─smtpd -n smtp -t inet -u -c -o &lt;span class="nv"&gt;stress&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;
-│   └─smtpd -n smtp -t inet -u -c -o &lt;span class="nv"&gt;stress&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;That's a lot of processes....&lt;/p&gt;
-&lt;p&gt;And yet, despite this, Postfix seems to be about the best there is.  Over the last
-few years I've built and maintained a massively parallel mail delivery, management
-and monitoring system on top of Postfix that, at the last count, had successfully
-delivered almost 10 million messages for clients of &lt;a class="reference external" href="http://nooro.com"&gt;Nooro Online Research&lt;/a&gt;.&lt;/p&gt;
-</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Trevor</dc:creator><pubDate>Fri, 26 Jun 2015 17:03:12 +0200</pubDate><guid>tag:,2015-06-26:postfix.html</guid><category>postfix</category><category>email</category></item><item><title>Postgres JSON Aggregation</title><link>/postgres-json-aggregation.html</link><description>&lt;p&gt;I've been using the new JSON functionality in Postgres a lot recently:
-I'm fond of saying that Postgresql is the best NoSQL database available
-today. I'm quite serious about this: having used key-value and JSON
-stores such as CouchDB in the past, it's amazing to me how the Postgres
-developers have managed to marry the best of traditional relational
-technology with the flexibility of schema-free JSON documents.&lt;/p&gt;
-&lt;p&gt;As of version 9.3, postgres allows you to create JSON column types, and
-provides a number of functions to access and iterate through the data
-stored in them.&lt;/p&gt;
-&lt;p&gt;This week I discovered another hidden gem - &lt;code class="code"&gt;
-json_agg()&lt;/code&gt;
-. This
-function lets you take the results from an aggregation operation and
-convert them into a JSON block - very helpful if you're then going to
-work with the returned data in a language like Python&lt;/p&gt;
-&lt;p&gt;To demonstrate this, we'll first set up some simple tables.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;load_ext&lt;/span&gt; &lt;span class="n"&gt;sql&lt;/span&gt;
-&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;config&lt;/span&gt; &lt;span class="n"&gt;SqlMagic&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;feedback&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;False&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="o"&gt;%%&lt;/span&gt;&lt;span class="n"&gt;sql&lt;/span&gt;
-&lt;span class="n"&gt;postgresql&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="n"&gt;testuser&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;password&lt;/span&gt;&lt;span class="nd"&gt;@localhost&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;test&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;pre class="literal-block"&gt;
-u'Connected: &lt;a class="reference external" href="mailto:testuser&amp;#64;test"&gt;testuser&amp;#64;test&lt;/a&gt;'
-&lt;/pre&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="o"&gt;%%&lt;/span&gt;&lt;span class="n"&gt;sql&lt;/span&gt;
-&lt;span class="n"&gt;CREATE&lt;/span&gt; &lt;span class="n"&gt;TABLE&lt;/span&gt; &lt;span class="n"&gt;IF&lt;/span&gt; &lt;span class="n"&gt;NOT&lt;/span&gt; &lt;span class="n"&gt;EXISTS&lt;/span&gt; &lt;span class="n"&gt;person&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;
-    &lt;span class="n"&gt;name&lt;/span&gt; &lt;span class="n"&gt;text&lt;/span&gt; &lt;span class="n"&gt;primary&lt;/span&gt; &lt;span class="n"&gt;key&lt;/span&gt;
-&lt;span class="p"&gt;);&lt;/span&gt;
-
-&lt;span class="n"&gt;INSERT&lt;/span&gt; &lt;span class="n"&gt;INTO&lt;/span&gt; &lt;span class="n"&gt;person&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="n"&gt;VALUES&lt;/span&gt;
-&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;emily&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;),(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;arthur&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;),(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;nicki&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;),(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;oliver&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="p"&gt;;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;pre class="literal-block"&gt;
-[]
-&lt;/pre&gt;
-&lt;p&gt;We can query this in the usual way:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;sql&lt;/span&gt; &lt;span class="n"&gt;SELECT&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;FROM&lt;/span&gt; &lt;span class="n"&gt;person&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;table class="table table-bordered"&gt;
-    &lt;tr&gt;
-        &lt;th&gt;name&lt;/th&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-        &lt;td&gt;emily&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-        &lt;td&gt;arthur&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-        &lt;td&gt;nicki&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-        &lt;td&gt;oliver&lt;/td&gt;
-    &lt;/tr&gt;
-&lt;/table&gt;&lt;p&gt;But we can also use &lt;code class="code"&gt;
-json_agg()&lt;/code&gt;
-&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;sql&lt;/span&gt; &lt;span class="n"&gt;SELECT&lt;/span&gt; &lt;span class="n"&gt;json_agg&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="n"&gt;FROM&lt;/span&gt; &lt;span class="n"&gt;person&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;table class="table table-bordered"&gt;
-    &lt;tr&gt;
-        &lt;th&gt;json_agg&lt;/th&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-        &lt;td&gt;[u'emily', u'arthur', u'nicki', u'oliver']&lt;/td&gt;
-    &lt;/tr&gt;
-&lt;/table&gt;&lt;p&gt;Which gives us a single object to work with. So far, this isn't
-particularly helpful, but it becomes very useful when we start doing
-&lt;code class="code"&gt;
-JOINS&lt;/code&gt;
-&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="o"&gt;%%&lt;/span&gt;&lt;span class="n"&gt;sql&lt;/span&gt;
-&lt;span class="n"&gt;CREATE&lt;/span&gt; &lt;span class="n"&gt;TABLE&lt;/span&gt; &lt;span class="n"&gt;IF&lt;/span&gt; &lt;span class="n"&gt;NOT&lt;/span&gt; &lt;span class="n"&gt;EXISTS&lt;/span&gt; &lt;span class="n"&gt;action&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
-    &lt;span class="nb"&gt;id&lt;/span&gt; &lt;span class="n"&gt;serial&lt;/span&gt; &lt;span class="n"&gt;primary&lt;/span&gt; &lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-    &lt;span class="n"&gt;created&lt;/span&gt; &lt;span class="n"&gt;timestamp&lt;/span&gt; &lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="n"&gt;time&lt;/span&gt; &lt;span class="n"&gt;zone&lt;/span&gt; &lt;span class="n"&gt;default&lt;/span&gt; &lt;span class="n"&gt;now&lt;/span&gt;&lt;span class="p"&gt;(),&lt;/span&gt;
-    &lt;span class="n"&gt;person_name&lt;/span&gt; &lt;span class="n"&gt;text&lt;/span&gt; &lt;span class="n"&gt;references&lt;/span&gt; &lt;span class="n"&gt;person&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-    &lt;span class="nb"&gt;type&lt;/span&gt; &lt;span class="n"&gt;text&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="n"&gt;null&lt;/span&gt;
-&lt;span class="p"&gt;);&lt;/span&gt;
-
-&lt;span class="n"&gt;INSERT&lt;/span&gt; &lt;span class="n"&gt;INTO&lt;/span&gt; &lt;span class="n"&gt;action&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;person_name&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;type&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="n"&gt;VALUES&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;emily&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;login&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
-&lt;span class="n"&gt;INSERT&lt;/span&gt; &lt;span class="n"&gt;INTO&lt;/span&gt; &lt;span class="n"&gt;action&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;person_name&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;type&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="n"&gt;VALUES&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;emily&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;pageview&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
-&lt;span class="n"&gt;INSERT&lt;/span&gt; &lt;span class="n"&gt;INTO&lt;/span&gt; &lt;span class="n"&gt;action&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;person_name&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;type&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="n"&gt;VALUES&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;arthur&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;login&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
-&lt;span class="n"&gt;INSERT&lt;/span&gt; &lt;span class="n"&gt;INTO&lt;/span&gt; &lt;span class="n"&gt;action&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;person_name&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;type&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="n"&gt;VALUES&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;emily&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;logout&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
-&lt;span class="n"&gt;INSERT&lt;/span&gt; &lt;span class="n"&gt;INTO&lt;/span&gt; &lt;span class="n"&gt;action&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;person_name&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;type&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="n"&gt;VALUES&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;nicki&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;password_change&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
-&lt;span class="n"&gt;INSERT&lt;/span&gt; &lt;span class="n"&gt;INTO&lt;/span&gt; &lt;span class="n"&gt;action&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;person_name&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;type&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="n"&gt;VALUES&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;nicki&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;createpost&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;pre class="literal-block"&gt;
-[]
-&lt;/pre&gt;
-&lt;p&gt;If we want to ask Postgres to give us every user and every action
-they've performed, we &lt;em&gt;could&lt;/em&gt; do it this way:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;sql&lt;/span&gt; &lt;span class="n"&gt;SELECT&lt;/span&gt; &lt;span class="n"&gt;person&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;  &lt;span class="n"&gt;action&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;type&lt;/span&gt; &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;action&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;created&lt;/span&gt; &lt;span class="n"&gt;FROM&lt;/span&gt; &lt;span class="n"&gt;action&lt;/span&gt; &lt;span class="n"&gt;JOIN&lt;/span&gt; &lt;span class="n"&gt;person&lt;/span&gt; &lt;span class="n"&gt;ON&lt;/span&gt; &lt;span class="n"&gt;action&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;person_name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;person&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;table class="table table-bordered"&gt;
-    &lt;tr&gt;
-        &lt;th&gt;name&lt;/th&gt;
-        &lt;th&gt;type&lt;/th&gt;
-        &lt;th&gt;created&lt;/th&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-        &lt;td&gt;emily&lt;/td&gt;
-        &lt;td&gt;login&lt;/td&gt;
-        &lt;td&gt;2014-11-08 17:45:05.963569-05:00&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-        &lt;td&gt;emily&lt;/td&gt;
-        &lt;td&gt;pageview&lt;/td&gt;
-        &lt;td&gt;2014-11-08 17:45:05.964663-05:00&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-        &lt;td&gt;arthur&lt;/td&gt;
-        &lt;td&gt;login&lt;/td&gt;
-        &lt;td&gt;2014-11-08 17:45:05.965214-05:00&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-        &lt;td&gt;emily&lt;/td&gt;
-        &lt;td&gt;logout&lt;/td&gt;
-        &lt;td&gt;2014-11-08 17:45:05.965741-05:00&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-        &lt;td&gt;nicki&lt;/td&gt;
-        &lt;td&gt;password_change&lt;/td&gt;
-        &lt;td&gt;2014-11-08 17:45:05.966274-05:00&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-        &lt;td&gt;nicki&lt;/td&gt;
-        &lt;td&gt;createpost&lt;/td&gt;
-        &lt;td&gt;2014-11-08 17:45:05.966824-05:00&lt;/td&gt;
-    &lt;/tr&gt;
-&lt;/table&gt;&lt;p&gt;But then iterating through this recordset is a pain - I can't easily
-construct a nested for loop to iterate through each person and then
-through each action.&lt;/p&gt;
-&lt;p&gt;Enter &lt;code class="code"&gt;
-json_agg()&lt;/code&gt;
-&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;sql&lt;/span&gt; &lt;span class="n"&gt;SELECT&lt;/span&gt; &lt;span class="n"&gt;person&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;  &lt;span class="n"&gt;json_agg&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;action&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="n"&gt;FROM&lt;/span&gt; &lt;span class="n"&gt;action&lt;/span&gt; &lt;span class="n"&gt;JOIN&lt;/span&gt; &lt;span class="n"&gt;person&lt;/span&gt; &lt;span class="n"&gt;ON&lt;/span&gt; &lt;span class="n"&gt;action&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;person_name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;person&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt; &lt;span class="n"&gt;GROUP&lt;/span&gt; &lt;span class="n"&gt;BY&lt;/span&gt; &lt;span class="n"&gt;person&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;table class="table table-bordered"&gt;
-    &lt;tr&gt;
-        &lt;th&gt;name&lt;/th&gt;
-        &lt;th&gt;json_agg&lt;/th&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-        &lt;td&gt;arthur&lt;/td&gt;
-        &lt;td&gt;[{u'person_name': u'arthur', u'type': u'login', u'id': 3, u'created': u'2014-11-08 17:45:05.965214-05'}]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-        &lt;td&gt;emily&lt;/td&gt;
-        &lt;td&gt;[{u'person_name': u'emily', u'type': u'login', u'id': 1, u'created': u'2014-11-08 17:45:05.963569-05'}, {u'person_name': u'emily', u'type': u'pageview', u'id': 2, u'created': u'2014-11-08 17:45:05.964663-05'}, {u'person_name': u'emily', u'type': u'logout', u'id': 4, u'created': u'2014-11-08 17:45:05.965741-05'}]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-        &lt;td&gt;nicki&lt;/td&gt;
-        &lt;td&gt;[{u'person_name': u'nicki', u'type': u'password_change', u'id': 5, u'created': u'2014-11-08 17:45:05.966274-05'}, {u'person_name': u'nicki', u'type': u'createpost', u'id': 6, u'created': u'2014-11-08 17:45:05.966824-05'}]&lt;/td&gt;
-    &lt;/tr&gt;
-&lt;/table&gt;&lt;p&gt;Which becomes much more usable in Python:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;people&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;sql&lt;/span&gt; &lt;span class="n"&gt;SELECT&lt;/span&gt; &lt;span class="n"&gt;person&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;  &lt;span class="n"&gt;json_agg&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;action&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="n"&gt;FROM&lt;/span&gt; &lt;span class="n"&gt;action&lt;/span&gt; &lt;span class="n"&gt;JOIN&lt;/span&gt; &lt;span class="n"&gt;person&lt;/span&gt; &lt;span class="n"&gt;ON&lt;/span&gt; &lt;span class="n"&gt;action&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;person_name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;person&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt; &lt;span class="n"&gt;GROUP&lt;/span&gt; &lt;span class="n"&gt;BY&lt;/span&gt; &lt;span class="n"&gt;person&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;actions&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;people&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-    &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="n"&gt;name&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;pre class="literal-block"&gt;
-arthur
-emily
-nicki
-&lt;/pre&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;actions&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;people&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-    &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="n"&gt;name&lt;/span&gt;
-    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;action&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;actions&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-        &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;&lt;/span&gt;&lt;span class="se"&gt;\t&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;action&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;type&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;pre class="literal-block"&gt;
-arthur
-    login
-emily
-    login
-    pageview
-    logout
-nicki
-    password_change
-    createpost
-&lt;/pre&gt;
-&lt;p&gt;So now we've managed to easily convert relational Postgres data into a
-hierarchical Python data structure. From here we can easily continue to
-XML, JSON, HTML or whatever document type suits your need.&lt;/p&gt;
-</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Trevor</dc:creator><pubDate>Fri, 26 Jun 2015 17:03:12 +0200</pubDate><guid>tag:,2015-06-26:postgres-json-aggregation.html</guid><category>Python</category><category>Postgres</category></item><item><title>Python Comprehensions</title><link>/python-comprehensions.html</link><description>&lt;p&gt;Python &lt;strong&gt;list comprehensions&lt;/strong&gt; are one of the most powerful and useful
+</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Trevor</dc:creator><pubDate>Thu, 01 Jan 2015 00:00:00 +0100</pubDate><guid>tag:,2015-01-01:postgres-timestamps.html</guid><category>Python</category><category>Postgres</category></item><item><title>Python Comprehensions</title><link>/python-comprehensions.html</link><description>&lt;p&gt;Python &lt;strong&gt;list comprehensions&lt;/strong&gt; are one of the most powerful and useful
 features of the language. However, I've noticed even quite experienced
 Python programmers using less powerful idioms when a list comprehension
 would be the perfect solution to their problem, and even though I've
@@ -1289,50 +1199,7 @@ for&lt;/code&gt;
 -loop.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Trevor</dc:creator><pubDate>Fri, 26 Jun 2015 17:03:12 +0200</pubDate><guid>tag:,2015-06-26:python-comprehensions.html</guid><category>Python</category></item><item><title>Ractive.js</title><link>/ractive-js.html</link><description>&lt;p&gt;&lt;a class="reference external" href="http://www.ractivejs.org/"&gt;Ractive.js&lt;/a&gt; caught my eye this week.  I've been using &lt;a class="reference external" href="http://backbonejs.org/"&gt;Backbone&lt;/a&gt; for the last couple
-of years to develop single page client-side applications, and I've liked how
-it doesn't get in your way, but simply allows you to get on with your work.&lt;/p&gt;
-&lt;p&gt;When I noticed that three of the tools I was using: Coffeescript, Underscore, and
-&lt;a class="reference external" href="http://backbonejs.org/"&gt;Backbone&lt;/a&gt; were all written by the same guy, I realised that Jeremy Ashkenas
-is a seriously genius level developer.  I've loved working with his tools; and I
-love the fact that the code that he produces is so readable.  I'm always more comfortable
-working with a library when I can read through the entire source code if I run
-into problems.  Check out the nicely annotated source code for Backbone, for example,
-here: &lt;a class="reference external" href="http://backbonejs.org/docs/backbone.html"&gt;http://backbonejs.org/docs/backbone.html&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;(On that note, I love working with &lt;a class="reference external" href="http://bottlepy.org/docs/dev/_modules/bottle.html"&gt;Bottle&lt;/a&gt; for exactly the same reason - the entire
-framework is contained in a single, very readable, Python file.)&lt;/p&gt;
-&lt;p&gt;But one problem that comes up time and time again, no matter what library or framework
-you're using, is the problem of binding data to controls.  Currently in my Backbone-based
-code I have event handling code that reacts to user input and updates the model, and
-I have more code that reacts to changes in the data model and updates the UI.  Wouldn't
-it be nice if this two-way data binding could happen automatically?  Wouldn't it be
-nice, for example, if you could do something like this:&lt;/p&gt;
-&lt;p&gt;Imagine having a user interface like this:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;label&amp;gt;&lt;/span&gt;
-    &lt;span class="nt"&gt;&amp;lt;input&lt;/span&gt; &lt;span class="na"&gt;type=&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;checkbox&amp;#39;&lt;/span&gt; &lt;span class="na"&gt;checked=&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;{{visible}}&amp;#39;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt; visible?
-&lt;span class="nt"&gt;&amp;lt;/label&amp;gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;And underlying data like this:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nx"&gt;data&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
-  &lt;span class="s2"&gt;&amp;quot;visible&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="kc"&gt;false&lt;/span&gt;
-&lt;span class="p"&gt;}&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;And imagine if all the data binding was handled for you, so that clicking on the checkbox
-will automatically change the value of the underlying javascript object, and changing
-the value of the object via &lt;code class="code"&gt;
-ractive.set('visible',true)&lt;/code&gt;
- updated the interface.&lt;/p&gt;
-&lt;p&gt;That is exactly what Ractive does.  I haven't tried using it in production yet, but
-at the moment it feels like the next logical iteration in javascript frameworks.&lt;/p&gt;
-&lt;p&gt;I was busy using Backbone heavily when Angular and Knockout came out, so I don't have
-much experience with them, but asking around the shop the consensus seems to be that
-Ractive looks significantly nicer to use than Knockout.&lt;/p&gt;
-&lt;p&gt;And the best feature so far is their &lt;em&gt;awesome&lt;/em&gt; &lt;a class="reference external" href="http://learn.ractivejs.org/hello-world/1/"&gt;tutorial&lt;/a&gt;.  This is, apparently, entirely
-written in Ractive, and guides you step by step through all the basic concepts of
-the library in an elegant, interactive fashion.  No more jumping through package installations
-and dependency hell before you can try out a new framework.  &lt;em&gt;This&lt;/em&gt; is the way to
-introduce people to your work.  I'm very impressed.&lt;/p&gt;
-</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Trevor</dc:creator><pubDate>Fri, 26 Jun 2015 17:03:12 +0200</pubDate><guid>tag:,2015-06-26:ractive-js.html</guid><category>javascript</category><category>ractive</category></item><item><title>Remote Systems Administration with Fabric</title><link>/remote-systems-administration-with-fabric.html</link><description>&lt;p&gt;A tool I'm finding myself using more and more these days is &lt;a class="reference external" href="http://fabric.readthedocs.org/en/1.8/"&gt;Fabric&lt;/a&gt;.&lt;/p&gt;
+</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Trevor</dc:creator><pubDate>Thu, 01 Jan 2015 00:00:00 +0100</pubDate><guid>tag:,2015-01-01:python-comprehensions.html</guid><category>Python</category></item><item><title>Remote Systems Administration with Fabric</title><link>/remote-systems-administration-with-fabric.html</link><description>&lt;p&gt;A tool I'm finding myself using more and more these days is &lt;a class="reference external" href="http://fabric.readthedocs.org/en/1.8/"&gt;Fabric&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Fabric is a python utility and library for streamlining systems administration
 tasks on multiple machines.&lt;/p&gt;
 &lt;p&gt;Although I'm primarily a developer and systems architect, I find that as our
@@ -1377,7 +1244,7 @@ database server.&lt;/p&gt;
 &lt;p&gt;gives me a company-wide view of all our databases.&lt;/p&gt;
 &lt;p&gt;One further demonstration - this blog itself is generated using Fabric! For details, see
 the fabfile my &lt;a class="reference external" href="https://github.com/trvrm/trvrm.github.io/blob/master/fabfile.py"&gt;Github&lt;/a&gt; repository.&lt;/p&gt;
-</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Trevor</dc:creator><pubDate>Fri, 26 Jun 2015 17:03:12 +0200</pubDate><guid>tag:,2015-06-26:remote-systems-administration-with-fabric.html</guid><category>linux</category><category>python</category></item><item><title>Reportlab Images in IPython</title><link>/reportlab-images-in-ipython.html</link><description>&lt;p&gt;With a bit of work we can get IPython to render ReportLab objects
+</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Trevor</dc:creator><pubDate>Thu, 01 Jan 2015 00:00:00 +0100</pubDate><guid>tag:,2015-01-01:remote-systems-administration-with-fabric.html</guid><category>linux</category><category>python</category></item><item><title>Reportlab Images in IPython</title><link>/reportlab-images-in-ipython.html</link><description>&lt;p&gt;With a bit of work we can get IPython to render ReportLab objects
 directly to the page as Matplotlib plots.&lt;/p&gt;
 &lt;p&gt;Huge thanks to github user &lt;a class="reference external" href="https://github.com/deeplook"&gt;deeplook&lt;/a&gt;,
 this is basically a modification of
@@ -1418,7 +1285,7 @@ immediately.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;drawing&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;img alt="" src="reportlab-images-ipython_files/reportlab-images-ipython_11_0.png" /&gt;
-</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Trevor</dc:creator><pubDate>Fri, 26 Jun 2015 17:03:12 +0200</pubDate><guid>tag:,2015-06-26:reportlab-images-in-ipython.html</guid><category>Python</category><category>IPython</category></item><item><title>A Seriously Subtle Bug</title><link>/seriously-subtle-bug.html</link><description>&lt;p&gt;I build and maintain a number of web applications built using &lt;a class="reference external" href="http://python.org"&gt;Python&lt;/a&gt;, &lt;a class="reference external" href="http://bottlepy.org/docs/dev/index.html"&gt;Bottle&lt;/a&gt;, and &lt;a class="reference external" href="http://uwsgi-docs.readthedocs.org/en/latest/index.html"&gt;uWSGI&lt;/a&gt;.
+</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Trevor</dc:creator><pubDate>Thu, 01 Jan 2015 00:00:00 +0100</pubDate><guid>tag:,2015-01-01:reportlab-images-in-ipython.html</guid><category>Python</category><category>IPython</category></item><item><title>A Seriously Subtle Bug</title><link>/seriously-subtle-bug.html</link><description>&lt;p&gt;I build and maintain a number of web applications built using &lt;a class="reference external" href="http://python.org"&gt;Python&lt;/a&gt;, &lt;a class="reference external" href="http://bottlepy.org/docs/dev/index.html"&gt;Bottle&lt;/a&gt;, and &lt;a class="reference external" href="http://uwsgi-docs.readthedocs.org/en/latest/index.html"&gt;uWSGI&lt;/a&gt;.
 In general, I've found this a very powerful and robust software stack.  However, this week
 we encountered a very strange issue that took us many hours to fully diagnose.&lt;/p&gt;
 &lt;p&gt;Our first indication that something was wrong was when our automated monitoring tools warned
@@ -1656,37 +1523,127 @@ supposed to do - I clearly have more research to do, time permitting.  And becau
 &lt;em&gt;interacted&lt;/em&gt; -  I couldn't trigger it in one or other environment on its own - it's hard to say that either project has
 a bug.  But hopefully this analysis will help prevent others from going through the same headaches I just did.&lt;/p&gt;
 &lt;/div&gt;
-</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Trevor</dc:creator><pubDate>Fri, 26 Jun 2015 17:03:12 +0200</pubDate><guid>tag:,2015-06-26:seriously-subtle-bug.html</guid><category>linux</category><category>python</category><category>uwsgi</category><category>bottle</category></item><item><title>Pelican, Atom and Markdown</title><link>/pelican-atom-and-markdown.html</link><description>&lt;p&gt;I've been using reStructured text in general to write this blog, but I think I'm
-going to be switching to Markdown.  As an experiment, I'm writing this post in Markdown.&lt;/p&gt;
-&lt;p&gt;I'm also writing it in the Atom text editor (https://atom.io/), which has really come on a
-long way since I last tried it.  Specifically, it includes a Markdown preview function, so
-I can see the effects of the markup that I'm writing as I write it.&lt;/p&gt;
-&lt;p&gt;Mostly, I want a rapid way of creating and publishing code snippets, without the mental
-overhead of switching between markup languages. Although reStructured text and markdown
-are broadly similar, there are subtle differences between them when it comes to things
-like syntax highlighting.  But I've discovered today that if I use the triple-backtick
-syntax, I can get the same output from Pelican, Atom, and IPython notebooks.&lt;/p&gt;
-&lt;p&gt;So&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;    ```python
-    def syntax(highlighting=True):
-        return &amp;quot;cool huh?&amp;quot;
-    ```
+</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Trevor</dc:creator><pubDate>Thu, 01 Jan 2015 00:00:00 +0100</pubDate><guid>tag:,2015-01-01:seriously-subtle-bug.html</guid><category>linux</category><category>python</category><category>uwsgi</category><category>bottle</category></item><item><title>SQL Magic</title><link>/sql-magic.html</link><description>&lt;p&gt;I'm finding the &lt;pre&gt;
+%sql&lt;/pre&gt;
+ magic function extremely useful. It turns
+IPython into a very nice front-end to Postgresql.&lt;/p&gt;
+&lt;p&gt;First, make sure you have the &lt;pre&gt;
+ipython-sql&lt;/pre&gt;
+ extension installed:&lt;/p&gt;
+&lt;p&gt;&lt;pre&gt;
+pip install ipython-sql&lt;/pre&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://pypi.python.org/pypi/ipython-sql"&gt;https://pypi.python.org/pypi/ipython-sql&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Then we load the extension&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;load_ext&lt;/span&gt; &lt;span class="n"&gt;sql&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;yields&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt; &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;syntax&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;highlighting&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-   &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;cool huh?&amp;quot;&lt;/span&gt;
+&lt;p&gt;Then we set up our database connection.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="o"&gt;%%&lt;/span&gt;&lt;span class="n"&gt;sql&lt;/span&gt;
+&lt;span class="n"&gt;postgresql&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="n"&gt;testuser&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;password&lt;/span&gt;&lt;span class="nd"&gt;@localhost&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;test&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;And if I paste that into a markdown cell in an IPython notebook, I get the same effect, as
-can be seen here: https://github.com/trvrm/notebooks/blob/master/Markdown%20Demo.ipynb&lt;/p&gt;
-&lt;p&gt;So this seems to be the general way that the open-source ecosystem is going: Markdown
-allows me to use the same syntax for my GitHub documentation, my IPython notebooks, and
-my blog posts.  &lt;/p&gt;
-&lt;p&gt;I do use &lt;strong&gt;Sphinx&lt;/strong&gt; in various places for Python code documentation, so that will still
-require reStructured text, but elsewhere I think Markdown is the way to go&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Trevor</dc:creator><pubDate>Fri, 26 Jun 2015 00:00:00 +0200</pubDate><guid>tag:,2015-06-26:pelican-atom-and-markdown.html</guid><category>pelican</category><category>markdown</category></item><item><title>Basic IPython Plotting</title><link>/basic-ipython-plotting.html</link><description>&lt;p&gt;&lt;strong&gt;Things have changed a bit since IPython 1&lt;/strong&gt;&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+u'Connected: &lt;a class="reference external" href="mailto:testuser&amp;#64;test"&gt;testuser&amp;#64;test&lt;/a&gt;'
+&lt;/pre&gt;
+&lt;p&gt;And now we can start interacting directly with the database as if we
+were at the &lt;pre&gt;
+psql&lt;/pre&gt;
+ command line.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="o"&gt;%%&lt;/span&gt;&lt;span class="n"&gt;sql&lt;/span&gt;
+&lt;span class="n"&gt;CREATE&lt;/span&gt; &lt;span class="n"&gt;TABLE&lt;/span&gt; &lt;span class="n"&gt;people&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;first&lt;/span&gt; &lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;last&lt;/span&gt; &lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;drink&lt;/span&gt; &lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="n"&gt;INSERT&lt;/span&gt; &lt;span class="n"&gt;INTO&lt;/span&gt; &lt;span class="n"&gt;people&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;first&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;last&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;drink&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;VALUES&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;zaphod&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;beeblebrox&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;pan galactic gargle blaster&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;arthur&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;dent&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;tea&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;ford&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;prefect&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;old janx spirit&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;pre class="literal-block"&gt;
+Done.
+3 rows affected.
+&lt;/pre&gt;
+&lt;pre class="literal-block"&gt;
+[]
+&lt;/pre&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;sql&lt;/span&gt; &lt;span class="n"&gt;select&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;people&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;pre class="literal-block"&gt;
+3 rows affected.
+&lt;/pre&gt;
+&lt;table class="table table-bordered table-striped"&gt;
+    &lt;tr&gt;
+        &lt;th&gt;first&lt;/th&gt;
+        &lt;th&gt;last&lt;/th&gt;
+        &lt;th&gt;drink&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;zaphod&lt;/td&gt;
+        &lt;td&gt;beeblebrox&lt;/td&gt;
+        &lt;td&gt;pan galactic gargle blaster&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;arthur&lt;/td&gt;
+        &lt;td&gt;dent&lt;/td&gt;
+        &lt;td&gt;tea&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;ford&lt;/td&gt;
+        &lt;td&gt;prefect&lt;/td&gt;
+        &lt;td&gt;old janx spirit&lt;/td&gt;
+    &lt;/tr&gt;
+&lt;/table&gt;&lt;p&gt;We can access the results as a python object:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;result&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;sql&lt;/span&gt; &lt;span class="n"&gt;select&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;people&lt;/span&gt;
+&lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;result&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;pre class="literal-block"&gt;
+3
+&lt;/pre&gt;
+&lt;p&gt;And we can even get our recordset as a &lt;strong&gt;pandas&lt;/strong&gt; dataframe&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;config&lt;/span&gt; &lt;span class="n"&gt;SqlMagic&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;autopandas&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;frame&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;sql&lt;/span&gt; &lt;span class="n"&gt;select&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;people&lt;/span&gt;
+&lt;span class="n"&gt;frame&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;div style="max-height:1000px;max-width:1500px;overflow:auto;"&gt;
+&lt;table class="table table-bordered table-striped"&gt;
+  &lt;thead&gt;
+    &lt;tr style="text-align: right;"&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;first&lt;/th&gt;
+      &lt;th&gt;last&lt;/th&gt;
+      &lt;th&gt;drink&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;th&gt;0&lt;/th&gt;
+      &lt;td&gt; zaphod&lt;/td&gt;
+      &lt;td&gt; beeblebrox&lt;/td&gt;
+      &lt;td&gt; pan galactic gargle blaster&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;1&lt;/th&gt;
+      &lt;td&gt; arthur&lt;/td&gt;
+      &lt;td&gt;       dent&lt;/td&gt;
+      &lt;td&gt;                         tea&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;2&lt;/th&gt;
+      &lt;td&gt;   ford&lt;/td&gt;
+      &lt;td&gt;    prefect&lt;/td&gt;
+      &lt;td&gt;             old janx spirit&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;3 rows × 3 columns&lt;/p&gt;
+&lt;/div&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;frame&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;first&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;str&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;upper&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;pre class="literal-block"&gt;
+0    ZAPHOD
+1    ARTHUR
+2      FORD
+Name: first, dtype: object
+&lt;/pre&gt;
+</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Trevor</dc:creator><pubDate>Thu, 01 Jan 2015 00:00:00 +0100</pubDate><guid>tag:,2015-01-01:sql-magic.html</guid><category>Python</category><category>IPython</category></item><item><title>Basic IPython Plotting</title><link>/basic-ipython-plotting.html</link><description>&lt;p&gt;&lt;strong&gt;Things have changed a bit since IPython 1&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;Now apparently we want to manually specify the use of inline matplotlib
 rather than enable globally in the server.&lt;/p&gt;
 &lt;p&gt;&lt;a class="reference external" href="http://nbviewer.ipython.org/github/ipython/ipython/blob/1.x/examples/notebooks/Part%203%20-%20Plotting%20with%20Matplotlib.ipynb"&gt;http://nbviewer.ipython.org/github/ipython/ipython/blob/1.x/examples/notebooks/Part%203%20-%20Plotting%20with%20Matplotlib.ipynb&lt;/a&gt;&lt;/p&gt;
@@ -1700,4 +1657,47 @@ rather than enable globally in the server.&lt;/p&gt;
 &lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;title&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;A simple chirp&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;img alt="basic plotting example" src="Basic%20Plotting%20Example_files/Basic%20Plotting%20Example_3_0.png" /&gt;
-</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Trevor</dc:creator><pubDate>Tue, 20 May 2014 16:00:00 +0200</pubDate><guid>tag:,2014-05-20:basic-ipython-plotting.html</guid><category>Python</category><category>IPython</category></item></channel></rss>
+</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Trevor</dc:creator><pubDate>Tue, 20 May 2014 16:00:00 +0200</pubDate><guid>tag:,2014-05-20:basic-ipython-plotting.html</guid><category>Python</category><category>IPython</category></item><item><title>Ractive.js</title><link>/ractive-js.html</link><description>&lt;p&gt;&lt;a class="reference external" href="http://www.ractivejs.org/"&gt;Ractive.js&lt;/a&gt; caught my eye this week.  I've been using &lt;a class="reference external" href="http://backbonejs.org/"&gt;Backbone&lt;/a&gt; for the last couple
+of years to develop single page client-side applications, and I've liked how
+it doesn't get in your way, but simply allows you to get on with your work.&lt;/p&gt;
+&lt;p&gt;When I noticed that three of the tools I was using: Coffeescript, Underscore, and
+&lt;a class="reference external" href="http://backbonejs.org/"&gt;Backbone&lt;/a&gt; were all written by the same guy, I realised that Jeremy Ashkenas
+is a seriously genius level developer.  I've loved working with his tools; and I
+love the fact that the code that he produces is so readable.  I'm always more comfortable
+working with a library when I can read through the entire source code if I run
+into problems.  Check out the nicely annotated source code for Backbone, for example,
+here: &lt;a class="reference external" href="http://backbonejs.org/docs/backbone.html"&gt;http://backbonejs.org/docs/backbone.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;(On that note, I love working with &lt;a class="reference external" href="http://bottlepy.org/docs/dev/_modules/bottle.html"&gt;Bottle&lt;/a&gt; for exactly the same reason - the entire
+framework is contained in a single, very readable, Python file.)&lt;/p&gt;
+&lt;p&gt;But one problem that comes up time and time again, no matter what library or framework
+you're using, is the problem of binding data to controls.  Currently in my Backbone-based
+code I have event handling code that reacts to user input and updates the model, and
+I have more code that reacts to changes in the data model and updates the UI.  Wouldn't
+it be nice if this two-way data binding could happen automatically?  Wouldn't it be
+nice, for example, if you could do something like this:&lt;/p&gt;
+&lt;p&gt;Imagine having a user interface like this:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;label&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;input&lt;/span&gt; &lt;span class="na"&gt;type=&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;checkbox&amp;#39;&lt;/span&gt; &lt;span class="na"&gt;checked=&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;{{visible}}&amp;#39;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt; visible?
+&lt;span class="nt"&gt;&amp;lt;/label&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;And underlying data like this:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nx"&gt;data&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="s2"&gt;&amp;quot;visible&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="kc"&gt;false&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;And imagine if all the data binding was handled for you, so that clicking on the checkbox
+will automatically change the value of the underlying javascript object, and changing
+the value of the object via &lt;code class="code"&gt;
+ractive.set('visible',true)&lt;/code&gt;
+ updated the interface.&lt;/p&gt;
+&lt;p&gt;That is exactly what Ractive does.  I haven't tried using it in production yet, but
+at the moment it feels like the next logical iteration in javascript frameworks.&lt;/p&gt;
+&lt;p&gt;I was busy using Backbone heavily when Angular and Knockout came out, so I don't have
+much experience with them, but asking around the shop the consensus seems to be that
+Ractive looks significantly nicer to use than Knockout.&lt;/p&gt;
+&lt;p&gt;And the best feature so far is their &lt;em&gt;awesome&lt;/em&gt; &lt;a class="reference external" href="http://learn.ractivejs.org/hello-world/1/"&gt;tutorial&lt;/a&gt;.  This is, apparently, entirely
+written in Ractive, and guides you step by step through all the basic concepts of
+the library in an elegant, interactive fashion.  No more jumping through package installations
+and dependency hell before you can try out a new framework.  &lt;em&gt;This&lt;/em&gt; is the way to
+introduce people to your work.  I'm very impressed.&lt;/p&gt;
+</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Trevor</dc:creator><pubDate>Wed, 01 Jan 2014 00:00:00 +0100</pubDate><guid>tag:,2014-01-01:ractive-js.html</guid><category>javascript</category><category>ractive</category></item></channel></rss>

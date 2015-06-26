@@ -4,10 +4,10 @@ A Seriously Subtle Bug
 :tags: linux, python, uwsgi, bottle
 :category: Software
 :author: Trevor
-
 :slug: seriously-subtle-bug
+:date: 2015-01-01
 
-I build and maintain a number of web applications built using Python_, Bottle_, and uWSGI_. 
+I build and maintain a number of web applications built using Python_, Bottle_, and uWSGI_.
 In general, I've found this a very powerful and robust software stack.  However, this week
 we encountered a very strange issue that took us many hours to fully diagnose.
 
@@ -18,7 +18,7 @@ we encountered a very strange issue that took us many hours to fully diagnose.
 
 Our first indication that something was wrong was when our automated monitoring tools warned
 us that one of our sites was offline.  We manage our applications through the uWSGI Emperor_
-service, which makes it easy to restart errant applications.  Simply touching the config file for  
+service, which makes it easy to restart errant applications.  Simply touching the config file for
 the application in question causes it to be reloaded:
 
 .. code-block:: sh
@@ -30,45 +30,45 @@ the application in question causes it to be reloaded:
 
 
 This brought our systems back up, but obviously didn't explain the problem, and over the coming weeks
-it recurred several times, usually several days apart.  So, obviously my first step was to look at 
+it recurred several times, usually several days apart.  So, obviously my first step was to look at
 the log files.   Our first indication of trouble was a log line from our database connection layer:
 
 .. code-block:: sh
 
      OperationalError: could not create socket: too many open files
-     
-     
+
+
 Which actually led us away from the real cause of the bug to start with - at first we thought that
 we were simply creating too many database connections.  But further examination reassured us that yes,
-our database layer was fine, our connections were getting opened and closed correctly. Postgres has 
+our database layer was fine, our connections were getting opened and closed correctly. Postgres has
 *excellent* introspective tools, if you know how to use them; in this case the following is very
 helpful:
 
 .. code-block:: sql
 
     SELECT * FROM pg_stat_activity;
-    
-    
+
+
 which revealed that we had no more database connections open than expected.  So, our next step was the
 linux systems administration tool :code:`lsof`.  This tool lists information about currently open files
 
 .. code-block:: sh
 
     $ sudo lsof > lsof.txt
-    
+
     COMMAND     PID   TID       USER   FD      TYPE             DEVICE  SIZE/OFF       NODE NAME
     init          1             root  cwd       DIR                8,1      4096          2 /
     init          1             root  rtd       DIR                8,1      4096          2 /
     init          1             root  txt       REG                8,1    265848   14422298 /sbin/init
     ...
-    
+
 ... followed by thousands more lines.  Armed with this information, we could figure out how many files
 each process was using.
 
 Enter Pandas
 ------------
 
-While it would be quite possible to search and filter this data using traditional Unix tools such as :code:`awk` 
+While it would be quite possible to search and filter this data using traditional Unix tools such as :code:`awk`
 and :code:`grep`, I'm finding that more and more I'm staying inside the python ecosystem to do systems administration
 and analysis tasks.  I use the Pandas_ data analysis library heavily, and it was a perfect fit for this particular task.
 
@@ -77,7 +77,7 @@ and analysis tasks.  I use the Pandas_ data analysis library heavily, and it was
 .. code-block:: sh
 
     $ ipython
-    
+
 .. code-block:: python
 
     import pandas
@@ -88,7 +88,7 @@ and analysis tasks.  I use the Pandas_ data analysis library heavily, and it was
 .. parsed-literal::
 
     Index([u'COMMAND', u'PID', u'TID', u'USER', u'FD', u'TYPE', u'DEVICE', u'SIZE/OFF', u'NODE', u'NAME'], dtype='object')
-    
+
 
 So now we have a DataFrame (a construct very similar to an Excel worksheet) with a list of every open file on the system, along
 with the process id and name of the program that is holding it open.  Our next step was to ask Pandas to tell us which processes
@@ -97,19 +97,19 @@ had the *most* files open:
 .. code-block:: python
 
     frame.PID.value_counts().head()
-    
+
 .. parsed-literal::
- 
+
     2445     745
     2454     745
     ...
-    
+
 So process **2445** has 745 open files.  OK, what is that process?
 
 .. code-block:: python
 
     frame[frame.PID==2445][['USER','COMMAND']]
-    
+
 .. parsed-literal::
 
               USER    COMMAND
@@ -117,10 +117,10 @@ So process **2445** has 745 open files.  OK, what is that process?
     3084  www-data  uwsgi-cor
     3085  www-data  uwsgi-cor
     ...
-    
-    
-    
-So we've learned, then, that a uWSGI process belonging to www-data is holding open more than 700 files.  Now, under 
+
+
+
+So we've learned, then, that a uWSGI process belonging to www-data is holding open more than 700 files.  Now, under
 Ubuntu, this is going to be a problem very soon, because the maximum number of files that www-data may have open
 per-process is 1024.
 
@@ -128,15 +128,15 @@ per-process is 1024.
 
     $ sudo su www-data
     $ ulimit -n
-    
-    
+
+
 .. parsed-literal::
 
     1024
-    
-    
+
+
 So, clearly one of our web application processes is opening files and not closing them again.  This is the kind of
-bug that I *hate* as a programmer, because it wouldn't show up in development, when I'm frequently restarting the 
+bug that I *hate* as a programmer, because it wouldn't show up in development, when I'm frequently restarting the
 application, or even in testing, but only appears under real-world load.  But at least now we have a path towards
 temporary remediation.  So first we simply increased the limits in :code:`ulimit` so that the service would run longer
 before this bug re-appeared.  But we still wanted to understand *why* this was happening.
@@ -150,58 +150,58 @@ to the filenames that were being left open
 .. code-block:: python
 
     frame.NAME.value_counts().head()
-    
-    
+
+
 Which revealed to us that the the vast majority of the files being left open were ones that we were delivering through
 our Bottle Python application. Specifically, they were being served through the static_file_ function.
 
 .. _static_file: http://bottlepy.org/docs/dev/tutorial.html#tutorial-static-files
 
 
-We verified this by hitting the url that was serving up those static files, and watching the output of lsof.  Immediately we 
+We verified this by hitting the url that was serving up those static files, and watching the output of lsof.  Immediately we
 saw that yes, every time we served that file, the open count for that file went up.  So, we clearly had a resource leak
-on our hands.  Now, this surprised me, because usually the memory management and garbage collection 
+on our hands.  Now, this surprised me, because usually the memory management and garbage collection
 in Python is excellent, and I've left the days of manually tracking resources in C long behind me.
 
 So, next I constructed some test cases. Firstly, I ran our software on a test virtual machine to verify that I could
 recreate the bug.  Then, I wrote a very bare-bones Bottle app that simply served a static file:
 
 .. code-block:: python
-    
+
     import bottle
-    
+
     application=bottle.Bottle()
-    
+
     @application.get('/diagnose')
     def test():
         return bottle.static_file('cat.jpg', '.')
-        
-        
+
+
 
 And I immediately saw that this *didn't* trigger any kind of file leak.  The main difference between the two was that our
 production application uses Bottle's *mounting* capability to namespace URLS.  So I changed my test application as follows:
 
 
 .. code-block:: python
-    
+
     import bottle
-    
+
     app=bottle.Bottle()
-    
+
     @app.get('/')
     def test():
         return bottle.static_file('cat.jpg', '.')
-    
-    rootapp=bottle.Bottle()             
+
+    rootapp=bottle.Bottle()
     rootapp.mount("/diagnose", app)
     application=rootapp
-    
-    
+
+
 And   :code:`lsof` indicated that we *were* leaking files.  Every time I hit `/diagnose`, the open file count for `cats.jpg`
 increased by one.
 
 So, we could simply re-write our application to not use :code:`Bottle.mount`, but that wasn't good enough for me.  I wanted
-to understand *why* such a simple change would trigger a resource leak.  At this point, it turns out it's good that 
+to understand *why* such a simple change would trigger a resource leak.  At this point, it turns out it's good that
 I have Aspergers, and with it a tendency to hyper-focus on interesting problems, because it took a long time.  In
 fact, I ended up taking the Bottle library, and manually stripping it of every line of code that wasn't related to
 simply handling that single URL, in an attempt to understand exactly what the different code paths were between the
@@ -215,12 +215,12 @@ the :code:`file` constructor with my own object that derived from :code:`file`
 
 
 .. code-block:: python
-    
+
     class MonitoredFile(file):
         def __init__(self,name,mode):
             logging.info("Opening {0}".format(name))
             file.__init__(self,name,mode)
-        
+
         def __del__(self):
             logging.info('file.__del__({0})'.format(self.name))
 
@@ -245,7 +245,7 @@ https://github.com/bottlepy/bottle/blob/854fbd7f88aa2f809f54dd724aea7ecf918a3b6e
             return request.environ['wsgi.file_wrapper'](out)
         elif hasattr(out, 'close') or not hasattr(out, '__iter__'):
             return WSGIFileWrapper(out)
-            
+
 Which *looks* innocent enough, and indeed is in the first version of our code.  But in the *second* version, our file handler
 gets passed through this code block twice, because it's getting handled recursively.  And, indeed, if :code:`wsgi.file_wrapper`
 isn't specified, then :code:`WSGIFileWrapper` is used, and everything is fine.  But in our case, we're serving this application
@@ -264,7 +264,7 @@ via uWSGI, which *does* define :code:`wsgi.file_wrapper`.  Now, I'm still not 10
             return NULL;
         }
 
-   
+
         if (PyFile_Check((PyObject *)wsgi_req->async_sendfile)) {
             Py_INCREF((PyObject *)wsgi_req->async_sendfile);
             wsgi_req->sendfile_fd = PyObject_AsFileDescriptor(wsgi_req->async_sendfile);
@@ -277,10 +277,10 @@ via uWSGI, which *does* define :code:`wsgi.file_wrapper`.  Now, I'm still not 10
         Py_INCREF((PyObject *) wsgi_req->sendfile_obj);
         return (PyObject *) wsgi_req->sendfile_obj;
     }
-    
-    
-    
-And we can clearly see that :code:`Py_INCREF` is getting called on the file object.  So if this function is called twice, 
+
+
+
+And we can clearly see that :code:`Py_INCREF` is getting called on the file object.  So if this function is called twice,
 presumably the internal reference count is incremented twice, but only decremented once elsewhere.
 
 And indeed, as soon as I added:
@@ -289,9 +289,9 @@ And indeed, as soon as I added:
 
     if 'wsgi.file_wrapper' in environ:
         del environ['wsgi.file_wrapper']
-        
-        
-to my application code, the file leaking stopped.  
+
+
+to my application code, the file leaking stopped.
 
 
 Concluding Thoughts

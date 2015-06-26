@@ -5,7 +5,7 @@ SQL Magic
 :category: Software
 :slug: sql-magic
 :author: Trevor
-
+:date: 2015-01-01
 
 
 I'm finding the ``%sql`` magic function extremely useful. It turns
@@ -22,12 +22,12 @@ Then we load the extension
 .. code-block:: python
 
     %load_ext sql
-    
+
 Then we set up our database connection.
 
 .. code-block:: python
 
-    %%sql 
+    %%sql
     postgresql://testuser:password@localhost/test
 
 
@@ -43,15 +43,15 @@ were at the ``psql`` command line.
 
 .. code-block:: python
 
-    %%sql 
+    %%sql
     CREATE TABLE people (first text, last text, drink text);
     INSERT INTO people (first,last,drink)
-    VALUES 
+    VALUES
         ('zaphod','beeblebrox','pan galactic gargle blaster'),
         ('arthur','dent','tea'),
         ('ford','prefect','old janx spirit')
         ;
- 
+
 
 .. parsed-literal::
 
@@ -130,7 +130,7 @@ And we can even get our recordset as a **pandas** dataframe
 
     frame = %sql select * from people
     frame
- 
+
 
 
 .. raw:: html
@@ -183,6 +183,3 @@ And we can even get our recordset as a **pandas** dataframe
     1    ARTHUR
     2      FORD
     Name: first, dtype: object
-
-
-

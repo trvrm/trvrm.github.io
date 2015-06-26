@@ -4,7 +4,7 @@ Reportlab Images in IPython
 :tags: Python, IPython
 :category: Software
 :author: Trevor
-
+:date: 2015-01-01
 
 With a bit of work we can get IPython to render ReportLab objects
 directly to the page as Matplotlib plots.
@@ -22,12 +22,12 @@ First our imports.
     from reportlab.graphics import renderPM
     from reportlab.graphics.shapes import Drawing, Rect
     from reportlab.graphics.charts.linecharts import HorizontalLineChart
-    
+
 .. code-block::  python
 
     from io import BytesIO
     from IPython.core import display
-    
+
 Now we create a hook that causes reportlab drawings to actually be
 rendered when we type out its name.
 
@@ -39,12 +39,12 @@ rendered when we type out its name.
         data=buff.getvalue()
         ip_img=display.Image(data=data,format='png',embed=True)
         return ip_img._repr_png_()
-        
+
 .. code-block::  python
 
     png_formatter=get_ipython().display_formatter.formatters['image/png']
     drd=png_formatter.for_type(Drawing,display_reportlab_drawing)
-    
+
 Now that's done, we can start creating ReportLab objects and see them
 immediately.
 
@@ -73,6 +73,3 @@ immediately.
 
 
 .. image:: reportlab-images-ipython_files/reportlab-images-ipython_11_0.png
-
-
-

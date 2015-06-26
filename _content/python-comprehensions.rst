@@ -5,6 +5,7 @@ Python Comprehensions
 :category: Software
 :slug: python-comprehensions
 :author: Trevor
+:date: 2015-01-01
 
 
 
@@ -34,7 +35,7 @@ following:
     squares=list()
     for i in range(10):
         squares.append(i**i)
-    squares    
+    squares
 
 
 
@@ -121,8 +122,8 @@ left-hand-side.
 .. code-block:: python
 
     [
-        "{0} {1}".format(adjective,animal) 
-        for adjective in ['red','cute','hungry'] 
+        "{0} {1}".format(adjective,animal)
+        for adjective in ['red','cute','hungry']
         for animal in ['cat','puppy','hippo']
     ]
 
@@ -147,9 +148,9 @@ or even
 .. code-block:: python
 
     [
-        "There are {0} {1} {2}".format(number, adjective,animal) 
+        "There are {0} {1} {2}".format(number, adjective,animal)
         for number in range(2,4)
-        for adjective in ['cute','hungry'] 
+        for adjective in ['cute','hungry']
         for animal in ['puppys','bats']
     ]
 
@@ -242,7 +243,7 @@ Now let's extract some data from it.
     #All staff names
     [
         name
-        for department in departments 
+        for department in departments
         for name in department['staff']
     ]
 
@@ -273,7 +274,7 @@ complicated...
 
     departments=[
         {
-            'name':'Manufacturing', 
+            'name':'Manufacturing',
             'staff': [
                 {'name':"Jacob",'salary':50000},
                 {'name':"Chloe",'salary':60000},
@@ -292,7 +293,7 @@ complicated...
         {
             'name':'HR',
             'staff':[
-    
+
                 {'name':"David",'salary':50000},
                 {'name':"Jessica",'salary':60000},
            ]

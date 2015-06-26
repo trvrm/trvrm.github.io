@@ -5,6 +5,7 @@ IPython with Python 3
 :category: Software
 :slug: ipython-with-python-3
 :author: Trevor
+:date: 2015-01-01
 
 
 This took me longer than I was expecting.
@@ -23,17 +24,17 @@ Python you want it to use by default.
     $ source ./bin/activate
     $ pip install ipython
     $ ipython
-    
+
 
 .. code-block:: python
-    
-    Python 3.4.0 (default, Apr 11 2014, 13:05:11) 
+
+    Python 3.4.0 (default, Apr 11 2014, 13:05:11)
     ...
-    
+
     In [1]: import sys
-    
+
     In [2]: print(sys.version)
-    3.4.0 (default, Apr 11 2014, 13:05:11) 
+    3.4.0 (default, Apr 11 2014, 13:05:11)
     [GCC 4.8.2]
 
 

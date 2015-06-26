@@ -78,40 +78,6 @@ trvrm            </a>
     <div class="row">
         <div class="col-sm-9">
             <article>
-                <h2><a href="/postgres-timestamps.html">Postgres Timestamps</a></h2>
-                <div class="summary"><p>At my company, I maintain a large distributed. data collection platform
-. Pretty much every record we collect needs to be stamped with a
-<pre>
-created</pre>
- field. But because the incoming data comes from sources on
-various devices in multiple countries and timezones, making sure that
-the timestamps are precise and meaningful ...</p>
-                    <a class="btn btn-default btn-xs" href="/postgres-timestamps.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/sql-magic.html">SQL Magic</a></h2>
-                <div class="summary"><p>I'm finding the <pre>
-%sql</pre>
- magic function extremely useful. It turns
-IPython into a very nice front-end to Postgresql.</p>
-<p>First, make sure you have the <pre>
-ipython-sql</pre>
- extension installed:</p>
-<p><pre>
-pip install ipython-sql</pre>
-</p>
-<p><a class="reference external" href="https://pypi.python.org/pypi/ipython-sql">https://pypi.python.org/pypi/ipython-sql</a></p>
-<p>Then we load the extension</p>
-<div class="highlight"><pre><span class="o">%</span><span class="n">load_ext</span> <span class="n">sql</span>
-</pre></div>
-<p>Then we set up our database ...</p>
-                    <a class="btn btn-default btn-xs" href="/sql-magic.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
                 <h2><a href="/asynchronous-python.html">Asynchronous Python</a></h2>
                 <div class="summary"><p>It's possible to get python to do node-like non-blocking requests, this could
 take away one of the key reasons for using node.</p>
@@ -183,6 +149,19 @@ stores such as CouchDB in the past, it's amazing to me ...</p>
             </article>
             <hr/>
             <article>
+                <h2><a href="/postgres-timestamps.html">Postgres Timestamps</a></h2>
+                <div class="summary"><p>At my company, I maintain a large distributed. data collection platform
+. Pretty much every record we collect needs to be stamped with a
+<pre>
+created</pre>
+ field. But because the incoming data comes from sources on
+various devices in multiple countries and timezones, making sure that
+the timestamps are precise and meaningful ...</p>
+                    <a class="btn btn-default btn-xs" href="/postgres-timestamps.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
                 <h2><a href="/python-comprehensions.html">Python Comprehensions</a></h2>
                 <div class="summary"><p>Python <strong>list comprehensions</strong> are one of the most powerful and useful
 features of the language. However, I've noticed even quite experienced
@@ -231,6 +210,27 @@ we encountered a very strange issue that took us many hours to fully diagnose.</
             </article>
             <hr/>
             <article>
+                <h2><a href="/sql-magic.html">SQL Magic</a></h2>
+                <div class="summary"><p>I'm finding the <pre>
+%sql</pre>
+ magic function extremely useful. It turns
+IPython into a very nice front-end to Postgresql.</p>
+<p>First, make sure you have the <pre>
+ipython-sql</pre>
+ extension installed:</p>
+<p><pre>
+pip install ipython-sql</pre>
+</p>
+<p><a class="reference external" href="https://pypi.python.org/pypi/ipython-sql">https://pypi.python.org/pypi/ipython-sql</a></p>
+<p>Then we load the extension</p>
+<div class="highlight"><pre><span class="o">%</span><span class="n">load_ext</span> <span class="n">sql</span>
+</pre></div>
+<p>Then we set up our database ...</p>
+                    <a class="btn btn-default btn-xs" href="/sql-magic.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
                 <h2><a href="/basic-ipython-plotting.html">Basic IPython Plotting</a></h2>
                 <div class="summary"><p><strong>Things have changed a bit since IPython 1</strong></p>
 <p>Now apparently we want to manually specify the use of inline matplotlib
@@ -266,6 +266,11 @@ rather than enable globally in the server.</p>
                         </a>
                     </li>
                     <li class="list-group-item tag-2">
+                        <a href="/tag/linux.html">
+                            linux
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-2">
                         <a href="/tag/ipython.html">
                             IPython
                         </a>
@@ -275,14 +280,9 @@ rather than enable globally in the server.</p>
                             javascript
                         </a>
                     </li>
-                    <li class="list-group-item tag-2">
-                        <a href="/tag/linux.html">
-                            linux
-                        </a>
-                    </li>
                     <li class="list-group-item tag-3">
-                        <a href="/tag/postgres.html">
-                            Postgres
+                        <a href="/tag/pelican.html">
+                            pelican
                         </a>
                     </li>
                     <li class="list-group-item tag-3">
@@ -291,38 +291,13 @@ rather than enable globally in the server.</p>
                         </a>
                     </li>
                     <li class="list-group-item tag-3">
-                        <a href="/tag/pelican.html">
-                            pelican
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-3">
                         <a href="/tag/ractive.html">
                             ractive
                         </a>
                     </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/markdown.html">
-                            markdown
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/postfix.html">
-                            postfix
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/coffeescript.html">
-                            coffeescript
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/email.html">
-                            email
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/fabric.html">
-                            fabric
+                    <li class="list-group-item tag-3">
+                        <a href="/tag/postgres.html">
+                            Postgres
                         </a>
                     </li>
                     <li class="list-group-item tag-4">
@@ -331,8 +306,13 @@ rather than enable globally in the server.</p>
                         </a>
                     </li>
                     <li class="list-group-item tag-4">
-                        <a href="/tag/nginx.html">
-                            nginx
+                        <a href="/tag/fabric.html">
+                            fabric
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
+                        <a href="/tag/coffeescript.html">
+                            coffeescript
                         </a>
                     </li>
                     <li class="list-group-item tag-4">
@@ -341,8 +321,28 @@ rather than enable globally in the server.</p>
                         </a>
                     </li>
                     <li class="list-group-item tag-4">
+                        <a href="/tag/markdown.html">
+                            markdown
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
+                        <a href="/tag/email.html">
+                            email
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
+                        <a href="/tag/nginx.html">
+                            nginx
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
                         <a href="/tag/logrotate.html">
                             logrotate
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
+                        <a href="/tag/postfix.html">
+                            postfix
                         </a>
                     </li>
                 </ul>

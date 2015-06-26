@@ -4,6 +4,7 @@ Postgres JSON Aggregation
 :tags: Python, Postgres
 :category: Database
 :author: Trevor
+:date: 2015-01-01
 
 
 I've been using the new JSON functionality in Postgres a lot recently:
@@ -31,7 +32,7 @@ To demonstrate this, we'll first set up some simple tables.
 
 .. code-block:: python
 
-    %%sql 
+    %%sql
     postgresql://testuser:password@localhost/test
 
 
@@ -44,11 +45,11 @@ To demonstrate this, we'll first set up some simple tables.
 
 .. code-block:: python
 
-    %%sql 
+    %%sql
     CREATE TABLE IF NOT EXISTS person (
         name text primary key
     );
-    
+
     INSERT INTO person (name) VALUES
     ('emily'),('arthur'),('nicki'),('oliver')
     ;
@@ -124,9 +125,9 @@ particularly helpful, but it becomes very useful when we start doing
         id serial primary key,
         created timestamp with time zone default now(),
         person_name text references person,
-        type text not null    
+        type text not null
     );
-    
+
     INSERT INTO action(person_name, type) VALUES ('emily','login');
     INSERT INTO action(person_name, type) VALUES ('emily','pageview');
     INSERT INTO action(person_name, type) VALUES ('arthur','login');

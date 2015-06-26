@@ -4,6 +4,7 @@ Postgres Timestamps
 :tags: Python, Postgres
 :category: Database
 :author: Trevor
+:date: 2015-01-01
 
 At my company, I maintain a large distributed. data collection platform
 . Pretty much every record we collect needs to be stamped with a
@@ -31,10 +32,10 @@ without you asking.
 
     %load_ext sql
     %config SqlMagic.feedback=False
-    
+
 .. code-block::  python
 
-    %%sql 
+    %%sql
     postgresql://testuser:password@localhost/test
 
 
@@ -128,13 +129,13 @@ Expression
 
 .. raw:: html
 
-   </th><th> 
+   </th><th>
 
 Return Type
 
 .. raw:: html
 
-   </th><th>    
+   </th><th>
 
 Description
 
@@ -147,13 +148,13 @@ timestamp without time zone AT TIME ZONE zone
 
 .. raw:: html
 
-   </td><td>  
+   </td><td>
 
 timestamp with time zone
 
 .. raw:: html
 
-   </td><td>   
+   </td><td>
 
 Treat given time stamp without time zone as located in the specified
 time zone
@@ -192,7 +193,7 @@ Specifically, consider a table that looks like this:
 
 .. code-block::  python
 
-    %%sql 
+    %%sql
     DROP TABLE IF EXISTS test;
     CREATE TABLE test(name TEXT, created TIMESTAMP DEFAULT NOW());
 
@@ -205,7 +206,7 @@ Which I then populate:
 
 .. code-block::  python
 
-    %%sql 
+    %%sql
     INSERT INTO test (name) VALUES ('zaphod beeblebrox');
     INSERT INTO test(name,created) VALUES('ford prefect',now() at time zone 'utc');
     SELECT * FROM test;
@@ -251,7 +252,7 @@ definition:
 
 .. code-block::  python
 
-    %%sql 
+    %%sql
     DROP TABLE IF EXISTS test;
     CREATE TABLE test(name TEXT, created TIMESTAMP WITH TIME ZONE DEFAULT (NOW() ));
 
@@ -262,7 +263,7 @@ definition:
 
 .. code-block::  python
 
-    %%sql 
+    %%sql
     INSERT INTO test (name) VALUES ('zaphod beeblebrox');
     INSERT INTO test(name,created) VALUES('ford prefect',now() );
     SELECT * FROM test;
@@ -456,7 +457,7 @@ applications, we get this automatically:
         with psycopg2.connect(database='test') as connection:
             with connection.cursor() as cursor:
                 cursor.execute(sql,params)
-                
+
 So let's imagine that we got this string submitted to us by a client,
 and we're going to store it in the database via some Python code.
 

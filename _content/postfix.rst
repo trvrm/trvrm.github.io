@@ -5,6 +5,7 @@ Postfix
 :category: Systems
 :slug: postfix
 :author: Trevor
+:date: 2015-01-01
 
 Postfix is a ghastly horror that really should be quietly eliminated.  But that truism hides a deeper issue - email itself is a ghastly horror, the result of 30 years of hacks, edge-cases, non-conformant implementations and competing design constraints, that only persists because we still haven't come up with anything better.
 
@@ -60,9 +61,9 @@ parallel with each other.
 
 
 .. code-block:: sh
-  
+
   $ pstree -a
-    
+
   ├─master
   │   ├─anvil -l -t unix -u -c
   │   ├─pickup -l -t unix -u -c
@@ -94,14 +95,13 @@ parallel with each other.
   │   ├─qmgr -l -t unix -u
   │   ├─smtpd -n smtp -t inet -u -c -o stress=
   │   └─smtpd -n smtp -t inet -u -c -o stress=
-  
-  
+
+
 That's a lot of processes....
 
 And yet, despite this, Postfix seems to be about the best there is.  Over the last
 few years I've built and maintained a massively parallel mail delivery, management
 and monitoring system on top of Postfix that, at the last count, had successfully
-delivered almost 10 million messages for clients of `Nooro Online Research`_. 
+delivered almost 10 million messages for clients of `Nooro Online Research`_.
 
 .. _Nooro Online Research: http://nooro.com
-
