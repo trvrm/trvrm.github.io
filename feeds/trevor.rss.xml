@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>trvrm</title><link>/</link><description></description><atom:link href="/feeds/trevor.rss.xml" rel="self"></atom:link><lastBuildDate>Fri, 26 Jun 2015 00:00:00 +0200</lastBuildDate><item><title>Pelican, Atom and Markdown</title><link>/pelican-atom-and-markdown.html</link><description>&lt;p&gt;I've been using reStructured text in general to write this blog, but I think I'm
 going to be switching to Markdown.  As an experiment, I'm writing this post in Markdown.&lt;/p&gt;
-&lt;p&gt;I'm also writing it in the Atom text editor (https://atom.io/), which has really come on a
+&lt;p&gt;I'm also writing it in the &lt;a href="https://atom.io/"&gt;Atom text editor&lt;/a&gt;, which has really come on a
 long way since I last tried it.  Specifically, it includes a Markdown preview function, so
 I can see the effects of the markup that I'm writing as I write it.&lt;/p&gt;
 &lt;p&gt;Mostly, I want a rapid way of creating and publishing code snippets, without the mental
@@ -24,7 +24,7 @@ syntax, I can get the same output from Pelican, Atom, and IPython notebooks.&lt;
 
 
 &lt;p&gt;And if I paste that into a markdown cell in an IPython notebook, I get the same effect, as
-can be seen here: https://github.com/trvrm/notebooks/blob/master/Markdown%20Demo.ipynb&lt;/p&gt;
+can be seen &lt;a href="https://github.com/trvrm/notebooks/blob/master/Markdown%20Demo.ipynb"&gt;here&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;So this seems to be the general way that the open-source ecosystem is going: Markdown
 allows me to use the same syntax for my GitHub documentation, my IPython notebooks, and
 my blog posts.  &lt;/p&gt;

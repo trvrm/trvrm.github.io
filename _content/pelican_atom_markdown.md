@@ -7,7 +7,7 @@ Date: 2015-06-26
 I've been using reStructured text in general to write this blog, but I think I'm
 going to be switching to Markdown.  As an experiment, I'm writing this post in Markdown.
 
-I'm also writing it in the Atom text editor (https://atom.io/), which has really come on a
+I'm also writing it in the [Atom text editor](https://atom.io/), which has really come on a
 long way since I last tried it.  Specifically, it includes a Markdown preview function, so
 I can see the effects of the markup that I'm writing as I write it.
 
@@ -34,7 +34,7 @@ yields
 ```
 
 And if I paste that into a markdown cell in an IPython notebook, I get the same effect, as
-can be seen here: https://github.com/trvrm/notebooks/blob/master/Markdown%20Demo.ipynb
+can be seen [here](https://github.com/trvrm/notebooks/blob/master/Markdown%20Demo.ipynb)
 
 
 So this seems to be the general way that the open-source ecosystem is going: Markdown
