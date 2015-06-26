@@ -11,8 +11,10 @@ TIMEZONE = 'Europe/Paris'
 PYGMENTS_STYLE = 'tango'
 DEFAULT_LANG = u'en'
 
+ 
 
-THEME = "../pelican-themes-2/pelican-bootstrap3"
+THEME = "../pelican-bootstrap3"
+#THEME = "../twenty-pelican-html5up"
 # Feed generation is usually not desired when developing
 FEED_ALL_ATOM = None
 CATEGORY_FEED_ATOM = None
@@ -38,5 +40,5 @@ BOOTSTRAP_THEME = 'flatly'
 GITHUB_USER='trvrm'
 TWITTER_WIDGET_ID='586183094564220928'
 
-PLUGIN_PATHS = ["/home/trevor/pelican-plugins"]
+PLUGIN_PATHS = ["../pelican-plugins"]
 PLUGINS=['twitter_bootstrap_rst_directives']

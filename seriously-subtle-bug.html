@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"
->
+<html lang="en" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
 <head>
     <title>A Seriously Subtle Bug - trvrm</title>
     <!-- Using the latest rendering mode for IE -->
@@ -36,6 +35,9 @@
 
     <link href="/theme/css/pygments/tango.css" rel="stylesheet">
     <link rel="stylesheet" href="/theme/css/style.css" type="text/css"/>
+
+
+
 
 
 </head>
@@ -80,7 +82,6 @@ trvrm            </a>
 <div class="container">
     <div class="row">
         <div class="col-sm-9">
-
     <section id="content">
         <article>
             <header class="page-header">
@@ -100,6 +101,8 @@ trvrm            </a>
     <span class="published">
         <i class="fa fa-calendar"></i><time datetime="2015-01-10T22:25:26.292176"> Sat 10 January 2015</time>
     </span>
+
+
 
 
 
@@ -142,9 +145,9 @@ lsof</code>
 <div class="highlight"><pre><span class="nv">$ </span>sudo lsof &gt; lsof.txt
 
 COMMAND     PID   TID       USER   FD      TYPE             DEVICE  SIZE/OFF       NODE NAME
-init          1             root  cwd       DIR                8,1      4096          2 /
-init          1             root  rtd       DIR                8,1      4096          2 /
-init          1             root  txt       REG                8,1    265848   14422298 /sbin/init
+init          <span class="m">1</span>             root  cwd       DIR                8,1      <span class="m">4096</span>          <span class="m">2</span> /
+init          <span class="m">1</span>             root  rtd       DIR                8,1      <span class="m">4096</span>          <span class="m">2</span> /
+init          <span class="m">1</span>             root  txt       REG                8,1    <span class="m">265848</span>   <span class="m">14422298</span> /sbin/init
 ...
 </pre></div>
 <p>... followed by thousands more lines.  Armed with this information, we could figure out how many files
@@ -380,11 +383,6 @@ a bug.  But hopefully this analysis will help prevent others from going through 
                         </a>
                     </li>
                     <li class="list-group-item tag-2">
-                        <a href="/tag/ipython.html">
-                            IPython
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-2">
                         <a href="/tag/javascript.html">
                             javascript
                         </a>
@@ -394,9 +392,9 @@ a bug.  But hopefully this analysis will help prevent others from going through 
                             linux
                         </a>
                     </li>
-                    <li class="list-group-item tag-3">
-                        <a href="/tag/uwsgi.html">
-                            uwsgi
+                    <li class="list-group-item tag-2">
+                        <a href="/tag/ipython.html">
+                            IPython
                         </a>
                     </li>
                     <li class="list-group-item tag-3">
@@ -405,28 +403,18 @@ a bug.  But hopefully this analysis will help prevent others from going through 
                         </a>
                     </li>
                     <li class="list-group-item tag-3">
+                        <a href="/tag/uwsgi.html">
+                            uwsgi
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-3">
                         <a href="/tag/ractive.html">
                             ractive
                         </a>
                     </li>
                     <li class="list-group-item tag-4">
-                        <a href="/tag/coffeescript.html">
-                            coffeescript
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/postfix.html">
-                            postfix
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/pelican.html">
-                            pelican
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/fabric.html">
-                            fabric
+                        <a href="/tag/gevent.html">
+                            gevent
                         </a>
                     </li>
                     <li class="list-group-item tag-4">
@@ -435,8 +423,8 @@ a bug.  But hopefully this analysis will help prevent others from going through 
                         </a>
                     </li>
                     <li class="list-group-item tag-4">
-                        <a href="/tag/gevent.html">
-                            gevent
+                        <a href="/tag/nginx.html">
+                            nginx
                         </a>
                     </li>
                     <li class="list-group-item tag-4">
@@ -450,12 +438,29 @@ a bug.  But hopefully this analysis will help prevent others from going through 
                         </a>
                     </li>
                     <li class="list-group-item tag-4">
-                        <a href="/tag/nginx.html">
-                            nginx
+                        <a href="/tag/fabric.html">
+                            fabric
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
+                        <a href="/tag/pelican.html">
+                            pelican
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
+                        <a href="/tag/coffeescript.html">
+                            coffeescript
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
+                        <a href="/tag/postfix.html">
+                            postfix
                         </a>
                     </li>
                 </ul>
             </li>
+
+
 
     <li class="list-group-item"><h4><i class="fa fa-github fa-lg"></i><span class="icon-label">GitHub Repos</span></h4>
         <div id="gh_repos">

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"
->
+<html lang="en" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
 <head>
     <title>logrotate - trvrm</title>
     <!-- Using the latest rendering mode for IE -->
@@ -34,6 +33,9 @@
 
     <link href="/theme/css/pygments/tango.css" rel="stylesheet">
     <link rel="stylesheet" href="/theme/css/style.css" type="text/css"/>
+
+
+
 
 
 </head>
@@ -78,7 +80,6 @@ trvrm            </a>
 <div class="container">
     <div class="row">
         <div class="col-sm-9">
-
     <section id="content">
         <article>
             <header class="page-header">
@@ -98,6 +99,8 @@ trvrm            </a>
     <span class="published">
         <i class="fa fa-calendar"></i><time datetime="2014-08-19T13:42:09.028540"> Tue 19 August 2014</time>
     </span>
+
+
 
 
 
@@ -122,10 +125,16 @@ runaway log file growth and nasty calls in the middle of the night from your
 monitoring service telling you that your server just died because the hard
 drives were full.</p>
 <p>A default ubuntu installation comes with logrotate already set up for various services.
-If you don't have it, install it with <code>apt-get install logrotate</code>, and
-then it's mostly just a question of copying a file from <code>/etc/logrotate.d/</code>
+If you don't have it, install it with <code class="code">
+apt-get install logrotate</code>
+, and
+then it's mostly just a question of copying a file from <code class="code">
+/etc/logrotate.d/</code>
+
 and modifying it according to your needs.</p>
-<p><code>vi /etc/logrotate.d/myservice</code></p>
+<p><code class="code">
+vi /etc/logrotate.d/myservice</code>
+</p>
 <div class="highlight"><pre>/var/log/myservice/*.log <span class="o">{</span>
   rotate 7
   daily
@@ -134,14 +143,18 @@ and modifying it according to your needs.</p>
   notifempty
 <span class="o">}</span>
 </pre></div>
-<p>And that's it!  The actually invocation of the <code>logrotate</code> command will
+<p>And that's it!  The actually invocation of the <code class="code">
+logrotate</code>
+ command will
 get triggered regularly by a script in /etc/cron.daily</p>
 <p>You can also <strong>force</strong> a rotation, a useful option when testing out a new configuration,
 via</p>
 <div class="highlight"><pre>logrotate -f /etc/logrotate.d/myservice
 </pre></div>
 <p>One quick word of warning: if you're using the python <a class="reference external" href="https://docs.python.org/2/library/logging.html">logging</a> library, then
-you'll want to use the <code>WatchedFileHandler</code> class.  If the logfile gets
+you'll want to use the <code class="code">
+WatchedFileHandler</code>
+ class.  If the logfile gets
 rotated out while it's in use, WatchedFileHandler will notice this, close the file
 stream and open a new one.</p>
 
@@ -172,11 +185,6 @@ stream and open a new one.</p>
                         </a>
                     </li>
                     <li class="list-group-item tag-2">
-                        <a href="/tag/ipython.html">
-                            IPython
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-2">
                         <a href="/tag/javascript.html">
                             javascript
                         </a>
@@ -186,9 +194,9 @@ stream and open a new one.</p>
                             linux
                         </a>
                     </li>
-                    <li class="list-group-item tag-3">
-                        <a href="/tag/uwsgi.html">
-                            uwsgi
+                    <li class="list-group-item tag-2">
+                        <a href="/tag/ipython.html">
+                            IPython
                         </a>
                     </li>
                     <li class="list-group-item tag-3">
@@ -197,28 +205,18 @@ stream and open a new one.</p>
                         </a>
                     </li>
                     <li class="list-group-item tag-3">
+                        <a href="/tag/uwsgi.html">
+                            uwsgi
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-3">
                         <a href="/tag/ractive.html">
                             ractive
                         </a>
                     </li>
                     <li class="list-group-item tag-4">
-                        <a href="/tag/coffeescript.html">
-                            coffeescript
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/postfix.html">
-                            postfix
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/pelican.html">
-                            pelican
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/fabric.html">
-                            fabric
+                        <a href="/tag/gevent.html">
+                            gevent
                         </a>
                     </li>
                     <li class="list-group-item tag-4">
@@ -227,8 +225,8 @@ stream and open a new one.</p>
                         </a>
                     </li>
                     <li class="list-group-item tag-4">
-                        <a href="/tag/gevent.html">
-                            gevent
+                        <a href="/tag/nginx.html">
+                            nginx
                         </a>
                     </li>
                     <li class="list-group-item tag-4">
@@ -242,12 +240,29 @@ stream and open a new one.</p>
                         </a>
                     </li>
                     <li class="list-group-item tag-4">
-                        <a href="/tag/nginx.html">
-                            nginx
+                        <a href="/tag/fabric.html">
+                            fabric
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
+                        <a href="/tag/pelican.html">
+                            pelican
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
+                        <a href="/tag/coffeescript.html">
+                            coffeescript
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
+                        <a href="/tag/postfix.html">
+                            postfix
                         </a>
                     </li>
                 </ul>
             </li>
+
+
 
     <li class="list-group-item"><h4><i class="fa fa-github fa-lg"></i><span class="icon-label">GitHub Repos</span></h4>
         <div id="gh_repos">

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"
->
+<html lang="en" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
 <head>
     <title>trvrm</title>
     <!-- Using the latest rendering mode for IE -->
@@ -27,6 +26,9 @@
 
     <link href="/theme/css/pygments/tango.css" rel="stylesheet">
     <link rel="stylesheet" href="/theme/css/style.css" type="text/css"/>
+
+
+
 
 
 </head>
@@ -71,7 +73,6 @@ trvrm            </a>
 <div class="container">
     <div class="row">
         <div class="col-sm-9">
-
             <article>
                 <h2><a href="/seriously-subtle-bug.html">A Seriously Subtle Bug</a></h2>
                 <div class="summary"><p>I build and maintain a number of web applications built using <a class="reference external" href="http://python.org">Python</a>, <a class="reference external" href="http://bottlepy.org/docs/dev/index.html">Bottle</a>, and <a class="reference external" href="http://uwsgi-docs.readthedocs.org/en/latest/index.html">uWSGI</a>.
@@ -147,7 +148,9 @@ multiple python web applications simultaneously on an ubuntu 14 machine.</p>
                 <h2><a href="/postgres-timestamps.html">Postgres Timestamps</a></h2>
                 <div class="summary"><p>At my company, I maintain a large distributed. data collection platform
 . Pretty much every record we collect needs to be stamped with a
-<tt class="docutils literal">created</tt> field. But because the incoming data comes from sources on
+<pre>
+created</pre>
+ field. But because the incoming data comes from sources on
 various devices in multiple countries and timezones, making sure that
 the timestamps are precise and meaningful ...</p>
                     <a class="btn btn-default btn-xs" href="/postgres-timestamps.html">more ...</a>
@@ -156,10 +159,16 @@ the timestamps are precise and meaningful ...</p>
             <hr/>
             <article>
                 <h2><a href="/sql-magic.html">SQL Magic</a></h2>
-                <div class="summary"><p>I'm finding the <tt class="docutils literal">%sql</tt> magic function extremely useful. It turns
+                <div class="summary"><p>I'm finding the <pre>
+%sql</pre>
+ magic function extremely useful. It turns
 IPython into a very nice front-end to Postgresql.</p>
-<p>First, make sure you have the <tt class="docutils literal"><span class="pre">ipython-sql</span></tt> extension installed:</p>
-<p><tt class="docutils literal">pip install <span class="pre">ipython-sql</span></tt></p>
+<p>First, make sure you have the <pre>
+ipython-sql</pre>
+ extension installed:</p>
+<p><pre>
+pip install ipython-sql</pre>
+</p>
 <p><a class="reference external" href="https://pypi.python.org/pypi/ipython-sql">https://pypi.python.org/pypi/ipython-sql</a></p>
 <p>Then we load the extension</p>
 <div class="highlight"><pre><span class="o">%</span><span class="n">load_ext</span> <span class="n">sql</span>
@@ -206,9 +215,13 @@ company grows I keep getting drawn into ...</p>
             <article>
                 <h2><a href="/pdf-generation-with-pelican.html">PDF Generation With Pelican</a></h2>
                 <div class="summary"><p>The existing documentation is a little unclear on this, because it says
-you need to add <code>PDF_GENERATOR=True</code> to your <cite>pelicanconf.py</cite> file.</p>
+you need to add <code class="code">
+PDF_GENERATOR=True</code>
+ to your <cite>pelicanconf.py</cite> file.</p>
 <p>This advice is out of date: PDF generation has been moved to a plugin.</p>
-<p>So you need to first make sure you have <code>rst2pdf</code> installed:</p>
+<p>So you need to first make sure you have <code class="code">
+rst2pdf</code>
+ installed:</p>
 <div class="highlight"><pre><span class="nv">$ </span>sudo apt-get ...</pre></div>
                     <a class="btn btn-default btn-xs" href="/pdf-generation-with-pelican.html">more ...</a>
                 </div>
@@ -228,7 +241,11 @@ python <a class="reference external" href="https://docs.python.org/2/library/log
             <article>
                 <h2><a href="/ipython-with-python-3.html">IPython with Python 3</a></h2>
                 <div class="summary"><p>This took me longer than I was expecting.</p>
-<p>In general when working with IPython I use <code>pip</code> rather than <code>apt-get</code>, as
+<p>In general when working with IPython I use <code class="code">
+pip</code>
+ rather than <code class="code">
+apt-get</code>
+, as
 pip tends to have more up-to-date packages.</p>
 <p>In the end I found the simplest thing to do was to set up IPython in an isolated
 virtualenv environment.  The main ...</p>
@@ -294,11 +311,6 @@ rather than enable globally in the server.</p>
                         </a>
                     </li>
                     <li class="list-group-item tag-2">
-                        <a href="/tag/ipython.html">
-                            IPython
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-2">
                         <a href="/tag/javascript.html">
                             javascript
                         </a>
@@ -308,9 +320,9 @@ rather than enable globally in the server.</p>
                             linux
                         </a>
                     </li>
-                    <li class="list-group-item tag-3">
-                        <a href="/tag/uwsgi.html">
-                            uwsgi
+                    <li class="list-group-item tag-2">
+                        <a href="/tag/ipython.html">
+                            IPython
                         </a>
                     </li>
                     <li class="list-group-item tag-3">
@@ -319,28 +331,18 @@ rather than enable globally in the server.</p>
                         </a>
                     </li>
                     <li class="list-group-item tag-3">
+                        <a href="/tag/uwsgi.html">
+                            uwsgi
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-3">
                         <a href="/tag/ractive.html">
                             ractive
                         </a>
                     </li>
                     <li class="list-group-item tag-4">
-                        <a href="/tag/coffeescript.html">
-                            coffeescript
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/postfix.html">
-                            postfix
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/pelican.html">
-                            pelican
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/fabric.html">
-                            fabric
+                        <a href="/tag/gevent.html">
+                            gevent
                         </a>
                     </li>
                     <li class="list-group-item tag-4">
@@ -349,8 +351,8 @@ rather than enable globally in the server.</p>
                         </a>
                     </li>
                     <li class="list-group-item tag-4">
-                        <a href="/tag/gevent.html">
-                            gevent
+                        <a href="/tag/nginx.html">
+                            nginx
                         </a>
                     </li>
                     <li class="list-group-item tag-4">
@@ -364,12 +366,29 @@ rather than enable globally in the server.</p>
                         </a>
                     </li>
                     <li class="list-group-item tag-4">
-                        <a href="/tag/nginx.html">
-                            nginx
+                        <a href="/tag/fabric.html">
+                            fabric
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
+                        <a href="/tag/pelican.html">
+                            pelican
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
+                        <a href="/tag/coffeescript.html">
+                            coffeescript
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
+                        <a href="/tag/postfix.html">
+                            postfix
                         </a>
                     </li>
                 </ul>
             </li>
+
+
 
     <li class="list-group-item"><h4><i class="fa fa-github fa-lg"></i><span class="icon-label">GitHub Repos</span></h4>
         <div id="gh_repos">

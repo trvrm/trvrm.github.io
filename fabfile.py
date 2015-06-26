@@ -8,7 +8,7 @@ env.content_path = './_content'
 DEPLOY_PATH = env.deploy_path
 
 def build():
-    local('pelican -s pelicanconf.py -o {deploy_path}  {content_path}'.format(**env))
+    local('pelican -v -s pelicanconf.py -o {deploy_path}  {content_path}'.format(**env))
 
 def clean():
     local('rm -rf {deploy_path}/*.html {deploy_path}/category {deploy_path}/pages {deploy_path}/tag {deploy_path}/author {deploy_path}/theme  '.format(**env))

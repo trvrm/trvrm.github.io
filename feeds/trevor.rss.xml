@@ -27,9 +27,9 @@ lsof&lt;/code&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;sudo lsof &amp;gt; lsof.txt
 
 COMMAND     PID   TID       USER   FD      TYPE             DEVICE  SIZE/OFF       NODE NAME
-init          1             root  cwd       DIR                8,1      4096          2 /
-init          1             root  rtd       DIR                8,1      4096          2 /
-init          1             root  txt       REG                8,1    265848   14422298 /sbin/init
+init          &lt;span class="m"&gt;1&lt;/span&gt;             root  cwd       DIR                8,1      &lt;span class="m"&gt;4096&lt;/span&gt;          &lt;span class="m"&gt;2&lt;/span&gt; /
+init          &lt;span class="m"&gt;1&lt;/span&gt;             root  rtd       DIR                8,1      &lt;span class="m"&gt;4096&lt;/span&gt;          &lt;span class="m"&gt;2&lt;/span&gt; /
+init          &lt;span class="m"&gt;1&lt;/span&gt;             root  txt       REG                8,1    &lt;span class="m"&gt;265848&lt;/span&gt;   &lt;span class="m"&gt;14422298&lt;/span&gt; /sbin/init
 ...
 &lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;... followed by thousands more lines.  Armed with this information, we could figure out how many files
@@ -812,15 +812,15 @@ multiple python web applications simultaneously on an ubuntu 14 machine.&lt;/p&g
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;#/etc/nginx/sites-available/mysite&lt;/span&gt;
 server&lt;span class="o"&gt;{&lt;/span&gt;
 
-    server_name     your_host_name;
+    server_name     your_host_name&lt;span class="p"&gt;;&lt;/span&gt;
 
     location /app1 &lt;span class="o"&gt;{&lt;/span&gt;
-        uwsgi_pass unix:/tmp/app1.socket;
-        include uwsgi_params;
+        uwsgi_pass unix:/tmp/app1.socket&lt;span class="p"&gt;;&lt;/span&gt;
+        include uwsgi_params&lt;span class="p"&gt;;&lt;/span&gt;
     &lt;span class="o"&gt;}&lt;/span&gt;
     location /app2 &lt;span class="o"&gt;{&lt;/span&gt;
-        uwsgi_pass unix:/tmp/app2.socket;
-        include uwsgi_params;
+        uwsgi_pass unix:/tmp/app2.socket&lt;span class="p"&gt;;&lt;/span&gt;
+        include uwsgi_params&lt;span class="p"&gt;;&lt;/span&gt;
     &lt;span class="o"&gt;}&lt;/span&gt;
 &lt;span class="o"&gt;}&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
@@ -895,17 +895,25 @@ application can be only a few lines long:&lt;/p&gt;
 you put in the python files.&lt;/p&gt;
 </description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Trevor</dc:creator><pubDate>Fri, 05 Sep 2014 10:29:20 +0200</pubDate><guid>tag:,2014-09-05:nginx-uwsgi-ubuntu-14.html</guid><category>Python</category><category>nginx</category><category>uwsgi</category></item><item><title>Postgres Timestamps</title><link>/postgres-timestamps.html</link><description>&lt;p&gt;At my company, I maintain a large distributed. data collection platform
 . Pretty much every record we collect needs to be stamped with a
-&lt;tt class="docutils literal"&gt;created&lt;/tt&gt; field. But because the incoming data comes from sources on
+&lt;pre&gt;
+created&lt;/pre&gt;
+ field. But because the incoming data comes from sources on
 various devices in multiple countries and timezones, making sure that
 the timestamps are precise and meaningful can be a challenge.
 &lt;a class="reference external" href="http://www.postgresql.org/"&gt;Postgres&lt;/a&gt; can do this very elegantly,
 but can also trip you up in subtle ways.&lt;/p&gt;
-&lt;p&gt;Postgres has two subtly different timestamp data types: &lt;tt class="docutils literal"&gt;TIMESTAMP&lt;/tt&gt;
-and &lt;tt class="docutils literal"&gt;TIMESTAMP WITH TIMEZONE&lt;/tt&gt;.&lt;/p&gt;
+&lt;p&gt;Postgres has two subtly different timestamp data types: &lt;pre&gt;
+TIMESTAMP&lt;/pre&gt;
+
+and &lt;pre&gt;
+TIMESTAMP WITH TIMEZONE&lt;/pre&gt;
+.&lt;/p&gt;
 &lt;p&gt;The former stores year/month/day/hour/minutes/second/milliseconds, as
 you’d expect, and the later ALSO stores a timezone offset, expressed in
 hours.&lt;/p&gt;
-&lt;p&gt;We can switch between the two using the &lt;tt class="docutils literal"&gt;AT TIMEZONE&lt;/tt&gt; syntax, but, and
+&lt;p&gt;We can switch between the two using the &lt;pre&gt;
+AT TIMEZONE&lt;/pre&gt;
+ syntax, but, and
 here is the tricky bit the function goes BOTH WAYS, and you can easily
 get confused if you don’t know what type you’re starting with.&lt;/p&gt;
 &lt;p&gt;Furthermore, Postgres will sometimes sneakily convert one to the other
@@ -928,11 +936,19 @@ u'Connected: &lt;a class="reference external" href="mailto:testuser&amp;#64;test
     &lt;tr&gt;
         &lt;td&gt;2014-08-18 22:33:58.998549-04:00&lt;/td&gt;
     &lt;/tr&gt;
-&lt;/table&gt;&lt;p&gt;&lt;tt class="docutils literal"&gt;now()&lt;/tt&gt; returns a &lt;tt class="docutils literal"&gt;TIMESTAMP WITH TIME ZONE&lt;/tt&gt;. It shows the current
+&lt;/table&gt;&lt;p&gt;&lt;pre&gt;
+now()&lt;/pre&gt;
+ returns a &lt;pre&gt;
+TIMESTAMP WITH TIME ZONE&lt;/pre&gt;
+. It shows the current
 &lt;strong&gt;local&lt;/strong&gt; time, and the offset between that time and UTC
 (&lt;a class="reference external" href="http://time.is/UTC"&gt;http://time.is/UTC&lt;/a&gt;)&lt;/p&gt;
-&lt;p&gt;But if we put the output from &lt;tt class="docutils literal"&gt;now()&lt;/tt&gt; into a field that has type
-&lt;tt class="docutils literal"&gt;TIMESTAMP&lt;/tt&gt; we will get a silent conversion:&lt;/p&gt;
+&lt;p&gt;But if we put the output from &lt;pre&gt;
+now()&lt;/pre&gt;
+ into a field that has type
+&lt;pre&gt;
+TIMESTAMP&lt;/pre&gt;
+ we will get a silent conversion:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;sql&lt;/span&gt; &lt;span class="n"&gt;SELECT&lt;/span&gt; &lt;span class="n"&gt;NOW&lt;/span&gt;&lt;span class="p"&gt;()::&lt;/span&gt; &lt;span class="n"&gt;timestamp&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;table class="table table-bordered table-striped"&gt;
@@ -972,7 +988,9 @@ time zone&lt;/p&gt;
 &lt;/td&gt;&lt;td&gt;&lt;p&gt;timestamp without time zone&lt;/p&gt;
 &lt;/td&gt;&lt;td&gt;&lt;p&gt;Convert given time stamp with time zone to the new time zone, with no
 time zone designation&lt;/p&gt;
-&lt;/td&gt;&lt;/tr&gt;&lt;table class="table table-bordered table-striped"&gt;&lt;p&gt;The danger here is that the &lt;tt class="docutils literal"&gt;AT TIMEZONE&lt;/tt&gt; construct goes &lt;strong&gt;both
+&lt;/td&gt;&lt;/tr&gt;&lt;table class="table table-bordered table-striped"&gt;&lt;p&gt;The danger here is that the &lt;pre&gt;
+AT TIMEZONE&lt;/pre&gt;
+ construct goes &lt;strong&gt;both
 ways&lt;/strong&gt;. If you don't know what type you're feeding in, you won't know
 what type you're getting out. I've been bitten by this in the past;
 ending up with a timestamp that is wrong by several hours because I
@@ -1164,10 +1182,16 @@ and we're going to store it in the database via some Python code.&lt;/p&gt;
 &lt;/table&gt;&lt;p&gt;And now we're getting to the point where all our timestamp data is both
 stored and displayed unambiguously.&lt;/p&gt;
 &lt;/div&gt;
-</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Trevor</dc:creator><pubDate>Tue, 19 Aug 2014 13:42:43 +0200</pubDate><guid>tag:,2014-08-19:postgres-timestamps.html</guid><category>Python</category><category>Postgres</category></item><item><title>SQL Magic</title><link>/sql-magic.html</link><description>&lt;p&gt;I'm finding the &lt;tt class="docutils literal"&gt;%sql&lt;/tt&gt; magic function extremely useful. It turns
+</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Trevor</dc:creator><pubDate>Tue, 19 Aug 2014 13:42:43 +0200</pubDate><guid>tag:,2014-08-19:postgres-timestamps.html</guid><category>Python</category><category>Postgres</category></item><item><title>SQL Magic</title><link>/sql-magic.html</link><description>&lt;p&gt;I'm finding the &lt;pre&gt;
+%sql&lt;/pre&gt;
+ magic function extremely useful. It turns
 IPython into a very nice front-end to Postgresql.&lt;/p&gt;
-&lt;p&gt;First, make sure you have the &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;ipython-sql&lt;/span&gt;&lt;/tt&gt; extension installed:&lt;/p&gt;
-&lt;p&gt;&lt;tt class="docutils literal"&gt;pip install &lt;span class="pre"&gt;ipython-sql&lt;/span&gt;&lt;/tt&gt;&lt;/p&gt;
+&lt;p&gt;First, make sure you have the &lt;pre&gt;
+ipython-sql&lt;/pre&gt;
+ extension installed:&lt;/p&gt;
+&lt;p&gt;&lt;pre&gt;
+pip install ipython-sql&lt;/pre&gt;
+&lt;/p&gt;
 &lt;p&gt;&lt;a class="reference external" href="https://pypi.python.org/pypi/ipython-sql"&gt;https://pypi.python.org/pypi/ipython-sql&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;Then we load the extension&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;load_ext&lt;/span&gt; &lt;span class="n"&gt;sql&lt;/span&gt;
@@ -1180,7 +1204,9 @@ IPython into a very nice front-end to Postgresql.&lt;/p&gt;
 u'Connected: &lt;a class="reference external" href="mailto:testuser&amp;#64;test"&gt;testuser&amp;#64;test&lt;/a&gt;'
 &lt;/pre&gt;
 &lt;p&gt;And now we can start interacting directly with the database as if we
-were at the &lt;tt class="docutils literal"&gt;psql&lt;/tt&gt; command line.&lt;/p&gt;
+were at the &lt;pre&gt;
+psql&lt;/pre&gt;
+ command line.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="o"&gt;%%&lt;/span&gt;&lt;span class="n"&gt;sql&lt;/span&gt;
 &lt;span class="n"&gt;CREATE&lt;/span&gt; &lt;span class="n"&gt;TABLE&lt;/span&gt; &lt;span class="n"&gt;people&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;first&lt;/span&gt; &lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;last&lt;/span&gt; &lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;drink&lt;/span&gt; &lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 &lt;span class="n"&gt;INSERT&lt;/span&gt; &lt;span class="n"&gt;INTO&lt;/span&gt; &lt;span class="n"&gt;people&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;first&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;last&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;drink&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
@@ -1328,7 +1354,9 @@ is &lt;em&gt;laziness&lt;/em&gt;, so if there's a way I can perform the same tas
 without having to manually type out the commands dozens of times, then I'm all for it.&lt;/p&gt;
 &lt;p&gt;Fabric does precisely that.  It's written in Python, and its configuration files
 are python scripts, so there's no need to learn yet another domain-specific language.
-I have a file called &lt;code&gt;fabfile.py&lt;/code&gt; on my local machine that contains a growing
+I have a file called &lt;code class="code"&gt;
+fabfile.py&lt;/code&gt;
+ on my local machine that contains a growing
 collection of little recipes, and with this I can interact with all the servers
 in our infrastructure.&lt;/p&gt;
 &lt;p&gt;So for example, if I want to see at a glance which version of linux I'm running on
@@ -1341,7 +1369,9 @@ all my servers, I have a task set up in my fabfile like this:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;fab lsb_release
 &lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;I get a nice little print-out of the current version of all my servers.  Fabric
-runs the task in parallel against every host in the &lt;code&gt;env.hosts&lt;/code&gt; variable,
+runs the task in parallel against every host in the &lt;code class="code"&gt;
+env.hosts&lt;/code&gt;
+ variable,
 which can be set at the command line or in the &lt;strong&gt;fabfile&lt;/strong&gt;.&lt;/p&gt;
 &lt;p&gt;The following example allows me to see a list of every database running on every
 database server.&lt;/p&gt;
@@ -1361,7 +1391,9 @@ the fabfile my &lt;a class="reference external" href="https://github.com/trvrm/t
 </description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Trevor</dc:creator><pubDate>Tue, 19 Aug 2014 13:42:35 +0200</pubDate><guid>tag:,2014-08-19:remote-systems-administration-with-fabric.html</guid><category>linux</category><category>python</category></item><item><title>Postfix</title><link>/postfix.html</link><description>&lt;p&gt;Postfix is a ghastly horror that really should be quietly eliminated.  But that truism hides a deeper issue - email itself is a ghastly horror, the result of 30 years of hacks, edge-cases, non-conformant implementations and competing design constraints, that only persists because we still haven't come up with anything better.&lt;/p&gt;
 &lt;p&gt;Take the simple question 'what is a valid email address'.&lt;/p&gt;
 &lt;p&gt;I have a couple of standard regexes I use to validate email addresses,
-such as &lt;code&gt;^[A-Z0-9._%+-]+&amp;#64;[A-Z0-9.-]+\.[A-Z]{2,4}$&lt;/code&gt;,
+such as &lt;code class="code"&gt;
+^[A-Z0-9._%+-]+&amp;#64;[A-Z0-9.-]+ .[A-Z]{2,4}$&lt;/code&gt;
+,
 but having spent years building mailing systems,
 the best answer I can come up with is
 &lt;em&gt;a valid email address is one that gets delivered to its destination&lt;/em&gt;.&lt;/p&gt;
@@ -1369,7 +1401,9 @@ the best answer I can come up with is
 the source code, a terrifying mix of old-school C and Perl.  I once needed to create
 a utility to monitor the state of a Postfix DEFERRED queue, and found it was vastly
 easier to write my own queue parser in Python than understand the source to the existing
-&lt;code&gt;qshape&lt;/code&gt; utility.  Whoever wrote that clearly has an aversion to variable names
+&lt;code class="code"&gt;
+qshape&lt;/code&gt;
+ utility.  Whoever wrote that clearly has an aversion to variable names
 that are more than one character long.&lt;/p&gt;
 &lt;p&gt;Actually configuring a functional Postfix system requires commiting yourself to a long
 pilgrimage across the net, picking up scattered bits of wisdom from the hardy travellers
@@ -1386,8 +1420,12 @@ a pretty good and comprehensive introduction to the architecture of Postfix&lt;/
 &lt;p&gt;The &lt;em&gt;key&lt;/em&gt; insight that everything else hangs on is that Postfix is &lt;em&gt;not&lt;/em&gt; a program.  Postfix is a large
 &lt;em&gt;collection&lt;/em&gt; of programs: some of which interact with the user, and a large number which run in the
 background and perform all the various tasks of gathering, processing and delivering email.&lt;/p&gt;
-&lt;p&gt;These programs, together with a rather complex set of folders under &lt;code&gt;/var/spool/postfix&lt;/code&gt; that store messages as they work their way through
-the system, and another set of rather complex configuration files under &lt;code&gt;/etc/postfix&lt;/code&gt;, are what comprises the
+&lt;p&gt;These programs, together with a rather complex set of folders under &lt;code class="code"&gt;
+/var/spool/postfix&lt;/code&gt;
+ that store messages as they work their way through
+the system, and another set of rather complex configuration files under &lt;code class="code"&gt;
+/etc/postfix&lt;/code&gt;
+, are what comprises the
 complete mail delivery system.&lt;/p&gt;
 &lt;p&gt;To add to the fun, many postfix configuration settings can be stored in MySQL, and it's possible to run multiple postfix instances in
 parallel with each other.&lt;/p&gt;
@@ -1431,18 +1469,28 @@ few years I've built and maintained a massively parallel mail delivery, manageme
 and monitoring system on top of Postfix that, at the last count, had successfully
 delivered almost 10 million messages for clients of &lt;a class="reference external" href="http://nooro.com"&gt;Nooro Online Research&lt;/a&gt;.&lt;/p&gt;
 </description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Trevor</dc:creator><pubDate>Tue, 19 Aug 2014 13:42:30 +0200</pubDate><guid>tag:,2014-08-19:postfix.html</guid><category>postfix</category><category>email</category></item><item><title>PDF Generation With Pelican</title><link>/pdf-generation-with-pelican.html</link><description>&lt;p&gt;The existing documentation is a little unclear on this, because it says
-you need to add &lt;code&gt;PDF_GENERATOR=True&lt;/code&gt; to your &lt;cite&gt;pelicanconf.py&lt;/cite&gt; file.&lt;/p&gt;
+you need to add &lt;code class="code"&gt;
+PDF_GENERATOR=True&lt;/code&gt;
+ to your &lt;cite&gt;pelicanconf.py&lt;/cite&gt; file.&lt;/p&gt;
 &lt;p&gt;This advice is out of date: PDF generation has been moved to a plugin.&lt;/p&gt;
-&lt;p&gt;So you need to first make sure you have &lt;code&gt;rst2pdf&lt;/code&gt; installed:&lt;/p&gt;
+&lt;p&gt;So you need to first make sure you have &lt;code class="code"&gt;
+rst2pdf&lt;/code&gt;
+ installed:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;sudo apt-get install rst2pdf
 &lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;and then add the following to &lt;code&gt;pelicanconf.py&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;and then add the following to &lt;code class="code"&gt;
+pelicanconf.py&lt;/code&gt;
+&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;PLUGIN_PATH&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;../pelican-plugins&amp;#39;&lt;/span&gt;  &lt;span class="c"&gt;# or wherever.&lt;/span&gt;
 &lt;span class="n"&gt;PLUGINS&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;pdf&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;However, doing this seems to screw up the pygments highlighting on my regular
-html output.  This is because deep in the rst2pdf code, in a file called &lt;code&gt;pygments2style.py&lt;/code&gt;,
-all the pygment elements have their CSS classes prepended with &lt;code&gt;pygment-&lt;/code&gt;.  I haven't
+html output.  This is because deep in the rst2pdf code, in a file called &lt;code class="code"&gt;
+pygments2style.py&lt;/code&gt;
+,
+all the pygment elements have their CSS classes prepended with &lt;code class="code"&gt;
+pygment-&lt;/code&gt;
+.  I haven't
 figured out how to generate HTML and PDF nicely at the same time.&lt;/p&gt;
 </description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Trevor</dc:creator><pubDate>Tue, 19 Aug 2014 13:42:16 +0200</pubDate><guid>tag:,2014-08-19:pdf-generation-with-pelican.html</guid><category>python</category><category>pelican</category></item><item><title>logrotate</title><link>/logrotate.html</link><description>&lt;p&gt;I have a large, complex &lt;a class="reference external" href="/postfix.html"&gt;mailing system&lt;/a&gt; that processes
 a significant amount of data every hour.  While I'm developing it, I want to know
@@ -1458,10 +1506,16 @@ runaway log file growth and nasty calls in the middle of the night from your
 monitoring service telling you that your server just died because the hard
 drives were full.&lt;/p&gt;
 &lt;p&gt;A default ubuntu installation comes with logrotate already set up for various services.
-If you don't have it, install it with &lt;code&gt;apt-get install logrotate&lt;/code&gt;, and
-then it's mostly just a question of copying a file from &lt;code&gt;/etc/logrotate.d/&lt;/code&gt;
+If you don't have it, install it with &lt;code class="code"&gt;
+apt-get install logrotate&lt;/code&gt;
+, and
+then it's mostly just a question of copying a file from &lt;code class="code"&gt;
+/etc/logrotate.d/&lt;/code&gt;
+
 and modifying it according to your needs.&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;vi /etc/logrotate.d/myservice&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code class="code"&gt;
+vi /etc/logrotate.d/myservice&lt;/code&gt;
+&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;/var/log/myservice/*.log &lt;span class="o"&gt;{&lt;/span&gt;
   rotate 7
   daily
@@ -1470,18 +1524,26 @@ and modifying it according to your needs.&lt;/p&gt;
   notifempty
 &lt;span class="o"&gt;}&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;And that's it!  The actually invocation of the &lt;code&gt;logrotate&lt;/code&gt; command will
+&lt;p&gt;And that's it!  The actually invocation of the &lt;code class="code"&gt;
+logrotate&lt;/code&gt;
+ command will
 get triggered regularly by a script in /etc/cron.daily&lt;/p&gt;
 &lt;p&gt;You can also &lt;strong&gt;force&lt;/strong&gt; a rotation, a useful option when testing out a new configuration,
 via&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;logrotate -f /etc/logrotate.d/myservice
 &lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;One quick word of warning: if you're using the python &lt;a class="reference external" href="https://docs.python.org/2/library/logging.html"&gt;logging&lt;/a&gt; library, then
-you'll want to use the &lt;code&gt;WatchedFileHandler&lt;/code&gt; class.  If the logfile gets
+you'll want to use the &lt;code class="code"&gt;
+WatchedFileHandler&lt;/code&gt;
+ class.  If the logfile gets
 rotated out while it's in use, WatchedFileHandler will notice this, close the file
 stream and open a new one.&lt;/p&gt;
 </description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Trevor</dc:creator><pubDate>Tue, 19 Aug 2014 13:42:09 +0200</pubDate><guid>tag:,2014-08-19:logrotate.html</guid><category>logrotate</category><category>linux</category></item><item><title>IPython with Python 3</title><link>/ipython-with-python-3.html</link><description>&lt;p&gt;This took me longer than I was expecting.&lt;/p&gt;
-&lt;p&gt;In general when working with IPython I use &lt;code&gt;pip&lt;/code&gt; rather than &lt;code&gt;apt-get&lt;/code&gt;, as
+&lt;p&gt;In general when working with IPython I use &lt;code class="code"&gt;
+pip&lt;/code&gt;
+ rather than &lt;code class="code"&gt;
+apt-get&lt;/code&gt;
+, as
 pip tends to have more up-to-date packages.&lt;/p&gt;
 &lt;p&gt;In the end I found the simplest thing to do was to set up IPython in an isolated
 virtualenv environment.  The main trick is to let virtualenv know what version of
@@ -1555,7 +1617,9 @@ how they will be interpreted.&lt;/p&gt;
 integrating the compiler into your toolchain.  For my larger projects I've hand-written
 a tool using Python's &lt;a class="reference external" href="https://pypi.python.org/pypi/watchdog"&gt;Watchdog&lt;/a&gt; package to monitor my source code directories and
 output compiled javascript everytime a file changes.&lt;/p&gt;
-&lt;p&gt;As a nice little extra, my tool jams in a warning message wrapped in an &lt;code&gt;alert&lt;/code&gt; call
+&lt;p&gt;As a nice little extra, my tool jams in a warning message wrapped in an &lt;code class="code"&gt;
+alert&lt;/code&gt;
+ call
 if the compliation fails, so if I introduce a syntax error in my coffeescript, as soon
 as I refresh the page that is using it I'll be presented with the source of the problem.&lt;/p&gt;
 &lt;/div&gt;

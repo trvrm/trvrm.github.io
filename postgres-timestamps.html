@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"
->
+<html lang="en" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
 <head>
     <title>Postgres Timestamps - trvrm</title>
     <!-- Using the latest rendering mode for IE -->
@@ -34,6 +33,9 @@
 
     <link href="/theme/css/pygments/tango.css" rel="stylesheet">
     <link rel="stylesheet" href="/theme/css/style.css" type="text/css"/>
+
+
+
 
 
 </head>
@@ -78,7 +80,6 @@ trvrm            </a>
 <div class="container">
     <div class="row">
         <div class="col-sm-9">
-
     <section id="content">
         <article>
             <header class="page-header">
@@ -101,6 +102,8 @@ trvrm            </a>
 
 
 
+
+
 <span class="label label-default">Tags</span>
 	<a href="/tag/python.html">Python</a>
         /
@@ -110,17 +113,25 @@ trvrm            </a>
                 </div>
                 <p>At my company, I maintain a large distributed. data collection platform
 . Pretty much every record we collect needs to be stamped with a
-<tt class="docutils literal">created</tt> field. But because the incoming data comes from sources on
+<pre>
+created</pre>
+ field. But because the incoming data comes from sources on
 various devices in multiple countries and timezones, making sure that
 the timestamps are precise and meaningful can be a challenge.
 <a class="reference external" href="http://www.postgresql.org/">Postgres</a> can do this very elegantly,
 but can also trip you up in subtle ways.</p>
-<p>Postgres has two subtly different timestamp data types: <tt class="docutils literal">TIMESTAMP</tt>
-and <tt class="docutils literal">TIMESTAMP WITH TIMEZONE</tt>.</p>
+<p>Postgres has two subtly different timestamp data types: <pre>
+TIMESTAMP</pre>
+
+and <pre>
+TIMESTAMP WITH TIMEZONE</pre>
+.</p>
 <p>The former stores year/month/day/hour/minutes/second/milliseconds, as
 you’d expect, and the later ALSO stores a timezone offset, expressed in
 hours.</p>
-<p>We can switch between the two using the <tt class="docutils literal">AT TIMEZONE</tt> syntax, but, and
+<p>We can switch between the two using the <pre>
+AT TIMEZONE</pre>
+ syntax, but, and
 here is the tricky bit the function goes BOTH WAYS, and you can easily
 get confused if you don’t know what type you’re starting with.</p>
 <p>Furthermore, Postgres will sometimes sneakily convert one to the other
@@ -143,11 +154,19 @@ u'Connected: <a class="reference external" href="mailto:testuser&#64;test">testu
     <tr>
         <td>2014-08-18 22:33:58.998549-04:00</td>
     </tr>
-</table><p><tt class="docutils literal">now()</tt> returns a <tt class="docutils literal">TIMESTAMP WITH TIME ZONE</tt>. It shows the current
+</table><p><pre>
+now()</pre>
+ returns a <pre>
+TIMESTAMP WITH TIME ZONE</pre>
+. It shows the current
 <strong>local</strong> time, and the offset between that time and UTC
 (<a class="reference external" href="http://time.is/UTC">http://time.is/UTC</a>)</p>
-<p>But if we put the output from <tt class="docutils literal">now()</tt> into a field that has type
-<tt class="docutils literal">TIMESTAMP</tt> we will get a silent conversion:</p>
+<p>But if we put the output from <pre>
+now()</pre>
+ into a field that has type
+<pre>
+TIMESTAMP</pre>
+ we will get a silent conversion:</p>
 <div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="n">NOW</span><span class="p">()::</span> <span class="n">timestamp</span>
 </pre></div>
 <table class="table table-bordered table-striped">
@@ -187,7 +206,9 @@ time zone</p>
 </td><td><p>timestamp without time zone</p>
 </td><td><p>Convert given time stamp with time zone to the new time zone, with no
 time zone designation</p>
-</td></tr><table class="table table-bordered table-striped"><p>The danger here is that the <tt class="docutils literal">AT TIMEZONE</tt> construct goes <strong>both
+</td></tr><table class="table table-bordered table-striped"><p>The danger here is that the <pre>
+AT TIMEZONE</pre>
+ construct goes <strong>both
 ways</strong>. If you don't know what type you're feeding in, you won't know
 what type you're getting out. I've been bitten by this in the past;
 ending up with a timestamp that is wrong by several hours because I
@@ -407,11 +428,6 @@ stored and displayed unambiguously.</p>
                         </a>
                     </li>
                     <li class="list-group-item tag-2">
-                        <a href="/tag/ipython.html">
-                            IPython
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-2">
                         <a href="/tag/javascript.html">
                             javascript
                         </a>
@@ -421,9 +437,9 @@ stored and displayed unambiguously.</p>
                             linux
                         </a>
                     </li>
-                    <li class="list-group-item tag-3">
-                        <a href="/tag/uwsgi.html">
-                            uwsgi
+                    <li class="list-group-item tag-2">
+                        <a href="/tag/ipython.html">
+                            IPython
                         </a>
                     </li>
                     <li class="list-group-item tag-3">
@@ -432,28 +448,18 @@ stored and displayed unambiguously.</p>
                         </a>
                     </li>
                     <li class="list-group-item tag-3">
+                        <a href="/tag/uwsgi.html">
+                            uwsgi
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-3">
                         <a href="/tag/ractive.html">
                             ractive
                         </a>
                     </li>
                     <li class="list-group-item tag-4">
-                        <a href="/tag/coffeescript.html">
-                            coffeescript
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/postfix.html">
-                            postfix
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/pelican.html">
-                            pelican
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/fabric.html">
-                            fabric
+                        <a href="/tag/gevent.html">
+                            gevent
                         </a>
                     </li>
                     <li class="list-group-item tag-4">
@@ -462,8 +468,8 @@ stored and displayed unambiguously.</p>
                         </a>
                     </li>
                     <li class="list-group-item tag-4">
-                        <a href="/tag/gevent.html">
-                            gevent
+                        <a href="/tag/nginx.html">
+                            nginx
                         </a>
                     </li>
                     <li class="list-group-item tag-4">
@@ -477,12 +483,29 @@ stored and displayed unambiguously.</p>
                         </a>
                     </li>
                     <li class="list-group-item tag-4">
-                        <a href="/tag/nginx.html">
-                            nginx
+                        <a href="/tag/fabric.html">
+                            fabric
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
+                        <a href="/tag/pelican.html">
+                            pelican
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
+                        <a href="/tag/coffeescript.html">
+                            coffeescript
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
+                        <a href="/tag/postfix.html">
+                            postfix
                         </a>
                     </li>
                 </ul>
             </li>
+
+
 
     <li class="list-group-item"><h4><i class="fa fa-github fa-lg"></i><span class="icon-label">GitHub Repos</span></h4>
         <div id="gh_repos">
