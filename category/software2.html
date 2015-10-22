@@ -329,12 +329,12 @@ a bug.  But hopefully this analysis will help prevent others from going through 
                 
                 <div class="entry-content">
 
-                    <p>I'm finding the <pre>
-%sql</pre>
+                    <p>I'm finding the <code class="code">
+%sql</code>
  magic function extremely useful. It turns
 IPython into a very nice front-end to Postgresql.</p>
-<p>First, make sure you have the <pre>
-ipython-sql</pre>
+<p>First, make sure you have the <code class="code">
+ipython-sql</code>
  extension installed:</p>
 <p><pre>
 pip install ipython-sql</pre>
@@ -351,8 +351,8 @@ pip install ipython-sql</pre>
 u'Connected: <a class="reference external" href="mailto:testuser&#64;test">testuser&#64;test</a>'
 </pre>
 <p>And now we can start interacting directly with the database as if we
-were at the <pre>
-psql</pre>
+were at the <code class="code">
+psql</code>
  command line.</p>
 <div class="highlight"><pre><span class="o">%%</span><span class="n">sql</span>
 <span class="n">CREATE</span> <span class="n">TABLE</span> <span class="n">people</span> <span class="p">(</span><span class="n">first</span> <span class="n">text</span><span class="p">,</span> <span class="n">last</span> <span class="n">text</span><span class="p">,</span> <span class="n">drink</span> <span class="n">text</span><span class="p">);</span>
