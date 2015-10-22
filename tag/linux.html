@@ -49,14 +49,8 @@ trvrm            </a>
         </div>
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav">
-                         <li><a href="/pages/about.html">
-                             About
-                          </a></li>
                         <li >
                             <a href="/category/database.html">Database</a>
-                        </li>
-                        <li >
-                            <a href="/category/python.html">Python</a>
                         </li>
                         <li >
                             <a href="/category/software.html">Software</a>
@@ -79,43 +73,389 @@ trvrm            </a>
         <div class="col-sm-9">
             <article>
                 <h2><a href="/configuring-systems-with-fabric-and-cuisine.html">Configuring Systems with Fabric and Cuisine</a></h2>
-                <div class="summary"><p>I've mentioned <a class="reference external" href="http://fabric.readthedocs.org/en/1.8/">Fabric</a> before on this blog.  Because so much of my development time is spent in Python, it makes
+                
+                
+                <div class="entry-content">
+
+                    <p>I've mentioned <a class="reference external" href="http://fabric.readthedocs.org/en/1.8/">Fabric</a> before on this blog.  Because so much of my development time is spent in Python, it makes
 sense for me to look for system administration tools that are also written in Python.  Fabric fits the bill
-perfectly, and allows me to run tasks remotely on multiple ...</p>
-                    <a class="btn btn-default btn-xs" href="/configuring-systems-with-fabric-and-cuisine.html">more ...</a>
-                </div>
+perfectly, and allows me to run tasks remotely on multiple machines simultaneously.</p>
+<p>A useful addition to Fabric is <a class="reference external" href="https://github.com/sebastien/cuisine">Cuisine</a>.  <strong>Cuisine is a small set of functions that sit on top of Fabric,
+to abstract common administration operations such as file/dir operations, user/group creation,
+package install/upgrade, making it easier to write portable administration and deployment scripts.</strong></p>
+
+                    
+                </div>  
+                
+                
             </article>
             <hr/>
             <article>
                 <h2><a href="/logrotate.html">logrotate</a></h2>
-                <div class="summary"><p>I have a large, complex <a class="reference external" href="/postfix.html">mailing system</a> that processes
+                
+                
+                <div class="entry-content">
+
+                    <p>I have a large, complex <a class="reference external" href="/postfix.html">mailing system</a> that processes
 a significant amount of data every hour.  While I'm developing it, I want to know
 what it's doing, and whether it's having any problems.  So I use the excellent
 python <a class="reference external" href="https://docs.python.org/2/library/logging.html">logging</a> library to produce comprehensive monitoring data.</p>
-<p>The ...</p>
-                    <a class="btn btn-default btn-xs" href="/logrotate.html">more ...</a>
-                </div>
+<p>The only problem is that these log files can get pretty big.  And because I don't
+know ahead of time when I'm going to need to hunt through them, I tend to leave
+the logging system in a fairly verbose state.</p>
+<p>Enter <a class="reference external" href="http://www.thegeekstuff.com/2010/07/logrotate-examples/">logrotate</a>.  This is a standard service on Ubuntu that regularly rotates
+your log files, throwing away old data, compressing middle-age data, and leaving
+young log files fresh and accessible.  Thus you are protected from
+runaway log file growth and nasty calls in the middle of the night from your
+monitoring service telling you that your server just died because the hard
+drives were full.</p>
+<p>A default ubuntu installation comes with logrotate already set up for various services.
+If you don't have it, install it with <code class="code">
+apt-get install logrotate</code>
+, and
+then it's mostly just a question of copying a file from <code class="code">
+/etc/logrotate.d/</code>
+
+and modifying it according to your needs.</p>
+<p><code class="code">
+vi /etc/logrotate.d/myservice</code>
+</p>
+<div class="highlight"><pre>/var/log/myservice/*.log <span class="o">{</span>
+  rotate 7
+  daily
+  compress
+  missingok
+  notifempty
+<span class="o">}</span>
+</pre></div>
+<p>And that's it!  The actually invocation of the <code class="code">
+logrotate</code>
+ command will
+get triggered regularly by a script in /etc/cron.daily</p>
+<p>You can also <strong>force</strong> a rotation, a useful option when testing out a new configuration,
+via</p>
+<div class="highlight"><pre>logrotate -f /etc/logrotate.d/myservice
+</pre></div>
+<p>One quick word of warning: if you're using the python <a class="reference external" href="https://docs.python.org/2/library/logging.html">logging</a> library, then
+you'll want to use the <code class="code">
+WatchedFileHandler</code>
+ class.  If the logfile gets
+rotated out while it's in use, WatchedFileHandler will notice this, close the file
+stream and open a new one.</p>
+
+                    
+                </div>  
+                
+                
             </article>
             <hr/>
             <article>
                 <h2><a href="/remote-systems-administration-with-fabric.html">Remote Systems Administration with Fabric</a></h2>
-                <div class="summary"><p>A tool I'm finding myself using more and more these days is <a class="reference external" href="http://fabric.readthedocs.org/en/1.8/">Fabric</a>.</p>
+                
+                
+                <div class="entry-content">
+
+                    <p>A tool I'm finding myself using more and more these days is <a class="reference external" href="http://fabric.readthedocs.org/en/1.8/">Fabric</a>.</p>
 <p>Fabric is a python utility and library for streamlining systems administration
 tasks on multiple machines.</p>
 <p>Although I'm primarily a developer and systems architect, I find that as our
-company grows I keep getting drawn into ...</p>
-                    <a class="btn btn-default btn-xs" href="/remote-systems-administration-with-fabric.html">more ...</a>
-                </div>
+company grows I keep getting drawn into sysadmin and devops tasks.   We now
+have quite a number of servers which I need to monitor and manage.</p>
+<p>Now, as Larry Wall so profoundly said, one of the great virtues of a programmer
+is <em>laziness</em>, so if there's a way I can perform the same task on multiple machines
+without having to manually type out the commands dozens of times, then I'm all for it.</p>
+<p>Fabric does precisely that.  It's written in Python, and its configuration files
+are python scripts, so there's no need to learn yet another domain-specific language.
+I have a file called <code class="code">
+fabfile.py</code>
+ on my local machine that contains a growing
+collection of little recipes, and with this I can interact with all the servers
+in our infrastructure.</p>
+<p>So for example, if I want to see at a glance which version of linux I'm running on
+all my servers, I have a task set up in my fabfile like this:</p>
+<div class="highlight"><pre><span class="nd">@parallel</span>
+<span class="k">def</span> <span class="nf">lsb_release</span><span class="p">():</span>
+    <span class="n">run</span><span class="p">(</span><span class="s">&#39;lsb_release -a&#39;</span><span class="p">)</span>
+</pre></div>
+<p>When I invoke this via:</p>
+<div class="highlight"><pre><span class="nv">$ </span>fab lsb_release
+</pre></div>
+<p>I get a nice little print-out of the current version of all my servers.  Fabric
+runs the task in parallel against every host in the <code class="code">
+env.hosts</code>
+ variable,
+which can be set at the command line or in the <strong>fabfile</strong>.</p>
+<p>The following example allows me to see a list of every database running on every
+database server.</p>
+<div class="highlight"><pre><span class="n">DATABASE_HOST_MACHINES</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;dbserver1&#39;</span><span class="p">,</span><span class="s">&#39;dbserver2&#39;</span><span class="p">,</span><span class="o">...</span><span class="p">]</span>
+
+<span class="nd">@hosts</span><span class="p">(</span><span class="n">DATABASE_HOST_MACHINES</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">databases</span><span class="p">():</span>
+    <span class="k">with</span> <span class="n">warn_only</span><span class="p">():</span>
+        <span class="n">run</span><span class="p">(</span><span class="s">&#39;psql -c &quot;select datname from pg_database;&quot;&#39;</span><span class="p">)</span>
+</pre></div>
+<p>And <em>voila</em>, a call to</p>
+<div class="highlight"><pre><span class="nv">$ </span>fab databases
+</pre></div>
+<p>gives me a company-wide view of all our databases.</p>
+<p>One further demonstration - this blog itself is generated using Fabric! For details, see
+the fabfile my <a class="reference external" href="https://github.com/trvrm/trvrm.github.io/blob/master/fabfile.py">Github</a> repository.</p>
+
+                    
+                </div>  
+                
+                
             </article>
             <hr/>
             <article>
                 <h2><a href="/seriously-subtle-bug.html">A Seriously Subtle Bug</a></h2>
-                <div class="summary"><p>I build and maintain a number of web applications built using <a class="reference external" href="http://python.org">Python</a>, <a class="reference external" href="http://bottlepy.org/docs/dev/index.html">Bottle</a>, and <a class="reference external" href="http://uwsgi-docs.readthedocs.org/en/latest/index.html">uWSGI</a>.
+                
+                
+                <div class="entry-content">
+
+                    <p>I build and maintain a number of web applications built using <a class="reference external" href="http://python.org">Python</a>, <a class="reference external" href="http://bottlepy.org/docs/dev/index.html">Bottle</a>, and <a class="reference external" href="http://uwsgi-docs.readthedocs.org/en/latest/index.html">uWSGI</a>.
 In general, I've found this a very powerful and robust software stack.  However, this week
 we encountered a very strange issue that took us many hours to fully diagnose.</p>
-<p>Our first indication that something ...</p>
-                    <a class="btn btn-default btn-xs" href="/seriously-subtle-bug.html">more ...</a>
-                </div>
+<p>Our first indication that something was wrong was when our automated monitoring tools warned
+us that one of our sites was offline.  We manage our applications through the uWSGI <a class="reference external" href="http://uwsgi-docs.readthedocs.org/en/latest/Emperor.html">Emperor</a>
+service, which makes it easy to restart errant applications.  Simply touching the config file for
+the application in question causes it to be reloaded:</p>
+<div class="highlight"><pre><span class="nv">$ </span>touch /etc/uwsgi-emperor/vassals/myapp.ini
+</pre></div>
+<p>This brought our systems back up, but obviously didn't explain the problem, and over the coming weeks
+it recurred several times, usually several days apart.  So, obviously my first step was to look at
+the log files.   Our first indication of trouble was a log line from our database connection layer:</p>
+<div class="highlight"><pre>OperationalError: could not create socket: too many open files
+</pre></div>
+<p>Which actually led us away from the real cause of the bug to start with - at first we thought that
+we were simply creating too many database connections.  But further examination reassured us that yes,
+our database layer was fine, our connections were getting opened and closed correctly. Postgres has
+<em>excellent</em> introspective tools, if you know how to use them; in this case the following is very
+helpful:</p>
+<div class="highlight"><pre><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">pg_stat_activity</span><span class="p">;</span>
+</pre></div>
+<p>which revealed that we had no more database connections open than expected.  So, our next step was the
+linux systems administration tool <code class="code">
+lsof</code>
+.  This tool lists information about currently open files</p>
+<div class="highlight"><pre><span class="nv">$ </span>sudo lsof &gt; lsof.txt
+
+COMMAND     PID   TID       USER   FD      TYPE             DEVICE  SIZE/OFF       NODE NAME
+init          <span class="m">1</span>             root  cwd       DIR                8,1      <span class="m">4096</span>          <span class="m">2</span> /
+init          <span class="m">1</span>             root  rtd       DIR                8,1      <span class="m">4096</span>          <span class="m">2</span> /
+init          <span class="m">1</span>             root  txt       REG                8,1    <span class="m">265848</span>   <span class="m">14422298</span> /sbin/init
+...
+</pre></div>
+<p>... followed by thousands more lines.  Armed with this information, we could figure out how many files
+each process was using.</p>
+<div class="section" id="enter-pandas">
+<h2>Enter Pandas</h2>
+<p>While it would be quite possible to search and filter this data using traditional Unix tools such as <code class="code">
+awk</code>
+
+and <code class="code">
+grep</code>
+, I'm finding that more and more I'm staying inside the python ecosystem to do systems administration
+and analysis tasks.  I use the <a class="reference external" href="http://pandas.pydata.org/">Pandas</a> data analysis library heavily, and it was a perfect fit for this particular task.</p>
+<div class="highlight"><pre><span class="nv">$ </span>ipython
+</pre></div>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">pandas</span>
+<span class="n">widths</span><span class="o">=</span><span class="p">[</span><span class="mi">9</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">19</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">200</span><span class="p">]</span>
+<span class="n">frame</span><span class="o">=</span><span class="n">pandas</span><span class="o">.</span><span class="n">read_fwf</span><span class="p">(</span><span class="s">&#39;lsof.txt&#39;</span><span class="p">,</span><span class="n">widths</span><span class="o">=</span><span class="n">widths</span><span class="p">)</span>
+<span class="n">frame</span><span class="o">.</span><span class="n">columns</span>
+</pre></div>
+<pre class="literal-block">
+Index([u'COMMAND', u'PID', u'TID', u'USER', u'FD', u'TYPE', u'DEVICE', u'SIZE/OFF', u'NODE', u'NAME'], dtype='object')
+</pre>
+<p>So now we have a DataFrame (a construct very similar to an Excel worksheet) with a list of every open file on the system, along
+with the process id and name of the program that is holding it open.  Our next step was to ask Pandas to tell us which processes
+had the <em>most</em> files open:</p>
+<div class="highlight"><pre><span class="n">frame</span><span class="o">.</span><span class="n">PID</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+<pre class="literal-block">
+2445     745
+2454     745
+...
+</pre>
+<p>So process <strong>2445</strong> has 745 open files.  OK, what is that process?</p>
+<div class="highlight"><pre><span class="n">frame</span><span class="p">[</span><span class="n">frame</span><span class="o">.</span><span class="n">PID</span><span class="o">==</span><span class="mi">2445</span><span class="p">][[</span><span class="s">&#39;USER&#39;</span><span class="p">,</span><span class="s">&#39;COMMAND&#39;</span><span class="p">]]</span>
+</pre></div>
+<pre class="literal-block">
+          USER    COMMAND
+3083  www-data  uwsgi-cor
+3084  www-data  uwsgi-cor
+3085  www-data  uwsgi-cor
+...
+</pre>
+<p>So we've learned, then, that a uWSGI process belonging to www-data is holding open more than 700 files.  Now, under
+Ubuntu, this is going to be a problem very soon, because the maximum number of files that www-data may have open
+per-process is 1024.</p>
+<div class="highlight"><pre><span class="nv">$ </span>sudo su www-data
+<span class="nv">$ </span><span class="nb">ulimit</span> -n
+</pre></div>
+<pre class="literal-block">
+1024
+</pre>
+<p>So, clearly one of our web application processes is opening files and not closing them again.  This is the kind of
+bug that I <em>hate</em> as a programmer, because it wouldn't show up in development, when I'm frequently restarting the
+application, or even in testing, but only appears under real-world load.  But at least now we have a path towards
+temporary remediation.  So first we simply increased the limits in <code class="code">
+ulimit</code>
+ so that the service would run longer
+before this bug re-appeared.  But we still wanted to understand <em>why</em> this was happening.</p>
+</div>
+<div class="section" id="next-steps">
+<h2>Next Steps</h2>
+<p>Again, we used Pandas to interrogate the output of <code class="code">
+lsof</code>
+, but this time to find out whether there was a pattern
+to the filenames that were being left open</p>
+<div class="highlight"><pre><span class="n">frame</span><span class="o">.</span><span class="n">NAME</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+<p>Which revealed to us that the the vast majority of the files being left open were ones that we were delivering through
+our Bottle Python application. Specifically, they were being served through the <a class="reference external" href="http://bottlepy.org/docs/dev/tutorial.html#tutorial-static-files">static_file</a> function.</p>
+<p>We verified this by hitting the url that was serving up those static files, and watching the output of lsof.  Immediately we
+saw that yes, every time we served that file, the open count for that file went up.  So, we clearly had a resource leak
+on our hands.  Now, this surprised me, because usually the memory management and garbage collection
+in Python is excellent, and I've left the days of manually tracking resources in C long behind me.</p>
+<p>So, next I constructed some test cases. Firstly, I ran our software on a test virtual machine to verify that I could
+recreate the bug.  Then, I wrote a very bare-bones Bottle app that simply served a static file:</p>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">bottle</span>
+
+<span class="n">application</span><span class="o">=</span><span class="n">bottle</span><span class="o">.</span><span class="n">Bottle</span><span class="p">()</span>
+
+<span class="nd">@application.get</span><span class="p">(</span><span class="s">&#39;/diagnose&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">test</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">bottle</span><span class="o">.</span><span class="n">static_file</span><span class="p">(</span><span class="s">&#39;cat.jpg&#39;</span><span class="p">,</span> <span class="s">&#39;.&#39;</span><span class="p">)</span>
+</pre></div>
+<p>And I immediately saw that this <em>didn't</em> trigger any kind of file leak.  The main difference between the two was that our
+production application uses Bottle's <em>mounting</em> capability to namespace URLS.  So I changed my test application as follows:</p>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">bottle</span>
+
+<span class="n">app</span><span class="o">=</span><span class="n">bottle</span><span class="o">.</span><span class="n">Bottle</span><span class="p">()</span>
+
+<span class="nd">@app.get</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">test</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">bottle</span><span class="o">.</span><span class="n">static_file</span><span class="p">(</span><span class="s">&#39;cat.jpg&#39;</span><span class="p">,</span> <span class="s">&#39;.&#39;</span><span class="p">)</span>
+
+<span class="n">rootapp</span><span class="o">=</span><span class="n">bottle</span><span class="o">.</span><span class="n">Bottle</span><span class="p">()</span>
+<span class="n">rootapp</span><span class="o">.</span><span class="n">mount</span><span class="p">(</span><span class="s">&quot;/diagnose&quot;</span><span class="p">,</span> <span class="n">app</span><span class="p">)</span>
+<span class="n">application</span><span class="o">=</span><span class="n">rootapp</span>
+</pre></div>
+<p>And   <code class="code">
+lsof</code>
+ indicated that we <em>were</em> leaking files.  Every time I hit <cite>/diagnose</cite>, the open file count for <cite>cats.jpg</cite>
+increased by one.</p>
+<p>So, we could simply re-write our application to not use <code class="code">
+Bottle.mount</code>
+, but that wasn't good enough for me.  I wanted
+to understand <em>why</em> such a simple change would trigger a resource leak.  At this point, it turns out it's good that
+I have Aspergers, and with it a tendency to hyper-focus on interesting problems, because it took a long time.  In
+fact, I ended up taking the Bottle library, and manually stripping it of every line of code that wasn't related to
+simply handling that single URL, in an attempt to understand exactly what the different code paths were between the
+leaking program and the safe one.</p>
+<p>In doing so, I was greatly aided by the <em>amazing</em> introspective powers of Python.  We felt sure that we were
+dealing with some kind of resource leak - in Python, every file is handled by a <code class="code">
+file</code>
+ object, and when that object
+gets cleaned up by garbage collection, the underlying file handle is closed.  So firstly, I replaced the relevant call to
+the <code class="code">
+file</code>
+ constructor with my own object that derived from <code class="code">
+file</code>
+</p>
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">MonitoredFile</span><span class="p">(</span><span class="nb">file</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name</span><span class="p">,</span><span class="n">mode</span><span class="p">):</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Opening {0}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
+        <span class="nb">file</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name</span><span class="p">,</span><span class="n">mode</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;file.__del__({0})&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+</pre></div>
+<p>So this object behaves exactly like a regular file, but logs events when it is created and when it is destroyed.  And sure enough,
+I saw that in the file-leaking version of my code, <code class="code">
+MonitoredFile:__del__()</code>
+ was never getting called.  Now in
+Python an object should get deleted when its reference count drops to zero, and indeed the Python sys library provides
+the <code class="code">
+getrefcount</code>
+ function (<a class="reference external" href="https://docs.python.org/2/library/sys.html#sys.getrefcount">https://docs.python.org/2/library/sys.html#sys.getrefcount</a>). By adding some logging statements
+with calls to <code class="code">
+sys.getrefcount()</code>
+, I saw that in the leaking-version of my code, the refcount for our file object was
+one higher than in the non-leaking code when it was returned from the main application handler function.</p>
+<p>Why should this be?  Eventually, by stripping out all extraneous code from the Bottle library, I discovered that in the version
+that was using <code class="code">
+Bottle.mount()</code>
+, the response object was passed twice through the <code class="code">
+_cast()</code>
+ function.  Bottle can
+handle all sorts of things as response objects - strings, dictionaries, JSON objects, lists, but if it notices that it is handling
+a <em>file</em> then it treats it specially.  The smoking gun code is here:
+<a class="reference external" href="https://github.com/bottlepy/bottle/blob/854fbd7f88aa2f809f54dd724aea7ecf918a3b6e/bottle.py#L913">https://github.com/bottlepy/bottle/blob/854fbd7f88aa2f809f54dd724aea7ecf918a3b6e/bottle.py#L913</a></p>
+<div class="highlight"><pre><span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="s">&#39;read&#39;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="s">&#39;wsgi.file_wrapper&#39;</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">request</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s">&#39;wsgi.file_wrapper&#39;</span><span class="p">](</span><span class="n">out</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="s">&#39;close&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="s">&#39;__iter__&#39;</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">WSGIFileWrapper</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+</pre></div>
+<p>Which <em>looks</em> innocent enough, and indeed is in the first version of our code.  But in the <em>second</em> version, our file handler
+gets passed through this code block twice, because it's getting handled recursively.  And, indeed, if <code class="code">
+wsgi.file_wrapper</code>
+
+isn't specified, then <code class="code">
+WSGIFileWrapper</code>
+ is used, and everything is fine.  But in our case, we're serving this application
+via uWSGI, which <em>does</em> define <code class="code">
+wsgi.file_wrapper</code>
+.  Now, I'm still not 100% clear what this wrapping function is
+<em>supposed</em> to do, but on inspecting the uWSGI <a class="reference external" href="https://github.com/unbit/uwsgi/blob/ed2ca5d33325dc925f6fc5558d0b817447327049/plugins/python/wsgi_handlers.c#L463">source</a> I see that it is set to call this C function:</p>
+<div class="highlight"><pre><span class="n">PyObject</span> <span class="o">*</span><span class="nf">py_uwsgi_sendfile</span><span class="p">(</span><span class="n">PyObject</span> <span class="o">*</span> <span class="n">self</span><span class="p">,</span> <span class="n">PyObject</span> <span class="o">*</span> <span class="n">args</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="k">struct</span> <span class="n">wsgi_request</span> <span class="o">*</span><span class="n">wsgi_req</span> <span class="o">=</span> <span class="n">py_current_wsgi_req</span><span class="p">();</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">PyArg_ParseTuple</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="s">&quot;O|i:uwsgi_sendfile&quot;</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">wsgi_req</span><span class="o">-&gt;</span><span class="n">async_sendfile</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">wsgi_req</span><span class="o">-&gt;</span><span class="n">sendfile_fd_chunk</span><span class="p">))</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
+    <span class="p">}</span>
+
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">PyFile_Check</span><span class="p">((</span><span class="n">PyObject</span> <span class="o">*</span><span class="p">)</span><span class="n">wsgi_req</span><span class="o">-&gt;</span><span class="n">async_sendfile</span><span class="p">))</span> <span class="p">{</span>
+        <span class="n">Py_INCREF</span><span class="p">((</span><span class="n">PyObject</span> <span class="o">*</span><span class="p">)</span><span class="n">wsgi_req</span><span class="o">-&gt;</span><span class="n">async_sendfile</span><span class="p">);</span>
+        <span class="n">wsgi_req</span><span class="o">-&gt;</span><span class="n">sendfile_fd</span> <span class="o">=</span> <span class="n">PyObject_AsFileDescriptor</span><span class="p">(</span><span class="n">wsgi_req</span><span class="o">-&gt;</span><span class="n">async_sendfile</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="c1">// PEP 333 hack</span>
+    <span class="n">wsgi_req</span><span class="o">-&gt;</span><span class="n">sendfile_obj</span> <span class="o">=</span> <span class="n">wsgi_req</span><span class="o">-&gt;</span><span class="n">async_sendfile</span><span class="p">;</span>
+    <span class="c1">//wsgi_req-&gt;sendfile_obj = (void *) PyTuple_New(0);</span>
+
+    <span class="n">Py_INCREF</span><span class="p">((</span><span class="n">PyObject</span> <span class="o">*</span><span class="p">)</span> <span class="n">wsgi_req</span><span class="o">-&gt;</span><span class="n">sendfile_obj</span><span class="p">);</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">PyObject</span> <span class="o">*</span><span class="p">)</span> <span class="n">wsgi_req</span><span class="o">-&gt;</span><span class="n">sendfile_obj</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+<p>And we can clearly see that <code class="code">
+Py_INCREF</code>
+ is getting called on the file object.  So if this function is called twice,
+presumably the internal reference count is incremented twice, but only decremented once elsewhere.</p>
+<p>And indeed, as soon as I added:</p>
+<div class="highlight"><pre><span class="k">if</span> <span class="s">&#39;wsgi.file_wrapper&#39;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
+    <span class="k">del</span> <span class="n">environ</span><span class="p">[</span><span class="s">&#39;wsgi.file_wrapper&#39;</span><span class="p">]</span>
+</pre></div>
+<p>to my application code, the file leaking stopped.</p>
+</div>
+<div class="section" id="concluding-thoughts">
+<h2>Concluding Thoughts</h2>
+<p>At the moment, I'm not exactly sure whether this is a bug or a misunderstanding.  I'm not sure what <code class="code">
+wsgi.file_wrapper</code>
+ is
+supposed to do - I clearly have more research to do, time permitting.  And because this bug only occurred when Bottle and uWSGI
+<em>interacted</em> -  I couldn't trigger it in one or other environment on its own - it's hard to say that either project has
+a bug.  But hopefully this analysis will help prevent others from going through the same headaches I just did.</p>
+</div>
+
+                    
+                </div>  
+                
+                
             </article>
             <hr/>
 
@@ -133,95 +473,6 @@ we encountered a very strange issue that took us many hours to fully diagnose.</
 
 
 
-            <li class="list-group-item"><a href="/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
-                <ul class="list-group " id="tags">
-                    <li class="list-group-item tag-1">
-                        <a href="/tag/python.html">
-                            Python
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-2">
-                        <a href="/tag/linux.html">
-                            linux
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-2">
-                        <a href="/tag/javascript.html">
-                            javascript
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-2">
-                        <a href="/tag/ipython.html">
-                            IPython
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-3">
-                        <a href="/tag/postgres.html">
-                            Postgres
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-3">
-                        <a href="/tag/pelican.html">
-                            pelican
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-3">
-                        <a href="/tag/uwsgi.html">
-                            uwsgi
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-3">
-                        <a href="/tag/ractive.html">
-                            ractive
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/markdown.html">
-                            markdown
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/logrotate.html">
-                            logrotate
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/nginx.html">
-                            nginx
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/postfix.html">
-                            postfix
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/email.html">
-                            email
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/fabric.html">
-                            fabric
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/coffeescript.html">
-                            coffeescript
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/bottle.html">
-                            bottle
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/gevent.html">
-                            gevent
-                        </a>
-                    </li>
-                </ul>
-            </li>
 
 
 

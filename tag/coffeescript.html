@@ -49,14 +49,8 @@ trvrm            </a>
         </div>
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav">
-                         <li><a href="/pages/about.html">
-                             About
-                          </a></li>
                         <li >
                             <a href="/category/database.html">Database</a>
-                        </li>
-                        <li >
-                            <a href="/category/python.html">Python</a>
                         </li>
                         <li >
                             <a href="/category/software.html">Software</a>
@@ -79,13 +73,73 @@ trvrm            </a>
         <div class="col-sm-9">
             <article>
                 <h2><a href="/coffeescript.html">CoffeeScript</a></h2>
-                <div class="summary"><p>Through a bizarre twist of history, the entire client-side web runs on a <a class="reference external" href="http://en.wikipedia.org/wiki/Brendan_Eich#Netscape_and_JavaScript">language</a>
+                
+                
+                <div class="entry-content">
+
+                    <p>Through a bizarre twist of history, the entire client-side web runs on a <a class="reference external" href="http://en.wikipedia.org/wiki/Brendan_Eich#Netscape_and_JavaScript">language</a>
 that was thrown together in 10 days.</p>
 <p>Despite huge investments in their own proprietary technology by the likes of Sun
 Microsystems, Adobe and Microsoft, this weird little spinoff of <strong>self</strong> and <strong>scheme</strong>
-is everywhere, while client-side ...</p>
-                    <a class="btn btn-default btn-xs" href="/coffeescript.html">more ...</a>
-                </div>
+is everywhere, while client-side Java, ActiveX and Flash fade into obscurity.</p>
+<p>Unsurprisingly for a language developed so quickly, Javascript is pretty ugly.
+I'm fond of saying that it's a horrible language, with a really nice language
+inside trying to get out.  It gets some things, like scoping rules, very, very
+wrong.  But it got other things, like anonymous functions, exactly right, long before
+they were adopted in Java, C#, or C++.  Even Python, my favourite language ever,
+doesn't get them quite right.</p>
+<p>Several people have attempted to build a nicer syntax on top of the javascript
+virtual machine.  In fact, the <a class="reference external" href="https://github.com/jashkenas/coffeescript/wiki/List-of-languages-that-compile-to-JS">list</a> of languages that compile to JS is startlingly
+big.</p>
+<p>For the last couple of years I've been using <a class="reference external" href="http://coffeescript.org/">CoffeeScript</a> as my standard javascript syntax.</p>
+<p>From the project page:</p>
+<blockquote>
+&quot;CoffeeScript is a little language that compiles into JavaScript.
+Underneath that awkward Java-esque patina, JavaScript has always
+had a gorgeous heart. CoffeeScript is an attempt to expose the
+good parts of JavaScript in a simple way.&quot;</blockquote>
+<p>and I think it achieves this admirably.  It doesn't solve <em>all</em> of javascript's problems -
+you can still get into trouble with the Infamous Loop Problem, but it does make the language
+considerably more succinct, mostly by stealing ideas from Python and Haskell.</p>
+<div class="section" id="examples">
+<h2>Examples</h2>
+<p>Function definitions go from</p>
+<div class="highlight"><pre><span class="kd">function</span> <span class="nx">d</span><span class="p">(</span><span class="nx">x</span><span class="p">){</span>
+    <span class="k">return</span> <span class="mi">2</span><span class="o">*</span><span class="nx">x</span>
+<span class="p">}</span>
+</pre></div>
+<p>to</p>
+<div class="highlight"><pre><span class="nv">d = </span><span class="nf">(x) -&gt;</span> <span class="mi">2</span><span class="o">*</span><span class="nx">x</span>
+</pre></div>
+<p>This makes for very quick object construction:</p>
+<div class="highlight"><pre><span class="nv">math =</span>
+    <span class="nv">root: </span>  <span class="nb">Math</span><span class="p">.</span><span class="nx">sqrt</span>
+    <span class="nv">square: </span><span class="nx">square</span>
+    <span class="nv">cube: </span>  <span class="nf">(x) -&gt;</span> <span class="nx">x</span> <span class="o">*</span> <span class="nx">square</span> <span class="nx">x</span>
+</pre></div>
+<p>It also borrows Python's list comprehension syntax:</p>
+<div class="highlight"><pre><span class="nx">values</span><span class="o">=</span><span class="p">(</span><span class="nx">option</span><span class="p">.</span><span class="nx">value</span> <span class="k">for</span> <span class="nx">option</span> <span class="k">in</span> <span class="nx">question</span><span class="p">.</span><span class="nx">options</span><span class="p">)</span>
+</pre></div>
+<p>The near complete absense of curly brackets saves a lot of wasted lines in
+my source code, and enables me to see what's going on a lot clearer than in raw
+javascript.  On the downside, I do find myself fairly regularly testing out code
+snippets in the <a class="reference external" href="http://coffeescript.org/">CoffeeScript</a> online compiler to make sure that I've properly understood
+how they will be interpreted.</p>
+<p>Because CoffeeScript is a compiled language, to work with it effectively requires
+integrating the compiler into your toolchain.  For my larger projects I've hand-written
+a tool using Python's <a class="reference external" href="https://pypi.python.org/pypi/watchdog">Watchdog</a> package to monitor my source code directories and
+output compiled javascript everytime a file changes.</p>
+<p>As a nice little extra, my tool jams in a warning message wrapped in an <code class="code">
+alert</code>
+ call
+if the compliation fails, so if I introduce a syntax error in my coffeescript, as soon
+as I refresh the page that is using it I'll be presented with the source of the problem.</p>
+</div>
+
+                    
+                </div>  
+                
+                
             </article>
             <hr/>
 
@@ -103,95 +157,6 @@ is everywhere, while client-side ...</p>
 
 
 
-            <li class="list-group-item"><a href="/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
-                <ul class="list-group " id="tags">
-                    <li class="list-group-item tag-1">
-                        <a href="/tag/python.html">
-                            Python
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-2">
-                        <a href="/tag/linux.html">
-                            linux
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-2">
-                        <a href="/tag/javascript.html">
-                            javascript
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-2">
-                        <a href="/tag/ipython.html">
-                            IPython
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-3">
-                        <a href="/tag/postgres.html">
-                            Postgres
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-3">
-                        <a href="/tag/pelican.html">
-                            pelican
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-3">
-                        <a href="/tag/uwsgi.html">
-                            uwsgi
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-3">
-                        <a href="/tag/ractive.html">
-                            ractive
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/markdown.html">
-                            markdown
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/logrotate.html">
-                            logrotate
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/nginx.html">
-                            nginx
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/postfix.html">
-                            postfix
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/email.html">
-                            email
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/fabric.html">
-                            fabric
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/coffeescript.html">
-                            coffeescript
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/bottle.html">
-                            bottle
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/gevent.html">
-                            gevent
-                        </a>
-                    </li>
-                </ul>
-            </li>
 
 
 

@@ -1,5 +1,5 @@
 Title:Pelican, Atom and Markdown
-Category: Python
+Category: Software
 Tags: pelican, markdown
 Author: Trevor
 Date: 2015-06-26

@@ -55,14 +55,8 @@ trvrm            </a>
         </div>
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav">
-                         <li><a href="/pages/about.html">
-                             About
-                          </a></li>
                         <li class="active">
                             <a href="/category/database.html">Database</a>
-                        </li>
-                        <li >
-                            <a href="/category/python.html">Python</a>
                         </li>
                         <li >
                             <a href="/category/software.html">Software</a>
@@ -100,7 +94,7 @@ trvrm            </a>
 <footer class="post-info">
     <span class="label label-default">Date</span>
     <span class="published">
-        <i class="fa fa-calendar"></i><time datetime="2015-01-01T00:00:00"> Thu 01 January 2015</time>
+        <i class="fa fa-calendar"></i><time datetime="2015-01-01T00:00:00+01:00"> Thu 01 January 2015</time>
     </span>
 
 
@@ -116,24 +110,24 @@ trvrm            </a>
                 </div>
                 <p>At my company, I maintain a large distributed. data collection platform
 . Pretty much every record we collect needs to be stamped with a
-<pre>
-created</pre>
+<code class="code">
+created</code>
  field. But because the incoming data comes from sources on
 various devices in multiple countries and timezones, making sure that
 the timestamps are precise and meaningful can be a challenge.
 <a class="reference external" href="http://www.postgresql.org/">Postgres</a> can do this very elegantly,
 but can also trip you up in subtle ways.</p>
-<p>Postgres has two subtly different timestamp data types: <pre>
-TIMESTAMP</pre>
+<p>Postgres has two subtly different timestamp data types: <code class="code">
+TIMESTAMP</code>
 
-and <pre>
-TIMESTAMP WITH TIMEZONE</pre>
+and <code class="code">
+TIMESTAMP WITH TIMEZONE</code>
 .</p>
 <p>The former stores year/month/day/hour/minutes/second/milliseconds, as
 you’d expect, and the later ALSO stores a timezone offset, expressed in
 hours.</p>
-<p>We can switch between the two using the <pre>
-AT TIMEZONE</pre>
+<p>We can switch between the two using the <code class="code">
+AT TIMEZONE</code>
  syntax, but, and
 here is the tricky bit the function goes BOTH WAYS, and you can easily
 get confused if you don’t know what type you’re starting with.</p>
@@ -157,18 +151,18 @@ u'Connected: <a class="reference external" href="mailto:testuser&#64;test">testu
     <tr>
         <td>2014-08-18 22:33:58.998549-04:00</td>
     </tr>
-</table><p><pre>
-now()</pre>
- returns a <pre>
-TIMESTAMP WITH TIME ZONE</pre>
+</table><p><code class="code">
+now()</code>
+ returns a <code class="code">
+TIMESTAMP WITH TIME ZONE</code>
 . It shows the current
 <strong>local</strong> time, and the offset between that time and UTC
 (<a class="reference external" href="http://time.is/UTC">http://time.is/UTC</a>)</p>
-<p>But if we put the output from <pre>
-now()</pre>
+<p>But if we put the output from <code class="code">
+now()</code>
  into a field that has type
-<pre>
-TIMESTAMP</pre>
+<code class="code">
+TIMESTAMP</code>
  we will get a silent conversion:</p>
 <div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="n">NOW</span><span class="p">()::</span> <span class="n">timestamp</span>
 </pre></div>
@@ -209,8 +203,8 @@ time zone</p>
 </td><td><p>timestamp without time zone</p>
 </td><td><p>Convert given time stamp with time zone to the new time zone, with no
 time zone designation</p>
-</td></tr><table class="table table-bordered table-striped"><p>The danger here is that the <pre>
-AT TIMEZONE</pre>
+</td></tr><table class="table table-bordered table-striped"><p>The danger here is that the <code class="code">
+AT TIMEZONE</code>
  construct goes <strong>both
 ways</strong>. If you don't know what type you're feeding in, you won't know
 what type you're getting out. I've been bitten by this in the past;
@@ -423,95 +417,6 @@ stored and displayed unambiguously.</p>
 
 
 
-            <li class="list-group-item"><a href="/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
-                <ul class="list-group " id="tags">
-                    <li class="list-group-item tag-1">
-                        <a href="/tag/python.html">
-                            Python
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-2">
-                        <a href="/tag/linux.html">
-                            linux
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-2">
-                        <a href="/tag/javascript.html">
-                            javascript
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-2">
-                        <a href="/tag/ipython.html">
-                            IPython
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-3">
-                        <a href="/tag/postgres.html">
-                            Postgres
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-3">
-                        <a href="/tag/pelican.html">
-                            pelican
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-3">
-                        <a href="/tag/uwsgi.html">
-                            uwsgi
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-3">
-                        <a href="/tag/ractive.html">
-                            ractive
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/markdown.html">
-                            markdown
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/logrotate.html">
-                            logrotate
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/nginx.html">
-                            nginx
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/postfix.html">
-                            postfix
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/email.html">
-                            email
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/fabric.html">
-                            fabric
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/coffeescript.html">
-                            coffeescript
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/bottle.html">
-                            bottle
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/gevent.html">
-                            gevent
-                        </a>
-                    </li>
-                </ul>
-            </li>
 
 
 

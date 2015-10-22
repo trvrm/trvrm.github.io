@@ -668,24 +668,24 @@ hierarchical Python data structure. From here we can easily continue to
 XML, JSON, HTML or whatever document type suits your need.&lt;/p&gt;
 </summary><category term="Python"></category><category term="Postgres"></category></entry><entry><title>Postgres Timestamps</title><link href="/postgres-timestamps.html" rel="alternate"></link><updated>2015-01-01T00:00:00+01:00</updated><author><name>Trevor</name></author><id>tag:,2015-01-01:postgres-timestamps.html</id><summary type="html">&lt;p&gt;At my company, I maintain a large distributed. data collection platform
 . Pretty much every record we collect needs to be stamped with a
-&lt;pre&gt;
-created&lt;/pre&gt;
+&lt;code class="code"&gt;
+created&lt;/code&gt;
  field. But because the incoming data comes from sources on
 various devices in multiple countries and timezones, making sure that
 the timestamps are precise and meaningful can be a challenge.
 &lt;a class="reference external" href="http://www.postgresql.org/"&gt;Postgres&lt;/a&gt; can do this very elegantly,
 but can also trip you up in subtle ways.&lt;/p&gt;
-&lt;p&gt;Postgres has two subtly different timestamp data types: &lt;pre&gt;
-TIMESTAMP&lt;/pre&gt;
+&lt;p&gt;Postgres has two subtly different timestamp data types: &lt;code class="code"&gt;
+TIMESTAMP&lt;/code&gt;
 
-and &lt;pre&gt;
-TIMESTAMP WITH TIMEZONE&lt;/pre&gt;
+and &lt;code class="code"&gt;
+TIMESTAMP WITH TIMEZONE&lt;/code&gt;
 .&lt;/p&gt;
 &lt;p&gt;The former stores year/month/day/hour/minutes/second/milliseconds, as
 you’d expect, and the later ALSO stores a timezone offset, expressed in
 hours.&lt;/p&gt;
-&lt;p&gt;We can switch between the two using the &lt;pre&gt;
-AT TIMEZONE&lt;/pre&gt;
+&lt;p&gt;We can switch between the two using the &lt;code class="code"&gt;
+AT TIMEZONE&lt;/code&gt;
  syntax, but, and
 here is the tricky bit the function goes BOTH WAYS, and you can easily
 get confused if you don’t know what type you’re starting with.&lt;/p&gt;
@@ -709,18 +709,18 @@ u'Connected: &lt;a class="reference external" href="mailto:testuser&amp;#64;test
     &lt;tr&gt;
         &lt;td&gt;2014-08-18 22:33:58.998549-04:00&lt;/td&gt;
     &lt;/tr&gt;
-&lt;/table&gt;&lt;p&gt;&lt;pre&gt;
-now()&lt;/pre&gt;
- returns a &lt;pre&gt;
-TIMESTAMP WITH TIME ZONE&lt;/pre&gt;
+&lt;/table&gt;&lt;p&gt;&lt;code class="code"&gt;
+now()&lt;/code&gt;
+ returns a &lt;code class="code"&gt;
+TIMESTAMP WITH TIME ZONE&lt;/code&gt;
 . It shows the current
 &lt;strong&gt;local&lt;/strong&gt; time, and the offset between that time and UTC
 (&lt;a class="reference external" href="http://time.is/UTC"&gt;http://time.is/UTC&lt;/a&gt;)&lt;/p&gt;
-&lt;p&gt;But if we put the output from &lt;pre&gt;
-now()&lt;/pre&gt;
+&lt;p&gt;But if we put the output from &lt;code class="code"&gt;
+now()&lt;/code&gt;
  into a field that has type
-&lt;pre&gt;
-TIMESTAMP&lt;/pre&gt;
+&lt;code class="code"&gt;
+TIMESTAMP&lt;/code&gt;
  we will get a silent conversion:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;sql&lt;/span&gt; &lt;span class="n"&gt;SELECT&lt;/span&gt; &lt;span class="n"&gt;NOW&lt;/span&gt;&lt;span class="p"&gt;()::&lt;/span&gt; &lt;span class="n"&gt;timestamp&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
@@ -761,8 +761,8 @@ time zone&lt;/p&gt;
 &lt;/td&gt;&lt;td&gt;&lt;p&gt;timestamp without time zone&lt;/p&gt;
 &lt;/td&gt;&lt;td&gt;&lt;p&gt;Convert given time stamp with time zone to the new time zone, with no
 time zone designation&lt;/p&gt;
-&lt;/td&gt;&lt;/tr&gt;&lt;table class="table table-bordered table-striped"&gt;&lt;p&gt;The danger here is that the &lt;pre&gt;
-AT TIMEZONE&lt;/pre&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;table class="table table-bordered table-striped"&gt;&lt;p&gt;The danger here is that the &lt;code class="code"&gt;
+AT TIMEZONE&lt;/code&gt;
  construct goes &lt;strong&gt;both
 ways&lt;/strong&gt;. If you don't know what type you're feeding in, you won't know
 what type you're getting out. I've been bitten by this in the past;

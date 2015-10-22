@@ -48,14 +48,8 @@ trvrm            </a>
         </div>
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav">
-                         <li><a href="/pages/about.html">
-                             About
-                          </a></li>
                         <li >
                             <a href="/category/database.html">Database</a>
-                        </li>
-                        <li >
-                            <a href="/category/python.html">Python</a>
                         </li>
                         <li >
                             <a href="/category/software.html">Software</a>
@@ -78,48 +72,190 @@ trvrm            </a>
         <div class="col-sm-9">
             <article>
                 <h2><a href="/pelican-atom-and-markdown.html">Pelican, Atom and Markdown</a></h2>
-                <div class="summary"><p>I've been using reStructured text in general to write this blog, but I think I'm
+                
+                
+                <div class="entry-content">
+
+                    <p>I've been using reStructured text in general to write this blog, but I think I'm
 going to be switching to Markdown.  As an experiment, I'm writing this post in Markdown.</p>
 <p>I'm also writing it in the <a href="https://atom.io/">Atom text editor</a>, which has really come on a
-long ...</p>
-                    <a class="btn btn-default btn-xs" href="/pelican-atom-and-markdown.html">more ...</a>
-                </div>
+long way since I last tried it.  Specifically, it includes a Markdown preview function, so
+I can see the effects of the markup that I'm writing as I write it.</p>
+<p>Mostly, I want a rapid way of creating and publishing code snippets, without the mental
+overhead of switching between markup languages. Although reStructured text and markdown
+are broadly similar, there are subtle differences between them when it comes to things
+like syntax highlighting.  But I've discovered today that if I use the triple-backtick
+syntax, I can get the same output from Pelican, Atom, and IPython notebooks.</p>
+<p>So</p>
+<div class="highlight"><pre>    ```python
+    def syntax(highlighting=True):
+        return &quot;cool huh?&quot;
+    ```
+</pre></div>
+
+
+<p>yields</p>
+<div class="highlight"><pre> <span class="k">def</span> <span class="nf">syntax</span><span class="p">(</span><span class="n">highlighting</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+   <span class="k">return</span> <span class="s">&quot;cool huh?&quot;</span>
+</pre></div>
+
+
+<p>And if I paste that into a markdown cell in an IPython notebook, I get the same effect, as
+can be seen <a href="https://github.com/trvrm/notebooks/blob/master/Markdown%20Demo.ipynb">here</a></p>
+<p>So this seems to be the general way that the open-source ecosystem is going: Markdown
+allows me to use the same syntax for my GitHub documentation, my IPython notebooks, and
+my blog posts.  </p>
+<p>I do use <strong>Sphinx</strong> in various places for Python code documentation, so that will still
+require reStructured text, but elsewhere I think Markdown is the way to go</p>
+                    
+                </div>  
+                
+                
             </article>
             <hr/>
             <article>
                 <h2><a href="/asynchronous-python.html">Asynchronous Python</a></h2>
-                <div class="summary"><p>It's possible to get python to do node-like non-blocking requests, this could
+                
+                
+                <div class="entry-content">
+
+                    <p>It's possible to get python to do node-like non-blocking requests, this could
 take away one of the key reasons for using node.</p>
 <p>The following is a full bottle-based python web application.</p>
 <p>A client can sucessfully call /test while another client is waiting for
-/slowproxy to return a result from ...</p>
-                    <a class="btn btn-default btn-xs" href="/asynchronous-python.html">more ...</a>
-                </div>
+/slowproxy to return a result from a slow web service.</p>
+<div class="highlight"><pre><span class="kn">from</span> <span class="nn">gevent</span> <span class="kn">import</span> <span class="n">monkey</span><span class="p">;</span> <span class="n">monkey</span><span class="o">.</span><span class="n">patch_all</span><span class="p">()</span>
+
+<span class="kn">from</span> <span class="nn">bottle</span> <span class="kn">import</span> <span class="n">route</span><span class="p">,</span> <span class="n">run</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="nd">@route</span><span class="p">(</span><span class="s">&#39;/sleep/&lt;seconds:int&gt;&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">sleep</span><span class="p">(</span><span class="n">seconds</span><span class="p">):</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">seconds</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s">&quot;Slept For {0}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">seconds</span><span class="p">)</span>
+
+<span class="nd">@route</span><span class="p">(</span><span class="s">&#39;/test&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">test</span><span class="p">():</span>
+     <span class="k">return</span> <span class="s">&#39;test&#39;</span>
+
+
+<span class="nd">@route</span><span class="p">(</span><span class="s">&#39;/slowproxy/&lt;seconds:int&gt;&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">slowproxy</span><span class="p">(</span><span class="n">seconds</span><span class="p">):</span>
+    <span class="kn">import</span> <span class="nn">requests</span>
+    <span class="n">url</span><span class="o">=</span><span class="s">&quot;https://s.nooro.com/sleeptest.php?seconds=</span><span class="si">%i</span><span class="s">&quot;</span> <span class="o">%</span><span class="n">seconds</span>
+    <span class="n">response</span><span class="o">=</span><span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+    <span class="n">response</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">text</span>
+
+<span class="n">run</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s">&#39;0.0.0.0&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">8080</span><span class="p">,</span><span class="n">server</span><span class="o">=</span><span class="s">&#39;gevent&#39;</span><span class="p">)</span>
+</pre></div>
+<p>My first attempt used grequests, but apparently that's not even necessary.</p>
+<p>I guess that the call to monkey.patch_all() even patches the socket code
+that requests uses.  I'm very impressed.</p>
+
+                    
+                </div>  
+                
+                
             </article>
             <hr/>
             <article>
                 <h2><a href="/coffeescript.html">CoffeeScript</a></h2>
-                <div class="summary"><p>Through a bizarre twist of history, the entire client-side web runs on a <a class="reference external" href="http://en.wikipedia.org/wiki/Brendan_Eich#Netscape_and_JavaScript">language</a>
+                
+                
+                <div class="entry-content">
+
+                    <p>Through a bizarre twist of history, the entire client-side web runs on a <a class="reference external" href="http://en.wikipedia.org/wiki/Brendan_Eich#Netscape_and_JavaScript">language</a>
 that was thrown together in 10 days.</p>
 <p>Despite huge investments in their own proprietary technology by the likes of Sun
 Microsystems, Adobe and Microsoft, this weird little spinoff of <strong>self</strong> and <strong>scheme</strong>
-is everywhere, while client-side ...</p>
-                    <a class="btn btn-default btn-xs" href="/coffeescript.html">more ...</a>
-                </div>
+is everywhere, while client-side Java, ActiveX and Flash fade into obscurity.</p>
+<p>Unsurprisingly for a language developed so quickly, Javascript is pretty ugly.
+I'm fond of saying that it's a horrible language, with a really nice language
+inside trying to get out.  It gets some things, like scoping rules, very, very
+wrong.  But it got other things, like anonymous functions, exactly right, long before
+they were adopted in Java, C#, or C++.  Even Python, my favourite language ever,
+doesn't get them quite right.</p>
+<p>Several people have attempted to build a nicer syntax on top of the javascript
+virtual machine.  In fact, the <a class="reference external" href="https://github.com/jashkenas/coffeescript/wiki/List-of-languages-that-compile-to-JS">list</a> of languages that compile to JS is startlingly
+big.</p>
+<p>For the last couple of years I've been using <a class="reference external" href="http://coffeescript.org/">CoffeeScript</a> as my standard javascript syntax.</p>
+<p>From the project page:</p>
+<blockquote>
+&quot;CoffeeScript is a little language that compiles into JavaScript.
+Underneath that awkward Java-esque patina, JavaScript has always
+had a gorgeous heart. CoffeeScript is an attempt to expose the
+good parts of JavaScript in a simple way.&quot;</blockquote>
+<p>and I think it achieves this admirably.  It doesn't solve <em>all</em> of javascript's problems -
+you can still get into trouble with the Infamous Loop Problem, but it does make the language
+considerably more succinct, mostly by stealing ideas from Python and Haskell.</p>
+<div class="section" id="examples">
+<h2>Examples</h2>
+<p>Function definitions go from</p>
+<div class="highlight"><pre><span class="kd">function</span> <span class="nx">d</span><span class="p">(</span><span class="nx">x</span><span class="p">){</span>
+    <span class="k">return</span> <span class="mi">2</span><span class="o">*</span><span class="nx">x</span>
+<span class="p">}</span>
+</pre></div>
+<p>to</p>
+<div class="highlight"><pre><span class="nv">d = </span><span class="nf">(x) -&gt;</span> <span class="mi">2</span><span class="o">*</span><span class="nx">x</span>
+</pre></div>
+<p>This makes for very quick object construction:</p>
+<div class="highlight"><pre><span class="nv">math =</span>
+    <span class="nv">root: </span>  <span class="nb">Math</span><span class="p">.</span><span class="nx">sqrt</span>
+    <span class="nv">square: </span><span class="nx">square</span>
+    <span class="nv">cube: </span>  <span class="nf">(x) -&gt;</span> <span class="nx">x</span> <span class="o">*</span> <span class="nx">square</span> <span class="nx">x</span>
+</pre></div>
+<p>It also borrows Python's list comprehension syntax:</p>
+<div class="highlight"><pre><span class="nx">values</span><span class="o">=</span><span class="p">(</span><span class="nx">option</span><span class="p">.</span><span class="nx">value</span> <span class="k">for</span> <span class="nx">option</span> <span class="k">in</span> <span class="nx">question</span><span class="p">.</span><span class="nx">options</span><span class="p">)</span>
+</pre></div>
+<p>The near complete absense of curly brackets saves a lot of wasted lines in
+my source code, and enables me to see what's going on a lot clearer than in raw
+javascript.  On the downside, I do find myself fairly regularly testing out code
+snippets in the <a class="reference external" href="http://coffeescript.org/">CoffeeScript</a> online compiler to make sure that I've properly understood
+how they will be interpreted.</p>
+<p>Because CoffeeScript is a compiled language, to work with it effectively requires
+integrating the compiler into your toolchain.  For my larger projects I've hand-written
+a tool using Python's <a class="reference external" href="https://pypi.python.org/pypi/watchdog">Watchdog</a> package to monitor my source code directories and
+output compiled javascript everytime a file changes.</p>
+<p>As a nice little extra, my tool jams in a warning message wrapped in an <code class="code">
+alert</code>
+ call
+if the compliation fails, so if I introduce a syntax error in my coffeescript, as soon
+as I refresh the page that is using it I'll be presented with the source of the problem.</p>
+</div>
+
+                    
+                </div>  
+                
+                
             </article>
             <hr/>
             <article>
                 <h2><a href="/configuring-systems-with-fabric-and-cuisine.html">Configuring Systems with Fabric and Cuisine</a></h2>
-                <div class="summary"><p>I've mentioned <a class="reference external" href="http://fabric.readthedocs.org/en/1.8/">Fabric</a> before on this blog.  Because so much of my development time is spent in Python, it makes
+                
+                
+                <div class="entry-content">
+
+                    <p>I've mentioned <a class="reference external" href="http://fabric.readthedocs.org/en/1.8/">Fabric</a> before on this blog.  Because so much of my development time is spent in Python, it makes
 sense for me to look for system administration tools that are also written in Python.  Fabric fits the bill
-perfectly, and allows me to run tasks remotely on multiple ...</p>
-                    <a class="btn btn-default btn-xs" href="/configuring-systems-with-fabric-and-cuisine.html">more ...</a>
-                </div>
+perfectly, and allows me to run tasks remotely on multiple machines simultaneously.</p>
+<p>A useful addition to Fabric is <a class="reference external" href="https://github.com/sebastien/cuisine">Cuisine</a>.  <strong>Cuisine is a small set of functions that sit on top of Fabric,
+to abstract common administration operations such as file/dir operations, user/group creation,
+package install/upgrade, making it easier to write portable administration and deployment scripts.</strong></p>
+
+                    
+                </div>  
+                
+                
             </article>
             <hr/>
             <article>
                 <h2><a href="/ipython-with-python-3.html">IPython with Python 3</a></h2>
-                <div class="summary"><p>This took me longer than I was expecting.</p>
+                
+                
+                <div class="entry-content">
+
+                    <p>This took me longer than I was expecting.</p>
 <p>In general when working with IPython I use <code class="code">
 pip</code>
  rather than <code class="code">
@@ -127,181 +263,306 @@ apt-get</code>
 , as
 pip tends to have more up-to-date packages.</p>
 <p>In the end I found the simplest thing to do was to set up IPython in an isolated
-virtualenv environment.  The main ...</p>
-                    <a class="btn btn-default btn-xs" href="/ipython-with-python-3.html">more ...</a>
-                </div>
+virtualenv environment.  The main trick is to let virtualenv know what version of
+Python you want it to use by default.</p>
+<div class="highlight"><pre><span class="nv">$ </span>virtualenv --python<span class="o">=</span>python3.4 python_3_demo
+<span class="nv">$ </span><span class="nb">cd </span>python_3_demo/
+<span class="nv">$ </span><span class="nb">source</span> ./bin/activate
+<span class="nv">$ </span>pip install ipython
+<span class="nv">$ </span>ipython
+</pre></div>
+<div class="highlight"><pre><span class="n">Python</span> <span class="mf">3.4</span><span class="o">.</span><span class="mi">0</span> <span class="p">(</span><span class="n">default</span><span class="p">,</span> <span class="n">Apr</span> <span class="mi">11</span> <span class="mi">2014</span><span class="p">,</span> <span class="mi">13</span><span class="p">:</span><span class="mo">05</span><span class="p">:</span><span class="mi">11</span><span class="p">)</span>
+<span class="o">...</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">2</span><span class="p">]:</span> <span class="k">print</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">version</span><span class="p">)</span>
+<span class="mf">3.4</span><span class="o">.</span><span class="mi">0</span> <span class="p">(</span><span class="n">default</span><span class="p">,</span> <span class="n">Apr</span> <span class="mi">11</span> <span class="mi">2014</span><span class="p">,</span> <span class="mi">13</span><span class="p">:</span><span class="mo">05</span><span class="p">:</span><span class="mi">11</span><span class="p">)</span>
+<span class="p">[</span><span class="n">GCC</span> <span class="mf">4.8</span><span class="o">.</span><span class="mi">2</span><span class="p">]</span>
+</pre></div>
+<p>And voila, I have Python 3 in the best Python interpreter ever built, I'm ready to
+start wrapping my head around byte arrays and UTF-8 encodings.</p>
+
+                    
+                </div>  
+                
+                
             </article>
             <hr/>
             <article>
                 <h2><a href="/logrotate.html">logrotate</a></h2>
-                <div class="summary"><p>I have a large, complex <a class="reference external" href="/postfix.html">mailing system</a> that processes
+                
+                
+                <div class="entry-content">
+
+                    <p>I have a large, complex <a class="reference external" href="/postfix.html">mailing system</a> that processes
 a significant amount of data every hour.  While I'm developing it, I want to know
 what it's doing, and whether it's having any problems.  So I use the excellent
 python <a class="reference external" href="https://docs.python.org/2/library/logging.html">logging</a> library to produce comprehensive monitoring data.</p>
-<p>The ...</p>
-                    <a class="btn btn-default btn-xs" href="/logrotate.html">more ...</a>
-                </div>
+<p>The only problem is that these log files can get pretty big.  And because I don't
+know ahead of time when I'm going to need to hunt through them, I tend to leave
+the logging system in a fairly verbose state.</p>
+<p>Enter <a class="reference external" href="http://www.thegeekstuff.com/2010/07/logrotate-examples/">logrotate</a>.  This is a standard service on Ubuntu that regularly rotates
+your log files, throwing away old data, compressing middle-age data, and leaving
+young log files fresh and accessible.  Thus you are protected from
+runaway log file growth and nasty calls in the middle of the night from your
+monitoring service telling you that your server just died because the hard
+drives were full.</p>
+<p>A default ubuntu installation comes with logrotate already set up for various services.
+If you don't have it, install it with <code class="code">
+apt-get install logrotate</code>
+, and
+then it's mostly just a question of copying a file from <code class="code">
+/etc/logrotate.d/</code>
+
+and modifying it according to your needs.</p>
+<p><code class="code">
+vi /etc/logrotate.d/myservice</code>
+</p>
+<div class="highlight"><pre>/var/log/myservice/*.log <span class="o">{</span>
+  rotate 7
+  daily
+  compress
+  missingok
+  notifempty
+<span class="o">}</span>
+</pre></div>
+<p>And that's it!  The actually invocation of the <code class="code">
+logrotate</code>
+ command will
+get triggered regularly by a script in /etc/cron.daily</p>
+<p>You can also <strong>force</strong> a rotation, a useful option when testing out a new configuration,
+via</p>
+<div class="highlight"><pre>logrotate -f /etc/logrotate.d/myservice
+</pre></div>
+<p>One quick word of warning: if you're using the python <a class="reference external" href="https://docs.python.org/2/library/logging.html">logging</a> library, then
+you'll want to use the <code class="code">
+WatchedFileHandler</code>
+ class.  If the logfile gets
+rotated out while it's in use, WatchedFileHandler will notice this, close the file
+stream and open a new one.</p>
+
+                    
+                </div>  
+                
+                
             </article>
             <hr/>
             <article>
                 <h2><a href="/more-ractive.html">More Ractive</a></h2>
-                <div class="summary"><p>I've used <a class="reference external" href="http://www.ractivejs.org/">Ractive</a> for several projects recently.
+                
+                
+                <div class="entry-content">
+
+                    <p>I've used <a class="reference external" href="http://www.ractivejs.org/">Ractive</a> for several projects recently.
 It's been like a breath of fresh air.  I've been writing user interfaces of one
 kind or another for more than a decade, and keeping <em>what's displayed to the user</em>
-in sync with <em>what's stored in the data ...</em></p>
-                    <a class="btn btn-default btn-xs" href="/more-ractive.html">more ...</a>
-                </div>
+in sync with <em>what's stored in the data structures</em> has often been a source of
+frustration.</p>
+<p>In the javascript world, I've mostly used <a class="reference external" href="http://backbonejs.org/">backbone</a>  and
+<a class="reference external" href="http://jquery.com/">jQuery</a> for creating interactive web pages.  While these
+tools are very good at what they do, I still find myself writing a fair amount
+of code to update data in the model whenever a user interacts with a control, and
+to update the control displays whenever data in the model changes.</p>
+<p>Enter <strong>Ractive</strong>.  It's not the only library to handle 2-way data binding - Angular,
+Knockout and React all play in this space, but it's my current favourite.</p>
+<p>Anyway, here's a little demo....</p>
+<p>Given a ractive template like this:</p>
+<div class="highlight"><pre><span class="nt">&lt;p&gt;</span>Type in the boxes below.<span class="err">&lt;</span>\p&gt;
+<span class="nt">&lt;input</span> <span class="na">class=</span><span class="s">&quot;form-control&quot;</span> <span class="na">value=</span><span class="s">&quot;{{var1}}&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;input</span> <span class="na">class=</span><span class="s">&quot;form-control&quot;</span> <span class="na">value=</span><span class="s">&quot;{{var2}}&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;p&gt;</span>Current values are var1:<span class="nt">&lt;code&gt;</span>{{var1}}<span class="nt">&lt;/code&gt;</span>, var2:<span class="nt">&lt;code&gt;</span>{{var2}}<span class="nt">&lt;/p&gt;</span>
+<span class="nt">&lt;button</span> <span class="na">class=</span><span class="s">&quot;btn btn-primary&quot;</span> <span class="na">on-click=</span><span class="s">&quot;changeme&quot;</span><span class="nt">&gt;</span>Set var1<span class="nt">&lt;/button&gt;</span>
+</pre></div>
+<p>and javascript like this:</p>
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">ractive</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Ractive</span><span class="p">({</span>
+   <span class="nx">el</span><span class="o">:</span><span class="s2">&quot;#demo&quot;</span><span class="p">,</span>
+   <span class="nx">template</span><span class="o">:</span><span class="nx">template</span><span class="p">,</span>
+   <span class="nx">data</span><span class="o">:</span><span class="p">{</span><span class="nx">var1</span><span class="o">:</span><span class="s1">&#39;beeblebrox&#39;</span><span class="p">,</span><span class="nx">var2</span><span class="o">:</span><span class="s1">&#39;lintilla&#39;</span><span class="p">}</span>
+<span class="p">});</span>
+</pre></div>
+<p>We get:</p>
+<script src='http://cdn.ractivejs.org/latest/ractive.js'></script>
+
+<div id="demo" class="well"></div>
+<script type="text/javascript">
+
+     var template='<p>Type in the boxes below.<\p> \
+                  <input class="form-control" value="{{var1}}">  \
+                  <input class="form-control" value="{{var2}}">  \
+                  <p>Current values are var1:<code>{{var1}}</code>, var2:<code>{{var2}}</p>\
+                  <br><button class="btn btn-primary" on-click="changeme">Set var1</button>';
+
+     var ractive = new Ractive({
+        el:"#demo",
+        template:template,
+        data:{var1:'beeblebrox',var2:'lintilla'}
+     });
+
+     ractive.on('changeme',function(){
+        ractive.set('var1','zarniwoop');
+     });
+</script><p>Neat, huh?  I haven't had to write any code to manually react to keyup, or change events
+in the input controls - Ractive simply takes care of the fact that I refer to <code class="code">
+var1</code>
+
+in both the output paragraph and the control value, and binds the two elements together,
+refreshing them whenever needed.</p>
+<p>The code for responding to the button click is simply:</p>
+<div class="highlight"><pre><span class="nx">ractive</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;changeme&#39;</span><span class="p">,</span><span class="kd">function</span><span class="p">(){</span>
+    <span class="nx">ractive</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">&#39;var1&#39;</span><span class="p">,</span><span class="s1">&#39;zarniwoop&#39;</span><span class="p">);</span>
+<span class="p">});</span>
+</pre></div>
+<p>By setting data in the underlying model, the user interface automatically updates,
+again without any manual intervention.</p>
+<div class="section" id="ui-development-might-be-fun-again">
+<h2>UI development might be fun again....</h2>
+<p>I have the same feeling on discovering Ractive that I had when I was first shown
+jQuery.  All of a sudden, a bunch of boring, fiddly manual tasks are taken care
+of in an intuitive way.  And unlike other frameworks, <em>all</em> ractive does is data-binding.
+It doesn't try to be a control library, an AJAX toolkit or a Model-View-Controller
+framework.  For those who like all-in-one solutions, this will be a weakness, but as
+someone who believes in the unix philosophy of building systems from tools that
+each do one thing well, I'm very impressed.</p>
+</div>
+
+                    
+                </div>  
+                
+                
             </article>
             <hr/>
             <article>
                 <h2><a href="/nginx-uwsgi-ubuntu-14.html">Nginx and UWSGI on Ubuntu 14</a></h2>
-                <div class="summary"><p>The documentation for Nginx and UWSGI is long and complex, but with ubuntu 14
+                
+                
+                <div class="entry-content">
+
+                    <p>The documentation for Nginx and UWSGI is long and complex, but with ubuntu 14
 it's actually pretty straightforward to get them up and running.</p>
 <p>I present here a a setup that uses nginx and uwsgi emperor to host
 multiple python web applications simultaneously on an ubuntu 14 machine.</p>
-<p>First ...</p>
-                    <a class="btn btn-default btn-xs" href="/nginx-uwsgi-ubuntu-14.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/pdf-generation-with-pelican.html">PDF Generation With Pelican</a></h2>
-                <div class="summary"><p>The existing documentation is a little unclear on this, because it says
-you need to add <code class="code">
-PDF_GENERATOR=True</code>
- to your <cite>pelicanconf.py</cite> file.</p>
-<p>This advice is out of date: PDF generation has been moved to a plugin.</p>
-<p>So you need to first make sure you have <code class="code">
-rst2pdf</code>
- installed:</p>
-<div class="highlight"><pre><span class="nv">$ </span>sudo apt-get ...</pre></div>
-                    <a class="btn btn-default btn-xs" href="/pdf-generation-with-pelican.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/postfix.html">Postfix</a></h2>
-                <div class="summary"><p>Postfix is a ghastly horror that really should be quietly eliminated.  But that truism hides a deeper issue - email itself is a ghastly horror, the result of 30 years of hacks, edge-cases, non-conformant implementations and competing design constraints, that only persists because we still haven't come up with anything ...</p>
-                    <a class="btn btn-default btn-xs" href="/postfix.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/postgres-json-aggregation.html">Postgres JSON Aggregation</a></h2>
-                <div class="summary"><p>I've been using the new JSON functionality in Postgres a lot recently:
-I'm fond of saying that Postgresql is the best NoSQL database available
-today. I'm quite serious about this: having used key-value and JSON
-stores such as CouchDB in the past, it's amazing to me ...</p>
-                    <a class="btn btn-default btn-xs" href="/postgres-json-aggregation.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/postgres-timestamps.html">Postgres Timestamps</a></h2>
-                <div class="summary"><p>At my company, I maintain a large distributed. data collection platform
-. Pretty much every record we collect needs to be stamped with a
-<pre>
-created</pre>
- field. But because the incoming data comes from sources on
-various devices in multiple countries and timezones, making sure that
-the timestamps are precise and meaningful ...</p>
-                    <a class="btn btn-default btn-xs" href="/postgres-timestamps.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/python-comprehensions.html">Python Comprehensions</a></h2>
-                <div class="summary"><p>Python <strong>list comprehensions</strong> are one of the most powerful and useful
-features of the language. However, I've noticed even quite experienced
-Python programmers using less powerful idioms when a list comprehension
-would be the perfect solution to their problem, and even though I've
-been a Python developer for ...</p>
-                    <a class="btn btn-default btn-xs" href="/python-comprehensions.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/remote-systems-administration-with-fabric.html">Remote Systems Administration with Fabric</a></h2>
-                <div class="summary"><p>A tool I'm finding myself using more and more these days is <a class="reference external" href="http://fabric.readthedocs.org/en/1.8/">Fabric</a>.</p>
-<p>Fabric is a python utility and library for streamlining systems administration
-tasks on multiple machines.</p>
-<p>Although I'm primarily a developer and systems architect, I find that as our
-company grows I keep getting drawn into ...</p>
-                    <a class="btn btn-default btn-xs" href="/remote-systems-administration-with-fabric.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/reportlab-images-in-ipython.html">Reportlab Images in IPython</a></h2>
-                <div class="summary"><p>With a bit of work we can get IPython to render ReportLab objects
-directly to the page as Matplotlib plots.</p>
-<p>Huge thanks to github user <a class="reference external" href="https://github.com/deeplook">deeplook</a>,
-this is basically a modification of
-<a class="reference external" href="http://nbviewer.ipython.org/gist/deeplook/5162445">this</a> IPython
-notebook.</p>
-<p>First our imports.</p>
-<div class="highlight"><pre><span class="kn">from</span> <span class="nn">reportlab.lib</span> <span class="kn">import</span> <span class="n">colors</span>
-<span class="kn">from</span> <span class="nn">reportlab.graphics</span> <span class="kn">import</span> <span class="n">renderPM</span>
-<span class="kn">from</span> <span class="nn">reportlab ...</span></pre></div>
-                    <a class="btn btn-default btn-xs" href="/reportlab-images-in-ipython.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/seriously-subtle-bug.html">A Seriously Subtle Bug</a></h2>
-                <div class="summary"><p>I build and maintain a number of web applications built using <a class="reference external" href="http://python.org">Python</a>, <a class="reference external" href="http://bottlepy.org/docs/dev/index.html">Bottle</a>, and <a class="reference external" href="http://uwsgi-docs.readthedocs.org/en/latest/index.html">uWSGI</a>.
-In general, I've found this a very powerful and robust software stack.  However, this week
-we encountered a very strange issue that took us many hours to fully diagnose.</p>
-<p>Our first indication that something ...</p>
-                    <a class="btn btn-default btn-xs" href="/seriously-subtle-bug.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/sql-magic.html">SQL Magic</a></h2>
-                <div class="summary"><p>I'm finding the <pre>
-%sql</pre>
- magic function extremely useful. It turns
-IPython into a very nice front-end to Postgresql.</p>
-<p>First, make sure you have the <pre>
-ipython-sql</pre>
- extension installed:</p>
-<p><pre>
-pip install ipython-sql</pre>
+<p>First, the packages</p>
+<div class="highlight"><pre><span class="nv">$ </span>sudo apt-get install nginx
+<span class="nv">$ </span>sudo apt-get install uwsgi uwsgi-emperor uwsgi-plugin-python
+</pre></div>
+<p>Our configuration files will now be under <code class="code">
+/etc/nginx</code>
+ and <code class="code">
+/etc/uwsgi-emperor</code>
 </p>
-<p><a class="reference external" href="https://pypi.python.org/pypi/ipython-sql">https://pypi.python.org/pypi/ipython-sql</a></p>
-<p>Then we load the extension</p>
-<div class="highlight"><pre><span class="o">%</span><span class="n">load_ext</span> <span class="n">sql</span>
+<p>You can start, stop, and reload nginx as follows:</p>
+<div class="highlight"><pre><span class="nv">$ </span>sudo service nginx start
+<span class="nv">$ </span>sudo service nginx stop
+<span class="nv">$ </span>sudo service nginx reload
 </pre></div>
-<p>Then we set up our database ...</p>
-                    <a class="btn btn-default btn-xs" href="/sql-magic.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/basic-ipython-plotting.html">Basic IPython Plotting</a></h2>
-                <div class="summary"><p><strong>Things have changed a bit since IPython 1</strong></p>
-<p>Now apparently we want to manually specify the use of inline matplotlib
-rather than enable globally in the server.</p>
-<p><a class="reference external" href="http://nbviewer.ipython.org/github/ipython/ipython/blob/1.x/examples/notebooks/Part%203%20-%20Plotting%20with%20Matplotlib.ipynb">http://nbviewer.ipython.org/github/ipython/ipython/blob/1.x/examples/notebooks/Part%203%20-%20Plotting%20with%20Matplotlib.ipynb</a></p>
-<div class="highlight"><pre><span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+<p>The last command is useful when changing configuration settings.</p>
+<p>Now set up a site by creating a file in <code class="code">
+/etc/nginx/sites-available</code>
+</p>
+<div class="highlight"><pre><span class="c">#/etc/nginx/sites-available/mysite</span>
+server<span class="o">{</span>
+
+    server_name     your_host_name<span class="p">;</span>
+
+    location /app1 <span class="o">{</span>
+        uwsgi_pass unix:/tmp/app1.socket<span class="p">;</span>
+        include uwsgi_params<span class="p">;</span>
+    <span class="o">}</span>
+    location /app2 <span class="o">{</span>
+        uwsgi_pass unix:/tmp/app2.socket<span class="p">;</span>
+        include uwsgi_params<span class="p">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
 </pre></div>
-<div class="highlight"><pre><span class="kn">import</span> <span class="nn">matplotlib ...</span></pre></div>
-                    <a class="btn btn-default btn-xs" href="/basic-ipython-plotting.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/ractive-js.html">Ractive.js</a></h2>
-                <div class="summary"><p><a class="reference external" href="http://www.ractivejs.org/">Ractive.js</a> caught my eye this week.  I've been using <a class="reference external" href="http://backbonejs.org/">Backbone</a> for the last couple
-of years to develop single page client-side applications, and I've liked how
-it doesn't get in your way, but simply allows you to get on with your work.</p>
-<p>When I noticed that ...</p>
-                    <a class="btn btn-default btn-xs" href="/ractive-js.html">more ...</a>
-                </div>
+<p>Then,</p>
+<div class="highlight"><pre><span class="nv">$ </span>sudo ln -s /etc/nginx/apps-available/mysite /etc/nginx/sites-enabled
+</pre></div>
+<div class="alert  alert-warning compound">
+<p class="compound-first"><strong>Warning</strong></p>
+<p class="compound-last">A previous version of this tutorial had the sockets placed in <code class="code">
+/run/uwsgi</code>
+.
+This was a mistake, because under Ubuntu <code class="code">
+/run</code>
+ is mounted as a <code class="code">
+tmpfs</code>
+, and its content will be deleted on reboot
+Your uwsgi sub-directory will vanish and the uwsgi services will not restart.</p>
+</div>
+<p>Next, set up your 'vassals' (<a class="reference external" href="http://uwsgi-docs.readthedocs.org/en/latest/Emperor.html">http://uwsgi-docs.readthedocs.org/en/latest/Emperor.html</a>)</p>
+<p>Create  <code class="code">
+/etc/uwsgi-emperor/vassals/app1.ini</code>
+ as follows:</p>
+<div class="highlight"><pre><span class="k">[uwsgi]</span>
+<span class="na">plugin</span> <span class="o">=</span> <span class="s">python</span>
+<span class="na">processes</span> <span class="o">=</span> <span class="s">2</span>
+<span class="na">socket</span> <span class="o">=</span> <span class="s">/tmp/app1.socket</span>
+<span class="na">chmod-socket</span> <span class="o">=</span> <span class="s">666</span>
+
+<span class="na">chdir</span> <span class="o">=</span> <span class="s">/srv/app1</span>
+<span class="na">wsgi-file</span> <span class="o">=</span> <span class="s">/srv/app1/main.py</span>
+
+<span class="na">uid</span> <span class="o">=</span> <span class="s">www-data</span>
+<span class="na">gid</span> <span class="o">=</span> <span class="s">www-data</span>
+</pre></div>
+<p>And for your second application, create  <code class="code">
+/etc/uwsgi-emperor/vassals/app2.ini</code>
+ as similarly:</p>
+<div class="highlight"><pre><span class="k">[uwsgi]</span>
+<span class="na">plugin</span> <span class="o">=</span> <span class="s">python</span>
+<span class="na">processes</span> <span class="o">=</span> <span class="s">2</span>
+<span class="na">socket</span> <span class="o">=</span> <span class="s">/tmp/app2.socket</span>
+<span class="na">chmod-socket</span> <span class="o">=</span> <span class="s">666</span>
+
+<span class="na">chdir</span> <span class="o">=</span> <span class="s">/srv/app1</span>
+<span class="na">wsgi-file</span> <span class="o">=</span> <span class="s">/srv/app2/main.py</span>
+
+<span class="na">uid</span> <span class="o">=</span> <span class="s">www-data</span>
+<span class="na">gid</span> <span class="o">=</span> <span class="s">www-data</span>
+</pre></div>
+<p>The simple act of <em>creating</em> or touching a .ini file in <code class="code">
+/etc/uwsgi-emperor/vassals</code>
+ will cause
+the emperor process to try to restart your application.</p>
+<p>Of course, your applications don't exist yet, so let's create them.  The simplest wsgi
+application can be only a few lines long:</p>
+<p>Create <code class="code">
+/srv/app1/main.py</code>
+</p>
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">application</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">start_response</span><span class="p">):</span>
+    <span class="n">start_response</span><span class="p">(</span><span class="s">&#39;200 OK&#39;</span><span class="p">,</span> <span class="p">[(</span><span class="s">&#39;Content-Type&#39;</span><span class="p">,</span><span class="s">&#39;text/html&#39;</span><span class="p">)])</span>
+    <span class="k">return</span> <span class="p">[</span><span class="s">&quot;Hello World, I am app1&quot;</span><span class="p">]</span>
+</pre></div>
+<p>And <code class="code">
+/srv/app2/main.py</code>
+</p>
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">application</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">start_response</span><span class="p">):</span>
+    <span class="n">start_response</span><span class="p">(</span><span class="s">&#39;200 OK&#39;</span><span class="p">,</span> <span class="p">[(</span><span class="s">&#39;Content-Type&#39;</span><span class="p">,</span><span class="s">&#39;text/html&#39;</span><span class="p">)])</span>
+    <span class="k">return</span> <span class="p">[</span><span class="s">&quot;I, however, am app2. &quot;</span><span class="p">]</span>
+</pre></div>
+<p>And that's it!</p>
+<p>Visiting <a class="reference external" href="http://your_host_name/app1">http://your_host_name/app1</a> or <a class="reference external" href="http://your_host_name/app2">http://your_host_name/app2</a> should return the text
+you put in the python files.</p>
+
+                    
+                </div>  
+                
+                
             </article>
             <hr/>
 
+        <ul class="pagination">
+                <li class="prev disabled"><a href="#">&laquo;</a></li>
+                    <li class="active"><a
+                            href="/author/trevor.html">1</a></li>
+                    <li class=""><a
+                            href="/author/trevor2.html">2</a></li>
+                    <li class=""><a
+                            href="/author/trevor3.html">3</a></li>
+                <li class="next"><a
+                        href="/author/trevor2.html">&raquo;</a></li>
+        </ul>
         </div>
         <div class="col-sm-3" id="sidebar">
             <aside>
@@ -316,95 +577,6 @@ it doesn't get in your way, but simply allows you to get on with your work.</p>
 
 
 
-            <li class="list-group-item"><a href="/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
-                <ul class="list-group " id="tags">
-                    <li class="list-group-item tag-1">
-                        <a href="/tag/python.html">
-                            Python
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-2">
-                        <a href="/tag/linux.html">
-                            linux
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-2">
-                        <a href="/tag/javascript.html">
-                            javascript
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-2">
-                        <a href="/tag/ipython.html">
-                            IPython
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-3">
-                        <a href="/tag/postgres.html">
-                            Postgres
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-3">
-                        <a href="/tag/pelican.html">
-                            pelican
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-3">
-                        <a href="/tag/uwsgi.html">
-                            uwsgi
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-3">
-                        <a href="/tag/ractive.html">
-                            ractive
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/markdown.html">
-                            markdown
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/logrotate.html">
-                            logrotate
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/nginx.html">
-                            nginx
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/postfix.html">
-                            postfix
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/email.html">
-                            email
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/fabric.html">
-                            fabric
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/coffeescript.html">
-                            coffeescript
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/bottle.html">
-                            bottle
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/gevent.html">
-                            gevent
-                        </a>
-                    </li>
-                </ul>
-            </li>
 
 
 

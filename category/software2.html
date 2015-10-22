@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
 <head>
-    <title>uwsgi - trvrm</title>
+    <title>Software - trvrm</title>
     <!-- Using the latest rendering mode for IE -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
@@ -11,7 +11,7 @@
 
 
     <meta name="author" content="trvrm" />
-    <meta name="keywords" content="uwsgi" />
+    <meta name="keywords" content="Software" />
 
     <!-- Open Graph tags -->
         <meta property="og:site_name" content="trvrm" />
@@ -52,7 +52,7 @@ trvrm            </a>
                         <li >
                             <a href="/category/database.html">Database</a>
                         </li>
-                        <li >
+                        <li class="active">
                             <a href="/category/software.html">Software</a>
                         </li>
                         <li >
@@ -71,125 +71,6 @@ trvrm            </a>
 <div class="container">
     <div class="row">
         <div class="col-sm-9">
-            <article>
-                <h2><a href="/nginx-uwsgi-ubuntu-14.html">Nginx and UWSGI on Ubuntu 14</a></h2>
-                
-                
-                <div class="entry-content">
-
-                    <p>The documentation for Nginx and UWSGI is long and complex, but with ubuntu 14
-it's actually pretty straightforward to get them up and running.</p>
-<p>I present here a a setup that uses nginx and uwsgi emperor to host
-multiple python web applications simultaneously on an ubuntu 14 machine.</p>
-<p>First, the packages</p>
-<div class="highlight"><pre><span class="nv">$ </span>sudo apt-get install nginx
-<span class="nv">$ </span>sudo apt-get install uwsgi uwsgi-emperor uwsgi-plugin-python
-</pre></div>
-<p>Our configuration files will now be under <code class="code">
-/etc/nginx</code>
- and <code class="code">
-/etc/uwsgi-emperor</code>
-</p>
-<p>You can start, stop, and reload nginx as follows:</p>
-<div class="highlight"><pre><span class="nv">$ </span>sudo service nginx start
-<span class="nv">$ </span>sudo service nginx stop
-<span class="nv">$ </span>sudo service nginx reload
-</pre></div>
-<p>The last command is useful when changing configuration settings.</p>
-<p>Now set up a site by creating a file in <code class="code">
-/etc/nginx/sites-available</code>
-</p>
-<div class="highlight"><pre><span class="c">#/etc/nginx/sites-available/mysite</span>
-server<span class="o">{</span>
-
-    server_name     your_host_name<span class="p">;</span>
-
-    location /app1 <span class="o">{</span>
-        uwsgi_pass unix:/tmp/app1.socket<span class="p">;</span>
-        include uwsgi_params<span class="p">;</span>
-    <span class="o">}</span>
-    location /app2 <span class="o">{</span>
-        uwsgi_pass unix:/tmp/app2.socket<span class="p">;</span>
-        include uwsgi_params<span class="p">;</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-</pre></div>
-<p>Then,</p>
-<div class="highlight"><pre><span class="nv">$ </span>sudo ln -s /etc/nginx/apps-available/mysite /etc/nginx/sites-enabled
-</pre></div>
-<div class="alert  alert-warning compound">
-<p class="compound-first"><strong>Warning</strong></p>
-<p class="compound-last">A previous version of this tutorial had the sockets placed in <code class="code">
-/run/uwsgi</code>
-.
-This was a mistake, because under Ubuntu <code class="code">
-/run</code>
- is mounted as a <code class="code">
-tmpfs</code>
-, and its content will be deleted on reboot
-Your uwsgi sub-directory will vanish and the uwsgi services will not restart.</p>
-</div>
-<p>Next, set up your 'vassals' (<a class="reference external" href="http://uwsgi-docs.readthedocs.org/en/latest/Emperor.html">http://uwsgi-docs.readthedocs.org/en/latest/Emperor.html</a>)</p>
-<p>Create  <code class="code">
-/etc/uwsgi-emperor/vassals/app1.ini</code>
- as follows:</p>
-<div class="highlight"><pre><span class="k">[uwsgi]</span>
-<span class="na">plugin</span> <span class="o">=</span> <span class="s">python</span>
-<span class="na">processes</span> <span class="o">=</span> <span class="s">2</span>
-<span class="na">socket</span> <span class="o">=</span> <span class="s">/tmp/app1.socket</span>
-<span class="na">chmod-socket</span> <span class="o">=</span> <span class="s">666</span>
-
-<span class="na">chdir</span> <span class="o">=</span> <span class="s">/srv/app1</span>
-<span class="na">wsgi-file</span> <span class="o">=</span> <span class="s">/srv/app1/main.py</span>
-
-<span class="na">uid</span> <span class="o">=</span> <span class="s">www-data</span>
-<span class="na">gid</span> <span class="o">=</span> <span class="s">www-data</span>
-</pre></div>
-<p>And for your second application, create  <code class="code">
-/etc/uwsgi-emperor/vassals/app2.ini</code>
- as similarly:</p>
-<div class="highlight"><pre><span class="k">[uwsgi]</span>
-<span class="na">plugin</span> <span class="o">=</span> <span class="s">python</span>
-<span class="na">processes</span> <span class="o">=</span> <span class="s">2</span>
-<span class="na">socket</span> <span class="o">=</span> <span class="s">/tmp/app2.socket</span>
-<span class="na">chmod-socket</span> <span class="o">=</span> <span class="s">666</span>
-
-<span class="na">chdir</span> <span class="o">=</span> <span class="s">/srv/app1</span>
-<span class="na">wsgi-file</span> <span class="o">=</span> <span class="s">/srv/app2/main.py</span>
-
-<span class="na">uid</span> <span class="o">=</span> <span class="s">www-data</span>
-<span class="na">gid</span> <span class="o">=</span> <span class="s">www-data</span>
-</pre></div>
-<p>The simple act of <em>creating</em> or touching a .ini file in <code class="code">
-/etc/uwsgi-emperor/vassals</code>
- will cause
-the emperor process to try to restart your application.</p>
-<p>Of course, your applications don't exist yet, so let's create them.  The simplest wsgi
-application can be only a few lines long:</p>
-<p>Create <code class="code">
-/srv/app1/main.py</code>
-</p>
-<div class="highlight"><pre><span class="k">def</span> <span class="nf">application</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">start_response</span><span class="p">):</span>
-    <span class="n">start_response</span><span class="p">(</span><span class="s">&#39;200 OK&#39;</span><span class="p">,</span> <span class="p">[(</span><span class="s">&#39;Content-Type&#39;</span><span class="p">,</span><span class="s">&#39;text/html&#39;</span><span class="p">)])</span>
-    <span class="k">return</span> <span class="p">[</span><span class="s">&quot;Hello World, I am app1&quot;</span><span class="p">]</span>
-</pre></div>
-<p>And <code class="code">
-/srv/app2/main.py</code>
-</p>
-<div class="highlight"><pre><span class="k">def</span> <span class="nf">application</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">start_response</span><span class="p">):</span>
-    <span class="n">start_response</span><span class="p">(</span><span class="s">&#39;200 OK&#39;</span><span class="p">,</span> <span class="p">[(</span><span class="s">&#39;Content-Type&#39;</span><span class="p">,</span><span class="s">&#39;text/html&#39;</span><span class="p">)])</span>
-    <span class="k">return</span> <span class="p">[</span><span class="s">&quot;I, however, am app2. &quot;</span><span class="p">]</span>
-</pre></div>
-<p>And that's it!</p>
-<p>Visiting <a class="reference external" href="http://your_host_name/app1">http://your_host_name/app1</a> or <a class="reference external" href="http://your_host_name/app2">http://your_host_name/app2</a> should return the text
-you put in the python files.</p>
-
-                    
-                </div>  
-                
-                
-            </article>
-            <hr/>
             <article>
                 <h2><a href="/seriously-subtle-bug.html">A Seriously Subtle Bug</a></h2>
                 
@@ -441,7 +322,232 @@ a bug.  But hopefully this analysis will help prevent others from going through 
                 
             </article>
             <hr/>
+            <article>
+                <h2><a href="/sql-magic.html">SQL Magic</a></h2>
+                
+                
+                <div class="entry-content">
 
+                    <p>I'm finding the <pre>
+%sql</pre>
+ magic function extremely useful. It turns
+IPython into a very nice front-end to Postgresql.</p>
+<p>First, make sure you have the <pre>
+ipython-sql</pre>
+ extension installed:</p>
+<p><pre>
+pip install ipython-sql</pre>
+</p>
+<p><a class="reference external" href="https://pypi.python.org/pypi/ipython-sql">https://pypi.python.org/pypi/ipython-sql</a></p>
+<p>Then we load the extension</p>
+<div class="highlight"><pre><span class="o">%</span><span class="n">load_ext</span> <span class="n">sql</span>
+</pre></div>
+<p>Then we set up our database connection.</p>
+<div class="highlight"><pre><span class="o">%%</span><span class="n">sql</span>
+<span class="n">postgresql</span><span class="p">:</span><span class="o">//</span><span class="n">testuser</span><span class="p">:</span><span class="n">password</span><span class="nd">@localhost</span><span class="o">/</span><span class="n">test</span>
+</pre></div>
+<pre class="literal-block">
+u'Connected: <a class="reference external" href="mailto:testuser&#64;test">testuser&#64;test</a>'
+</pre>
+<p>And now we can start interacting directly with the database as if we
+were at the <pre>
+psql</pre>
+ command line.</p>
+<div class="highlight"><pre><span class="o">%%</span><span class="n">sql</span>
+<span class="n">CREATE</span> <span class="n">TABLE</span> <span class="n">people</span> <span class="p">(</span><span class="n">first</span> <span class="n">text</span><span class="p">,</span> <span class="n">last</span> <span class="n">text</span><span class="p">,</span> <span class="n">drink</span> <span class="n">text</span><span class="p">);</span>
+<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">people</span> <span class="p">(</span><span class="n">first</span><span class="p">,</span><span class="n">last</span><span class="p">,</span><span class="n">drink</span><span class="p">)</span>
+<span class="n">VALUES</span>
+    <span class="p">(</span><span class="s">&#39;zaphod&#39;</span><span class="p">,</span><span class="s">&#39;beeblebrox&#39;</span><span class="p">,</span><span class="s">&#39;pan galactic gargle blaster&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s">&#39;arthur&#39;</span><span class="p">,</span><span class="s">&#39;dent&#39;</span><span class="p">,</span><span class="s">&#39;tea&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s">&#39;ford&#39;</span><span class="p">,</span><span class="s">&#39;prefect&#39;</span><span class="p">,</span><span class="s">&#39;old janx spirit&#39;</span><span class="p">)</span>
+    <span class="p">;</span>
+</pre></div>
+<pre class="literal-block">
+Done.
+3 rows affected.
+</pre>
+<pre class="literal-block">
+[]
+</pre>
+<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">select</span> <span class="o">*</span> <span class="kn">from</span> <span class="nn">people</span>
+</pre></div>
+<pre class="literal-block">
+3 rows affected.
+</pre>
+<table class="table table-bordered table-striped">
+    <tr>
+        <th>first</th>
+        <th>last</th>
+        <th>drink</th>
+    </tr>
+    <tr>
+        <td>zaphod</td>
+        <td>beeblebrox</td>
+        <td>pan galactic gargle blaster</td>
+    </tr>
+    <tr>
+        <td>arthur</td>
+        <td>dent</td>
+        <td>tea</td>
+    </tr>
+    <tr>
+        <td>ford</td>
+        <td>prefect</td>
+        <td>old janx spirit</td>
+    </tr>
+</table><p>We can access the results as a python object:</p>
+<div class="highlight"><pre><span class="n">result</span> <span class="o">=</span> <span class="o">%</span><span class="n">sql</span> <span class="n">select</span> <span class="o">*</span> <span class="kn">from</span> <span class="nn">people</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</pre></div>
+<pre class="literal-block">
+3
+</pre>
+<p>And we can even get our recordset as a <strong>pandas</strong> dataframe</p>
+<div class="highlight"><pre><span class="o">%</span><span class="n">config</span> <span class="n">SqlMagic</span><span class="o">.</span><span class="n">autopandas</span><span class="o">=</span><span class="bp">True</span>
+</pre></div>
+<div class="highlight"><pre><span class="n">frame</span> <span class="o">=</span> <span class="o">%</span><span class="n">sql</span> <span class="n">select</span> <span class="o">*</span> <span class="kn">from</span> <span class="nn">people</span>
+<span class="n">frame</span>
+</pre></div>
+<div style="max-height:1000px;max-width:1500px;overflow:auto;">
+<table class="table table-bordered table-striped">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>first</th>
+      <th>last</th>
+      <th>drink</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td> zaphod</td>
+      <td> beeblebrox</td>
+      <td> pan galactic gargle blaster</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td> arthur</td>
+      <td>       dent</td>
+      <td>                         tea</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>   ford</td>
+      <td>    prefect</td>
+      <td>             old janx spirit</td>
+    </tr>
+  </tbody>
+</table>
+<p>3 rows × 3 columns</p>
+</div><div class="highlight"><pre><span class="n">frame</span><span class="p">[</span><span class="s">&#39;first&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+</pre></div>
+<pre class="literal-block">
+0    ZAPHOD
+1    ARTHUR
+2      FORD
+Name: first, dtype: object
+</pre>
+
+                    
+                </div>  
+                
+                
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/basic-ipython-plotting.html">Basic IPython Plotting</a></h2>
+                
+                
+                <div class="entry-content">
+
+                    <p><strong>Things have changed a bit since IPython 1</strong></p>
+<p>Now apparently we want to manually specify the use of inline matplotlib
+rather than enable globally in the server.</p>
+<p><a class="reference external" href="http://nbviewer.ipython.org/github/ipython/ipython/blob/1.x/examples/notebooks/Part%203%20-%20Plotting%20with%20Matplotlib.ipynb">http://nbviewer.ipython.org/github/ipython/ipython/blob/1.x/examples/notebooks/Part%203%20-%20Plotting%20with%20Matplotlib.ipynb</a></p>
+<div class="highlight"><pre><span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+</pre></div>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+</pre></div>
+<div class="highlight"><pre><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;A simple chirp&#39;</span><span class="p">);</span>
+</pre></div>
+<img alt="basic plotting example" src="Basic%20Plotting%20Example_files/Basic%20Plotting%20Example_3_0.png" />
+
+                    
+                </div>  
+                
+                
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/ractive-js.html">Ractive.js</a></h2>
+                
+                
+                <div class="entry-content">
+
+                    <p><a class="reference external" href="http://www.ractivejs.org/">Ractive.js</a> caught my eye this week.  I've been using <a class="reference external" href="http://backbonejs.org/">Backbone</a> for the last couple
+of years to develop single page client-side applications, and I've liked how
+it doesn't get in your way, but simply allows you to get on with your work.</p>
+<p>When I noticed that three of the tools I was using: Coffeescript, Underscore, and
+<a class="reference external" href="http://backbonejs.org/">Backbone</a> were all written by the same guy, I realised that Jeremy Ashkenas
+is a seriously genius level developer.  I've loved working with his tools; and I
+love the fact that the code that he produces is so readable.  I'm always more comfortable
+working with a library when I can read through the entire source code if I run
+into problems.  Check out the nicely annotated source code for Backbone, for example,
+here: <a class="reference external" href="http://backbonejs.org/docs/backbone.html">http://backbonejs.org/docs/backbone.html</a></p>
+<p>(On that note, I love working with <a class="reference external" href="http://bottlepy.org/docs/dev/_modules/bottle.html">Bottle</a> for exactly the same reason - the entire
+framework is contained in a single, very readable, Python file.)</p>
+<p>But one problem that comes up time and time again, no matter what library or framework
+you're using, is the problem of binding data to controls.  Currently in my Backbone-based
+code I have event handling code that reacts to user input and updates the model, and
+I have more code that reacts to changes in the data model and updates the UI.  Wouldn't
+it be nice if this two-way data binding could happen automatically?  Wouldn't it be
+nice, for example, if you could do something like this:</p>
+<p>Imagine having a user interface like this:</p>
+<div class="highlight"><pre><span class="nt">&lt;label&gt;</span>
+    <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&#39;checkbox&#39;</span> <span class="na">checked=</span><span class="s">&#39;{{visible}}&#39;</span><span class="nt">&gt;</span> visible?
+<span class="nt">&lt;/label&gt;</span>
+</pre></div>
+<p>And underlying data like this:</p>
+<div class="highlight"><pre><span class="nx">data</span><span class="o">:</span> <span class="p">{</span>
+  <span class="s2">&quot;visible&quot;</span><span class="o">:</span> <span class="kc">false</span>
+<span class="p">}</span>
+</pre></div>
+<p>And imagine if all the data binding was handled for you, so that clicking on the checkbox
+will automatically change the value of the underlying javascript object, and changing
+the value of the object via <code class="code">
+ractive.set('visible',true)</code>
+ updated the interface.</p>
+<p>That is exactly what Ractive does.  I haven't tried using it in production yet, but
+at the moment it feels like the next logical iteration in javascript frameworks.</p>
+<p>I was busy using Backbone heavily when Angular and Knockout came out, so I don't have
+much experience with them, but asking around the shop the consensus seems to be that
+Ractive looks significantly nicer to use than Knockout.</p>
+<p>And the best feature so far is their <em>awesome</em> <a class="reference external" href="http://learn.ractivejs.org/hello-world/1/">tutorial</a>.  This is, apparently, entirely
+written in Ractive, and guides you step by step through all the basic concepts of
+the library in an elegant, interactive fashion.  No more jumping through package installations
+and dependency hell before you can try out a new framework.  <em>This</em> is the way to
+introduce people to your work.  I'm very impressed.</p>
+
+                    
+                </div>  
+                
+                
+            </article>
+            <hr/>
+
+        <ul class="pagination">
+                <li class="prev"><a href="/category/software.html">&laquo;</a>
+                </li>
+                    <li class=""><a
+                            href="/category/software.html">1</a></li>
+                    <li class="active"><a
+                            href="/category/software2.html">2</a></li>
+                <li class="next disabled"><a href="#">&raquo;</a></li>
+        </ul>
         </div>
         <div class="col-sm-3" id="sidebar">
             <aside>

@@ -49,14 +49,8 @@ trvrm            </a>
         </div>
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav">
-                         <li><a href="/pages/about.html">
-                             About
-                          </a></li>
                         <li class="active">
                             <a href="/category/database.html">Database</a>
-                        </li>
-                        <li >
-                            <a href="/category/python.html">Python</a>
                         </li>
                         <li >
                             <a href="/category/software.html">Software</a>
@@ -79,25 +73,503 @@ trvrm            </a>
         <div class="col-sm-9">
             <article>
                 <h2><a href="/postgres-json-aggregation.html">Postgres JSON Aggregation</a></h2>
-                <div class="summary"><p>I've been using the new JSON functionality in Postgres a lot recently:
+                
+                
+                <div class="entry-content">
+
+                    <p>I've been using the new JSON functionality in Postgres a lot recently:
 I'm fond of saying that Postgresql is the best NoSQL database available
 today. I'm quite serious about this: having used key-value and JSON
-stores such as CouchDB in the past, it's amazing to me ...</p>
-                    <a class="btn btn-default btn-xs" href="/postgres-json-aggregation.html">more ...</a>
-                </div>
+stores such as CouchDB in the past, it's amazing to me how the Postgres
+developers have managed to marry the best of traditional relational
+technology with the flexibility of schema-free JSON documents.</p>
+<p>As of version 9.3, postgres allows you to create JSON column types, and
+provides a number of functions to access and iterate through the data
+stored in them.</p>
+<p>This week I discovered another hidden gem - <code class="code">
+json_agg()</code>
+. This
+function lets you take the results from an aggregation operation and
+convert them into a JSON block - very helpful if you're then going to
+work with the returned data in a language like Python</p>
+<p>To demonstrate this, we'll first set up some simple tables.</p>
+<div class="highlight"><pre><span class="o">%</span><span class="n">load_ext</span> <span class="n">sql</span>
+<span class="o">%</span><span class="n">config</span> <span class="n">SqlMagic</span><span class="o">.</span><span class="n">feedback</span><span class="o">=</span><span class="bp">False</span>
+</pre></div>
+<div class="highlight"><pre><span class="o">%%</span><span class="n">sql</span>
+<span class="n">postgresql</span><span class="p">:</span><span class="o">//</span><span class="n">testuser</span><span class="p">:</span><span class="n">password</span><span class="nd">@localhost</span><span class="o">/</span><span class="n">test</span>
+</pre></div>
+<pre class="literal-block">
+u'Connected: <a class="reference external" href="mailto:testuser&#64;test">testuser&#64;test</a>'
+</pre>
+<div class="highlight"><pre><span class="o">%%</span><span class="n">sql</span>
+<span class="n">CREATE</span> <span class="n">TABLE</span> <span class="n">IF</span> <span class="n">NOT</span> <span class="n">EXISTS</span> <span class="n">person</span> <span class="p">(</span>
+    <span class="n">name</span> <span class="n">text</span> <span class="n">primary</span> <span class="n">key</span>
+<span class="p">);</span>
+
+<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">person</span> <span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="n">VALUES</span>
+<span class="p">(</span><span class="s">&#39;emily&#39;</span><span class="p">),(</span><span class="s">&#39;arthur&#39;</span><span class="p">),(</span><span class="s">&#39;nicki&#39;</span><span class="p">),(</span><span class="s">&#39;oliver&#39;</span><span class="p">)</span>
+<span class="p">;</span>
+</pre></div>
+<pre class="literal-block">
+[]
+</pre>
+<p>We can query this in the usual way:</p>
+<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="o">*</span> <span class="n">FROM</span> <span class="n">person</span><span class="p">;</span>
+</pre></div>
+<table class="table table-bordered">
+    <tr>
+        <th>name</th>
+    </tr>
+    <tr>
+        <td>emily</td>
+    </tr>
+    <tr>
+        <td>arthur</td>
+    </tr>
+    <tr>
+        <td>nicki</td>
+    </tr>
+    <tr>
+        <td>oliver</td>
+    </tr>
+</table><p>But we can also use <code class="code">
+json_agg()</code>
+</p>
+<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="n">json_agg</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="n">FROM</span> <span class="n">person</span>
+</pre></div>
+<table class="table table-bordered">
+    <tr>
+        <th>json_agg</th>
+    </tr>
+    <tr>
+        <td>[u'emily', u'arthur', u'nicki', u'oliver']</td>
+    </tr>
+</table><p>Which gives us a single object to work with. So far, this isn't
+particularly helpful, but it becomes very useful when we start doing
+<code class="code">
+JOINS</code>
+</p>
+<div class="highlight"><pre><span class="o">%%</span><span class="n">sql</span>
+<span class="n">CREATE</span> <span class="n">TABLE</span> <span class="n">IF</span> <span class="n">NOT</span> <span class="n">EXISTS</span> <span class="n">action</span><span class="p">(</span>
+    <span class="nb">id</span> <span class="n">serial</span> <span class="n">primary</span> <span class="n">key</span><span class="p">,</span>
+    <span class="n">created</span> <span class="n">timestamp</span> <span class="k">with</span> <span class="n">time</span> <span class="n">zone</span> <span class="n">default</span> <span class="n">now</span><span class="p">(),</span>
+    <span class="n">person_name</span> <span class="n">text</span> <span class="n">references</span> <span class="n">person</span><span class="p">,</span>
+    <span class="nb">type</span> <span class="n">text</span> <span class="ow">not</span> <span class="n">null</span>
+<span class="p">);</span>
+
+<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">action</span><span class="p">(</span><span class="n">person_name</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="s">&#39;emily&#39;</span><span class="p">,</span><span class="s">&#39;login&#39;</span><span class="p">);</span>
+<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">action</span><span class="p">(</span><span class="n">person_name</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="s">&#39;emily&#39;</span><span class="p">,</span><span class="s">&#39;pageview&#39;</span><span class="p">);</span>
+<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">action</span><span class="p">(</span><span class="n">person_name</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="s">&#39;arthur&#39;</span><span class="p">,</span><span class="s">&#39;login&#39;</span><span class="p">);</span>
+<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">action</span><span class="p">(</span><span class="n">person_name</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="s">&#39;emily&#39;</span><span class="p">,</span><span class="s">&#39;logout&#39;</span><span class="p">);</span>
+<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">action</span><span class="p">(</span><span class="n">person_name</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="s">&#39;nicki&#39;</span><span class="p">,</span><span class="s">&#39;password_change&#39;</span><span class="p">);</span>
+<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">action</span><span class="p">(</span><span class="n">person_name</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="s">&#39;nicki&#39;</span><span class="p">,</span><span class="s">&#39;createpost&#39;</span><span class="p">);</span>
+</pre></div>
+<pre class="literal-block">
+[]
+</pre>
+<p>If we want to ask Postgres to give us every user and every action
+they've performed, we <em>could</em> do it this way:</p>
+<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="n">person</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>  <span class="n">action</span><span class="o">.</span><span class="n">type</span> <span class="p">,</span> <span class="n">action</span><span class="o">.</span><span class="n">created</span> <span class="n">FROM</span> <span class="n">action</span> <span class="n">JOIN</span> <span class="n">person</span> <span class="n">ON</span> <span class="n">action</span><span class="o">.</span><span class="n">person_name</span><span class="o">=</span><span class="n">person</span><span class="o">.</span><span class="n">name</span>
+</pre></div>
+<table class="table table-bordered">
+    <tr>
+        <th>name</th>
+        <th>type</th>
+        <th>created</th>
+    </tr>
+    <tr>
+        <td>emily</td>
+        <td>login</td>
+        <td>2014-11-08 17:45:05.963569-05:00</td>
+    </tr>
+    <tr>
+        <td>emily</td>
+        <td>pageview</td>
+        <td>2014-11-08 17:45:05.964663-05:00</td>
+    </tr>
+    <tr>
+        <td>arthur</td>
+        <td>login</td>
+        <td>2014-11-08 17:45:05.965214-05:00</td>
+    </tr>
+    <tr>
+        <td>emily</td>
+        <td>logout</td>
+        <td>2014-11-08 17:45:05.965741-05:00</td>
+    </tr>
+    <tr>
+        <td>nicki</td>
+        <td>password_change</td>
+        <td>2014-11-08 17:45:05.966274-05:00</td>
+    </tr>
+    <tr>
+        <td>nicki</td>
+        <td>createpost</td>
+        <td>2014-11-08 17:45:05.966824-05:00</td>
+    </tr>
+</table><p>But then iterating through this recordset is a pain - I can't easily
+construct a nested for loop to iterate through each person and then
+through each action.</p>
+<p>Enter <code class="code">
+json_agg()</code>
+</p>
+<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="n">person</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>  <span class="n">json_agg</span><span class="p">(</span><span class="n">action</span><span class="p">)</span> <span class="n">FROM</span> <span class="n">action</span> <span class="n">JOIN</span> <span class="n">person</span> <span class="n">ON</span> <span class="n">action</span><span class="o">.</span><span class="n">person_name</span><span class="o">=</span><span class="n">person</span><span class="o">.</span><span class="n">name</span> <span class="n">GROUP</span> <span class="n">BY</span> <span class="n">person</span><span class="o">.</span><span class="n">name</span>
+</pre></div>
+<table class="table table-bordered">
+    <tr>
+        <th>name</th>
+        <th>json_agg</th>
+    </tr>
+    <tr>
+        <td>arthur</td>
+        <td>[{u'person_name': u'arthur', u'type': u'login', u'id': 3, u'created': u'2014-11-08 17:45:05.965214-05'}]</td>
+    </tr>
+    <tr>
+        <td>emily</td>
+        <td>[{u'person_name': u'emily', u'type': u'login', u'id': 1, u'created': u'2014-11-08 17:45:05.963569-05'}, {u'person_name': u'emily', u'type': u'pageview', u'id': 2, u'created': u'2014-11-08 17:45:05.964663-05'}, {u'person_name': u'emily', u'type': u'logout', u'id': 4, u'created': u'2014-11-08 17:45:05.965741-05'}]</td>
+    </tr>
+    <tr>
+        <td>nicki</td>
+        <td>[{u'person_name': u'nicki', u'type': u'password_change', u'id': 5, u'created': u'2014-11-08 17:45:05.966274-05'}, {u'person_name': u'nicki', u'type': u'createpost', u'id': 6, u'created': u'2014-11-08 17:45:05.966824-05'}]</td>
+    </tr>
+</table><p>Which becomes much more usable in Python:</p>
+<div class="highlight"><pre><span class="n">people</span> <span class="o">=</span> <span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="n">person</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>  <span class="n">json_agg</span><span class="p">(</span><span class="n">action</span><span class="p">)</span> <span class="n">FROM</span> <span class="n">action</span> <span class="n">JOIN</span> <span class="n">person</span> <span class="n">ON</span> <span class="n">action</span><span class="o">.</span><span class="n">person_name</span><span class="o">=</span><span class="n">person</span><span class="o">.</span><span class="n">name</span> <span class="n">GROUP</span> <span class="n">BY</span> <span class="n">person</span><span class="o">.</span><span class="n">name</span>
+</pre></div>
+<div class="highlight"><pre><span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">actions</span> <span class="ow">in</span> <span class="n">people</span><span class="p">:</span>
+    <span class="k">print</span> <span class="n">name</span>
+</pre></div>
+<pre class="literal-block">
+arthur
+emily
+nicki
+</pre>
+<div class="highlight"><pre><span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">actions</span> <span class="ow">in</span> <span class="n">people</span><span class="p">:</span>
+    <span class="k">print</span> <span class="n">name</span>
+    <span class="k">for</span> <span class="n">action</span> <span class="ow">in</span> <span class="n">actions</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s">&#39;</span><span class="p">,</span><span class="n">action</span><span class="p">[</span><span class="s">&#39;type&#39;</span><span class="p">]</span>
+</pre></div>
+<pre class="literal-block">
+arthur
+    login
+emily
+    login
+    pageview
+    logout
+nicki
+    password_change
+    createpost
+</pre>
+<p>So now we've managed to easily convert relational Postgres data into a
+hierarchical Python data structure. From here we can easily continue to
+XML, JSON, HTML or whatever document type suits your need.</p>
+
+                    
+                </div>  
+                
+                
             </article>
             <hr/>
             <article>
                 <h2><a href="/postgres-timestamps.html">Postgres Timestamps</a></h2>
-                <div class="summary"><p>At my company, I maintain a large distributed. data collection platform
+                
+                
+                <div class="entry-content">
+
+                    <p>At my company, I maintain a large distributed. data collection platform
 . Pretty much every record we collect needs to be stamped with a
-<pre>
-created</pre>
+<code class="code">
+created</code>
  field. But because the incoming data comes from sources on
 various devices in multiple countries and timezones, making sure that
-the timestamps are precise and meaningful ...</p>
-                    <a class="btn btn-default btn-xs" href="/postgres-timestamps.html">more ...</a>
-                </div>
+the timestamps are precise and meaningful can be a challenge.
+<a class="reference external" href="http://www.postgresql.org/">Postgres</a> can do this very elegantly,
+but can also trip you up in subtle ways.</p>
+<p>Postgres has two subtly different timestamp data types: <code class="code">
+TIMESTAMP</code>
+
+and <code class="code">
+TIMESTAMP WITH TIMEZONE</code>
+.</p>
+<p>The former stores year/month/day/hour/minutes/second/milliseconds, as
+you’d expect, and the later ALSO stores a timezone offset, expressed in
+hours.</p>
+<p>We can switch between the two using the <code class="code">
+AT TIMEZONE</code>
+ syntax, but, and
+here is the tricky bit the function goes BOTH WAYS, and you can easily
+get confused if you don’t know what type you’re starting with.</p>
+<p>Furthermore, Postgres will sometimes sneakily convert one to the other
+without you asking.</p>
+<div class="highlight"><pre><span class="o">%</span><span class="n">load_ext</span> <span class="n">sql</span>
+<span class="o">%</span><span class="n">config</span> <span class="n">SqlMagic</span><span class="o">.</span><span class="n">feedback</span><span class="o">=</span><span class="bp">False</span>
+</pre></div>
+<div class="highlight"><pre><span class="o">%%</span><span class="n">sql</span>
+<span class="n">postgresql</span><span class="p">:</span><span class="o">//</span><span class="n">testuser</span><span class="p">:</span><span class="n">password</span><span class="nd">@localhost</span><span class="o">/</span><span class="n">test</span>
+</pre></div>
+<pre class="literal-block">
+u'Connected: <a class="reference external" href="mailto:testuser&#64;test">testuser&#64;test</a>'
+</pre>
+<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="n">NOW</span><span class="p">();</span>
+</pre></div>
+<table class="table table-bordered table-striped">
+    <tr>
+        <th>now</th>
+    </tr>
+    <tr>
+        <td>2014-08-18 22:33:58.998549-04:00</td>
+    </tr>
+</table><p><code class="code">
+now()</code>
+ returns a <code class="code">
+TIMESTAMP WITH TIME ZONE</code>
+. It shows the current
+<strong>local</strong> time, and the offset between that time and UTC
+(<a class="reference external" href="http://time.is/UTC">http://time.is/UTC</a>)</p>
+<p>But if we put the output from <code class="code">
+now()</code>
+ into a field that has type
+<code class="code">
+TIMESTAMP</code>
+ we will get a silent conversion:</p>
+<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="n">NOW</span><span class="p">()::</span> <span class="n">timestamp</span>
+</pre></div>
+<table class="table table-bordered table-striped">
+    <tr>
+        <th>now</th>
+    </tr>
+    <tr>
+        <td>2014-08-18 22:33:58.998549</td>
+    </tr>
+</table><p>Which is <strong>not</strong> the current UTC time. We have stripped the timezone
+offset right of it. However, if we <strong>explicitly</strong> do the conversion, we
+get:</p>
+<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="n">NOW</span><span class="p">()</span> <span class="n">AT</span> <span class="n">TIME</span> <span class="n">ZONE</span> <span class="s">&#39;UTC&#39;</span><span class="p">;</span>
+</pre></div>
+<table class="table table-bordered table-striped">
+    <tr>
+        <th>timezone</th>
+    </tr>
+    <tr>
+        <td>2014-08-19 02:33:58.998549</td>
+    </tr>
+</table><p>Which <em>is</em> the current UTC time: (<a class="reference external" href="http://time.is/UTC">http://time.is/UTC</a>)</p>
+<p>It's worth reviewing the <a class="reference external" href="http://www.postgresql.org/docs/9.1/static/functions-datetime.html#FUNCTIONS-DATETIME-ZONECONVERT-TABLE">Postgresql documentation on this
+construct</a>
+at this point.</p>
+<table class="table table-bordered">
+<tr><th><p>Expression</p>
+</th><th><p>Return Type</p>
+</th><th><p>Description</p>
+</th></tr>
+<tr><td><p>timestamp without time zone AT TIME ZONE zone</p>
+</td><td><p>timestamp with time zone</p>
+</td><td><p>Treat given time stamp without time zone as located in the specified
+time zone</p>
+</td></tr>
+<tr><td><p>timestamp with time zone AT TIME ZONE zone</p>
+</td><td><p>timestamp without time zone</p>
+</td><td><p>Convert given time stamp with time zone to the new time zone, with no
+time zone designation</p>
+</td></tr><table class="table table-bordered table-striped"><p>The danger here is that the <code class="code">
+AT TIMEZONE</code>
+ construct goes <strong>both
+ways</strong>. If you don't know what type you're feeding in, you won't know
+what type you're getting out. I've been bitten by this in the past;
+ending up with a timestamp that is wrong by several hours because I
+wasn't clear about my inputs.</p>
+<p>Specifically, consider a table that looks like this:</p>
+<div class="highlight"><pre><span class="o">%%</span><span class="n">sql</span>
+<span class="n">DROP</span> <span class="n">TABLE</span> <span class="n">IF</span> <span class="n">EXISTS</span> <span class="n">test</span><span class="p">;</span>
+<span class="n">CREATE</span> <span class="n">TABLE</span> <span class="n">test</span><span class="p">(</span><span class="n">name</span> <span class="n">TEXT</span><span class="p">,</span> <span class="n">created</span> <span class="n">TIMESTAMP</span> <span class="n">DEFAULT</span> <span class="n">NOW</span><span class="p">());</span>
+</pre></div>
+<p>Which I then populate:</p>
+<div class="highlight"><pre><span class="o">%%</span><span class="n">sql</span>
+<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">test</span> <span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="s">&#39;zaphod beeblebrox&#39;</span><span class="p">);</span>
+<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">test</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="n">created</span><span class="p">)</span> <span class="n">VALUES</span><span class="p">(</span><span class="s">&#39;ford prefect&#39;</span><span class="p">,</span><span class="n">now</span><span class="p">()</span> <span class="n">at</span> <span class="n">time</span> <span class="n">zone</span> <span class="s">&#39;utc&#39;</span><span class="p">);</span>
+<span class="n">SELECT</span> <span class="o">*</span> <span class="n">FROM</span> <span class="n">test</span><span class="p">;</span>
+</pre></div>
+<table class="table table-bordered table-striped">
+    <tr>
+        <th>name</th>
+        <th>created</th>
+    </tr>
+    <tr>
+        <td>zaphod beeblebrox</td>
+        <td>2014-08-18 22:34:03.620583</td>
+    </tr>
+    <tr>
+        <td>ford prefect</td>
+        <td>2014-08-19 02:34:03.621957</td>
+    </tr>
+</table><p>Note that the second record contains the current UTC time, but the first
+contains the current time <strong>local to the database server</strong>. This <em>seems</em>
+a good idea, and tends to work fine in local testing. But when you try
+to maintain a system where the database may be in one province, the data
+<em>collected</em> in another, and then <em>reviewed</em> in a third, you start to
+understand why this is too simplistic.</p>
+<p>The fact that it's 10:12 now in Toronto isn't very helpful for a record
+that's getting created for a user in Halifax and is monitored from
+Vancouver.</p>
+<p>So it's probably best to save timestamps WITH their timezone so as to
+avoid any ambiguity. This is the recommendation given
+<a class="reference external" href="http://justatheory.com/computers/databases/postgresql/use-timestamptz.html">here</a>.</p>
+<p>In our above example, the simplest approach is to change the table
+definition:</p>
+<div class="highlight"><pre><span class="o">%%</span><span class="n">sql</span>
+<span class="n">DROP</span> <span class="n">TABLE</span> <span class="n">IF</span> <span class="n">EXISTS</span> <span class="n">test</span><span class="p">;</span>
+<span class="n">CREATE</span> <span class="n">TABLE</span> <span class="n">test</span><span class="p">(</span><span class="n">name</span> <span class="n">TEXT</span><span class="p">,</span> <span class="n">created</span> <span class="n">TIMESTAMP</span> <span class="n">WITH</span> <span class="n">TIME</span> <span class="n">ZONE</span> <span class="n">DEFAULT</span> <span class="p">(</span><span class="n">NOW</span><span class="p">()</span> <span class="p">));</span>
+</pre></div>
+<div class="highlight"><pre><span class="o">%%</span><span class="n">sql</span>
+<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">test</span> <span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="s">&#39;zaphod beeblebrox&#39;</span><span class="p">);</span>
+<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">test</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="n">created</span><span class="p">)</span> <span class="n">VALUES</span><span class="p">(</span><span class="s">&#39;ford prefect&#39;</span><span class="p">,</span><span class="n">now</span><span class="p">()</span> <span class="p">);</span>
+<span class="n">SELECT</span> <span class="o">*</span> <span class="n">FROM</span> <span class="n">test</span><span class="p">;</span>
+</pre></div>
+<table class="table table-bordered table-striped">
+    <tr>
+        <th>name</th>
+        <th>created</th>
+    </tr>
+    <tr>
+        <td>zaphod beeblebrox</td>
+        <td>2014-08-18 22:35:15.988764-04:00</td>
+    </tr>
+    <tr>
+        <td>ford prefect</td>
+        <td>2014-08-18 22:35:15.989726-04:00</td>
+    </tr>
+</table><p>So now the dates are globally meaningful. But I <em>still</em> have to be
+careful, because if I use the wrong date format to populate this table,
+it'll still get messed up.</p>
+<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">test</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="n">created</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="s">&#39;arthur dent&#39;</span><span class="p">,</span><span class="n">now</span><span class="p">()</span> <span class="n">at</span> <span class="n">time</span> <span class="n">zone</span> <span class="s">&#39;utc&#39;</span><span class="p">)</span>
+<span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="o">*</span> <span class="n">FROM</span> <span class="n">test</span><span class="p">;</span>
+</pre></div>
+<table class="table table-bordered table-striped">
+    <tr>
+        <th>name</th>
+        <th>created</th>
+    </tr>
+    <tr>
+        <td>zaphod beeblebrox</td>
+        <td>2014-08-18 22:35:15.988764-04:00</td>
+    </tr>
+    <tr>
+        <td>ford prefect</td>
+        <td>2014-08-18 22:35:15.989726-04:00</td>
+    </tr>
+    <tr>
+        <td>arthur dent</td>
+        <td>2014-08-19 02:35:15.990308-04:00</td>
+    </tr>
+</table><p>Note how <strong>arthur dent</strong> has completely the wrong created time.</p>
+<p>Now, if I want to <em>report</em> on this data, I'm going to now have to
+specify <em>which</em> timezone I want the dates formatted too:</p>
+<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">delete</span> <span class="kn">from</span> <span class="nn">test</span> <span class="nn">WHERE</span> <span class="nn">name</span><span class="o">=</span><span class="s">&#39;arthur dent&#39;</span><span class="p">;</span>
+</pre></div>
+<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">select</span> <span class="n">name</span><span class="p">,</span> <span class="n">created</span> <span class="n">FROM</span> <span class="n">test</span><span class="p">;</span>
+</pre></div>
+<table class="table table-bordered table-striped">
+    <tr>
+        <th>name</th>
+        <th>created</th>
+    </tr>
+    <tr>
+        <td>zaphod beeblebrox</td>
+        <td>2014-08-18 22:35:15.988764-04:00</td>
+    </tr>
+    <tr>
+        <td>ford prefect</td>
+        <td>2014-08-18 22:35:15.989726-04:00</td>
+    </tr>
+</table><p>gives me timestamps formatted in the timezone of the database server,
+which isn't necessarily particularly helpful, which <em>may</em> be helpful,
+but will be less so if the actual <em>users</em> of the data are in a different
+time zone.</p>
+<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span>  <span class="n">SELECT</span> <span class="n">name</span><span class="p">,</span> <span class="n">created</span> <span class="n">at</span> <span class="n">time</span> <span class="n">zone</span> <span class="s">&#39;utc&#39;</span> <span class="n">FROM</span> <span class="n">test</span><span class="p">;</span>
+</pre></div>
+<table class="table table-bordered table-striped">
+    <tr>
+        <th>name</th>
+        <th>timezone</th>
+    </tr>
+    <tr>
+        <td>zaphod beeblebrox</td>
+        <td>2014-08-19 02:35:15.988764</td>
+    </tr>
+    <tr>
+        <td>ford prefect</td>
+        <td>2014-08-19 02:35:15.989726</td>
+    </tr>
+</table><p>gives me the time formatted in the UTC timezone, and</p>
+<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">select</span> <span class="n">CREATED</span> <span class="n">at</span> <span class="n">time</span> <span class="n">zone</span> <span class="s">&#39;CST&#39;</span> <span class="n">FROM</span> <span class="n">test</span><span class="p">;</span>
+</pre></div>
+<table class="table table-bordered table-striped">
+    <tr>
+        <th>timezone</th>
+    </tr>
+    <tr>
+        <td>2014-08-18 20:35:15.988764</td>
+    </tr>
+    <tr>
+        <td>2014-08-18 20:35:15.989726</td>
+    </tr>
+</table><p>gives me the time formatted for central standard time.</p>
+<div class="section" id="external-data">
+<h2>external data</h2>
+<p>Now so far we've been letting the database create the timestamps, but
+sometimes we want to save data provided to us from an external source.
+In this case it's very important the we know what timezone the incoming
+data comes from. So our middleware should <em>require</em> that all dates
+include a timestamp. Fortunately, if we're writing javascript
+applications, we get this automatically:</p>
+<div class="highlight"><pre><span class="o">%%</span><span class="n">html</span>
+<span class="o">&lt;</span><span class="n">div</span> <span class="nb">id</span><span class="o">=</span><span class="s">&quot;js-output&quot;</span><span class="o">&gt;&lt;/</span><span class="n">div</span><span class="o">&gt;</span>
+</pre></div>
+<div id="js-output"></div><div class="highlight"><pre><span class="o">%%</span><span class="n">javascript</span>
+<span class="n">var</span> <span class="n">d</span> <span class="o">=</span> <span class="n">JSON</span><span class="o">.</span><span class="n">stringify</span><span class="p">(</span><span class="n">new</span> <span class="n">Date</span><span class="p">())</span>
+</pre></div>
+<pre class="literal-block">
+&quot;2014-08-19T02:41:12.872Z&quot;
+</pre>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">psycopg2</span><span class="o">,</span><span class="nn">pandas</span>
+<span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span><span class="n">params</span><span class="o">=</span><span class="p">{}):</span>
+    <span class="k">with</span> <span class="n">psycopg2</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">database</span><span class="o">=</span><span class="s">&#39;test&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">connection</span><span class="p">:</span>
+        <span class="k">with</span> <span class="n">connection</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span> <span class="k">as</span> <span class="n">cursor</span><span class="p">:</span>
+            <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span><span class="n">params</span><span class="p">)</span>
+</pre></div>
+<p>So let's imagine that we got this string submitted to us by a client,
+and we're going to store it in the database via some Python code.</p>
+<div class="highlight"><pre><span class="n">sql</span><span class="o">=</span><span class="s">&quot;INSERT INTO test (name, created) VALUES ( &#39;externally created date&#39;, </span><span class="si">%(date)s</span><span class="s">)&quot;</span>
+<span class="n">params</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">date</span><span class="o">=</span><span class="s">&quot;2014-08-19T02:35:24.321Z&quot;</span><span class="p">)</span>
+<span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span><span class="n">params</span><span class="p">)</span>
+</pre></div>
+<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="o">*</span> <span class="n">FROM</span> <span class="n">test</span>
+</pre></div>
+<table class="table table-bordered table-striped">
+    <tr>
+        <th>name</th>
+        <th>created</th>
+    </tr>
+    <tr>
+        <td>zaphod beeblebrox</td>
+        <td>2014-08-18 22:35:15.988764-04:00</td>
+    </tr>
+    <tr>
+        <td>ford prefect</td>
+        <td>2014-08-18 22:35:15.989726-04:00</td>
+    </tr>
+    <tr>
+        <td>externally created date</td>
+        <td>2014-08-18 22:35:24.321000-04:00</td>
+    </tr>
+</table><p>And now we're getting to the point where all our timestamp data is both
+stored and displayed unambiguously.</p>
+</div>
+
+                    
+                </div>  
+                
+                
             </article>
             <hr/>
 
@@ -115,95 +587,6 @@ the timestamps are precise and meaningful ...</p>
 
 
 
-            <li class="list-group-item"><a href="/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
-                <ul class="list-group " id="tags">
-                    <li class="list-group-item tag-1">
-                        <a href="/tag/python.html">
-                            Python
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-2">
-                        <a href="/tag/linux.html">
-                            linux
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-2">
-                        <a href="/tag/javascript.html">
-                            javascript
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-2">
-                        <a href="/tag/ipython.html">
-                            IPython
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-3">
-                        <a href="/tag/postgres.html">
-                            Postgres
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-3">
-                        <a href="/tag/pelican.html">
-                            pelican
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-3">
-                        <a href="/tag/uwsgi.html">
-                            uwsgi
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-3">
-                        <a href="/tag/ractive.html">
-                            ractive
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/markdown.html">
-                            markdown
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/logrotate.html">
-                            logrotate
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/nginx.html">
-                            nginx
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/postfix.html">
-                            postfix
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/email.html">
-                            email
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/fabric.html">
-                            fabric
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/coffeescript.html">
-                            coffeescript
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/bottle.html">
-                            bottle
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/gevent.html">
-                            gevent
-                        </a>
-                    </li>
-                </ul>
-            </li>
 
 
 

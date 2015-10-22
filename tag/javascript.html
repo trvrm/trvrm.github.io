@@ -49,14 +49,8 @@ trvrm            </a>
         </div>
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav">
-                         <li><a href="/pages/about.html">
-                             About
-                          </a></li>
                         <li >
                             <a href="/category/database.html">Database</a>
-                        </li>
-                        <li >
-                            <a href="/category/python.html">Python</a>
                         </li>
                         <li >
                             <a href="/category/software.html">Software</a>
@@ -79,33 +73,213 @@ trvrm            </a>
         <div class="col-sm-9">
             <article>
                 <h2><a href="/coffeescript.html">CoffeeScript</a></h2>
-                <div class="summary"><p>Through a bizarre twist of history, the entire client-side web runs on a <a class="reference external" href="http://en.wikipedia.org/wiki/Brendan_Eich#Netscape_and_JavaScript">language</a>
+                
+                
+                <div class="entry-content">
+
+                    <p>Through a bizarre twist of history, the entire client-side web runs on a <a class="reference external" href="http://en.wikipedia.org/wiki/Brendan_Eich#Netscape_and_JavaScript">language</a>
 that was thrown together in 10 days.</p>
 <p>Despite huge investments in their own proprietary technology by the likes of Sun
 Microsystems, Adobe and Microsoft, this weird little spinoff of <strong>self</strong> and <strong>scheme</strong>
-is everywhere, while client-side ...</p>
-                    <a class="btn btn-default btn-xs" href="/coffeescript.html">more ...</a>
-                </div>
+is everywhere, while client-side Java, ActiveX and Flash fade into obscurity.</p>
+<p>Unsurprisingly for a language developed so quickly, Javascript is pretty ugly.
+I'm fond of saying that it's a horrible language, with a really nice language
+inside trying to get out.  It gets some things, like scoping rules, very, very
+wrong.  But it got other things, like anonymous functions, exactly right, long before
+they were adopted in Java, C#, or C++.  Even Python, my favourite language ever,
+doesn't get them quite right.</p>
+<p>Several people have attempted to build a nicer syntax on top of the javascript
+virtual machine.  In fact, the <a class="reference external" href="https://github.com/jashkenas/coffeescript/wiki/List-of-languages-that-compile-to-JS">list</a> of languages that compile to JS is startlingly
+big.</p>
+<p>For the last couple of years I've been using <a class="reference external" href="http://coffeescript.org/">CoffeeScript</a> as my standard javascript syntax.</p>
+<p>From the project page:</p>
+<blockquote>
+&quot;CoffeeScript is a little language that compiles into JavaScript.
+Underneath that awkward Java-esque patina, JavaScript has always
+had a gorgeous heart. CoffeeScript is an attempt to expose the
+good parts of JavaScript in a simple way.&quot;</blockquote>
+<p>and I think it achieves this admirably.  It doesn't solve <em>all</em> of javascript's problems -
+you can still get into trouble with the Infamous Loop Problem, but it does make the language
+considerably more succinct, mostly by stealing ideas from Python and Haskell.</p>
+<div class="section" id="examples">
+<h2>Examples</h2>
+<p>Function definitions go from</p>
+<div class="highlight"><pre><span class="kd">function</span> <span class="nx">d</span><span class="p">(</span><span class="nx">x</span><span class="p">){</span>
+    <span class="k">return</span> <span class="mi">2</span><span class="o">*</span><span class="nx">x</span>
+<span class="p">}</span>
+</pre></div>
+<p>to</p>
+<div class="highlight"><pre><span class="nv">d = </span><span class="nf">(x) -&gt;</span> <span class="mi">2</span><span class="o">*</span><span class="nx">x</span>
+</pre></div>
+<p>This makes for very quick object construction:</p>
+<div class="highlight"><pre><span class="nv">math =</span>
+    <span class="nv">root: </span>  <span class="nb">Math</span><span class="p">.</span><span class="nx">sqrt</span>
+    <span class="nv">square: </span><span class="nx">square</span>
+    <span class="nv">cube: </span>  <span class="nf">(x) -&gt;</span> <span class="nx">x</span> <span class="o">*</span> <span class="nx">square</span> <span class="nx">x</span>
+</pre></div>
+<p>It also borrows Python's list comprehension syntax:</p>
+<div class="highlight"><pre><span class="nx">values</span><span class="o">=</span><span class="p">(</span><span class="nx">option</span><span class="p">.</span><span class="nx">value</span> <span class="k">for</span> <span class="nx">option</span> <span class="k">in</span> <span class="nx">question</span><span class="p">.</span><span class="nx">options</span><span class="p">)</span>
+</pre></div>
+<p>The near complete absense of curly brackets saves a lot of wasted lines in
+my source code, and enables me to see what's going on a lot clearer than in raw
+javascript.  On the downside, I do find myself fairly regularly testing out code
+snippets in the <a class="reference external" href="http://coffeescript.org/">CoffeeScript</a> online compiler to make sure that I've properly understood
+how they will be interpreted.</p>
+<p>Because CoffeeScript is a compiled language, to work with it effectively requires
+integrating the compiler into your toolchain.  For my larger projects I've hand-written
+a tool using Python's <a class="reference external" href="https://pypi.python.org/pypi/watchdog">Watchdog</a> package to monitor my source code directories and
+output compiled javascript everytime a file changes.</p>
+<p>As a nice little extra, my tool jams in a warning message wrapped in an <code class="code">
+alert</code>
+ call
+if the compliation fails, so if I introduce a syntax error in my coffeescript, as soon
+as I refresh the page that is using it I'll be presented with the source of the problem.</p>
+</div>
+
+                    
+                </div>  
+                
+                
             </article>
             <hr/>
             <article>
                 <h2><a href="/more-ractive.html">More Ractive</a></h2>
-                <div class="summary"><p>I've used <a class="reference external" href="http://www.ractivejs.org/">Ractive</a> for several projects recently.
+                
+                
+                <div class="entry-content">
+
+                    <p>I've used <a class="reference external" href="http://www.ractivejs.org/">Ractive</a> for several projects recently.
 It's been like a breath of fresh air.  I've been writing user interfaces of one
 kind or another for more than a decade, and keeping <em>what's displayed to the user</em>
-in sync with <em>what's stored in the data ...</em></p>
-                    <a class="btn btn-default btn-xs" href="/more-ractive.html">more ...</a>
-                </div>
+in sync with <em>what's stored in the data structures</em> has often been a source of
+frustration.</p>
+<p>In the javascript world, I've mostly used <a class="reference external" href="http://backbonejs.org/">backbone</a>  and
+<a class="reference external" href="http://jquery.com/">jQuery</a> for creating interactive web pages.  While these
+tools are very good at what they do, I still find myself writing a fair amount
+of code to update data in the model whenever a user interacts with a control, and
+to update the control displays whenever data in the model changes.</p>
+<p>Enter <strong>Ractive</strong>.  It's not the only library to handle 2-way data binding - Angular,
+Knockout and React all play in this space, but it's my current favourite.</p>
+<p>Anyway, here's a little demo....</p>
+<p>Given a ractive template like this:</p>
+<div class="highlight"><pre><span class="nt">&lt;p&gt;</span>Type in the boxes below.<span class="err">&lt;</span>\p&gt;
+<span class="nt">&lt;input</span> <span class="na">class=</span><span class="s">&quot;form-control&quot;</span> <span class="na">value=</span><span class="s">&quot;{{var1}}&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;input</span> <span class="na">class=</span><span class="s">&quot;form-control&quot;</span> <span class="na">value=</span><span class="s">&quot;{{var2}}&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;p&gt;</span>Current values are var1:<span class="nt">&lt;code&gt;</span>{{var1}}<span class="nt">&lt;/code&gt;</span>, var2:<span class="nt">&lt;code&gt;</span>{{var2}}<span class="nt">&lt;/p&gt;</span>
+<span class="nt">&lt;button</span> <span class="na">class=</span><span class="s">&quot;btn btn-primary&quot;</span> <span class="na">on-click=</span><span class="s">&quot;changeme&quot;</span><span class="nt">&gt;</span>Set var1<span class="nt">&lt;/button&gt;</span>
+</pre></div>
+<p>and javascript like this:</p>
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">ractive</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Ractive</span><span class="p">({</span>
+   <span class="nx">el</span><span class="o">:</span><span class="s2">&quot;#demo&quot;</span><span class="p">,</span>
+   <span class="nx">template</span><span class="o">:</span><span class="nx">template</span><span class="p">,</span>
+   <span class="nx">data</span><span class="o">:</span><span class="p">{</span><span class="nx">var1</span><span class="o">:</span><span class="s1">&#39;beeblebrox&#39;</span><span class="p">,</span><span class="nx">var2</span><span class="o">:</span><span class="s1">&#39;lintilla&#39;</span><span class="p">}</span>
+<span class="p">});</span>
+</pre></div>
+<p>We get:</p>
+<script src='http://cdn.ractivejs.org/latest/ractive.js'></script>
+
+<div id="demo" class="well"></div>
+<script type="text/javascript">
+
+     var template='<p>Type in the boxes below.<\p> \
+                  <input class="form-control" value="{{var1}}">  \
+                  <input class="form-control" value="{{var2}}">  \
+                  <p>Current values are var1:<code>{{var1}}</code>, var2:<code>{{var2}}</p>\
+                  <br><button class="btn btn-primary" on-click="changeme">Set var1</button>';
+
+     var ractive = new Ractive({
+        el:"#demo",
+        template:template,
+        data:{var1:'beeblebrox',var2:'lintilla'}
+     });
+
+     ractive.on('changeme',function(){
+        ractive.set('var1','zarniwoop');
+     });
+</script><p>Neat, huh?  I haven't had to write any code to manually react to keyup, or change events
+in the input controls - Ractive simply takes care of the fact that I refer to <code class="code">
+var1</code>
+
+in both the output paragraph and the control value, and binds the two elements together,
+refreshing them whenever needed.</p>
+<p>The code for responding to the button click is simply:</p>
+<div class="highlight"><pre><span class="nx">ractive</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;changeme&#39;</span><span class="p">,</span><span class="kd">function</span><span class="p">(){</span>
+    <span class="nx">ractive</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">&#39;var1&#39;</span><span class="p">,</span><span class="s1">&#39;zarniwoop&#39;</span><span class="p">);</span>
+<span class="p">});</span>
+</pre></div>
+<p>By setting data in the underlying model, the user interface automatically updates,
+again without any manual intervention.</p>
+<div class="section" id="ui-development-might-be-fun-again">
+<h2>UI development might be fun again....</h2>
+<p>I have the same feeling on discovering Ractive that I had when I was first shown
+jQuery.  All of a sudden, a bunch of boring, fiddly manual tasks are taken care
+of in an intuitive way.  And unlike other frameworks, <em>all</em> ractive does is data-binding.
+It doesn't try to be a control library, an AJAX toolkit or a Model-View-Controller
+framework.  For those who like all-in-one solutions, this will be a weakness, but as
+someone who believes in the unix philosophy of building systems from tools that
+each do one thing well, I'm very impressed.</p>
+</div>
+
+                    
+                </div>  
+                
+                
             </article>
             <hr/>
             <article>
                 <h2><a href="/ractive-js.html">Ractive.js</a></h2>
-                <div class="summary"><p><a class="reference external" href="http://www.ractivejs.org/">Ractive.js</a> caught my eye this week.  I've been using <a class="reference external" href="http://backbonejs.org/">Backbone</a> for the last couple
+                
+                
+                <div class="entry-content">
+
+                    <p><a class="reference external" href="http://www.ractivejs.org/">Ractive.js</a> caught my eye this week.  I've been using <a class="reference external" href="http://backbonejs.org/">Backbone</a> for the last couple
 of years to develop single page client-side applications, and I've liked how
 it doesn't get in your way, but simply allows you to get on with your work.</p>
-<p>When I noticed that ...</p>
-                    <a class="btn btn-default btn-xs" href="/ractive-js.html">more ...</a>
-                </div>
+<p>When I noticed that three of the tools I was using: Coffeescript, Underscore, and
+<a class="reference external" href="http://backbonejs.org/">Backbone</a> were all written by the same guy, I realised that Jeremy Ashkenas
+is a seriously genius level developer.  I've loved working with his tools; and I
+love the fact that the code that he produces is so readable.  I'm always more comfortable
+working with a library when I can read through the entire source code if I run
+into problems.  Check out the nicely annotated source code for Backbone, for example,
+here: <a class="reference external" href="http://backbonejs.org/docs/backbone.html">http://backbonejs.org/docs/backbone.html</a></p>
+<p>(On that note, I love working with <a class="reference external" href="http://bottlepy.org/docs/dev/_modules/bottle.html">Bottle</a> for exactly the same reason - the entire
+framework is contained in a single, very readable, Python file.)</p>
+<p>But one problem that comes up time and time again, no matter what library or framework
+you're using, is the problem of binding data to controls.  Currently in my Backbone-based
+code I have event handling code that reacts to user input and updates the model, and
+I have more code that reacts to changes in the data model and updates the UI.  Wouldn't
+it be nice if this two-way data binding could happen automatically?  Wouldn't it be
+nice, for example, if you could do something like this:</p>
+<p>Imagine having a user interface like this:</p>
+<div class="highlight"><pre><span class="nt">&lt;label&gt;</span>
+    <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&#39;checkbox&#39;</span> <span class="na">checked=</span><span class="s">&#39;{{visible}}&#39;</span><span class="nt">&gt;</span> visible?
+<span class="nt">&lt;/label&gt;</span>
+</pre></div>
+<p>And underlying data like this:</p>
+<div class="highlight"><pre><span class="nx">data</span><span class="o">:</span> <span class="p">{</span>
+  <span class="s2">&quot;visible&quot;</span><span class="o">:</span> <span class="kc">false</span>
+<span class="p">}</span>
+</pre></div>
+<p>And imagine if all the data binding was handled for you, so that clicking on the checkbox
+will automatically change the value of the underlying javascript object, and changing
+the value of the object via <code class="code">
+ractive.set('visible',true)</code>
+ updated the interface.</p>
+<p>That is exactly what Ractive does.  I haven't tried using it in production yet, but
+at the moment it feels like the next logical iteration in javascript frameworks.</p>
+<p>I was busy using Backbone heavily when Angular and Knockout came out, so I don't have
+much experience with them, but asking around the shop the consensus seems to be that
+Ractive looks significantly nicer to use than Knockout.</p>
+<p>And the best feature so far is their <em>awesome</em> <a class="reference external" href="http://learn.ractivejs.org/hello-world/1/">tutorial</a>.  This is, apparently, entirely
+written in Ractive, and guides you step by step through all the basic concepts of
+the library in an elegant, interactive fashion.  No more jumping through package installations
+and dependency hell before you can try out a new framework.  <em>This</em> is the way to
+introduce people to your work.  I'm very impressed.</p>
+
+                    
+                </div>  
+                
+                
             </article>
             <hr/>
 
@@ -123,95 +297,6 @@ it doesn't get in your way, but simply allows you to get on with your work.</p>
 
 
 
-            <li class="list-group-item"><a href="/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
-                <ul class="list-group " id="tags">
-                    <li class="list-group-item tag-1">
-                        <a href="/tag/python.html">
-                            Python
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-2">
-                        <a href="/tag/linux.html">
-                            linux
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-2">
-                        <a href="/tag/javascript.html">
-                            javascript
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-2">
-                        <a href="/tag/ipython.html">
-                            IPython
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-3">
-                        <a href="/tag/postgres.html">
-                            Postgres
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-3">
-                        <a href="/tag/pelican.html">
-                            pelican
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-3">
-                        <a href="/tag/uwsgi.html">
-                            uwsgi
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-3">
-                        <a href="/tag/ractive.html">
-                            ractive
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/markdown.html">
-                            markdown
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/logrotate.html">
-                            logrotate
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/nginx.html">
-                            nginx
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/postfix.html">
-                            postfix
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/email.html">
-                            email
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/fabric.html">
-                            fabric
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/coffeescript.html">
-                            coffeescript
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/bottle.html">
-                            bottle
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/gevent.html">
-                            gevent
-                        </a>
-                    </li>
-                </ul>
-            </li>
 
 
 

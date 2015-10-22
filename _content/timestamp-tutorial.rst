@@ -8,20 +8,20 @@ Postgres Timestamps
 
 At my company, I maintain a large distributed. data collection platform
 . Pretty much every record we collect needs to be stamped with a
-``created`` field. But because the incoming data comes from sources on
+`created`:code: field. But because the incoming data comes from sources on
 various devices in multiple countries and timezones, making sure that
 the timestamps are precise and meaningful can be a challenge.
 `Postgres <http://www.postgresql.org/>`__ can do this very elegantly,
 but can also trip you up in subtle ways.
 
-Postgres has two subtly different timestamp data types: ``TIMESTAMP``
-and ``TIMESTAMP WITH TIMEZONE``.
+Postgres has two subtly different timestamp data types: `TIMESTAMP`:code:
+and `TIMESTAMP WITH TIMEZONE`:code:.
 
 The former stores year/month/day/hour/minutes/second/milliseconds, as
 you’d expect, and the later ALSO stores a timezone offset, expressed in
 hours.
 
-We can switch between the two using the ``AT TIMEZONE`` syntax, but, and
+We can switch between the two using the `AT TIMEZONE`:code: syntax, but, and
 here is the tricky bit the function goes BOTH WAYS, and you can easily
 get confused if you don’t know what type you’re starting with.
 
@@ -65,12 +65,12 @@ without you asking.
 
 
 
-``now()`` returns a ``TIMESTAMP WITH TIME ZONE``. It shows the current
+`now()`:code: returns a `TIMESTAMP WITH TIME ZONE`:code:. It shows the current
 **local** time, and the offset between that time and UTC
 (http://time.is/UTC)
 
-But if we put the output from ``now()`` into a field that has type
-``TIMESTAMP`` we will get a silent conversion:
+But if we put the output from `now()`:code: into a field that has type
+`TIMESTAMP`:code: we will get a silent conversion:
 
 .. code-block::  python
 
@@ -183,7 +183,7 @@ time zone designation
 
    </td></tr><table class="table table-bordered table-striped">
 
-The danger here is that the ``AT TIMEZONE`` construct goes **both
+The danger here is that the `AT TIMEZONE`:code: construct goes **both
 ways**. If you don't know what type you're feeding in, you won't know
 what type you're getting out. I've been bitten by this in the past;
 ending up with a timestamp that is wrong by several hours because I

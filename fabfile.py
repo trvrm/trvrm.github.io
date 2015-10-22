@@ -33,7 +33,7 @@ def deploy():
 
 
 def create_post(notebook_name):
-    ipython_file_path=os.path.join('/home/trevor/Notebooks/trvrm',notebook_name +'.ipynb')
+    ipython_file_path=os.path.join('/home/trevor/notebooks/trvrm',notebook_name +'.ipynb')
     
     assert os.path.isfile(ipython_file_path),ipython_file_path
     metadata_file_path=os.path.abspath(os.path.join(env.content_path,notebook_name+'.meta'))

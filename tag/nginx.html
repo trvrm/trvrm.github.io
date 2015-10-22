@@ -49,14 +49,8 @@ trvrm            </a>
         </div>
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav">
-                         <li><a href="/pages/about.html">
-                             About
-                          </a></li>
                         <li >
                             <a href="/category/database.html">Database</a>
-                        </li>
-                        <li >
-                            <a href="/category/python.html">Python</a>
                         </li>
                         <li >
                             <a href="/category/software.html">Software</a>
@@ -79,13 +73,121 @@ trvrm            </a>
         <div class="col-sm-9">
             <article>
                 <h2><a href="/nginx-uwsgi-ubuntu-14.html">Nginx and UWSGI on Ubuntu 14</a></h2>
-                <div class="summary"><p>The documentation for Nginx and UWSGI is long and complex, but with ubuntu 14
+                
+                
+                <div class="entry-content">
+
+                    <p>The documentation for Nginx and UWSGI is long and complex, but with ubuntu 14
 it's actually pretty straightforward to get them up and running.</p>
 <p>I present here a a setup that uses nginx and uwsgi emperor to host
 multiple python web applications simultaneously on an ubuntu 14 machine.</p>
-<p>First ...</p>
-                    <a class="btn btn-default btn-xs" href="/nginx-uwsgi-ubuntu-14.html">more ...</a>
-                </div>
+<p>First, the packages</p>
+<div class="highlight"><pre><span class="nv">$ </span>sudo apt-get install nginx
+<span class="nv">$ </span>sudo apt-get install uwsgi uwsgi-emperor uwsgi-plugin-python
+</pre></div>
+<p>Our configuration files will now be under <code class="code">
+/etc/nginx</code>
+ and <code class="code">
+/etc/uwsgi-emperor</code>
+</p>
+<p>You can start, stop, and reload nginx as follows:</p>
+<div class="highlight"><pre><span class="nv">$ </span>sudo service nginx start
+<span class="nv">$ </span>sudo service nginx stop
+<span class="nv">$ </span>sudo service nginx reload
+</pre></div>
+<p>The last command is useful when changing configuration settings.</p>
+<p>Now set up a site by creating a file in <code class="code">
+/etc/nginx/sites-available</code>
+</p>
+<div class="highlight"><pre><span class="c">#/etc/nginx/sites-available/mysite</span>
+server<span class="o">{</span>
+
+    server_name     your_host_name<span class="p">;</span>
+
+    location /app1 <span class="o">{</span>
+        uwsgi_pass unix:/tmp/app1.socket<span class="p">;</span>
+        include uwsgi_params<span class="p">;</span>
+    <span class="o">}</span>
+    location /app2 <span class="o">{</span>
+        uwsgi_pass unix:/tmp/app2.socket<span class="p">;</span>
+        include uwsgi_params<span class="p">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+<p>Then,</p>
+<div class="highlight"><pre><span class="nv">$ </span>sudo ln -s /etc/nginx/apps-available/mysite /etc/nginx/sites-enabled
+</pre></div>
+<div class="alert  alert-warning compound">
+<p class="compound-first"><strong>Warning</strong></p>
+<p class="compound-last">A previous version of this tutorial had the sockets placed in <code class="code">
+/run/uwsgi</code>
+.
+This was a mistake, because under Ubuntu <code class="code">
+/run</code>
+ is mounted as a <code class="code">
+tmpfs</code>
+, and its content will be deleted on reboot
+Your uwsgi sub-directory will vanish and the uwsgi services will not restart.</p>
+</div>
+<p>Next, set up your 'vassals' (<a class="reference external" href="http://uwsgi-docs.readthedocs.org/en/latest/Emperor.html">http://uwsgi-docs.readthedocs.org/en/latest/Emperor.html</a>)</p>
+<p>Create  <code class="code">
+/etc/uwsgi-emperor/vassals/app1.ini</code>
+ as follows:</p>
+<div class="highlight"><pre><span class="k">[uwsgi]</span>
+<span class="na">plugin</span> <span class="o">=</span> <span class="s">python</span>
+<span class="na">processes</span> <span class="o">=</span> <span class="s">2</span>
+<span class="na">socket</span> <span class="o">=</span> <span class="s">/tmp/app1.socket</span>
+<span class="na">chmod-socket</span> <span class="o">=</span> <span class="s">666</span>
+
+<span class="na">chdir</span> <span class="o">=</span> <span class="s">/srv/app1</span>
+<span class="na">wsgi-file</span> <span class="o">=</span> <span class="s">/srv/app1/main.py</span>
+
+<span class="na">uid</span> <span class="o">=</span> <span class="s">www-data</span>
+<span class="na">gid</span> <span class="o">=</span> <span class="s">www-data</span>
+</pre></div>
+<p>And for your second application, create  <code class="code">
+/etc/uwsgi-emperor/vassals/app2.ini</code>
+ as similarly:</p>
+<div class="highlight"><pre><span class="k">[uwsgi]</span>
+<span class="na">plugin</span> <span class="o">=</span> <span class="s">python</span>
+<span class="na">processes</span> <span class="o">=</span> <span class="s">2</span>
+<span class="na">socket</span> <span class="o">=</span> <span class="s">/tmp/app2.socket</span>
+<span class="na">chmod-socket</span> <span class="o">=</span> <span class="s">666</span>
+
+<span class="na">chdir</span> <span class="o">=</span> <span class="s">/srv/app1</span>
+<span class="na">wsgi-file</span> <span class="o">=</span> <span class="s">/srv/app2/main.py</span>
+
+<span class="na">uid</span> <span class="o">=</span> <span class="s">www-data</span>
+<span class="na">gid</span> <span class="o">=</span> <span class="s">www-data</span>
+</pre></div>
+<p>The simple act of <em>creating</em> or touching a .ini file in <code class="code">
+/etc/uwsgi-emperor/vassals</code>
+ will cause
+the emperor process to try to restart your application.</p>
+<p>Of course, your applications don't exist yet, so let's create them.  The simplest wsgi
+application can be only a few lines long:</p>
+<p>Create <code class="code">
+/srv/app1/main.py</code>
+</p>
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">application</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">start_response</span><span class="p">):</span>
+    <span class="n">start_response</span><span class="p">(</span><span class="s">&#39;200 OK&#39;</span><span class="p">,</span> <span class="p">[(</span><span class="s">&#39;Content-Type&#39;</span><span class="p">,</span><span class="s">&#39;text/html&#39;</span><span class="p">)])</span>
+    <span class="k">return</span> <span class="p">[</span><span class="s">&quot;Hello World, I am app1&quot;</span><span class="p">]</span>
+</pre></div>
+<p>And <code class="code">
+/srv/app2/main.py</code>
+</p>
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">application</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">start_response</span><span class="p">):</span>
+    <span class="n">start_response</span><span class="p">(</span><span class="s">&#39;200 OK&#39;</span><span class="p">,</span> <span class="p">[(</span><span class="s">&#39;Content-Type&#39;</span><span class="p">,</span><span class="s">&#39;text/html&#39;</span><span class="p">)])</span>
+    <span class="k">return</span> <span class="p">[</span><span class="s">&quot;I, however, am app2. &quot;</span><span class="p">]</span>
+</pre></div>
+<p>And that's it!</p>
+<p>Visiting <a class="reference external" href="http://your_host_name/app1">http://your_host_name/app1</a> or <a class="reference external" href="http://your_host_name/app2">http://your_host_name/app2</a> should return the text
+you put in the python files.</p>
+
+                    
+                </div>  
+                
+                
             </article>
             <hr/>
 
@@ -103,95 +205,6 @@ multiple python web applications simultaneously on an ubuntu 14 machine.</p>
 
 
 
-            <li class="list-group-item"><a href="/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
-                <ul class="list-group " id="tags">
-                    <li class="list-group-item tag-1">
-                        <a href="/tag/python.html">
-                            Python
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-2">
-                        <a href="/tag/linux.html">
-                            linux
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-2">
-                        <a href="/tag/javascript.html">
-                            javascript
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-2">
-                        <a href="/tag/ipython.html">
-                            IPython
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-3">
-                        <a href="/tag/postgres.html">
-                            Postgres
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-3">
-                        <a href="/tag/pelican.html">
-                            pelican
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-3">
-                        <a href="/tag/uwsgi.html">
-                            uwsgi
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-3">
-                        <a href="/tag/ractive.html">
-                            ractive
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/markdown.html">
-                            markdown
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/logrotate.html">
-                            logrotate
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/nginx.html">
-                            nginx
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/postfix.html">
-                            postfix
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/email.html">
-                            email
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/fabric.html">
-                            fabric
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/coffeescript.html">
-                            coffeescript
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/bottle.html">
-                            bottle
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="/tag/gevent.html">
-                            gevent
-                        </a>
-                    </li>
-                </ul>
-            </li>
 
 
 

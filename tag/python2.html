@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
 <head>
-    <title>uwsgi - trvrm</title>
+    <title>Python - trvrm</title>
     <!-- Using the latest rendering mode for IE -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
@@ -11,7 +11,7 @@
 
 
     <meta name="author" content="trvrm" />
-    <meta name="keywords" content="uwsgi" />
+    <meta name="keywords" content="Python" />
 
     <!-- Open Graph tags -->
         <meta property="og:site_name" content="trvrm" />
@@ -72,117 +72,110 @@ trvrm            </a>
     <div class="row">
         <div class="col-sm-9">
             <article>
-                <h2><a href="/nginx-uwsgi-ubuntu-14.html">Nginx and UWSGI on Ubuntu 14</a></h2>
+                <h2><a href="/remote-systems-administration-with-fabric.html">Remote Systems Administration with Fabric</a></h2>
                 
                 
                 <div class="entry-content">
 
-                    <p>The documentation for Nginx and UWSGI is long and complex, but with ubuntu 14
-it's actually pretty straightforward to get them up and running.</p>
-<p>I present here a a setup that uses nginx and uwsgi emperor to host
-multiple python web applications simultaneously on an ubuntu 14 machine.</p>
-<p>First, the packages</p>
-<div class="highlight"><pre><span class="nv">$ </span>sudo apt-get install nginx
-<span class="nv">$ </span>sudo apt-get install uwsgi uwsgi-emperor uwsgi-plugin-python
+                    <p>A tool I'm finding myself using more and more these days is <a class="reference external" href="http://fabric.readthedocs.org/en/1.8/">Fabric</a>.</p>
+<p>Fabric is a python utility and library for streamlining systems administration
+tasks on multiple machines.</p>
+<p>Although I'm primarily a developer and systems architect, I find that as our
+company grows I keep getting drawn into sysadmin and devops tasks.   We now
+have quite a number of servers which I need to monitor and manage.</p>
+<p>Now, as Larry Wall so profoundly said, one of the great virtues of a programmer
+is <em>laziness</em>, so if there's a way I can perform the same task on multiple machines
+without having to manually type out the commands dozens of times, then I'm all for it.</p>
+<p>Fabric does precisely that.  It's written in Python, and its configuration files
+are python scripts, so there's no need to learn yet another domain-specific language.
+I have a file called <code class="code">
+fabfile.py</code>
+ on my local machine that contains a growing
+collection of little recipes, and with this I can interact with all the servers
+in our infrastructure.</p>
+<p>So for example, if I want to see at a glance which version of linux I'm running on
+all my servers, I have a task set up in my fabfile like this:</p>
+<div class="highlight"><pre><span class="nd">@parallel</span>
+<span class="k">def</span> <span class="nf">lsb_release</span><span class="p">():</span>
+    <span class="n">run</span><span class="p">(</span><span class="s">&#39;lsb_release -a&#39;</span><span class="p">)</span>
 </pre></div>
-<p>Our configuration files will now be under <code class="code">
-/etc/nginx</code>
- and <code class="code">
-/etc/uwsgi-emperor</code>
-</p>
-<p>You can start, stop, and reload nginx as follows:</p>
-<div class="highlight"><pre><span class="nv">$ </span>sudo service nginx start
-<span class="nv">$ </span>sudo service nginx stop
-<span class="nv">$ </span>sudo service nginx reload
+<p>When I invoke this via:</p>
+<div class="highlight"><pre><span class="nv">$ </span>fab lsb_release
 </pre></div>
-<p>The last command is useful when changing configuration settings.</p>
-<p>Now set up a site by creating a file in <code class="code">
-/etc/nginx/sites-available</code>
-</p>
-<div class="highlight"><pre><span class="c">#/etc/nginx/sites-available/mysite</span>
-server<span class="o">{</span>
+<p>I get a nice little print-out of the current version of all my servers.  Fabric
+runs the task in parallel against every host in the <code class="code">
+env.hosts</code>
+ variable,
+which can be set at the command line or in the <strong>fabfile</strong>.</p>
+<p>The following example allows me to see a list of every database running on every
+database server.</p>
+<div class="highlight"><pre><span class="n">DATABASE_HOST_MACHINES</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;dbserver1&#39;</span><span class="p">,</span><span class="s">&#39;dbserver2&#39;</span><span class="p">,</span><span class="o">...</span><span class="p">]</span>
 
-    server_name     your_host_name<span class="p">;</span>
+<span class="nd">@hosts</span><span class="p">(</span><span class="n">DATABASE_HOST_MACHINES</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">databases</span><span class="p">():</span>
+    <span class="k">with</span> <span class="n">warn_only</span><span class="p">():</span>
+        <span class="n">run</span><span class="p">(</span><span class="s">&#39;psql -c &quot;select datname from pg_database;&quot;&#39;</span><span class="p">)</span>
+</pre></div>
+<p>And <em>voila</em>, a call to</p>
+<div class="highlight"><pre><span class="nv">$ </span>fab databases
+</pre></div>
+<p>gives me a company-wide view of all our databases.</p>
+<p>One further demonstration - this blog itself is generated using Fabric! For details, see
+the fabfile my <a class="reference external" href="https://github.com/trvrm/trvrm.github.io/blob/master/fabfile.py">Github</a> repository.</p>
 
-    location /app1 <span class="o">{</span>
-        uwsgi_pass unix:/tmp/app1.socket<span class="p">;</span>
-        include uwsgi_params<span class="p">;</span>
-    <span class="o">}</span>
-    location /app2 <span class="o">{</span>
-        uwsgi_pass unix:/tmp/app2.socket<span class="p">;</span>
-        include uwsgi_params<span class="p">;</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-</pre></div>
-<p>Then,</p>
-<div class="highlight"><pre><span class="nv">$ </span>sudo ln -s /etc/nginx/apps-available/mysite /etc/nginx/sites-enabled
-</pre></div>
-<div class="alert  alert-warning compound">
-<p class="compound-first"><strong>Warning</strong></p>
-<p class="compound-last">A previous version of this tutorial had the sockets placed in <code class="code">
-/run/uwsgi</code>
-.
-This was a mistake, because under Ubuntu <code class="code">
-/run</code>
- is mounted as a <code class="code">
-tmpfs</code>
-, and its content will be deleted on reboot
-Your uwsgi sub-directory will vanish and the uwsgi services will not restart.</p>
-</div>
-<p>Next, set up your 'vassals' (<a class="reference external" href="http://uwsgi-docs.readthedocs.org/en/latest/Emperor.html">http://uwsgi-docs.readthedocs.org/en/latest/Emperor.html</a>)</p>
-<p>Create  <code class="code">
-/etc/uwsgi-emperor/vassals/app1.ini</code>
- as follows:</p>
-<div class="highlight"><pre><span class="k">[uwsgi]</span>
-<span class="na">plugin</span> <span class="o">=</span> <span class="s">python</span>
-<span class="na">processes</span> <span class="o">=</span> <span class="s">2</span>
-<span class="na">socket</span> <span class="o">=</span> <span class="s">/tmp/app1.socket</span>
-<span class="na">chmod-socket</span> <span class="o">=</span> <span class="s">666</span>
+                    
+                </div>  
+                
+                
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/reportlab-images-in-ipython.html">Reportlab Images in IPython</a></h2>
+                
+                
+                <div class="entry-content">
 
-<span class="na">chdir</span> <span class="o">=</span> <span class="s">/srv/app1</span>
-<span class="na">wsgi-file</span> <span class="o">=</span> <span class="s">/srv/app1/main.py</span>
-
-<span class="na">uid</span> <span class="o">=</span> <span class="s">www-data</span>
-<span class="na">gid</span> <span class="o">=</span> <span class="s">www-data</span>
+                    <p>With a bit of work we can get IPython to render ReportLab objects
+directly to the page as Matplotlib plots.</p>
+<p>Huge thanks to github user <a class="reference external" href="https://github.com/deeplook">deeplook</a>,
+this is basically a modification of
+<a class="reference external" href="http://nbviewer.ipython.org/gist/deeplook/5162445">this</a> IPython
+notebook.</p>
+<p>First our imports.</p>
+<div class="highlight"><pre><span class="kn">from</span> <span class="nn">reportlab.lib</span> <span class="kn">import</span> <span class="n">colors</span>
+<span class="kn">from</span> <span class="nn">reportlab.graphics</span> <span class="kn">import</span> <span class="n">renderPM</span>
+<span class="kn">from</span> <span class="nn">reportlab.graphics.shapes</span> <span class="kn">import</span> <span class="n">Drawing</span><span class="p">,</span> <span class="n">Rect</span>
+<span class="kn">from</span> <span class="nn">reportlab.graphics.charts.linecharts</span> <span class="kn">import</span> <span class="n">HorizontalLineChart</span>
 </pre></div>
-<p>And for your second application, create  <code class="code">
-/etc/uwsgi-emperor/vassals/app2.ini</code>
- as similarly:</p>
-<div class="highlight"><pre><span class="k">[uwsgi]</span>
-<span class="na">plugin</span> <span class="o">=</span> <span class="s">python</span>
-<span class="na">processes</span> <span class="o">=</span> <span class="s">2</span>
-<span class="na">socket</span> <span class="o">=</span> <span class="s">/tmp/app2.socket</span>
-<span class="na">chmod-socket</span> <span class="o">=</span> <span class="s">666</span>
-
-<span class="na">chdir</span> <span class="o">=</span> <span class="s">/srv/app1</span>
-<span class="na">wsgi-file</span> <span class="o">=</span> <span class="s">/srv/app2/main.py</span>
-
-<span class="na">uid</span> <span class="o">=</span> <span class="s">www-data</span>
-<span class="na">gid</span> <span class="o">=</span> <span class="s">www-data</span>
+<div class="highlight"><pre><span class="kn">from</span> <span class="nn">io</span> <span class="kn">import</span> <span class="n">BytesIO</span>
+<span class="kn">from</span> <span class="nn">IPython.core</span> <span class="kn">import</span> <span class="n">display</span>
 </pre></div>
-<p>The simple act of <em>creating</em> or touching a .ini file in <code class="code">
-/etc/uwsgi-emperor/vassals</code>
- will cause
-the emperor process to try to restart your application.</p>
-<p>Of course, your applications don't exist yet, so let's create them.  The simplest wsgi
-application can be only a few lines long:</p>
-<p>Create <code class="code">
-/srv/app1/main.py</code>
-</p>
-<div class="highlight"><pre><span class="k">def</span> <span class="nf">application</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">start_response</span><span class="p">):</span>
-    <span class="n">start_response</span><span class="p">(</span><span class="s">&#39;200 OK&#39;</span><span class="p">,</span> <span class="p">[(</span><span class="s">&#39;Content-Type&#39;</span><span class="p">,</span><span class="s">&#39;text/html&#39;</span><span class="p">)])</span>
-    <span class="k">return</span> <span class="p">[</span><span class="s">&quot;Hello World, I am app1&quot;</span><span class="p">]</span>
+<p>Now we create a hook that causes reportlab drawings to actually be
+rendered when we type out its name.</p>
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">display_reportlab_drawing</span><span class="p">(</span><span class="n">drawing</span><span class="p">):</span>
+    <span class="n">buff</span><span class="o">=</span><span class="n">BytesIO</span><span class="p">()</span>
+    <span class="n">renderPM</span><span class="o">.</span><span class="n">drawToFile</span><span class="p">(</span><span class="n">drawing</span><span class="p">,</span><span class="n">buff</span><span class="p">,</span><span class="n">fmt</span><span class="o">=</span><span class="s">&#39;png&#39;</span><span class="p">,</span><span class="n">dpi</span><span class="o">=</span><span class="mi">72</span><span class="p">)</span>
+    <span class="n">data</span><span class="o">=</span><span class="n">buff</span><span class="o">.</span><span class="n">getvalue</span><span class="p">()</span>
+    <span class="n">ip_img</span><span class="o">=</span><span class="n">display</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span><span class="n">format</span><span class="o">=</span><span class="s">&#39;png&#39;</span><span class="p">,</span><span class="n">embed</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ip_img</span><span class="o">.</span><span class="n">_repr_png_</span><span class="p">()</span>
 </pre></div>
-<p>And <code class="code">
-/srv/app2/main.py</code>
-</p>
-<div class="highlight"><pre><span class="k">def</span> <span class="nf">application</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">start_response</span><span class="p">):</span>
-    <span class="n">start_response</span><span class="p">(</span><span class="s">&#39;200 OK&#39;</span><span class="p">,</span> <span class="p">[(</span><span class="s">&#39;Content-Type&#39;</span><span class="p">,</span><span class="s">&#39;text/html&#39;</span><span class="p">)])</span>
-    <span class="k">return</span> <span class="p">[</span><span class="s">&quot;I, however, am app2. &quot;</span><span class="p">]</span>
+<div class="highlight"><pre><span class="n">png_formatter</span><span class="o">=</span><span class="n">get_ipython</span><span class="p">()</span><span class="o">.</span><span class="n">display_formatter</span><span class="o">.</span><span class="n">formatters</span><span class="p">[</span><span class="s">&#39;image/png&#39;</span><span class="p">]</span>
+<span class="n">drd</span><span class="o">=</span><span class="n">png_formatter</span><span class="o">.</span><span class="n">for_type</span><span class="p">(</span><span class="n">Drawing</span><span class="p">,</span><span class="n">display_reportlab_drawing</span><span class="p">)</span>
 </pre></div>
-<p>And that's it!</p>
-<p>Visiting <a class="reference external" href="http://your_host_name/app1">http://your_host_name/app1</a> or <a class="reference external" href="http://your_host_name/app2">http://your_host_name/app2</a> should return the text
-you put in the python files.</p>
+<p>Now that's done, we can start creating ReportLab objects and see them
+immediately.</p>
+<div class="highlight"><pre><span class="n">drawing</span> <span class="o">=</span> <span class="n">Drawing</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">drawing</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Rect</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">150</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="n">strokeColor</span><span class="o">=</span><span class="n">colors</span><span class="o">.</span><span class="n">black</span><span class="p">,</span><span class="n">fillColor</span><span class="o">=</span><span class="n">colors</span><span class="o">.</span><span class="n">antiquewhite</span><span class="p">))</span>
+<span class="n">drawing</span>
+</pre></div>
+<img alt="" src="reportlab-images-ipython_files/reportlab-images-ipython_8_0.png" />
+<div class="highlight"><pre><span class="n">chart</span><span class="o">=</span><span class="n">HorizontalLineChart</span><span class="p">()</span>
+</pre></div>
+<div class="highlight"><pre><span class="n">drawing</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">chart</span><span class="p">)</span>
+</pre></div>
+<div class="highlight"><pre><span class="n">drawing</span>
+</pre></div>
+<img alt="" src="reportlab-images-ipython_files/reportlab-images-ipython_11_0.png" />
 
                     
                 </div>  
@@ -441,7 +434,176 @@ a bug.  But hopefully this analysis will help prevent others from going through 
                 
             </article>
             <hr/>
+            <article>
+                <h2><a href="/sql-magic.html">SQL Magic</a></h2>
+                
+                
+                <div class="entry-content">
 
+                    <p>I'm finding the <pre>
+%sql</pre>
+ magic function extremely useful. It turns
+IPython into a very nice front-end to Postgresql.</p>
+<p>First, make sure you have the <pre>
+ipython-sql</pre>
+ extension installed:</p>
+<p><pre>
+pip install ipython-sql</pre>
+</p>
+<p><a class="reference external" href="https://pypi.python.org/pypi/ipython-sql">https://pypi.python.org/pypi/ipython-sql</a></p>
+<p>Then we load the extension</p>
+<div class="highlight"><pre><span class="o">%</span><span class="n">load_ext</span> <span class="n">sql</span>
+</pre></div>
+<p>Then we set up our database connection.</p>
+<div class="highlight"><pre><span class="o">%%</span><span class="n">sql</span>
+<span class="n">postgresql</span><span class="p">:</span><span class="o">//</span><span class="n">testuser</span><span class="p">:</span><span class="n">password</span><span class="nd">@localhost</span><span class="o">/</span><span class="n">test</span>
+</pre></div>
+<pre class="literal-block">
+u'Connected: <a class="reference external" href="mailto:testuser&#64;test">testuser&#64;test</a>'
+</pre>
+<p>And now we can start interacting directly with the database as if we
+were at the <pre>
+psql</pre>
+ command line.</p>
+<div class="highlight"><pre><span class="o">%%</span><span class="n">sql</span>
+<span class="n">CREATE</span> <span class="n">TABLE</span> <span class="n">people</span> <span class="p">(</span><span class="n">first</span> <span class="n">text</span><span class="p">,</span> <span class="n">last</span> <span class="n">text</span><span class="p">,</span> <span class="n">drink</span> <span class="n">text</span><span class="p">);</span>
+<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">people</span> <span class="p">(</span><span class="n">first</span><span class="p">,</span><span class="n">last</span><span class="p">,</span><span class="n">drink</span><span class="p">)</span>
+<span class="n">VALUES</span>
+    <span class="p">(</span><span class="s">&#39;zaphod&#39;</span><span class="p">,</span><span class="s">&#39;beeblebrox&#39;</span><span class="p">,</span><span class="s">&#39;pan galactic gargle blaster&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s">&#39;arthur&#39;</span><span class="p">,</span><span class="s">&#39;dent&#39;</span><span class="p">,</span><span class="s">&#39;tea&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s">&#39;ford&#39;</span><span class="p">,</span><span class="s">&#39;prefect&#39;</span><span class="p">,</span><span class="s">&#39;old janx spirit&#39;</span><span class="p">)</span>
+    <span class="p">;</span>
+</pre></div>
+<pre class="literal-block">
+Done.
+3 rows affected.
+</pre>
+<pre class="literal-block">
+[]
+</pre>
+<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">select</span> <span class="o">*</span> <span class="kn">from</span> <span class="nn">people</span>
+</pre></div>
+<pre class="literal-block">
+3 rows affected.
+</pre>
+<table class="table table-bordered table-striped">
+    <tr>
+        <th>first</th>
+        <th>last</th>
+        <th>drink</th>
+    </tr>
+    <tr>
+        <td>zaphod</td>
+        <td>beeblebrox</td>
+        <td>pan galactic gargle blaster</td>
+    </tr>
+    <tr>
+        <td>arthur</td>
+        <td>dent</td>
+        <td>tea</td>
+    </tr>
+    <tr>
+        <td>ford</td>
+        <td>prefect</td>
+        <td>old janx spirit</td>
+    </tr>
+</table><p>We can access the results as a python object:</p>
+<div class="highlight"><pre><span class="n">result</span> <span class="o">=</span> <span class="o">%</span><span class="n">sql</span> <span class="n">select</span> <span class="o">*</span> <span class="kn">from</span> <span class="nn">people</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</pre></div>
+<pre class="literal-block">
+3
+</pre>
+<p>And we can even get our recordset as a <strong>pandas</strong> dataframe</p>
+<div class="highlight"><pre><span class="o">%</span><span class="n">config</span> <span class="n">SqlMagic</span><span class="o">.</span><span class="n">autopandas</span><span class="o">=</span><span class="bp">True</span>
+</pre></div>
+<div class="highlight"><pre><span class="n">frame</span> <span class="o">=</span> <span class="o">%</span><span class="n">sql</span> <span class="n">select</span> <span class="o">*</span> <span class="kn">from</span> <span class="nn">people</span>
+<span class="n">frame</span>
+</pre></div>
+<div style="max-height:1000px;max-width:1500px;overflow:auto;">
+<table class="table table-bordered table-striped">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>first</th>
+      <th>last</th>
+      <th>drink</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td> zaphod</td>
+      <td> beeblebrox</td>
+      <td> pan galactic gargle blaster</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td> arthur</td>
+      <td>       dent</td>
+      <td>                         tea</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>   ford</td>
+      <td>    prefect</td>
+      <td>             old janx spirit</td>
+    </tr>
+  </tbody>
+</table>
+<p>3 rows × 3 columns</p>
+</div><div class="highlight"><pre><span class="n">frame</span><span class="p">[</span><span class="s">&#39;first&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+</pre></div>
+<pre class="literal-block">
+0    ZAPHOD
+1    ARTHUR
+2      FORD
+Name: first, dtype: object
+</pre>
+
+                    
+                </div>  
+                
+                
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/basic-ipython-plotting.html">Basic IPython Plotting</a></h2>
+                
+                
+                <div class="entry-content">
+
+                    <p><strong>Things have changed a bit since IPython 1</strong></p>
+<p>Now apparently we want to manually specify the use of inline matplotlib
+rather than enable globally in the server.</p>
+<p><a class="reference external" href="http://nbviewer.ipython.org/github/ipython/ipython/blob/1.x/examples/notebooks/Part%203%20-%20Plotting%20with%20Matplotlib.ipynb">http://nbviewer.ipython.org/github/ipython/ipython/blob/1.x/examples/notebooks/Part%203%20-%20Plotting%20with%20Matplotlib.ipynb</a></p>
+<div class="highlight"><pre><span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+</pre></div>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+</pre></div>
+<div class="highlight"><pre><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;A simple chirp&#39;</span><span class="p">);</span>
+</pre></div>
+<img alt="basic plotting example" src="Basic%20Plotting%20Example_files/Basic%20Plotting%20Example_3_0.png" />
+
+                    
+                </div>  
+                
+                
+            </article>
+            <hr/>
+
+        <ul class="pagination">
+                <li class="prev"><a href="/tag/python.html">&laquo;</a>
+                </li>
+                    <li class=""><a
+                            href="/tag/python.html">1</a></li>
+                    <li class="active"><a
+                            href="/tag/python2.html">2</a></li>
+                <li class="next disabled"><a href="#">&raquo;</a></li>
+        </ul>
         </div>
         <div class="col-sm-3" id="sidebar">
             <aside>
