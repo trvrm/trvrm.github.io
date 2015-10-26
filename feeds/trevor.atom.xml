@@ -1,5 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>trvrm</title><link href="/" rel="alternate"></link><link href="/feeds/trevor.atom.xml" rel="self"></link><id>/</id><updated>2015-10-22T00:00:00+02:00</updated><entry><title>Efficient Postgres Bulk Inserts using Psycopg2 and Unnest</title><link href="/bulk-psycopg2-inserts.html" rel="alternate"></link><updated>2015-10-22T00:00:00+02:00</updated><author><name>Trevor</name></author><id>tag:,2015-10-22:bulk-psycopg2-inserts.html</id><summary type="html">&lt;p&gt;One of the biggest challenges I face maintaining large Postgres systems
+<feed xmlns="http://www.w3.org/2005/Atom"><title>trvrm</title><link href="/" rel="alternate"></link><link href="/feeds/trevor.atom.xml" rel="self"></link><id>/</id><updated>2015-10-25T00:00:00+02:00</updated><entry><title>Streaming PHP Output with FPM and NGINX</title><link href="/streaming-php-output-with-fpm-and-nginx.html" rel="alternate"></link><updated>2015-10-25T00:00:00+02:00</updated><author><name>Trevor</name></author><id>tag:,2015-10-25:streaming-php-output-with-fpm-and-nginx.html</id><summary type="html">&lt;p&gt;&lt;strong&gt;Problem:&lt;/strong&gt; We had a PHP report that takes around 45 seconds to render.  To give the user feedback
+that their report was actually being generated, I wanted to change our PHP installation to deliver at least some output to the client as soon as possible, rather than waiting until the entire page was rendered.&lt;/p&gt;
+&lt;p&gt;In general, PHP and NGINX work hard to buffer output, so this was mostly an exercise in fighting with
+PHP and NGINX to make them stop doing optimizations that do, in general, make sense.  It turns out that
+to do this, we had to make changes at three levels of our software stack: in our PHP code,
+in our PHP configuration settings, and in our NGINX configuration.&lt;/p&gt;
+&lt;h4&gt;PHP changes&lt;/h4&gt;
+&lt;p&gt;I added this at the top of the file in question:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;ob_implicit_flush(1);
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;This tells PHP to simulate calling &lt;code&gt;flush()&lt;/code&gt; after every output block.&lt;/p&gt;
+&lt;h4&gt;PHP INI changes&lt;/h4&gt;
+&lt;p&gt;I added a new .ini file in &lt;code&gt;/etc/php5/fpm/conf.d&lt;/code&gt; with the following setting:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;output_buffering = Off
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;This tells PHP not to buffer output.&lt;/p&gt;
+&lt;h4&gt;NGINX changes&lt;/h4&gt;
+&lt;p&gt;In the .conf file for the reporting site, I added&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;fastcgi_keep_conn on;
+gzip off;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;in the location block, and&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;ssl_buffer_size 1k;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;in the server block. This last one took me a while to figure out - it defaults
+to 16k, and even with all the other changes made, when accessing the site via
+HTTPS, NGINX will still buffer your output.&lt;/p&gt;
+&lt;h4&gt;References&lt;/h4&gt;
+&lt;p&gt;&lt;a href="https://stackoverflow.com/questions/4870697/php-flush-that-works-even-in-nginx"&gt;This&lt;/a&gt;
+Stack Overflow question got me pointed in the right direction.&lt;/p&gt;</summary><category term="PHP"></category><category term="FPM"></category><category term="NGINX"></category></entry><entry><title>Efficient Postgres Bulk Inserts using Psycopg2 and Unnest</title><link href="/bulk-psycopg2-inserts.html" rel="alternate"></link><updated>2015-10-22T00:00:00+02:00</updated><author><name>Trevor</name></author><id>tag:,2015-10-22:bulk-psycopg2-inserts.html</id><summary type="html">&lt;p&gt;One of the biggest challenges I face maintaining large Postgres systems
 is getting data &lt;em&gt;into&lt;/em&gt; them in an efficient manner. Postgres is very,
 very good at maintaining, organising, querying and retrieving data, but
 inserts themselves can be quite slow.&lt;/p&gt;
@@ -316,7 +353,7 @@ our two methods:&lt;/p&gt;
 &lt;pre class="literal-block"&gt;
 &amp;lt;matplotlib.axes._subplots.AxesSubplot at 0x7fcbdecd0908&amp;gt;
 &lt;/pre&gt;
-&lt;img alt="" src="images/bulk_psycopg2_inserts_30_1.png" /&gt;
+&lt;img alt="" src="images/bulk_psycopg2_inserts_files/bulk_psycopg2_inserts_30_1.png" /&gt;
 &lt;/div&gt;
 &lt;div class="section" id="conclusion"&gt;
 &lt;h3&gt;Conclusion&lt;/h3&gt;

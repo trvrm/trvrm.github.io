@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
 <head>
-    <title>logrotate - trvrm</title>
+    <title>IPython Markdown Test - trvrm</title>
     <!-- Using the latest rendering mode for IE -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
@@ -10,21 +10,21 @@
 
     <link href="/images/favicon.png" rel="icon">
 
-<link rel="canonical" href="/logrotate.html">
+<link rel="canonical" href="/ipython-markdown-test.html">
 
         <meta name="author" content="Trevor" />
-        <meta name="keywords" content="logrotate,linux" />
-        <meta name="description" content="I have a large, complex mailing system that processes a significant amount of data every hour. While I&#39;m developing it, I want to know what it&#39;s doing, and whether it&#39;s having any problems. So I use the excellent python logging library to produce comprehensive monitoring data. The ..." />
+        <meta name="keywords" content="python,markdown" />
+        <meta name="description" content="markdown/ipython blog test. I think this is an even better way of doing it. %matplotlib inline import matplotlib.pyplot as plt plt.plot([1,2,3,4]) plt.ylabel(&#39;some numbers&#39;) plt.show() I think this copes with code better. def foo(): x=1 z=x l=[a for ..." />
 
         <meta property="og:site_name" content="trvrm" />
         <meta property="og:type" content="article"/>
-        <meta property="og:title" content="logrotate"/>
-        <meta property="og:url" content="/logrotate.html"/>
-        <meta property="og:description" content="I have a large, complex mailing system that processes a significant amount of data every hour. While I&#39;m developing it, I want to know what it&#39;s doing, and whether it&#39;s having any problems. So I use the excellent python logging library to produce comprehensive monitoring data. The ..."/>
-        <meta property="article:published_time" content="2015-01-01" />
-            <meta property="article:section" content="Systems" />
-            <meta property="article:tag" content="logrotate" />
-            <meta property="article:tag" content="linux" />
+        <meta property="og:title" content="IPython Markdown Test"/>
+        <meta property="og:url" content="/ipython-markdown-test.html"/>
+        <meta property="og:description" content="markdown/ipython blog test. I think this is an even better way of doing it. %matplotlib inline import matplotlib.pyplot as plt plt.plot([1,2,3,4]) plt.ylabel(&#39;some numbers&#39;) plt.show() I think this copes with code better. def foo(): x=1 z=x l=[a for ..."/>
+        <meta property="article:published_time" content="2015-10-25" />
+            <meta property="article:section" content="Software" />
+            <meta property="article:tag" content="python" />
+            <meta property="article:tag" content="markdown" />
             <meta property="article:author" content="Trevor" />
 
 
@@ -59,10 +59,10 @@ trvrm            </a>
                         <li >
                             <a href="/category/database.html">Database</a>
                         </li>
-                        <li >
+                        <li class="active">
                             <a href="/category/software.html">Software</a>
                         </li>
-                        <li class="active">
+                        <li >
                             <a href="/category/systems.html">Systems</a>
                         </li>
             </ul>
@@ -82,10 +82,10 @@ trvrm            </a>
         <article>
             <header class="page-header">
                 <h1>
-                    <a href="/logrotate.html"
+                    <a href="/ipython-markdown-test.html"
                        rel="bookmark"
-                       title="Permalink to logrotate">
-                        logrotate
+                       title="Permalink to IPython Markdown Test">
+                        IPython Markdown Test
                     </a>
                 </h1>
             </header>
@@ -95,7 +95,7 @@ trvrm            </a>
 <footer class="post-info">
     <span class="label label-default">Date</span>
     <span class="published">
-        <i class="fa fa-calendar"></i><time datetime="2015-01-01T00:00:00+01:00"> Thu 01 January 2015</time>
+        <i class="fa fa-calendar"></i><time datetime="2015-10-25T00:00:00+02:00"> Sun 25 October 2015</time>
     </span>
 
 
@@ -103,59 +103,44 @@ trvrm            </a>
 
 
 <span class="label label-default">Tags</span>
-	<a href="/tag/logrotate.html">logrotate</a>
+	<a href="/tag/python.html">python</a>
         /
-	<a href="/tag/linux.html">linux</a>
+	<a href="/tag/markdown.html">markdown</a>
     
 </footer><!-- /.post-info -->                    </div>
                 </div>
-                <p>I have a large, complex <a class="reference external" href="/postfix.html">mailing system</a> that processes
-a significant amount of data every hour.  While I'm developing it, I want to know
-what it's doing, and whether it's having any problems.  So I use the excellent
-python <a class="reference external" href="https://docs.python.org/2/library/logging.html">logging</a> library to produce comprehensive monitoring data.</p>
-<p>The only problem is that these log files can get pretty big.  And because I don't
-know ahead of time when I'm going to need to hunt through them, I tend to leave
-the logging system in a fairly verbose state.</p>
-<p>Enter <a class="reference external" href="http://www.thegeekstuff.com/2010/07/logrotate-examples/">logrotate</a>.  This is a standard service on Ubuntu that regularly rotates
-your log files, throwing away old data, compressing middle-age data, and leaving
-young log files fresh and accessible.  Thus you are protected from
-runaway log file growth and nasty calls in the middle of the night from your
-monitoring service telling you that your server just died because the hard
-drives were full.</p>
-<p>A default ubuntu installation comes with logrotate already set up for various services.
-If you don't have it, install it with <code class="code">
-apt-get install logrotate</code>
-, and
-then it's mostly just a question of copying a file from <code class="code">
-/etc/logrotate.d/</code>
+                <p>markdown/ipython blog test.  I think this is an even better way of doing it.</p>
+<div class="highlight"><pre><span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
 
-and modifying it according to your needs.</p>
-<p><code class="code">
-vi /etc/logrotate.d/myservice</code>
-</p>
-<div class="highlight"><pre>/var/log/myservice/*.log <span class="o">{</span>
-  rotate 7
-  daily
-  compress
-  missingok
-  notifempty
-<span class="o">}</span>
-</pre></div>
-<p>And that's it!  The actually invocation of the <code class="code">
-logrotate</code>
- command will
-get triggered regularly by a script in /etc/cron.daily</p>
-<p>You can also <strong>force</strong> a rotation, a useful option when testing out a new configuration,
-via</p>
-<div class="highlight"><pre>logrotate -f /etc/logrotate.d/myservice
-</pre></div>
-<p>One quick word of warning: if you're using the python <a class="reference external" href="https://docs.python.org/2/library/logging.html">logging</a> library, then
-you'll want to use the <code class="code">
-WatchedFileHandler</code>
- class.  If the logfile gets
-rotated out while it's in use, WatchedFileHandler will notice this, close the file
-stream and open a new one.</p>
 
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&#39;some numbers&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+
+<p><img alt="png" src="images/ipython-markdown-test_files/ipython-markdown-test_2_0.png" /></p>
+<p>I think this copes with <code>code</code> better.</p>
+<div class="highlight"><pre>def foo():
+    x=1
+    z=x
+    l=[a for a in range(10)]
+
+
+foo()
+</pre></div>
+
+
+<p>Now I'm confused.</p>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">string</span>
+<span class="n">s</span><span class="o">=</span><span class="s">&#39;boo&#39;</span>
+</pre></div>
+
+
+<h1>test</h1>
+<div class="highlight"><pre>s=&#39;boo&#39;
+</pre></div>
             </div>
             <!-- /.entry-content -->
         </article>

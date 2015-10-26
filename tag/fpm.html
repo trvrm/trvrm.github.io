@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
 <head>
-    <title>fabric - trvrm</title>
+    <title>FPM - trvrm</title>
     <!-- Using the latest rendering mode for IE -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
@@ -12,7 +12,7 @@
 
 
     <meta name="author" content="trvrm" />
-    <meta name="keywords" content="fabric" />
+    <meta name="keywords" content="FPM" />
 
     <!-- Open Graph tags -->
         <meta property="og:site_name" content="trvrm" />
@@ -73,18 +73,49 @@ trvrm            </a>
     <div class="row">
         <div class="col-sm-9">
             <article>
-                <h2><a href="/configuring-systems-with-fabric-and-cuisine.html">Configuring Systems with Fabric and Cuisine</a></h2>
+                <h2><a href="/streaming-php-output-with-fpm-and-nginx.html">Streaming PHP Output with FPM and NGINX</a></h2>
                 
                 
                 <div class="entry-content">
 
-                    <p>I've mentioned <a class="reference external" href="http://fabric.readthedocs.org/en/1.8/">Fabric</a> before on this blog.  Because so much of my development time is spent in Python, it makes
-sense for me to look for system administration tools that are also written in Python.  Fabric fits the bill
-perfectly, and allows me to run tasks remotely on multiple machines simultaneously.</p>
-<p>A useful addition to Fabric is <a class="reference external" href="https://github.com/sebastien/cuisine">Cuisine</a>.  <strong>Cuisine is a small set of functions that sit on top of Fabric,
-to abstract common administration operations such as file/dir operations, user/group creation,
-package install/upgrade, making it easier to write portable administration and deployment scripts.</strong></p>
+                    <p><strong>Problem:</strong> We had a PHP report that takes around 45 seconds to render.  To give the user feedback
+that their report was actually being generated, I wanted to change our PHP installation to deliver at least some output to the client as soon as possible, rather than waiting until the entire page was rendered.</p>
+<p>In general, PHP and NGINX work hard to buffer output, so this was mostly an exercise in fighting with
+PHP and NGINX to make them stop doing optimizations that do, in general, make sense.  It turns out that
+to do this, we had to make changes at three levels of our software stack: in our PHP code,
+in our PHP configuration settings, and in our NGINX configuration.</p>
+<h4>PHP changes</h4>
+<p>I added this at the top of the file in question:</p>
+<div class="highlight"><pre>ob_implicit_flush(1);
+</pre></div>
 
+
+<p>This tells PHP to simulate calling <code>flush()</code> after every output block.</p>
+<h4>PHP INI changes</h4>
+<p>I added a new .ini file in <code>/etc/php5/fpm/conf.d</code> with the following setting:</p>
+<div class="highlight"><pre>output_buffering = Off
+</pre></div>
+
+
+<p>This tells PHP not to buffer output.</p>
+<h4>NGINX changes</h4>
+<p>In the .conf file for the reporting site, I added</p>
+<div class="highlight"><pre>fastcgi_keep_conn on;
+gzip off;
+</pre></div>
+
+
+<p>in the location block, and</p>
+<div class="highlight"><pre>ssl_buffer_size 1k;
+</pre></div>
+
+
+<p>in the server block. This last one took me a while to figure out - it defaults
+to 16k, and even with all the other changes made, when accessing the site via
+HTTPS, NGINX will still buffer your output.</p>
+<h4>References</h4>
+<p><a href="https://stackoverflow.com/questions/4870697/php-flush-that-works-even-in-nginx">This</a>
+Stack Overflow question got me pointed in the right direction.</p>
                     
                 </div>  
                 

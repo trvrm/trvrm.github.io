@@ -72,6 +72,90 @@ trvrm            </a>
     <div class="row">
         <div class="col-sm-9">
             <article>
+                <h2><a href="/more-ractive.html">More Ractive</a></h2>
+                
+                
+                <div class="entry-content">
+
+                    <p>I've used <a class="reference external" href="http://www.ractivejs.org/">Ractive</a> for several projects recently.
+It's been like a breath of fresh air.  I've been writing user interfaces of one
+kind or another for more than a decade, and keeping <em>what's displayed to the user</em>
+in sync with <em>what's stored in the data structures</em> has often been a source of
+frustration.</p>
+<p>In the javascript world, I've mostly used <a class="reference external" href="http://backbonejs.org/">backbone</a>  and
+<a class="reference external" href="http://jquery.com/">jQuery</a> for creating interactive web pages.  While these
+tools are very good at what they do, I still find myself writing a fair amount
+of code to update data in the model whenever a user interacts with a control, and
+to update the control displays whenever data in the model changes.</p>
+<p>Enter <strong>Ractive</strong>.  It's not the only library to handle 2-way data binding - Angular,
+Knockout and React all play in this space, but it's my current favourite.</p>
+<p>Anyway, here's a little demo....</p>
+<p>Given a ractive template like this:</p>
+<div class="highlight"><pre><span class="nt">&lt;p&gt;</span>Type in the boxes below.<span class="err">&lt;</span>\p&gt;
+<span class="nt">&lt;input</span> <span class="na">class=</span><span class="s">&quot;form-control&quot;</span> <span class="na">value=</span><span class="s">&quot;{{var1}}&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;input</span> <span class="na">class=</span><span class="s">&quot;form-control&quot;</span> <span class="na">value=</span><span class="s">&quot;{{var2}}&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;p&gt;</span>Current values are var1:<span class="nt">&lt;code&gt;</span>{{var1}}<span class="nt">&lt;/code&gt;</span>, var2:<span class="nt">&lt;code&gt;</span>{{var2}}<span class="nt">&lt;/p&gt;</span>
+<span class="nt">&lt;button</span> <span class="na">class=</span><span class="s">&quot;btn btn-primary&quot;</span> <span class="na">on-click=</span><span class="s">&quot;changeme&quot;</span><span class="nt">&gt;</span>Set var1<span class="nt">&lt;/button&gt;</span>
+</pre></div>
+<p>and javascript like this:</p>
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">ractive</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Ractive</span><span class="p">({</span>
+   <span class="nx">el</span><span class="o">:</span><span class="s2">&quot;#demo&quot;</span><span class="p">,</span>
+   <span class="nx">template</span><span class="o">:</span><span class="nx">template</span><span class="p">,</span>
+   <span class="nx">data</span><span class="o">:</span><span class="p">{</span><span class="nx">var1</span><span class="o">:</span><span class="s1">&#39;beeblebrox&#39;</span><span class="p">,</span><span class="nx">var2</span><span class="o">:</span><span class="s1">&#39;lintilla&#39;</span><span class="p">}</span>
+<span class="p">});</span>
+</pre></div>
+<p>We get:</p>
+<script src='http://cdn.ractivejs.org/latest/ractive.js'></script>
+
+<div id="demo" class="well"></div>
+<script type="text/javascript">
+
+     var template='<p>Type in the boxes below.<\p> \
+                  <input class="form-control" value="{{var1}}">  \
+                  <input class="form-control" value="{{var2}}">  \
+                  <p>Current values are var1:<code>{{var1}}</code>, var2:<code>{{var2}}</p>\
+                  <br><button class="btn btn-primary" on-click="changeme">Set var1</button>';
+
+     var ractive = new Ractive({
+        el:"#demo",
+        template:template,
+        data:{var1:'beeblebrox',var2:'lintilla'}
+     });
+
+     ractive.on('changeme',function(){
+        ractive.set('var1','zarniwoop');
+     });
+</script><p>Neat, huh?  I haven't had to write any code to manually react to keyup, or change events
+in the input controls - Ractive simply takes care of the fact that I refer to <code class="code">
+var1</code>
+
+in both the output paragraph and the control value, and binds the two elements together,
+refreshing them whenever needed.</p>
+<p>The code for responding to the button click is simply:</p>
+<div class="highlight"><pre><span class="nx">ractive</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;changeme&#39;</span><span class="p">,</span><span class="kd">function</span><span class="p">(){</span>
+    <span class="nx">ractive</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">&#39;var1&#39;</span><span class="p">,</span><span class="s1">&#39;zarniwoop&#39;</span><span class="p">);</span>
+<span class="p">});</span>
+</pre></div>
+<p>By setting data in the underlying model, the user interface automatically updates,
+again without any manual intervention.</p>
+<div class="section" id="ui-development-might-be-fun-again">
+<h2>UI development might be fun again....</h2>
+<p>I have the same feeling on discovering Ractive that I had when I was first shown
+jQuery.  All of a sudden, a bunch of boring, fiddly manual tasks are taken care
+of in an intuitive way.  And unlike other frameworks, <em>all</em> ractive does is data-binding.
+It doesn't try to be a control library, an AJAX toolkit or a Model-View-Controller
+framework.  For those who like all-in-one solutions, this will be a weakness, but as
+someone who believes in the unix philosophy of building systems from tools that
+each do one thing well, I'm very impressed.</p>
+</div>
+
+                    
+                </div>  
+                
+                
+            </article>
+            <hr/>
+            <article>
                 <h2><a href="/nginx-uwsgi-ubuntu-14.html">Nginx and UWSGI on Ubuntu 14</a></h2>
                 
                 
@@ -1136,60 +1220,6 @@ the fabfile my <a class="reference external" href="https://github.com/trvrm/trvr
                 
             </article>
             <hr/>
-            <article>
-                <h2><a href="/reportlab-images-in-ipython.html">Reportlab Images in IPython</a></h2>
-                
-                
-                <div class="entry-content">
-
-                    <p>With a bit of work we can get IPython to render ReportLab objects
-directly to the page as Matplotlib plots.</p>
-<p>Huge thanks to github user <a class="reference external" href="https://github.com/deeplook">deeplook</a>,
-this is basically a modification of
-<a class="reference external" href="http://nbviewer.ipython.org/gist/deeplook/5162445">this</a> IPython
-notebook.</p>
-<p>First our imports.</p>
-<div class="highlight"><pre><span class="kn">from</span> <span class="nn">reportlab.lib</span> <span class="kn">import</span> <span class="n">colors</span>
-<span class="kn">from</span> <span class="nn">reportlab.graphics</span> <span class="kn">import</span> <span class="n">renderPM</span>
-<span class="kn">from</span> <span class="nn">reportlab.graphics.shapes</span> <span class="kn">import</span> <span class="n">Drawing</span><span class="p">,</span> <span class="n">Rect</span>
-<span class="kn">from</span> <span class="nn">reportlab.graphics.charts.linecharts</span> <span class="kn">import</span> <span class="n">HorizontalLineChart</span>
-</pre></div>
-<div class="highlight"><pre><span class="kn">from</span> <span class="nn">io</span> <span class="kn">import</span> <span class="n">BytesIO</span>
-<span class="kn">from</span> <span class="nn">IPython.core</span> <span class="kn">import</span> <span class="n">display</span>
-</pre></div>
-<p>Now we create a hook that causes reportlab drawings to actually be
-rendered when we type out its name.</p>
-<div class="highlight"><pre><span class="k">def</span> <span class="nf">display_reportlab_drawing</span><span class="p">(</span><span class="n">drawing</span><span class="p">):</span>
-    <span class="n">buff</span><span class="o">=</span><span class="n">BytesIO</span><span class="p">()</span>
-    <span class="n">renderPM</span><span class="o">.</span><span class="n">drawToFile</span><span class="p">(</span><span class="n">drawing</span><span class="p">,</span><span class="n">buff</span><span class="p">,</span><span class="n">fmt</span><span class="o">=</span><span class="s">&#39;png&#39;</span><span class="p">,</span><span class="n">dpi</span><span class="o">=</span><span class="mi">72</span><span class="p">)</span>
-    <span class="n">data</span><span class="o">=</span><span class="n">buff</span><span class="o">.</span><span class="n">getvalue</span><span class="p">()</span>
-    <span class="n">ip_img</span><span class="o">=</span><span class="n">display</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span><span class="n">format</span><span class="o">=</span><span class="s">&#39;png&#39;</span><span class="p">,</span><span class="n">embed</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">ip_img</span><span class="o">.</span><span class="n">_repr_png_</span><span class="p">()</span>
-</pre></div>
-<div class="highlight"><pre><span class="n">png_formatter</span><span class="o">=</span><span class="n">get_ipython</span><span class="p">()</span><span class="o">.</span><span class="n">display_formatter</span><span class="o">.</span><span class="n">formatters</span><span class="p">[</span><span class="s">&#39;image/png&#39;</span><span class="p">]</span>
-<span class="n">drd</span><span class="o">=</span><span class="n">png_formatter</span><span class="o">.</span><span class="n">for_type</span><span class="p">(</span><span class="n">Drawing</span><span class="p">,</span><span class="n">display_reportlab_drawing</span><span class="p">)</span>
-</pre></div>
-<p>Now that's done, we can start creating ReportLab objects and see them
-immediately.</p>
-<div class="highlight"><pre><span class="n">drawing</span> <span class="o">=</span> <span class="n">Drawing</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
-<span class="n">drawing</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Rect</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">150</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="n">strokeColor</span><span class="o">=</span><span class="n">colors</span><span class="o">.</span><span class="n">black</span><span class="p">,</span><span class="n">fillColor</span><span class="o">=</span><span class="n">colors</span><span class="o">.</span><span class="n">antiquewhite</span><span class="p">))</span>
-<span class="n">drawing</span>
-</pre></div>
-<img alt="" src="reportlab-images-ipython_files/reportlab-images-ipython_8_0.png" />
-<div class="highlight"><pre><span class="n">chart</span><span class="o">=</span><span class="n">HorizontalLineChart</span><span class="p">()</span>
-</pre></div>
-<div class="highlight"><pre><span class="n">drawing</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">chart</span><span class="p">)</span>
-</pre></div>
-<div class="highlight"><pre><span class="n">drawing</span>
-</pre></div>
-<img alt="" src="reportlab-images-ipython_files/reportlab-images-ipython_11_0.png" />
-
-                    
-                </div>  
-                
-                
-            </article>
-            <hr/>
 
         <ul class="pagination">
                 <li class="prev"><a href="/author/trevor.html">&laquo;</a>
@@ -1219,44 +1249,6 @@ immediately.</p>
 
 
 
-
-    <li class="list-group-item"><h4><i class="fa fa-github fa-lg"></i><span class="icon-label">GitHub Repos</span></h4>
-        <div id="gh_repos">
-            <p class="list-group-item">Status updating...</p>
-        </div>
-    </li>
-
-    <li class="list-group-item"><h4><i class="fa fa-twitter fa-lg"></i><span class="icon-label">Latest Tweets</span></h4></li>
-    <div id="twitter_timeline">
-        <a class="twitter-timeline" data-chrome="noheader" href="https://twitter.com/" data-widget-id="586183094564220928">Tweets by </a>
-    </div>
-
-<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-
-    <li class="list-group-item"><h4><i class="fa fa-external-link-square fa-lg"></i><span class="icon-label">Links</span></h4>
-      <ul class="list-group" id="links">
-        <li class="list-group-item">
-            <a href="http://getpelican.com/" target="_blank">
-                Pelican
-            </a>
-        </li>
-        <li class="list-group-item">
-            <a href="http://python.org/" target="_blank">
-                Python.org
-            </a>
-        </li>
-        <li class="list-group-item">
-            <a href="http://jinja.pocoo.org/" target="_blank">
-                Jinja2
-            </a>
-        </li>
-        <li class="list-group-item">
-            <a href="http://ipython.org/" target="_blank">
-                IPython
-            </a>
-        </li>
-      </ul>
-    </li>
     </ul>
 </section>
             </aside>
@@ -1283,27 +1275,6 @@ immediately.</p>
 <!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
 <script src="/theme/js/respond.min.js"></script>
 
-    <!-- GitHub JS -->
-    <script type="text/javascript">
-        $(document).ready(function () {
-            if (!window.jXHR) {
-                var jxhr = document.createElement('script');
-                jxhr.type = 'text/javascript';
-                jxhr.src = '/theme/js/jXHR.js';
-                var s = document.getElementsByTagName('script')[0];
-                s.parentNode.insertBefore(jxhr, s);
-            }
-
-            github.showRepos({
-                user: 'trvrm',
-                count: 5,
-                skip_forks: false,
-                target: '#gh_repos'
-            });
-        });
-    </script>
-    <script src="/theme/js/github.js" type="text/javascript"></script>
-    <!-- End GitHub JS Code -->
 
 </body>
 </html>
