@@ -36,7 +36,7 @@ to 16k, and even with all the other changes made, when accessing the site via
 HTTPS, NGINX will still buffer your output.&lt;/p&gt;
 &lt;h4&gt;References&lt;/h4&gt;
 &lt;p&gt;&lt;a href="https://stackoverflow.com/questions/4870697/php-flush-that-works-even-in-nginx"&gt;This&lt;/a&gt;
-Stack Overflow question got me pointed in the right direction.&lt;/p&gt;</summary><category term="PHP"></category><category term="FPM"></category><category term="NGINX"></category></entry><entry><title>Efficient Postgres Bulk Inserts using Psycopg2 and Unnest</title><link href="/bulk-psycopg2-inserts.html" rel="alternate"></link><updated>2015-10-22T00:00:00+02:00</updated><author><name>Trevor</name></author><id>tag:,2015-10-22:bulk-psycopg2-inserts.html</id><summary type="html">&lt;p&gt;One of the biggest challenges I face maintaining large Postgres systems
+Stack Overflow question got me pointed in the right direction. &lt;/p&gt;</summary><category term="PHP"></category><category term="FPM"></category><category term="NGINX"></category></entry><entry><title>Efficient Postgres Bulk Inserts using Psycopg2 and Unnest</title><link href="/bulk-psycopg2-inserts.html" rel="alternate"></link><updated>2015-10-22T00:00:00+02:00</updated><author><name>Trevor</name></author><id>tag:,2015-10-22:bulk-psycopg2-inserts.html</id><summary type="html">&lt;p&gt;One of the biggest challenges I face maintaining large Postgres systems
 is getting data &lt;em&gt;into&lt;/em&gt; them in an efficient manner. Postgres is very,
 very good at maintaining, organising, querying and retrieving data, but
 inserts themselves can be quite slow.&lt;/p&gt;
