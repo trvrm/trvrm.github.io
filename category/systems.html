@@ -1,84 +1,59 @@
 <!DOCTYPE html>
-<html lang="en" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<html lang="en">
 <head>
-    <title>Systems - trvrm</title>
-    <!-- Using the latest rendering mode for IE -->
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-
-    <link href="/images/favicon.png" rel="icon">
-
-
-    <meta name="author" content="trvrm" />
-    <meta name="keywords" content="Systems" />
-
-    <!-- Open Graph tags -->
-        <meta property="og:site_name" content="trvrm" />
-        <meta property="og:type" content="website"/>
-        <meta property="og:title" content="trvrm"/>
-        <meta property="og:url" content=""/>
-        <meta property="og:description" content="trvrm"/>
-
-
-    <!-- Bootstrap -->
-        <link rel="stylesheet" href="/theme/css/bootstrap.flatly.min.css" type="text/css"/>
-    <link href="/theme/css/font-awesome.min.css" rel="stylesheet">
-
-    <link href="/theme/css/pygments/tango.css" rel="stylesheet">
-    <link rel="stylesheet" href="/theme/css/style.css" type="text/css"/>
-
-
-
-
-
+        <title>trvrm</title>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" type="text/css" href="/theme/css/bulma.min.css" />
+        <link rel="stylesheet" type="text/css" href="/theme/css/style.css" />
 </head>
+
 <body>
 
-<div class="navbar navbar-default navbar-fixed-top" role="navigation">
-	<div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a href="/" class="navbar-brand">
-trvrm            </a>
+    <section class="hero is-primary is-bold">
+        <div class="hero-head">
+            <div class="container">
+                <nav class="nav has-shadow">
+                        <div class="nav-left">
+                                <a class="nav-item is-tab " href="/category/database.html">Database</a>
+                                <a class="nav-item is-tab " href="/category/software.html">Software</a>
+                                <a class="nav-item is-tab  active " href="/category/systems.html">Systems</a>
+                    
+                    </div>              
+                </nav>
+            </div>
         </div>
-        <div class="collapse navbar-collapse navbar-ex1-collapse">
-            <ul class="nav navbar-nav">
-                        <li >
-                            <a href="/category/database.html">Database</a>
-                        </li>
-                        <li >
-                            <a href="/category/software.html">Software</a>
-                        </li>
-                        <li class="active">
-                            <a href="/category/systems.html">Systems</a>
-                        </li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-              <li><a href="/archives.html"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
-            </ul>
+        <div class="hero-body">
+            <div class="container">
+                <div class="columns is-vcentered">
+                    <div class="column">
+                        <h1 class="title">
+                            <a href="/">trvrm  </a>
+                        </h1>
+                        
+<h2>Articles in the Systems category</h2>
+                    </div>
+                </div>
+            </div>
         </div>
-        <!-- /.navbar-collapse -->
-    </div>
-</div> <!-- /.navbar -->
-<!-- Banner -->
-<!-- End Banner -->
-<div class="container">
-    <div class="row">
-        <div class="col-sm-9">
-            <article>
-                <h2><a href="/streaming-php-output-with-fpm-and-nginx.html">Streaming PHP Output with FPM and NGINX</a></h2>
-                
-                
-                <div class="entry-content">
+    </section>  
+    
 
-                    <p><strong>Problem:</strong> We had a PHP report that takes around 45 seconds to render.  To give the user feedback
+
+
+    <section class="section">
+        <div class="container">
+            <p class="subtitle is-4">
+                Sun 25 October 2015
+            </p>
+            
+            <h2 class="title is-2">
+                <a href="/streaming-php-output-with-fpm-and-nginx.html" rel="bookmark" title="Permalink to Streaming PHP Output with FPM and NGINX">
+                    Streaming PHP Output with FPM and NGINX
+                </a>
+            </h2>
+
+            <div class="content is-medium">
+                <p><strong>Problem:</strong> We had a PHP report that takes around 45 seconds to render.  To give the user feedback
 that their report was actually being generated, I wanted to change our PHP installation to deliver at least some output to the client as soon as possible, rather than waiting until the entire page was rendered.</p>
 <p>In general, PHP and NGINX work hard to buffer output, so this was mostly an exercise in fighting with
 PHP and NGINX to make them stop doing optimizations that do, in general, make sense.  It turns out that
@@ -116,38 +91,48 @@ HTTPS, NGINX will still buffer your output.</p>
 <h4>References</h4>
 <p><a href="https://stackoverflow.com/questions/4870697/php-flush-that-works-even-in-nginx">This</a>
 Stack Overflow question got me pointed in the right direction. </p>
-                    
-                </div>  
-                
-                
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/configuring-systems-with-fabric-and-cuisine.html">Configuring Systems with Fabric and Cuisine</a></h2>
-                
-                
-                <div class="entry-content">
 
-                    <p>I've mentioned <a class="reference external" href="http://fabric.readthedocs.org/en/1.8/">Fabric</a> before on this blog.  Because so much of my development time is spent in Python, it makes
+            </div>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container">
+            <p class="subtitle is-4">
+                Thu 01 January 2015
+            </p>
+            
+            <h2 class="title is-2">
+                <a href="/configuring-systems-with-fabric-and-cuisine.html" rel="bookmark" title="Permalink to Configuring Systems with Fabric and Cuisine">
+                    Configuring Systems with Fabric and Cuisine
+                </a>
+            </h2>
+
+            <div class="content is-medium">
+                <p>I've mentioned <a class="reference external" href="http://fabric.readthedocs.org/en/1.8/">Fabric</a> before on this blog.  Because so much of my development time is spent in Python, it makes
 sense for me to look for system administration tools that are also written in Python.  Fabric fits the bill
 perfectly, and allows me to run tasks remotely on multiple machines simultaneously.</p>
 <p>A useful addition to Fabric is <a class="reference external" href="https://github.com/sebastien/cuisine">Cuisine</a>.  <strong>Cuisine is a small set of functions that sit on top of Fabric,
 to abstract common administration operations such as file/dir operations, user/group creation,
 package install/upgrade, making it easier to write portable administration and deployment scripts.</strong></p>
 
-                    
-                </div>  
-                
-                
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/logrotate.html">logrotate</a></h2>
-                
-                
-                <div class="entry-content">
 
-                    <p>I have a large, complex <a class="reference external" href="/postfix.html">mailing system</a> that processes
+            </div>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container">
+            <p class="subtitle is-4">
+                Thu 01 January 2015
+            </p>
+            
+            <h2 class="title is-2">
+                <a href="/logrotate.html" rel="bookmark" title="Permalink to logrotate">
+                    logrotate
+                </a>
+            </h2>
+
+            <div class="content is-medium">
+                <p>I have a large, complex <a class="reference external" href="/postfix.html">mailing system</a> that processes
 a significant amount of data every hour.  While I'm developing it, I want to know
 what it's doing, and whether it's having any problems.  So I use the excellent
 python <a class="reference external" href="https://docs.python.org/2/library/logging.html">logging</a> library to produce comprehensive monitoring data.</p>
@@ -194,25 +179,30 @@ WatchedFileHandler</code>
 rotated out while it's in use, WatchedFileHandler will notice this, close the file
 stream and open a new one.</p>
 
-                    
-                </div>  
-                
-                
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/nginx-uwsgi-ubuntu-14.html">Nginx and UWSGI on Ubuntu 14</a></h2>
-                
-                
-                <div class="entry-content">
 
-                    <p>The documentation for Nginx and UWSGI is long and complex, but with ubuntu 14
+            </div>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container">
+            <p class="subtitle is-4">
+                Thu 01 January 2015
+            </p>
+            
+            <h2 class="title is-2">
+                <a href="/nginx-uwsgi-ubuntu-14.html" rel="bookmark" title="Permalink to Nginx and UWSGI on Ubuntu 14">
+                    Nginx and UWSGI on Ubuntu 14
+                </a>
+            </h2>
+
+            <div class="content is-medium">
+                <p>The documentation for Nginx and UWSGI is long and complex, but with ubuntu 14
 it's actually pretty straightforward to get them up and running.</p>
 <p>I present here a a setup that uses nginx and uwsgi emperor to host
 multiple python web applications simultaneously on an ubuntu 14 machine.</p>
 <p>First, the packages</p>
-<div class="highlight"><pre><span class="nv">$ </span>sudo apt-get install nginx
-<span class="nv">$ </span>sudo apt-get install uwsgi uwsgi-emperor uwsgi-plugin-python
+<div class="highlight"><pre>$ sudo apt-get install nginx
+$ sudo apt-get install uwsgi uwsgi-emperor uwsgi-plugin-python
 </pre></div>
 <p>Our configuration files will now be under <code class="code">
 /etc/nginx</code>
@@ -220,15 +210,15 @@ multiple python web applications simultaneously on an ubuntu 14 machine.</p>
 /etc/uwsgi-emperor</code>
 </p>
 <p>You can start, stop, and reload nginx as follows:</p>
-<div class="highlight"><pre><span class="nv">$ </span>sudo service nginx start
-<span class="nv">$ </span>sudo service nginx stop
-<span class="nv">$ </span>sudo service nginx reload
+<div class="highlight"><pre>$ sudo service nginx start
+$ sudo service nginx stop
+$ sudo service nginx reload
 </pre></div>
 <p>The last command is useful when changing configuration settings.</p>
 <p>Now set up a site by creating a file in <code class="code">
 /etc/nginx/sites-available</code>
 </p>
-<div class="highlight"><pre><span class="c">#/etc/nginx/sites-available/mysite</span>
+<div class="highlight"><pre><span class="c1">#/etc/nginx/sites-available/mysite</span>
 server<span class="o">{</span>
 
     server_name     your_host_name<span class="p">;</span>
@@ -244,7 +234,7 @@ server<span class="o">{</span>
 <span class="o">}</span>
 </pre></div>
 <p>Then,</p>
-<div class="highlight"><pre><span class="nv">$ </span>sudo ln -s /etc/nginx/apps-available/mysite /etc/nginx/sites-enabled
+<div class="highlight"><pre>$ sudo ln -s /etc/nginx/apps-available/mysite /etc/nginx/sites-enabled
 </pre></div>
 <div class="alert  alert-warning compound">
 <p class="compound-first"><strong>Warning</strong></p>
@@ -299,33 +289,38 @@ application can be only a few lines long:</p>
 /srv/app1/main.py</code>
 </p>
 <div class="highlight"><pre><span class="k">def</span> <span class="nf">application</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">start_response</span><span class="p">):</span>
-    <span class="n">start_response</span><span class="p">(</span><span class="s">&#39;200 OK&#39;</span><span class="p">,</span> <span class="p">[(</span><span class="s">&#39;Content-Type&#39;</span><span class="p">,</span><span class="s">&#39;text/html&#39;</span><span class="p">)])</span>
-    <span class="k">return</span> <span class="p">[</span><span class="s">&quot;Hello World, I am app1&quot;</span><span class="p">]</span>
+    <span class="n">start_response</span><span class="p">(</span><span class="s1">&#39;200 OK&#39;</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;Content-Type&#39;</span><span class="p">,</span><span class="s1">&#39;text/html&#39;</span><span class="p">)])</span>
+    <span class="k">return</span> <span class="p">[</span><span class="s2">&quot;Hello World, I am app1&quot;</span><span class="p">]</span>
 </pre></div>
 <p>And <code class="code">
 /srv/app2/main.py</code>
 </p>
 <div class="highlight"><pre><span class="k">def</span> <span class="nf">application</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">start_response</span><span class="p">):</span>
-    <span class="n">start_response</span><span class="p">(</span><span class="s">&#39;200 OK&#39;</span><span class="p">,</span> <span class="p">[(</span><span class="s">&#39;Content-Type&#39;</span><span class="p">,</span><span class="s">&#39;text/html&#39;</span><span class="p">)])</span>
-    <span class="k">return</span> <span class="p">[</span><span class="s">&quot;I, however, am app2. &quot;</span><span class="p">]</span>
+    <span class="n">start_response</span><span class="p">(</span><span class="s1">&#39;200 OK&#39;</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;Content-Type&#39;</span><span class="p">,</span><span class="s1">&#39;text/html&#39;</span><span class="p">)])</span>
+    <span class="k">return</span> <span class="p">[</span><span class="s2">&quot;I, however, am app2. &quot;</span><span class="p">]</span>
 </pre></div>
 <p>And that's it!</p>
 <p>Visiting <a class="reference external" href="http://your_host_name/app1">http://your_host_name/app1</a> or <a class="reference external" href="http://your_host_name/app2">http://your_host_name/app2</a> should return the text
 you put in the python files.</p>
 
-                    
-                </div>  
-                
-                
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/postfix.html">Postfix</a></h2>
-                
-                
-                <div class="entry-content">
 
-                    <p>Postfix is a ghastly horror that really should be quietly eliminated.  But that truism hides a deeper issue - email itself is a ghastly horror, the result of 30 years of hacks, edge-cases, non-conformant implementations and competing design constraints, that only persists because we still haven't come up with anything better.</p>
+            </div>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container">
+            <p class="subtitle is-4">
+                Thu 01 January 2015
+            </p>
+            
+            <h2 class="title is-2">
+                <a href="/postfix.html" rel="bookmark" title="Permalink to Postfix">
+                    Postfix
+                </a>
+            </h2>
+
+            <div class="content is-medium">
+                <p>Postfix is a ghastly horror that really should be quietly eliminated.  But that truism hides a deeper issue - email itself is a ghastly horror, the result of 30 years of hacks, edge-cases, non-conformant implementations and competing design constraints, that only persists because we still haven't come up with anything better.</p>
 <p>Take the simple question 'what is a valid email address'.</p>
 <p>I have a couple of standard regexes I use to validate email addresses,
 such as <code class="code">
@@ -366,7 +361,7 @@ the system, and another set of rather complex configuration files under <code cl
 complete mail delivery system.</p>
 <p>To add to the fun, many postfix configuration settings can be stored in MySQL, and it's possible to run multiple postfix instances in
 parallel with each other.</p>
-<div class="highlight"><pre><span class="nv">$ </span>pstree -a
+<div class="highlight"><pre>$ pstree -a
 
 ├─master
 │   ├─anvil -l -t unix -u -c
@@ -406,19 +401,24 @@ few years I've built and maintained a massively parallel mail delivery, manageme
 and monitoring system on top of Postfix that, at the last count, had successfully
 delivered almost 10 million messages for clients of <a class="reference external" href="http://nooro.com">Nooro Online Research</a>.</p>
 
-                    
-                </div>  
-                
-                
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/remote-systems-administration-with-fabric.html">Remote Systems Administration with Fabric</a></h2>
-                
-                
-                <div class="entry-content">
 
-                    <p>A tool I'm finding myself using more and more these days is <a class="reference external" href="http://fabric.readthedocs.org/en/1.8/">Fabric</a>.</p>
+            </div>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container">
+            <p class="subtitle is-4">
+                Thu 01 January 2015
+            </p>
+            
+            <h2 class="title is-2">
+                <a href="/remote-systems-administration-with-fabric.html" rel="bookmark" title="Permalink to Remote Systems Administration with Fabric">
+                    Remote Systems Administration with Fabric
+                </a>
+            </h2>
+
+            <div class="content is-medium">
+                <p>A tool I'm finding myself using more and more these days is <a class="reference external" href="http://fabric.readthedocs.org/en/1.8/">Fabric</a>.</p>
 <p>Fabric is a python utility and library for streamlining systems administration
 tasks on multiple machines.</p>
 <p>Although I'm primarily a developer and systems architect, I find that as our
@@ -438,10 +438,10 @@ in our infrastructure.</p>
 all my servers, I have a task set up in my fabfile like this:</p>
 <div class="highlight"><pre><span class="nd">@parallel</span>
 <span class="k">def</span> <span class="nf">lsb_release</span><span class="p">():</span>
-    <span class="n">run</span><span class="p">(</span><span class="s">&#39;lsb_release -a&#39;</span><span class="p">)</span>
+    <span class="n">run</span><span class="p">(</span><span class="s1">&#39;lsb_release -a&#39;</span><span class="p">)</span>
 </pre></div>
 <p>When I invoke this via:</p>
-<div class="highlight"><pre><span class="nv">$ </span>fab lsb_release
+<div class="highlight"><pre>$ fab lsb_release
 </pre></div>
 <p>I get a nice little print-out of the current version of all my servers.  Fabric
 runs the task in parallel against every host in the <code class="code">
@@ -450,69 +450,38 @@ env.hosts</code>
 which can be set at the command line or in the <strong>fabfile</strong>.</p>
 <p>The following example allows me to see a list of every database running on every
 database server.</p>
-<div class="highlight"><pre><span class="n">DATABASE_HOST_MACHINES</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;dbserver1&#39;</span><span class="p">,</span><span class="s">&#39;dbserver2&#39;</span><span class="p">,</span><span class="o">...</span><span class="p">]</span>
+<div class="highlight"><pre><span class="n">DATABASE_HOST_MACHINES</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;dbserver1&#39;</span><span class="p">,</span><span class="s1">&#39;dbserver2&#39;</span><span class="p">,</span><span class="o">...</span><span class="p">]</span>
 
 <span class="nd">@hosts</span><span class="p">(</span><span class="n">DATABASE_HOST_MACHINES</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">databases</span><span class="p">():</span>
     <span class="k">with</span> <span class="n">warn_only</span><span class="p">():</span>
-        <span class="n">run</span><span class="p">(</span><span class="s">&#39;psql -c &quot;select datname from pg_database;&quot;&#39;</span><span class="p">)</span>
+        <span class="n">run</span><span class="p">(</span><span class="s1">&#39;psql -c &quot;select datname from pg_database;&quot;&#39;</span><span class="p">)</span>
 </pre></div>
 <p>And <em>voila</em>, a call to</p>
-<div class="highlight"><pre><span class="nv">$ </span>fab databases
+<div class="highlight"><pre>$ fab databases
 </pre></div>
 <p>gives me a company-wide view of all our databases.</p>
 <p>One further demonstration - this blog itself is generated using Fabric! For details, see
 the fabfile my <a class="reference external" href="https://github.com/trvrm/trvrm.github.io/blob/master/fabfile.py">Github</a> repository.</p>
 
-                    
-                </div>  
-                
-                
-            </article>
-            <hr/>
 
+            </div>
         </div>
-        <div class="col-sm-3" id="sidebar">
-            <aside>
+    </section>
 
-<section class="well well-sm">
-    <ul class="list-group list-group-flush">
-            <li class="list-group-item"><h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Social</span></h4>
-              <ul class="list-group" id="social">
-                <li class="list-group-item"><a href="https://twitter.com/trvrm"><i class="fa fa-twitter-square fa-lg"></i> twitter</a></li>
-              </ul>
-            </li>
+   
 
 
 
-
-
-    </ul>
-</section>
-            </aside>
+    <footer class="footer">
+        <div class="container">
+            <div class="content has-text-centered">
+                <p>
+                    Powered by <a href="http://getpelican.com/">Pelican</a>, <a href="http://python.org">Python</a>, 
+                    and <a href="http://bulma.io/">Bulma</a>
+                </p>
+            </div>
         </div>
-    </div>
-</div>
-<footer>
-   <div class="container">
-      <hr>
-      <div class="row">
-         <div class="col-xs-10">&copy; 2015 trvrm
-            &middot; Powered by <a href="https://github.com/DandyDev/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
-            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
-            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
-         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
-      </div>
-   </div>
-</footer>
-<script src="/theme/js/jquery.min.js"></script>
-
-<!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="/theme/js/bootstrap.min.js"></script>
-
-<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
-<script src="/theme/js/respond.min.js"></script>
-
-
+    </footer>
 </body>
 </html>

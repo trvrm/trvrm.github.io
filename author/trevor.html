@@ -1,83 +1,95 @@
 <!DOCTYPE html>
-<html lang="en" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<html lang="en">
 <head>
-    <title>Articles by Trevor - trvrm</title>
-    <!-- Using the latest rendering mode for IE -->
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-
-    <link href="/images/favicon.png" rel="icon">
-
-
-        <meta name="author" content="trvrm" />
-
-    <!-- Open Graph tags -->
-        <meta property="og:site_name" content="trvrm" />
-        <meta property="og:type" content="website"/>
-        <meta property="og:title" content="trvrm"/>
-        <meta property="og:url" content=""/>
-        <meta property="og:description" content="trvrm"/>
-
-
-    <!-- Bootstrap -->
-        <link rel="stylesheet" href="/theme/css/bootstrap.flatly.min.css" type="text/css"/>
-    <link href="/theme/css/font-awesome.min.css" rel="stylesheet">
-
-    <link href="/theme/css/pygments/tango.css" rel="stylesheet">
-    <link rel="stylesheet" href="/theme/css/style.css" type="text/css"/>
-
-
-
-
-
+        <title>trvrm - Articles by Trevor</title>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" type="text/css" href="/theme/css/bulma.min.css" />
+        <link rel="stylesheet" type="text/css" href="/theme/css/style.css" />
 </head>
+
 <body>
 
-<div class="navbar navbar-default navbar-fixed-top" role="navigation">
-	<div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a href="/" class="navbar-brand">
-trvrm            </a>
+    <section class="hero is-primary is-bold">
+        <div class="hero-head">
+            <div class="container">
+                <nav class="nav has-shadow">
+                        <div class="nav-left">
+                                <a class="nav-item is-tab " href="/category/database.html">Database</a>
+                                <a class="nav-item is-tab " href="/category/software.html">Software</a>
+                                <a class="nav-item is-tab " href="/category/systems.html">Systems</a>
+                    
+                    </div>              
+                </nav>
+            </div>
         </div>
-        <div class="collapse navbar-collapse navbar-ex1-collapse">
-            <ul class="nav navbar-nav">
-                        <li >
-                            <a href="/category/database.html">Database</a>
-                        </li>
-                        <li >
-                            <a href="/category/software.html">Software</a>
-                        </li>
-                        <li >
-                            <a href="/category/systems.html">Systems</a>
-                        </li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-              <li><a href="/archives.html"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
-            </ul>
+        <div class="hero-body">
+            <div class="container">
+                <div class="columns is-vcentered">
+                    <div class="column">
+                        <h1 class="title">
+                            <a href="/">trvrm  </a>
+                        </h1>
+                        
+<h2>Articles by Trevor</h2>
+                    </div>
+                </div>
+            </div>
         </div>
-        <!-- /.navbar-collapse -->
-    </div>
-</div> <!-- /.navbar -->
-<!-- Banner -->
-<!-- End Banner -->
-<div class="container">
-    <div class="row">
-        <div class="col-sm-9">
-            <article>
-                <h2><a href="/streaming-php-output-with-fpm-and-nginx.html">Streaming PHP Output with FPM and NGINX</a></h2>
-                
-                
-                <div class="entry-content">
+    </section>  
+    
 
-                    <p><strong>Problem:</strong> We had a PHP report that takes around 45 seconds to render.  To give the user feedback
+
+
+    <section class="section">
+        <div class="container">
+            <p class="subtitle is-4">
+                Fri 13 May 2016
+            </p>
+            
+            <h2 class="title is-2">
+                <a href="/new-blog-theme.html" rel="bookmark" title="Permalink to New Blog Theme">
+                    New Blog Theme
+                </a>
+            </h2>
+
+            <div class="content is-medium">
+                <p>Yesterday I discovered the <a href="http://bulma.io/">Bulma</a> CSS library.  It seems to be basically 'bootstrap for the flexbox world.'</p>
+<p>Given that Bootstrap version 4 has been promising us Flexbox support for nearly a year now, I think Bulma could be my
+new best CSS friend.  Of course, I won't be able to use it anywhere where I have to support even reasonably old
+browsers, but so far it's been very pleasant to work with.</p>
+<p>I also used this opportunity to learn how to <a href="http://docs.getpelican.com/en/3.1.1/themes.html">create themes for Pelican</a>.  I basically took the 'simple' theme from the Pelican distribution and systematically rewrote each template
+to use Bulma classes.  Here's an example from the <code>article.html</code> template</p>
+<div class="highlight"><pre><span class="nt">&lt;section</span> <span class="na">class=</span><span class="s">&quot;section&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;container&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;p</span> <span class="na">class=</span><span class="s">&quot;subtitle is-4&quot;</span><span class="nt">&gt;</span>
+            <span class="cp">{{</span> <span class="nv">article.locale_date</span> <span class="cp">}}</span>
+        <span class="nt">&lt;/p&gt;</span>
+
+        <span class="nt">&lt;h2</span> <span class="na">class=</span><span class="s">&quot;title is-2&quot;</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">SITEURL</span> <span class="cp">}}</span><span class="s">/</span><span class="cp">{{</span> <span class="nv">article.url</span> <span class="cp">}}</span><span class="s">&quot;</span> <span class="na">rel=</span><span class="s">&quot;bookmark&quot;</span> <span class="na">title=</span><span class="s">&quot;Permalink to </span><span class="cp">{{</span> <span class="nv">article.title</span><span class="o">|</span><span class="nf">striptags</span> <span class="cp">}}</span><span class="s">&quot;</span><span class="nt">&gt;</span>
+                <span class="cp">{{</span> <span class="nv">article.title</span> <span class="cp">}}</span>
+            <span class="nt">&lt;/a&gt;</span>
+        <span class="nt">&lt;/h2&gt;</span>
+        ...
+</pre></div>
+
+            </div>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container">
+            <p class="subtitle is-4">
+                Sun 25 October 2015
+            </p>
+            
+            <h2 class="title is-2">
+                <a href="/streaming-php-output-with-fpm-and-nginx.html" rel="bookmark" title="Permalink to Streaming PHP Output with FPM and NGINX">
+                    Streaming PHP Output with FPM and NGINX
+                </a>
+            </h2>
+
+            <div class="content is-medium">
+                <p><strong>Problem:</strong> We had a PHP report that takes around 45 seconds to render.  To give the user feedback
 that their report was actually being generated, I wanted to change our PHP installation to deliver at least some output to the client as soon as possible, rather than waiting until the entire page was rendered.</p>
 <p>In general, PHP and NGINX work hard to buffer output, so this was mostly an exercise in fighting with
 PHP and NGINX to make them stop doing optimizations that do, in general, make sense.  It turns out that
@@ -115,19 +127,24 @@ HTTPS, NGINX will still buffer your output.</p>
 <h4>References</h4>
 <p><a href="https://stackoverflow.com/questions/4870697/php-flush-that-works-even-in-nginx">This</a>
 Stack Overflow question got me pointed in the right direction. </p>
-                    
-                </div>  
-                
-                
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/bulk-psycopg2-inserts.html">Efficient Postgres Bulk Inserts using Psycopg2 and Unnest</a></h2>
-                
-                
-                <div class="entry-content">
 
-                    <p>One of the biggest challenges I face maintaining large Postgres systems
+            </div>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container">
+            <p class="subtitle is-4">
+                Thu 22 October 2015
+            </p>
+            
+            <h2 class="title is-2">
+                <a href="/bulk-psycopg2-inserts.html" rel="bookmark" title="Permalink to Efficient Postgres Bulk Inserts using Psycopg2 and Unnest">
+                    Efficient Postgres Bulk Inserts using Psycopg2 and Unnest
+                </a>
+            </h2>
+
+            <div class="content is-medium">
+                <p>One of the biggest challenges I face maintaining large Postgres systems
 is getting data <em>into</em> them in an efficient manner. Postgres is very,
 very good at maintaining, organising, querying and retrieving data, but
 inserts themselves can be quite slow.</p>
@@ -159,12 +176,12 @@ efficient technique I've found so far.</p>
 <div class="section" id="a-context-manager-for-timing-operations">
 <h2>A context manager for timing operations.</h2>
 <div class="highlight"><pre><span class="nd">@contextlib.contextmanager</span>
-<span class="k">def</span> <span class="nf">timer</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;duration&quot;</span><span class="p">):</span>
-    <span class="s">&#39;Utility function for timing execution&#39;</span>
+<span class="k">def</span> <span class="nf">timer</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;duration&quot;</span><span class="p">):</span>
+    <span class="s1">&#39;Utility function for timing execution&#39;</span>
     <span class="n">start</span><span class="o">=</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
     <span class="k">yield</span>
     <span class="n">duration</span><span class="o">=</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="o">-</span><span class="n">start</span>
-    <span class="k">print</span><span class="p">(</span><span class="s">&quot;{0}: {1} second(s)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="n">duration</span><span class="p">))</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;{0}: {1} second(s)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="n">duration</span><span class="p">))</span>
 </pre></div>
 </div>
 <div class="section" id="test-setup">
@@ -173,31 +190,31 @@ efficient technique I've found so far.</p>
 it takes to perform inserts on it via several different methods. The
 table has a couple of default columns, a text column, and an HSTORE
 column.</p>
-<div class="highlight"><pre><span class="n">SETUP_SQL</span><span class="o">=</span><span class="s">&quot;&quot;&quot;</span>
-<span class="s">    DROP TABLE IF EXISTS upload_time_test;</span>
+<div class="highlight"><pre><span class="n">SETUP_SQL</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    DROP TABLE IF EXISTS upload_time_test;</span>
 
-<span class="s">    CREATE TABLE upload_time_test(</span>
-<span class="s">        uuid uuid primary key default uuid_generate_v4(),</span>
-<span class="s">        created timestamp with time zone not null default now(),</span>
-<span class="s">        text text not null,</span>
-<span class="s">        properties hstore not null default &#39;&#39;::hstore</span>
-<span class="s">    );</span>
+<span class="s2">    CREATE TABLE upload_time_test(</span>
+<span class="s2">        uuid uuid primary key default uuid_generate_v4(),</span>
+<span class="s2">        created timestamp with time zone not null default now(),</span>
+<span class="s2">        text text not null,</span>
+<span class="s2">        properties hstore not null default &#39;&#39;::hstore</span>
+<span class="s2">    );</span>
 
-<span class="s">    GRANT ALL ON upload_time_test TO test;</span>
-<span class="s">&quot;&quot;&quot;</span>
+<span class="s2">    GRANT ALL ON upload_time_test TO test;</span>
+<span class="s2">&quot;&quot;&quot;</span>
 </pre></div>
 <p>This is the SQL we'll use for inserting a single row into the database
 table:</p>
-<div class="highlight"><pre><span class="n">SINGLE_INSERT</span><span class="o">=</span><span class="s">&quot;&quot;&quot;</span>
-<span class="s">    INSERT INTO upload_time_test(text,properties)</span>
-<span class="s">         VALUES (</span><span class="si">%(text)s</span><span class="s">, </span><span class="si">%(properties)s</span><span class="s">)</span>
-<span class="s">&quot;&quot;&quot;</span>
+<div class="highlight"><pre><span class="n">SINGLE_INSERT</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    INSERT INTO upload_time_test(text,properties)</span>
+<span class="s2">         VALUES (</span><span class="si">%(text)s</span><span class="s2">, </span><span class="si">%(properties)s</span><span class="s2">)</span>
+<span class="s2">&quot;&quot;&quot;</span>
 </pre></div>
 <p>Credentials for connecting to my local test database</p>
-<div class="highlight"><pre><span class="n">HOST</span><span class="o">=</span><span class="s">&#39;localhost&#39;</span>
-<span class="n">DATABASE</span><span class="o">=</span><span class="s">&#39;test&#39;</span>
-<span class="n">USER</span><span class="o">=</span><span class="s">&#39;test&#39;</span>
-<span class="n">PASSWORD</span><span class="o">=</span><span class="s">&#39;password&#39;</span>
+<div class="highlight"><pre><span class="n">HOST</span><span class="o">=</span><span class="s1">&#39;localhost&#39;</span>
+<span class="n">DATABASE</span><span class="o">=</span><span class="s1">&#39;test&#39;</span>
+<span class="n">USER</span><span class="o">=</span><span class="s1">&#39;test&#39;</span>
+<span class="n">PASSWORD</span><span class="o">=</span><span class="s1">&#39;password&#39;</span>
 </pre></div>
 <p>Then we define a couple of simple wrappers around <code class="code">
 psycopg2</code>
@@ -241,8 +258,8 @@ unroll a set of arrays passed in through psycopg2</li>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">=</span><span class="p">[</span>
             <span class="p">{</span>
-                <span class="s">&#39;text&#39;</span><span class="p">:</span><span class="s">&#39;Some text&#39;</span><span class="p">,</span>
-                <span class="s">&#39;properties&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&quot;key&quot;</span><span class="p">:</span><span class="s">&quot;value&quot;</span><span class="p">},</span>
+                <span class="s1">&#39;text&#39;</span><span class="p">:</span><span class="s1">&#39;Some text&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;properties&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;key&quot;</span><span class="p">:</span><span class="s2">&quot;value&quot;</span><span class="p">},</span>
             <span class="p">}</span>
             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">count</span><span class="p">)</span>
         <span class="p">]</span>
@@ -252,8 +269,8 @@ unroll a set of arrays passed in through psycopg2</li>
 <span class="sd">            Creates a new connection for each insertion</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">:</span>
-            <span class="n">text</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s">&#39;text&#39;</span><span class="p">]</span>
-            <span class="n">properties</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s">&#39;properties&#39;</span><span class="p">]</span>
+            <span class="n">text</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span>
+            <span class="n">properties</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;properties&#39;</span><span class="p">]</span>
             <span class="n">execute</span><span class="p">(</span><span class="n">SINGLE_INSERT</span><span class="p">,</span><span class="nb">locals</span><span class="p">())</span>
 
     <span class="k">def</span> <span class="nf">insert</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -264,8 +281,8 @@ unroll a set of arrays passed in through psycopg2</li>
         <span class="k">with</span> <span class="n">connect</span><span class="p">()</span> <span class="k">as</span> <span class="n">connection</span><span class="p">:</span>
             <span class="k">with</span> <span class="n">connection</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span> <span class="k">as</span> <span class="n">cursor</span><span class="p">:</span>
                 <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">:</span>
-                    <span class="n">text</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s">&#39;text&#39;</span><span class="p">]</span>
-                    <span class="n">properties</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s">&#39;properties&#39;</span><span class="p">]</span>
+                    <span class="n">text</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span>
+                    <span class="n">properties</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;properties&#39;</span><span class="p">]</span>
                     <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">SINGLE_INSERT</span><span class="p">,</span><span class="nb">locals</span><span class="p">())</span>
 
 
@@ -273,26 +290,26 @@ unroll a set of arrays passed in through psycopg2</li>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">            One connection, one query.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
-        <span class="n">sql</span><span class="o">=</span><span class="s">&#39;&#39;&#39;</span>
-<span class="s">            INSERT INTO upload_time_test(text,properties)</span>
-<span class="s">              SELECT unnest( </span><span class="si">%(texts)s</span><span class="s"> ) ,</span>
-<span class="s">                     unnest( </span><span class="si">%(properties)s</span><span class="s">)</span>
+        <span class="n">sql</span><span class="o">=</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">            INSERT INTO upload_time_test(text,properties)</span>
+<span class="s1">              SELECT unnest( </span><span class="si">%(texts)s</span><span class="s1"> ) ,</span>
+<span class="s1">                     unnest( </span><span class="si">%(properties)s</span><span class="s1">)</span>
 
-<span class="s">        &#39;&#39;&#39;</span>
+<span class="s1">        &#39;&#39;&#39;</span>
 
-        <span class="n">texts</span><span class="o">=</span><span class="p">[</span><span class="n">r</span><span class="p">[</span><span class="s">&#39;text&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">]</span>
-        <span class="n">properties</span><span class="o">=</span><span class="p">[</span><span class="n">r</span><span class="p">[</span><span class="s">&#39;properties&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">]</span>
+        <span class="n">texts</span><span class="o">=</span><span class="p">[</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">]</span>
+        <span class="n">properties</span><span class="o">=</span><span class="p">[</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;properties&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">]</span>
         <span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span><span class="nb">locals</span><span class="p">())</span>
 </pre></div>
 <p>So now we have the Tester class written, we can see how log each
 approach takes to insert 1000 rows</p>
 <div class="highlight"><pre><span class="k">def</span> <span class="nf">runTests</span><span class="p">(</span><span class="n">iterations</span><span class="p">):</span>
     <span class="n">tester</span> <span class="o">=</span> <span class="n">Tester</span><span class="p">(</span><span class="n">iterations</span><span class="p">)</span>
-    <span class="k">with</span> <span class="n">timer</span><span class="p">(</span><span class="s">&#39;slow&#39;</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">timer</span><span class="p">(</span><span class="s1">&#39;slow&#39;</span><span class="p">):</span>
         <span class="n">tester</span><span class="o">.</span><span class="n">slowInsert</span><span class="p">()</span>
-    <span class="k">with</span> <span class="n">timer</span><span class="p">(</span><span class="s">&#39;normal&#39;</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">timer</span><span class="p">(</span><span class="s1">&#39;normal&#39;</span><span class="p">):</span>
         <span class="n">tester</span><span class="o">.</span><span class="n">insert</span><span class="p">()</span>
-    <span class="k">with</span> <span class="n">timer</span><span class="p">(</span><span class="s">&#39;fast&#39;</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">timer</span><span class="p">(</span><span class="s1">&#39;fast&#39;</span><span class="p">):</span>
         <span class="n">tester</span><span class="o">.</span><span class="n">fastInsert</span><span class="p">()</span>
 </pre></div>
 <div class="highlight"><pre><span class="n">runTests</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
@@ -314,11 +331,11 @@ unnest()</code>
 rows. I won't bother with the slowest approach, because that's clearly
 unusable.</p>
 <div class="highlight"><pre><span class="n">tester</span><span class="o">=</span><span class="n">Tester</span><span class="p">(</span><span class="n">count</span><span class="o">=</span><span class="mi">100000</span><span class="p">)</span>
-<span class="k">with</span> <span class="n">timer</span><span class="p">(</span><span class="s">&#39;normal&#39;</span><span class="p">):</span>
+<span class="k">with</span> <span class="n">timer</span><span class="p">(</span><span class="s1">&#39;normal&#39;</span><span class="p">):</span>
     <span class="n">tester</span><span class="o">.</span><span class="n">insert</span><span class="p">()</span>
 
 <span class="n">tester</span><span class="o">=</span><span class="n">Tester</span><span class="p">(</span><span class="n">count</span><span class="o">=</span><span class="mi">100000</span><span class="p">)</span>
-<span class="k">with</span> <span class="n">timer</span><span class="p">(</span><span class="s">&#39;fast&#39;</span><span class="p">):</span>
+<span class="k">with</span> <span class="n">timer</span><span class="p">(</span><span class="s1">&#39;fast&#39;</span><span class="p">):</span>
     <span class="n">tester</span><span class="o">.</span><span class="n">fastInsert</span><span class="p">()</span>
 </pre></div>
 <pre class="literal-block">
@@ -355,16 +372,16 @@ our two methods:</p>
 
 <span class="n">rates</span><span class="o">=</span><span class="p">[</span>
     <span class="p">{</span>
-        <span class="s">&quot;count&quot;</span><span class="p">:</span><span class="n">count</span><span class="p">,</span>
-         <span class="s">&#39;bulk&#39;</span><span class="p">:</span><span class="n">bulkInsertRate</span><span class="p">(</span><span class="n">count</span><span class="p">),</span>
-        <span class="s">&#39;normal&#39;</span><span class="p">:</span><span class="n">normalInsertRate</span><span class="p">(</span><span class="n">count</span><span class="p">)</span>
+        <span class="s2">&quot;count&quot;</span><span class="p">:</span><span class="n">count</span><span class="p">,</span>
+         <span class="s1">&#39;bulk&#39;</span><span class="p">:</span><span class="n">bulkInsertRate</span><span class="p">(</span><span class="n">count</span><span class="p">),</span>
+        <span class="s1">&#39;normal&#39;</span><span class="p">:</span><span class="n">normalInsertRate</span><span class="p">(</span><span class="n">count</span><span class="p">)</span>
 
     <span class="p">}</span>
     <span class="k">for</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">counts</span>
 <span class="p">]</span>
 </pre></div>
 <p>Finally, I use Pandas to plot the output data from these tests.</p>
-<div class="highlight"><pre><span class="n">frame</span><span class="o">=</span><span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rates</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s">&#39;count&#39;</span><span class="p">)</span>
+<div class="highlight"><pre><span class="n">frame</span><span class="o">=</span><span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rates</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;count&#39;</span><span class="p">)</span>
 <span class="n">frame</span>
 </pre></div>
 <div style="max-height:1000px;max-width:1500px;overflow:auto;">
@@ -465,19 +482,24 @@ is transferred back and forth across the network.</li>
 </div>
 </div>
 
-                    
-                </div>  
-                
-                
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/pelican-atom-and-markdown.html">Pelican, Atom and Markdown</a></h2>
-                
-                
-                <div class="entry-content">
 
-                    <p>I've been using reStructured text in general to write this blog, but I think I'm
+            </div>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container">
+            <p class="subtitle is-4">
+                Fri 26 June 2015
+            </p>
+            
+            <h2 class="title is-2">
+                <a href="/pelican-atom-and-markdown.html" rel="bookmark" title="Permalink to Pelican, Atom and Markdown">
+                    Pelican, Atom and Markdown
+                </a>
+            </h2>
+
+            <div class="content is-medium">
+                <p>I've been using reStructured text in general to write this blog, but I think I'm
 going to be switching to Markdown.  As an experiment, I'm writing this post in Markdown.</p>
 <p>I'm also writing it in the <a href="https://atom.io/">Atom text editor</a>, which has really come on a
 long way since I last tried it.  Specifically, it includes a Markdown preview function, so
@@ -497,7 +519,7 @@ syntax, I can get the same output from Pelican, Atom, and IPython notebooks.</p>
 
 <p>yields</p>
 <div class="highlight"><pre> <span class="k">def</span> <span class="nf">syntax</span><span class="p">(</span><span class="n">highlighting</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
-   <span class="k">return</span> <span class="s">&quot;cool huh?&quot;</span>
+   <span class="k">return</span> <span class="s2">&quot;cool huh?&quot;</span>
 </pre></div>
 
 
@@ -508,19 +530,24 @@ allows me to use the same syntax for my GitHub documentation, my IPython noteboo
 my blog posts.  </p>
 <p>I do use <strong>Sphinx</strong> in various places for Python code documentation, so that will still
 require reStructured text, but elsewhere I think Markdown is the way to go</p>
-                    
-                </div>  
-                
-                
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/asynchronous-python.html">Asynchronous Python</a></h2>
-                
-                
-                <div class="entry-content">
 
-                    <p>It's possible to get python to do node-like non-blocking requests, this could
+            </div>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container">
+            <p class="subtitle is-4">
+                Thu 01 January 2015
+            </p>
+            
+            <h2 class="title is-2">
+                <a href="/asynchronous-python.html" rel="bookmark" title="Permalink to Asynchronous Python">
+                    Asynchronous Python
+                </a>
+            </h2>
+
+            <div class="content is-medium">
+                <p>It's possible to get python to do node-like non-blocking requests, this could
 take away one of the key reasons for using node.</p>
 <p>The following is a full bottle-based python web application.</p>
 <p>A client can sucessfully call /test while another client is waiting for
@@ -530,43 +557,48 @@ take away one of the key reasons for using node.</p>
 <span class="kn">from</span> <span class="nn">bottle</span> <span class="kn">import</span> <span class="n">route</span><span class="p">,</span> <span class="n">run</span>
 <span class="kn">import</span> <span class="nn">time</span>
 
-<span class="nd">@route</span><span class="p">(</span><span class="s">&#39;/sleep/&lt;seconds:int&gt;&#39;</span><span class="p">)</span>
+<span class="nd">@route</span><span class="p">(</span><span class="s1">&#39;/sleep/&lt;seconds:int&gt;&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">sleep</span><span class="p">(</span><span class="n">seconds</span><span class="p">):</span>
     <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">seconds</span><span class="p">)</span>
-    <span class="k">return</span> <span class="s">&quot;Slept For {0}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">seconds</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s2">&quot;Slept For {0}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">seconds</span><span class="p">)</span>
 
-<span class="nd">@route</span><span class="p">(</span><span class="s">&#39;/test&#39;</span><span class="p">)</span>
+<span class="nd">@route</span><span class="p">(</span><span class="s1">&#39;/test&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">test</span><span class="p">():</span>
-     <span class="k">return</span> <span class="s">&#39;test&#39;</span>
+     <span class="k">return</span> <span class="s1">&#39;test&#39;</span>
 
 
-<span class="nd">@route</span><span class="p">(</span><span class="s">&#39;/slowproxy/&lt;seconds:int&gt;&#39;</span><span class="p">)</span>
+<span class="nd">@route</span><span class="p">(</span><span class="s1">&#39;/slowproxy/&lt;seconds:int&gt;&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">slowproxy</span><span class="p">(</span><span class="n">seconds</span><span class="p">):</span>
     <span class="kn">import</span> <span class="nn">requests</span>
-    <span class="n">url</span><span class="o">=</span><span class="s">&quot;https://s.nooro.com/sleeptest.php?seconds=</span><span class="si">%i</span><span class="s">&quot;</span> <span class="o">%</span><span class="n">seconds</span>
+    <span class="n">url</span><span class="o">=</span><span class="s2">&quot;https://s.nooro.com/sleeptest.php?seconds=</span><span class="si">%i</span><span class="s2">&quot;</span> <span class="o">%</span><span class="n">seconds</span>
     <span class="n">response</span><span class="o">=</span><span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
     <span class="n">response</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">text</span>
 
-<span class="n">run</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s">&#39;0.0.0.0&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">8080</span><span class="p">,</span><span class="n">server</span><span class="o">=</span><span class="s">&#39;gevent&#39;</span><span class="p">)</span>
+<span class="n">run</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;0.0.0.0&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">8080</span><span class="p">,</span><span class="n">server</span><span class="o">=</span><span class="s1">&#39;gevent&#39;</span><span class="p">)</span>
 </pre></div>
 <p>My first attempt used grequests, but apparently that's not even necessary.</p>
 <p>I guess that the call to monkey.patch_all() even patches the socket code
 that requests uses.  I'm very impressed.</p>
 
-                    
-                </div>  
-                
-                
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/coffeescript.html">CoffeeScript</a></h2>
-                
-                
-                <div class="entry-content">
 
-                    <p>Through a bizarre twist of history, the entire client-side web runs on a <a class="reference external" href="http://en.wikipedia.org/wiki/Brendan_Eich#Netscape_and_JavaScript">language</a>
+            </div>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container">
+            <p class="subtitle is-4">
+                Thu 01 January 2015
+            </p>
+            
+            <h2 class="title is-2">
+                <a href="/coffeescript.html" rel="bookmark" title="Permalink to CoffeeScript">
+                    CoffeeScript
+                </a>
+            </h2>
+
+            <div class="content is-medium">
+                <p>Through a bizarre twist of history, the entire client-side web runs on a <a class="reference external" href="http://en.wikipedia.org/wiki/Brendan_Eich#Netscape_and_JavaScript">language</a>
 that was thrown together in 10 days.</p>
 <p>Despite huge investments in their own proprietary technology by the likes of Sun
 Microsystems, Adobe and Microsoft, this weird little spinoff of <strong>self</strong> and <strong>scheme</strong>
@@ -625,38 +657,48 @@ if the compliation fails, so if I introduce a syntax error in my coffeescript, a
 as I refresh the page that is using it I'll be presented with the source of the problem.</p>
 </div>
 
-                    
-                </div>  
-                
-                
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/configuring-systems-with-fabric-and-cuisine.html">Configuring Systems with Fabric and Cuisine</a></h2>
-                
-                
-                <div class="entry-content">
 
-                    <p>I've mentioned <a class="reference external" href="http://fabric.readthedocs.org/en/1.8/">Fabric</a> before on this blog.  Because so much of my development time is spent in Python, it makes
+            </div>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container">
+            <p class="subtitle is-4">
+                Thu 01 January 2015
+            </p>
+            
+            <h2 class="title is-2">
+                <a href="/configuring-systems-with-fabric-and-cuisine.html" rel="bookmark" title="Permalink to Configuring Systems with Fabric and Cuisine">
+                    Configuring Systems with Fabric and Cuisine
+                </a>
+            </h2>
+
+            <div class="content is-medium">
+                <p>I've mentioned <a class="reference external" href="http://fabric.readthedocs.org/en/1.8/">Fabric</a> before on this blog.  Because so much of my development time is spent in Python, it makes
 sense for me to look for system administration tools that are also written in Python.  Fabric fits the bill
 perfectly, and allows me to run tasks remotely on multiple machines simultaneously.</p>
 <p>A useful addition to Fabric is <a class="reference external" href="https://github.com/sebastien/cuisine">Cuisine</a>.  <strong>Cuisine is a small set of functions that sit on top of Fabric,
 to abstract common administration operations such as file/dir operations, user/group creation,
 package install/upgrade, making it easier to write portable administration and deployment scripts.</strong></p>
 
-                    
-                </div>  
-                
-                
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/ipython-with-python-3.html">IPython with Python 3</a></h2>
-                
-                
-                <div class="entry-content">
 
-                    <p>This took me longer than I was expecting.</p>
+            </div>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container">
+            <p class="subtitle is-4">
+                Thu 01 January 2015
+            </p>
+            
+            <h2 class="title is-2">
+                <a href="/ipython-with-python-3.html" rel="bookmark" title="Permalink to IPython with Python 3">
+                    IPython with Python 3
+                </a>
+            </h2>
+
+            <div class="content is-medium">
+                <p>This took me longer than I was expecting.</p>
 <p>In general when working with IPython I use <code class="code">
 pip</code>
  rather than <code class="code">
@@ -666,11 +708,11 @@ pip tends to have more up-to-date packages.</p>
 <p>In the end I found the simplest thing to do was to set up IPython in an isolated
 virtualenv environment.  The main trick is to let virtualenv know what version of
 Python you want it to use by default.</p>
-<div class="highlight"><pre><span class="nv">$ </span>virtualenv --python<span class="o">=</span>python3.4 python_3_demo
-<span class="nv">$ </span><span class="nb">cd </span>python_3_demo/
-<span class="nv">$ </span><span class="nb">source</span> ./bin/activate
-<span class="nv">$ </span>pip install ipython
-<span class="nv">$ </span>ipython
+<div class="highlight"><pre>$ virtualenv --python<span class="o">=</span>python3.4 python_3_demo
+$ <span class="nb">cd</span> python_3_demo/
+$ <span class="nb">source</span> ./bin/activate
+$ pip install ipython
+$ ipython
 </pre></div>
 <div class="highlight"><pre><span class="n">Python</span> <span class="mf">3.4</span><span class="o">.</span><span class="mi">0</span> <span class="p">(</span><span class="n">default</span><span class="p">,</span> <span class="n">Apr</span> <span class="mi">11</span> <span class="mi">2014</span><span class="p">,</span> <span class="mi">13</span><span class="p">:</span><span class="mo">05</span><span class="p">:</span><span class="mi">11</span><span class="p">)</span>
 <span class="o">...</span>
@@ -684,125 +726,49 @@ Python you want it to use by default.</p>
 <p>And voila, I have Python 3 in the best Python interpreter ever built, I'm ready to
 start wrapping my head around byte arrays and UTF-8 encodings.</p>
 
-                    
-                </div>  
-                
-                
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/logrotate.html">logrotate</a></h2>
-                
-                
-                <div class="entry-content">
 
-                    <p>I have a large, complex <a class="reference external" href="/postfix.html">mailing system</a> that processes
-a significant amount of data every hour.  While I'm developing it, I want to know
-what it's doing, and whether it's having any problems.  So I use the excellent
-python <a class="reference external" href="https://docs.python.org/2/library/logging.html">logging</a> library to produce comprehensive monitoring data.</p>
-<p>The only problem is that these log files can get pretty big.  And because I don't
-know ahead of time when I'm going to need to hunt through them, I tend to leave
-the logging system in a fairly verbose state.</p>
-<p>Enter <a class="reference external" href="http://www.thegeekstuff.com/2010/07/logrotate-examples/">logrotate</a>.  This is a standard service on Ubuntu that regularly rotates
-your log files, throwing away old data, compressing middle-age data, and leaving
-young log files fresh and accessible.  Thus you are protected from
-runaway log file growth and nasty calls in the middle of the night from your
-monitoring service telling you that your server just died because the hard
-drives were full.</p>
-<p>A default ubuntu installation comes with logrotate already set up for various services.
-If you don't have it, install it with <code class="code">
-apt-get install logrotate</code>
-, and
-then it's mostly just a question of copying a file from <code class="code">
-/etc/logrotate.d/</code>
-
-and modifying it according to your needs.</p>
-<p><code class="code">
-vi /etc/logrotate.d/myservice</code>
-</p>
-<div class="highlight"><pre>/var/log/myservice/*.log <span class="o">{</span>
-  rotate 7
-  daily
-  compress
-  missingok
-  notifempty
-<span class="o">}</span>
-</pre></div>
-<p>And that's it!  The actually invocation of the <code class="code">
-logrotate</code>
- command will
-get triggered regularly by a script in /etc/cron.daily</p>
-<p>You can also <strong>force</strong> a rotation, a useful option when testing out a new configuration,
-via</p>
-<div class="highlight"><pre>logrotate -f /etc/logrotate.d/myservice
-</pre></div>
-<p>One quick word of warning: if you're using the python <a class="reference external" href="https://docs.python.org/2/library/logging.html">logging</a> library, then
-you'll want to use the <code class="code">
-WatchedFileHandler</code>
- class.  If the logfile gets
-rotated out while it's in use, WatchedFileHandler will notice this, close the file
-stream and open a new one.</p>
-
-                    
-                </div>  
-                
-                
-            </article>
-            <hr/>
-
-        <ul class="pagination">
-                <li class="prev disabled"><a href="#">&laquo;</a></li>
-                    <li class="active"><a
-                            href="/author/trevor.html">1</a></li>
-                    <li class=""><a
-                            href="/author/trevor2.html">2</a></li>
-                    <li class=""><a
-                            href="/author/trevor3.html">3</a></li>
-                <li class="next"><a
-                        href="/author/trevor2.html">&raquo;</a></li>
-        </ul>
+            </div>
         </div>
-        <div class="col-sm-3" id="sidebar">
-            <aside>
+    </section>
 
-<section class="well well-sm">
-    <ul class="list-group list-group-flush">
-            <li class="list-group-item"><h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Social</span></h4>
-              <ul class="list-group" id="social">
-                <li class="list-group-item"><a href="https://twitter.com/trvrm"><i class="fa fa-twitter-square fa-lg"></i> twitter</a></li>
-              </ul>
-            </li>
+   
 
 
-
-
-
-    </ul>
-</section>
-            </aside>
-        </div>
+<section class="section">
+    <div class="container">
+        
+        <nav class="pagination">
+            
+            <ul>
+                    <li class="is-active">
+                        <a href="/author/trevor.html">1</a>
+                    </li>
+                    <li class="">
+                        <a href="/author/trevor2.html">2</a>
+                    </li>
+                    <li class="">
+                        <a href="/author/trevor3.html">3</a>
+                    </li>
+            </ul>
+            
+            
+                <a href="/author/trevor2.html">Next</a>
+        </nav>
+    
     </div>
-</div>
-<footer>
-   <div class="container">
-      <hr>
-      <div class="row">
-         <div class="col-xs-10">&copy; 2015 trvrm
-            &middot; Powered by <a href="https://github.com/DandyDev/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
-            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
-            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
-         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
-      </div>
-   </div>
-</footer>
-<script src="/theme/js/jquery.min.js"></script>
 
-<!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="/theme/js/bootstrap.min.js"></script>
-
-<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
-<script src="/theme/js/respond.min.js"></script>
+</section>
 
 
+    <footer class="footer">
+        <div class="container">
+            <div class="content has-text-centered">
+                <p>
+                    Powered by <a href="http://getpelican.com/">Pelican</a>, <a href="http://python.org">Python</a>, 
+                    and <a href="http://bulma.io/">Bulma</a>
+                </p>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>

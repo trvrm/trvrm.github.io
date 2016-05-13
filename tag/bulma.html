@@ -30,7 +30,7 @@
                             <a href="/">trvrm  </a>
                         </h1>
                         
-    <h2>Articles tagged Pelican</h2>
+    <h2>Articles tagged Bulma</h2>
                     </div>
                 </div>
             </div>
@@ -72,96 +72,6 @@ to use Bulma classes.  Here's an example from the <code>article.html</code> temp
         <span class="nt">&lt;/h2&gt;</span>
         ...
 </pre></div>
-
-            </div>
-        </div>
-    </section>
-    <section class="section">
-        <div class="container">
-            <p class="subtitle is-4">
-                Fri 26 June 2015
-            </p>
-            
-            <h2 class="title is-2">
-                <a href="/pelican-atom-and-markdown.html" rel="bookmark" title="Permalink to Pelican, Atom and Markdown">
-                    Pelican, Atom and Markdown
-                </a>
-            </h2>
-
-            <div class="content is-medium">
-                <p>I've been using reStructured text in general to write this blog, but I think I'm
-going to be switching to Markdown.  As an experiment, I'm writing this post in Markdown.</p>
-<p>I'm also writing it in the <a href="https://atom.io/">Atom text editor</a>, which has really come on a
-long way since I last tried it.  Specifically, it includes a Markdown preview function, so
-I can see the effects of the markup that I'm writing as I write it.</p>
-<p>Mostly, I want a rapid way of creating and publishing code snippets, without the mental
-overhead of switching between markup languages. Although reStructured text and markdown
-are broadly similar, there are subtle differences between them when it comes to things
-like syntax highlighting.  But I've discovered today that if I use the triple-backtick
-syntax, I can get the same output from Pelican, Atom, and IPython notebooks.</p>
-<p>So</p>
-<div class="highlight"><pre>    ```python
-    def syntax(highlighting=True):
-        return &quot;cool huh?&quot;
-    ```
-</pre></div>
-
-
-<p>yields</p>
-<div class="highlight"><pre> <span class="k">def</span> <span class="nf">syntax</span><span class="p">(</span><span class="n">highlighting</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
-   <span class="k">return</span> <span class="s2">&quot;cool huh?&quot;</span>
-</pre></div>
-
-
-<p>And if I paste that into a markdown cell in an IPython notebook, I get the same effect, as
-can be seen <a href="https://github.com/trvrm/notebooks/blob/master/Markdown%20Demo.ipynb">here</a></p>
-<p>So this seems to be the general way that the open-source ecosystem is going: Markdown
-allows me to use the same syntax for my GitHub documentation, my IPython notebooks, and
-my blog posts.  </p>
-<p>I do use <strong>Sphinx</strong> in various places for Python code documentation, so that will still
-require reStructured text, but elsewhere I think Markdown is the way to go</p>
-
-            </div>
-        </div>
-    </section>
-    <section class="section">
-        <div class="container">
-            <p class="subtitle is-4">
-                Thu 01 January 2015
-            </p>
-            
-            <h2 class="title is-2">
-                <a href="/pdf-generation-with-pelican.html" rel="bookmark" title="Permalink to PDF Generation With Pelican">
-                    PDF Generation With Pelican
-                </a>
-            </h2>
-
-            <div class="content is-medium">
-                <p>The existing documentation is a little unclear on this, because it says
-you need to add <code class="code">
-PDF_GENERATOR=True</code>
- to your <cite>pelicanconf.py</cite> file.</p>
-<p>This advice is out of date: PDF generation has been moved to a plugin.</p>
-<p>So you need to first make sure you have <code class="code">
-rst2pdf</code>
- installed:</p>
-<div class="highlight"><pre>$ sudo apt-get install rst2pdf
-</pre></div>
-<p>and then add the following to <code class="code">
-pelicanconf.py</code>
-</p>
-<div class="highlight"><pre><span class="n">PLUGIN_PATH</span> <span class="o">=</span> <span class="s1">&#39;../pelican-plugins&#39;</span>  <span class="c1"># or wherever.</span>
-<span class="n">PLUGINS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;pdf&#39;</span><span class="p">]</span>
-</pre></div>
-<p>However, doing this seems to screw up the pygments highlighting on my regular
-html output.  This is because deep in the rst2pdf code, in a file called <code class="code">
-pygments2style.py</code>
-,
-all the pygment elements have their CSS classes prepended with <code class="code">
-pygment-</code>
-.  I haven't
-figured out how to generate HTML and PDF nicely at the same time.</p>
-
 
             </div>
         </div>

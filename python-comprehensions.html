@@ -1,111 +1,63 @@
 <!DOCTYPE html>
-<html lang="en" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<html lang="en">
 <head>
-    <title>Python Comprehensions - trvrm</title>
-    <!-- Using the latest rendering mode for IE -->
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-
-    <link href="/images/favicon.png" rel="icon">
-
-<link rel="canonical" href="/python-comprehensions.html">
-
-        <meta name="author" content="Trevor" />
-        <meta name="keywords" content="Python" />
-        <meta name="description" content="Python list comprehensions are one of the most powerful and useful features of the language. However, I&#39;ve noticed even quite experienced Python programmers using less powerful idioms when a list comprehension would be the perfect solution to their problem, and even though I&#39;ve been a Python developer for ..." />
-
-        <meta property="og:site_name" content="trvrm" />
-        <meta property="og:type" content="article"/>
-        <meta property="og:title" content="Python Comprehensions"/>
-        <meta property="og:url" content="/python-comprehensions.html"/>
-        <meta property="og:description" content="Python list comprehensions are one of the most powerful and useful features of the language. However, I&#39;ve noticed even quite experienced Python programmers using less powerful idioms when a list comprehension would be the perfect solution to their problem, and even though I&#39;ve been a Python developer for ..."/>
-        <meta property="article:published_time" content="2015-01-01" />
-            <meta property="article:section" content="Software" />
-            <meta property="article:tag" content="Python" />
-            <meta property="article:author" content="Trevor" />
-
-
-    <!-- Bootstrap -->
-        <link rel="stylesheet" href="/theme/css/bootstrap.flatly.min.css" type="text/css"/>
-    <link href="/theme/css/font-awesome.min.css" rel="stylesheet">
-
-    <link href="/theme/css/pygments/tango.css" rel="stylesheet">
-    <link rel="stylesheet" href="/theme/css/style.css" type="text/css"/>
+          <title>trvrm</title>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" type="text/css" href="/theme/css/bulma.min.css" />
+        <link rel="stylesheet" type="text/css" href="/theme/css/style.css" />
 
 
 
-
+    <meta name="tags" content="Python" />
 
 </head>
+
 <body>
 
-<div class="navbar navbar-default navbar-fixed-top" role="navigation">
-	<div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a href="/" class="navbar-brand">
-trvrm            </a>
+    <section class="hero is-primary is-bold">
+        <div class="hero-head">
+            <div class="container">
+                <nav class="nav has-shadow">
+                        <div class="nav-left">
+                                <a class="nav-item is-tab " href="/category/database.html">Database</a>
+                                <a class="nav-item is-tab  active " href="/category/software.html">Software</a>
+                                <a class="nav-item is-tab " href="/category/systems.html">Systems</a>
+                    
+                    </div>              
+                </nav>
+            </div>
         </div>
-        <div class="collapse navbar-collapse navbar-ex1-collapse">
-            <ul class="nav navbar-nav">
-                        <li >
-                            <a href="/category/database.html">Database</a>
-                        </li>
-                        <li class="active">
-                            <a href="/category/software.html">Software</a>
-                        </li>
-                        <li >
-                            <a href="/category/systems.html">Systems</a>
-                        </li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-              <li><a href="/archives.html"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
-            </ul>
-        </div>
-        <!-- /.navbar-collapse -->
-    </div>
-</div> <!-- /.navbar -->
-<!-- Banner -->
-<!-- End Banner -->
-<div class="container">
-    <div class="row">
-        <div class="col-sm-9">
-    <section id="content">
-        <article>
-            <header class="page-header">
-                <h1>
-                    <a href="/python-comprehensions.html"
-                       rel="bookmark"
-                       title="Permalink to Python Comprehensions">
-                        Python Comprehensions
-                    </a>
-                </h1>
-            </header>
-            <div class="entry-content">
-                <div class="panel">
-                    <div class="panel-body">
-<footer class="post-info">
-    <span class="label label-default">Date</span>
-    <span class="published">
-        <i class="fa fa-calendar"></i><time datetime="2015-01-01T00:00:00+01:00"> Thu 01 January 2015</time>
-    </span>
-
-
-
-
-
-<span class="label label-default">Tags</span>
-	<a href="/tag/python.html">Python</a>
-    
-</footer><!-- /.post-info -->                    </div>
+        <div class="hero-body">
+            <div class="container">
+                <div class="columns is-vcentered">
+                    <div class="column">
+                        <h1 class="title">
+                            <a href="/">trvrm  </a>
+                        </h1>
+                        
+                            
+                            <p class="subtitle">
+                                
+                            </p>
+                    </div>
                 </div>
+            </div>
+        </div>
+    </section>  
+    
+    <section class="section">
+        <div class="container">
+            <p class="subtitle is-4">
+                Thu 01 January 2015
+            </p>
+            
+            <h2 class="title is-2">
+                <a href="/python-comprehensions.html" rel="bookmark" title="Permalink to Python Comprehensions">
+                    Python Comprehensions
+                </a>
+            </h2>
+
+            <div class="content is-medium">
                 <p>Python <strong>list comprehensions</strong> are one of the most powerful and useful
 features of the language. However, I've noticed even quite experienced
 Python programmers using less powerful idioms when a list comprehension
@@ -143,7 +95,7 @@ append()</code>
 [1, 1, 4, 27, 256, 3125, 46656, 823543, 16777216, 387420489]
 </pre>
 <p>Comprehensions work with any kind of iterable as an import source:</p>
-<div class="highlight"><pre><span class="p">[</span><span class="nb">ord</span><span class="p">(</span><span class="n">letter</span><span class="p">)</span> <span class="k">for</span> <span class="n">letter</span> <span class="ow">in</span> <span class="s">&quot;hello world&quot;</span><span class="p">]</span>
+<div class="highlight"><pre><span class="p">[</span><span class="nb">ord</span><span class="p">(</span><span class="n">letter</span><span class="p">)</span> <span class="k">for</span> <span class="n">letter</span> <span class="ow">in</span> <span class="s2">&quot;hello world&quot;</span><span class="p">]</span>
 </pre></div>
 <pre class="literal-block">
 [104, 101, 108, 108, 111, 32, 119, 111, 114, 108, 100]
@@ -160,7 +112,7 @@ input data source:</p>
 </pre>
 <p>Instead of just boring numbers, we could use this to construct some
 sentences.</p>
-<div class="highlight"><pre><span class="p">[(</span><span class="n">number</span><span class="p">,</span> <span class="n">animal</span><span class="p">)</span> <span class="k">for</span> <span class="n">number</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="k">for</span> <span class="n">animal</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;cats&#39;</span><span class="p">,</span><span class="s">&#39;dogs&#39;</span><span class="p">,</span><span class="s">&#39;elephants&#39;</span><span class="p">]]</span>
+<div class="highlight"><pre><span class="p">[(</span><span class="n">number</span><span class="p">,</span> <span class="n">animal</span><span class="p">)</span> <span class="k">for</span> <span class="n">number</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="k">for</span> <span class="n">animal</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;cats&#39;</span><span class="p">,</span><span class="s1">&#39;dogs&#39;</span><span class="p">,</span><span class="s1">&#39;elephants&#39;</span><span class="p">]]</span>
 </pre></div>
 <pre class="literal-block">
 [(0, 'cats'),
@@ -177,9 +129,9 @@ sentences.</p>
 output objects - we can put any valid python expression in the
 left-hand-side.</p>
 <div class="highlight"><pre><span class="p">[</span>
-    <span class="s">&quot;{0} {1}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">adjective</span><span class="p">,</span><span class="n">animal</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">adjective</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;red&#39;</span><span class="p">,</span><span class="s">&#39;cute&#39;</span><span class="p">,</span><span class="s">&#39;hungry&#39;</span><span class="p">]</span>
-    <span class="k">for</span> <span class="n">animal</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;cat&#39;</span><span class="p">,</span><span class="s">&#39;puppy&#39;</span><span class="p">,</span><span class="s">&#39;hippo&#39;</span><span class="p">]</span>
+    <span class="s2">&quot;{0} {1}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">adjective</span><span class="p">,</span><span class="n">animal</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">adjective</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;red&#39;</span><span class="p">,</span><span class="s1">&#39;cute&#39;</span><span class="p">,</span><span class="s1">&#39;hungry&#39;</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">animal</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;cat&#39;</span><span class="p">,</span><span class="s1">&#39;puppy&#39;</span><span class="p">,</span><span class="s1">&#39;hippo&#39;</span><span class="p">]</span>
 <span class="p">]</span>
 </pre></div>
 <pre class="literal-block">
@@ -195,10 +147,10 @@ left-hand-side.</p>
 </pre>
 <p>or even</p>
 <div class="highlight"><pre><span class="p">[</span>
-    <span class="s">&quot;There are {0} {1} {2}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">number</span><span class="p">,</span> <span class="n">adjective</span><span class="p">,</span><span class="n">animal</span><span class="p">)</span>
+    <span class="s2">&quot;There are {0} {1} {2}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">number</span><span class="p">,</span> <span class="n">adjective</span><span class="p">,</span><span class="n">animal</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">number</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">adjective</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;cute&#39;</span><span class="p">,</span><span class="s">&#39;hungry&#39;</span><span class="p">]</span>
-    <span class="k">for</span> <span class="n">animal</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;puppys&#39;</span><span class="p">,</span><span class="s">&#39;bats&#39;</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">adjective</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;cute&#39;</span><span class="p">,</span><span class="s1">&#39;hungry&#39;</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">animal</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;puppys&#39;</span><span class="p">,</span><span class="s1">&#39;bats&#39;</span><span class="p">]</span>
 <span class="p">]</span>
 </pre></div>
 <pre class="literal-block">
@@ -220,9 +172,9 @@ dictionaries using a very similar syntax.</p>
 <div class="highlight"><pre><span class="p">{</span>
     <span class="n">key</span><span class="p">:</span><span class="n">value</span>
     <span class="k">for</span> <span class="n">key</span><span class="p">,</span><span class="n">value</span> <span class="ow">in</span> <span class="p">[</span>
-        <span class="p">(</span><span class="s">&#39;k&#39;</span><span class="p">,</span><span class="s">&#39;v&#39;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s">&#39;foo&#39;</span><span class="p">,</span><span class="s">&#39;bar&#39;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s">&#39;this&#39;</span><span class="p">,</span><span class="s">&#39;that&#39;</span><span class="p">)</span>
+        <span class="p">(</span><span class="s1">&#39;k&#39;</span><span class="p">,</span><span class="s1">&#39;v&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span><span class="s1">&#39;bar&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;this&#39;</span><span class="p">,</span><span class="s1">&#39;that&#39;</span><span class="p">)</span>
     <span class="p">]</span>
 <span class="p">}</span>
 </pre></div>
@@ -234,30 +186,30 @@ from one structure to another. Recently I've found them <em>very</em> helpful
 for unpacking nested data structures.</p>
 <p>Consider a simple org-structure:</p>
 <div class="highlight"><pre><span class="n">departments</span><span class="o">=</span><span class="p">[</span>
-    <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span><span class="s">&#39;Manufacturing&#39;</span><span class="p">,</span> <span class="s">&#39;staff&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&quot;Jacob&quot;</span><span class="p">,</span><span class="s">&quot;Jonah&quot;</span><span class="p">,</span> <span class="s">&quot;Chloe&quot;</span><span class="p">,</span><span class="s">&quot;Liam&quot;</span><span class="p">]},</span>
-    <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span><span class="s">&#39;Marketing&#39;</span><span class="p">,</span><span class="s">&#39;staff&#39;</span><span class="p">:[</span><span class="s">&quot;Emily&quot;</span><span class="p">,</span><span class="s">&quot;Shawn&quot;</span><span class="p">,</span><span class="s">&quot;Alex&quot;</span><span class="p">]},</span>
-    <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span><span class="s">&#39;HR&#39;</span><span class="p">,</span><span class="s">&#39;staff&#39;</span><span class="p">:[</span><span class="s">&quot;David&quot;</span><span class="p">,</span><span class="s">&quot;Jessica&quot;</span><span class="p">]},</span>
-    <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span><span class="s">&#39;Accounts&#39;</span><span class="p">,</span><span class="s">&#39;staff&#39;</span><span class="p">:[</span><span class="s">&quot;Nicole&quot;</span><span class="p">]}</span>
+    <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;Manufacturing&#39;</span><span class="p">,</span> <span class="s1">&#39;staff&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Jacob&quot;</span><span class="p">,</span><span class="s2">&quot;Jonah&quot;</span><span class="p">,</span> <span class="s2">&quot;Chloe&quot;</span><span class="p">,</span><span class="s2">&quot;Liam&quot;</span><span class="p">]},</span>
+    <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;Marketing&#39;</span><span class="p">,</span><span class="s1">&#39;staff&#39;</span><span class="p">:[</span><span class="s2">&quot;Emily&quot;</span><span class="p">,</span><span class="s2">&quot;Shawn&quot;</span><span class="p">,</span><span class="s2">&quot;Alex&quot;</span><span class="p">]},</span>
+    <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;HR&#39;</span><span class="p">,</span><span class="s1">&#39;staff&#39;</span><span class="p">:[</span><span class="s2">&quot;David&quot;</span><span class="p">,</span><span class="s2">&quot;Jessica&quot;</span><span class="p">]},</span>
+    <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;Accounts&#39;</span><span class="p">,</span><span class="s1">&#39;staff&#39;</span><span class="p">:[</span><span class="s2">&quot;Nicole&quot;</span><span class="p">]}</span>
 <span class="p">]</span>
 </pre></div>
 <p>Now let's extract some data from it.</p>
-<div class="highlight"><pre><span class="c">#Department names</span>
-<span class="p">[</span><span class="n">department</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">department</span> <span class="ow">in</span> <span class="n">departments</span><span class="p">]</span>
+<div class="highlight"><pre><span class="c1">#Department names</span>
+<span class="p">[</span><span class="n">department</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">department</span> <span class="ow">in</span> <span class="n">departments</span><span class="p">]</span>
 </pre></div>
 <pre class="literal-block">
 ['Manufacturing', 'Marketing', 'HR', 'Accounts']
 </pre>
-<div class="highlight"><pre><span class="c">#Staff count</span>
-<span class="nb">sum</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">department</span><span class="p">[</span><span class="s">&#39;staff&#39;</span><span class="p">])</span> <span class="k">for</span> <span class="n">department</span> <span class="ow">in</span> <span class="n">departments</span><span class="p">])</span>
+<div class="highlight"><pre><span class="c1">#Staff count</span>
+<span class="nb">sum</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">department</span><span class="p">[</span><span class="s1">&#39;staff&#39;</span><span class="p">])</span> <span class="k">for</span> <span class="n">department</span> <span class="ow">in</span> <span class="n">departments</span><span class="p">])</span>
 </pre></div>
 <pre class="literal-block">
 10
 </pre>
-<div class="highlight"><pre><span class="c">#All staff names</span>
+<div class="highlight"><pre><span class="c1">#All staff names</span>
 <span class="p">[</span>
     <span class="n">name</span>
     <span class="k">for</span> <span class="n">department</span> <span class="ow">in</span> <span class="n">departments</span>
-    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">department</span><span class="p">[</span><span class="s">&#39;staff&#39;</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">department</span><span class="p">[</span><span class="s1">&#39;staff&#39;</span><span class="p">]</span>
 <span class="p">]</span>
 </pre></div>
 <pre class="literal-block">
@@ -280,43 +232,43 @@ department['staff']</code>
 complicated...</p>
 <div class="highlight"><pre><span class="n">departments</span><span class="o">=</span><span class="p">[</span>
     <span class="p">{</span>
-        <span class="s">&#39;name&#39;</span><span class="p">:</span><span class="s">&#39;Manufacturing&#39;</span><span class="p">,</span>
-        <span class="s">&#39;staff&#39;</span><span class="p">:</span> <span class="p">[</span>
-            <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span><span class="s">&quot;Jacob&quot;</span><span class="p">,</span><span class="s">&#39;salary&#39;</span><span class="p">:</span><span class="mi">50000</span><span class="p">},</span>
-            <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span><span class="s">&quot;Chloe&quot;</span><span class="p">,</span><span class="s">&#39;salary&#39;</span><span class="p">:</span><span class="mi">60000</span><span class="p">},</span>
-            <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span><span class="s">&quot;Liam&quot;</span><span class="p">,</span><span class="s">&#39;salary&#39;</span><span class="p">:</span><span class="mi">70000</span><span class="p">},</span>
-            <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span><span class="s">&quot;Jonah&quot;</span><span class="p">,</span><span class="s">&#39;salary&#39;</span><span class="p">:</span><span class="mi">55000</span><span class="p">},</span>
+        <span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;Manufacturing&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;staff&#39;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s2">&quot;Jacob&quot;</span><span class="p">,</span><span class="s1">&#39;salary&#39;</span><span class="p">:</span><span class="mi">50000</span><span class="p">},</span>
+            <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s2">&quot;Chloe&quot;</span><span class="p">,</span><span class="s1">&#39;salary&#39;</span><span class="p">:</span><span class="mi">60000</span><span class="p">},</span>
+            <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s2">&quot;Liam&quot;</span><span class="p">,</span><span class="s1">&#39;salary&#39;</span><span class="p">:</span><span class="mi">70000</span><span class="p">},</span>
+            <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s2">&quot;Jonah&quot;</span><span class="p">,</span><span class="s1">&#39;salary&#39;</span><span class="p">:</span><span class="mi">55000</span><span class="p">},</span>
         <span class="p">]</span>
     <span class="p">},</span>
     <span class="p">{</span>
-        <span class="s">&#39;name&#39;</span><span class="p">:</span><span class="s">&#39;Marketing&#39;</span><span class="p">,</span>
-        <span class="s">&#39;staff&#39;</span><span class="p">:[</span>
-            <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span><span class="s">&quot;Emily&quot;</span><span class="p">,</span><span class="s">&#39;salary&#39;</span><span class="p">:</span><span class="mi">50000</span><span class="p">},</span>
-            <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span><span class="s">&quot;Shawn&quot;</span><span class="p">,</span><span class="s">&#39;salary&#39;</span><span class="p">:</span><span class="mi">45000</span><span class="p">},</span>
-            <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span><span class="s">&quot;Alex&quot;</span><span class="p">,</span><span class="s">&#39;salary&#39;</span><span class="p">:</span><span class="mi">40000</span><span class="p">},</span>
+        <span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;Marketing&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;staff&#39;</span><span class="p">:[</span>
+            <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s2">&quot;Emily&quot;</span><span class="p">,</span><span class="s1">&#39;salary&#39;</span><span class="p">:</span><span class="mi">50000</span><span class="p">},</span>
+            <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s2">&quot;Shawn&quot;</span><span class="p">,</span><span class="s1">&#39;salary&#39;</span><span class="p">:</span><span class="mi">45000</span><span class="p">},</span>
+            <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s2">&quot;Alex&quot;</span><span class="p">,</span><span class="s1">&#39;salary&#39;</span><span class="p">:</span><span class="mi">40000</span><span class="p">},</span>
         <span class="p">]</span>
     <span class="p">},</span>
     <span class="p">{</span>
-        <span class="s">&#39;name&#39;</span><span class="p">:</span><span class="s">&#39;HR&#39;</span><span class="p">,</span>
-        <span class="s">&#39;staff&#39;</span><span class="p">:[</span>
+        <span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;HR&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;staff&#39;</span><span class="p">:[</span>
 
-            <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span><span class="s">&quot;David&quot;</span><span class="p">,</span><span class="s">&#39;salary&#39;</span><span class="p">:</span><span class="mi">50000</span><span class="p">},</span>
-            <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span><span class="s">&quot;Jessica&quot;</span><span class="p">,</span><span class="s">&#39;salary&#39;</span><span class="p">:</span><span class="mi">60000</span><span class="p">},</span>
+            <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s2">&quot;David&quot;</span><span class="p">,</span><span class="s1">&#39;salary&#39;</span><span class="p">:</span><span class="mi">50000</span><span class="p">},</span>
+            <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s2">&quot;Jessica&quot;</span><span class="p">,</span><span class="s1">&#39;salary&#39;</span><span class="p">:</span><span class="mi">60000</span><span class="p">},</span>
        <span class="p">]</span>
     <span class="p">},</span>
     <span class="p">{</span>
-        <span class="s">&#39;name&#39;</span><span class="p">:</span><span class="s">&#39;Accounts&#39;</span><span class="p">,</span>
-        <span class="s">&#39;staff&#39;</span><span class="p">:[</span>
-            <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span><span class="s">&quot;Nicole&quot;</span><span class="p">,</span><span class="s">&#39;salary&#39;</span><span class="p">:</span><span class="mi">40000</span><span class="p">}</span>
+        <span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;Accounts&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;staff&#39;</span><span class="p">:[</span>
+            <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s2">&quot;Nicole&quot;</span><span class="p">,</span><span class="s1">&#39;salary&#39;</span><span class="p">:</span><span class="mi">40000</span><span class="p">}</span>
         <span class="p">]</span>
     <span class="p">}</span>
 <span class="p">]</span>
 </pre></div>
 <p>Calculate the total salary:</p>
 <div class="highlight"><pre><span class="nb">sum</span><span class="p">(</span>
-    <span class="n">person</span><span class="p">[</span><span class="s">&#39;salary&#39;</span><span class="p">]</span>
+    <span class="n">person</span><span class="p">[</span><span class="s1">&#39;salary&#39;</span><span class="p">]</span>
     <span class="k">for</span> <span class="n">department</span> <span class="ow">in</span> <span class="n">departments</span>
-    <span class="k">for</span> <span class="n">person</span> <span class="ow">in</span> <span class="n">department</span><span class="p">[</span><span class="s">&#39;staff&#39;</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">person</span> <span class="ow">in</span> <span class="n">department</span><span class="p">[</span><span class="s1">&#39;staff&#39;</span><span class="p">]</span>
 <span class="p">)</span>
 </pre></div>
 <pre class="literal-block">
@@ -325,7 +277,7 @@ complicated...</p>
 <p>Now let's calculate the wages bill by department, and put the results in
 a dictionary</p>
 <div class="highlight"><pre><span class="p">{</span>
-    <span class="n">department</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span> <span class="p">:</span> <span class="nb">sum</span><span class="p">(</span><span class="n">person</span><span class="p">[</span><span class="s">&#39;salary&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">person</span> <span class="ow">in</span> <span class="n">department</span><span class="p">[</span><span class="s">&#39;staff&#39;</span><span class="p">])</span>
+    <span class="n">department</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="p">:</span> <span class="nb">sum</span><span class="p">(</span><span class="n">person</span><span class="p">[</span><span class="s1">&#39;salary&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">person</span> <span class="ow">in</span> <span class="n">department</span><span class="p">[</span><span class="s1">&#39;staff&#39;</span><span class="p">])</span>
     <span class="k">for</span> <span class="n">department</span> <span class="ow">in</span> <span class="n">departments</span>
 <span class="p">}</span>
 </pre></div>
@@ -351,53 +303,19 @@ for</code>
 </div>
 </div>
 
+
             </div>
-            <!-- /.entry-content -->
-        </article>
+        </div>
     </section>
-
+    <footer class="footer">
+        <div class="container">
+            <div class="content has-text-centered">
+                <p>
+                    Powered by <a href="http://getpelican.com/">Pelican</a>, <a href="http://python.org">Python</a>, 
+                    and <a href="http://bulma.io/">Bulma</a>
+                </p>
+            </div>
         </div>
-        <div class="col-sm-3" id="sidebar">
-            <aside>
-
-<section class="well well-sm">
-    <ul class="list-group list-group-flush">
-            <li class="list-group-item"><h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Social</span></h4>
-              <ul class="list-group" id="social">
-                <li class="list-group-item"><a href="https://twitter.com/trvrm"><i class="fa fa-twitter-square fa-lg"></i> twitter</a></li>
-              </ul>
-            </li>
-
-
-
-
-
-    </ul>
-</section>
-            </aside>
-        </div>
-    </div>
-</div>
-<footer>
-   <div class="container">
-      <hr>
-      <div class="row">
-         <div class="col-xs-10">&copy; 2015 trvrm
-            &middot; Powered by <a href="https://github.com/DandyDev/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
-            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
-            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
-         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
-      </div>
-   </div>
-</footer>
-<script src="/theme/js/jquery.min.js"></script>
-
-<!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="/theme/js/bootstrap.min.js"></script>
-
-<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
-<script src="/theme/js/respond.min.js"></script>
-
-
+    </footer>
 </body>
 </html>

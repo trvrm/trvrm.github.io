@@ -1,84 +1,366 @@
 <!DOCTYPE html>
-<html lang="en" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<html lang="en">
 <head>
-    <title>Python - trvrm</title>
-    <!-- Using the latest rendering mode for IE -->
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-
-    <link href="/images/favicon.png" rel="icon">
-
-
-    <meta name="author" content="trvrm" />
-    <meta name="keywords" content="Python" />
-
-    <!-- Open Graph tags -->
-        <meta property="og:site_name" content="trvrm" />
-        <meta property="og:type" content="website"/>
-        <meta property="og:title" content="trvrm"/>
-        <meta property="og:url" content=""/>
-        <meta property="og:description" content="trvrm"/>
-
-
-    <!-- Bootstrap -->
-        <link rel="stylesheet" href="/theme/css/bootstrap.flatly.min.css" type="text/css"/>
-    <link href="/theme/css/font-awesome.min.css" rel="stylesheet">
-
-    <link href="/theme/css/pygments/tango.css" rel="stylesheet">
-    <link rel="stylesheet" href="/theme/css/style.css" type="text/css"/>
-
-
-
-
-
+        <title>trvrm</title>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" type="text/css" href="/theme/css/bulma.min.css" />
+        <link rel="stylesheet" type="text/css" href="/theme/css/style.css" />
 </head>
+
 <body>
 
-<div class="navbar navbar-default navbar-fixed-top" role="navigation">
-	<div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a href="/" class="navbar-brand">
-trvrm            </a>
+    <section class="hero is-primary is-bold">
+        <div class="hero-head">
+            <div class="container">
+                <nav class="nav has-shadow">
+                        <div class="nav-left">
+                                <a class="nav-item is-tab " href="/category/database.html">Database</a>
+                                <a class="nav-item is-tab " href="/category/software.html">Software</a>
+                                <a class="nav-item is-tab " href="/category/systems.html">Systems</a>
+                    
+                    </div>              
+                </nav>
+            </div>
         </div>
-        <div class="collapse navbar-collapse navbar-ex1-collapse">
-            <ul class="nav navbar-nav">
-                        <li >
-                            <a href="/category/database.html">Database</a>
-                        </li>
-                        <li >
-                            <a href="/category/software.html">Software</a>
-                        </li>
-                        <li >
-                            <a href="/category/systems.html">Systems</a>
-                        </li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-              <li><a href="/archives.html"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
-            </ul>
+        <div class="hero-body">
+            <div class="container">
+                <div class="columns is-vcentered">
+                    <div class="column">
+                        <h1 class="title">
+                            <a href="/">trvrm  </a>
+                        </h1>
+                        
+    <h2>Articles tagged Python</h2>
+                    </div>
+                </div>
+            </div>
         </div>
-        <!-- /.navbar-collapse -->
-    </div>
-</div> <!-- /.navbar -->
-<!-- Banner -->
-<!-- End Banner -->
-<div class="container">
-    <div class="row">
-        <div class="col-sm-9">
-            <article>
-                <h2><a href="/python-comprehensions.html">Python Comprehensions</a></h2>
-                
-                
-                <div class="entry-content">
+    </section>  
+    
 
-                    <p>Python <strong>list comprehensions</strong> are one of the most powerful and useful
+
+
+    <section class="section">
+        <div class="container">
+            <p class="subtitle is-4">
+                Thu 01 January 2015
+            </p>
+            
+            <h2 class="title is-2">
+                <a href="/postgres-timestamps.html" rel="bookmark" title="Permalink to Postgres Timestamps">
+                    Postgres Timestamps
+                </a>
+            </h2>
+
+            <div class="content is-medium">
+                <p>At my company, I maintain a large distributed. data collection platform
+. Pretty much every record we collect needs to be stamped with a
+<code class="code">
+created</code>
+ field. But because the incoming data comes from sources on
+various devices in multiple countries and timezones, making sure that
+the timestamps are precise and meaningful can be a challenge.
+<a class="reference external" href="http://www.postgresql.org/">Postgres</a> can do this very elegantly,
+but can also trip you up in subtle ways.</p>
+<p>Postgres has two subtly different timestamp data types: <code class="code">
+TIMESTAMP</code>
+
+and <code class="code">
+TIMESTAMP WITH TIMEZONE</code>
+.</p>
+<p>The former stores year/month/day/hour/minutes/second/milliseconds, as
+you’d expect, and the later ALSO stores a timezone offset, expressed in
+hours.</p>
+<p>We can switch between the two using the <code class="code">
+AT TIMEZONE</code>
+ syntax, but, and
+here is the tricky bit the function goes BOTH WAYS, and you can easily
+get confused if you don’t know what type you’re starting with.</p>
+<p>Furthermore, Postgres will sometimes sneakily convert one to the other
+without you asking.</p>
+<div class="highlight"><pre><span class="o">%</span><span class="n">load_ext</span> <span class="n">sql</span>
+<span class="o">%</span><span class="n">config</span> <span class="n">SqlMagic</span><span class="o">.</span><span class="n">feedback</span><span class="o">=</span><span class="bp">False</span>
+</pre></div>
+<div class="highlight"><pre><span class="o">%%</span><span class="n">sql</span>
+<span class="n">postgresql</span><span class="p">:</span><span class="o">//</span><span class="n">testuser</span><span class="p">:</span><span class="n">password</span><span class="nd">@localhost</span><span class="o">/</span><span class="n">test</span>
+</pre></div>
+<pre class="literal-block">
+u'Connected: <a class="reference external" href="mailto:testuser&#64;test">testuser&#64;test</a>'
+</pre>
+<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="n">NOW</span><span class="p">();</span>
+</pre></div>
+<table class="table table-bordered table-striped">
+    <tr>
+        <th>now</th>
+    </tr>
+    <tr>
+        <td>2014-08-18 22:33:58.998549-04:00</td>
+    </tr>
+</table><p><code class="code">
+now()</code>
+ returns a <code class="code">
+TIMESTAMP WITH TIME ZONE</code>
+. It shows the current
+<strong>local</strong> time, and the offset between that time and UTC
+(<a class="reference external" href="http://time.is/UTC">http://time.is/UTC</a>)</p>
+<p>But if we put the output from <code class="code">
+now()</code>
+ into a field that has type
+<code class="code">
+TIMESTAMP</code>
+ we will get a silent conversion:</p>
+<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="n">NOW</span><span class="p">()::</span> <span class="n">timestamp</span>
+</pre></div>
+<table class="table table-bordered table-striped">
+    <tr>
+        <th>now</th>
+    </tr>
+    <tr>
+        <td>2014-08-18 22:33:58.998549</td>
+    </tr>
+</table><p>Which is <strong>not</strong> the current UTC time. We have stripped the timezone
+offset right of it. However, if we <strong>explicitly</strong> do the conversion, we
+get:</p>
+<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="n">NOW</span><span class="p">()</span> <span class="n">AT</span> <span class="n">TIME</span> <span class="n">ZONE</span> <span class="s1">&#39;UTC&#39;</span><span class="p">;</span>
+</pre></div>
+<table class="table table-bordered table-striped">
+    <tr>
+        <th>timezone</th>
+    </tr>
+    <tr>
+        <td>2014-08-19 02:33:58.998549</td>
+    </tr>
+</table><p>Which <em>is</em> the current UTC time: (<a class="reference external" href="http://time.is/UTC">http://time.is/UTC</a>)</p>
+<p>It's worth reviewing the <a class="reference external" href="http://www.postgresql.org/docs/9.1/static/functions-datetime.html#FUNCTIONS-DATETIME-ZONECONVERT-TABLE">Postgresql documentation on this
+construct</a>
+at this point.</p>
+<table class="table table-bordered">
+<tr><th><p>Expression</p>
+</th><th><p>Return Type</p>
+</th><th><p>Description</p>
+</th></tr>
+<tr><td><p>timestamp without time zone AT TIME ZONE zone</p>
+</td><td><p>timestamp with time zone</p>
+</td><td><p>Treat given time stamp without time zone as located in the specified
+time zone</p>
+</td></tr>
+<tr><td><p>timestamp with time zone AT TIME ZONE zone</p>
+</td><td><p>timestamp without time zone</p>
+</td><td><p>Convert given time stamp with time zone to the new time zone, with no
+time zone designation</p>
+</td></tr><table class="table table-bordered table-striped"><p>The danger here is that the <code class="code">
+AT TIMEZONE</code>
+ construct goes <strong>both
+ways</strong>. If you don't know what type you're feeding in, you won't know
+what type you're getting out. I've been bitten by this in the past;
+ending up with a timestamp that is wrong by several hours because I
+wasn't clear about my inputs.</p>
+<p>Specifically, consider a table that looks like this:</p>
+<div class="highlight"><pre><span class="o">%%</span><span class="n">sql</span>
+<span class="n">DROP</span> <span class="n">TABLE</span> <span class="n">IF</span> <span class="n">EXISTS</span> <span class="n">test</span><span class="p">;</span>
+<span class="n">CREATE</span> <span class="n">TABLE</span> <span class="n">test</span><span class="p">(</span><span class="n">name</span> <span class="n">TEXT</span><span class="p">,</span> <span class="n">created</span> <span class="n">TIMESTAMP</span> <span class="n">DEFAULT</span> <span class="n">NOW</span><span class="p">());</span>
+</pre></div>
+<p>Which I then populate:</p>
+<div class="highlight"><pre><span class="o">%%</span><span class="n">sql</span>
+<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">test</span> <span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="s1">&#39;zaphod beeblebrox&#39;</span><span class="p">);</span>
+<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">test</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="n">created</span><span class="p">)</span> <span class="n">VALUES</span><span class="p">(</span><span class="s1">&#39;ford prefect&#39;</span><span class="p">,</span><span class="n">now</span><span class="p">()</span> <span class="n">at</span> <span class="n">time</span> <span class="n">zone</span> <span class="s1">&#39;utc&#39;</span><span class="p">);</span>
+<span class="n">SELECT</span> <span class="o">*</span> <span class="n">FROM</span> <span class="n">test</span><span class="p">;</span>
+</pre></div>
+<table class="table table-bordered table-striped">
+    <tr>
+        <th>name</th>
+        <th>created</th>
+    </tr>
+    <tr>
+        <td>zaphod beeblebrox</td>
+        <td>2014-08-18 22:34:03.620583</td>
+    </tr>
+    <tr>
+        <td>ford prefect</td>
+        <td>2014-08-19 02:34:03.621957</td>
+    </tr>
+</table><p>Note that the second record contains the current UTC time, but the first
+contains the current time <strong>local to the database server</strong>. This <em>seems</em>
+a good idea, and tends to work fine in local testing. But when you try
+to maintain a system where the database may be in one province, the data
+<em>collected</em> in another, and then <em>reviewed</em> in a third, you start to
+understand why this is too simplistic.</p>
+<p>The fact that it's 10:12 now in Toronto isn't very helpful for a record
+that's getting created for a user in Halifax and is monitored from
+Vancouver.</p>
+<p>So it's probably best to save timestamps WITH their timezone so as to
+avoid any ambiguity. This is the recommendation given
+<a class="reference external" href="http://justatheory.com/computers/databases/postgresql/use-timestamptz.html">here</a>.</p>
+<p>In our above example, the simplest approach is to change the table
+definition:</p>
+<div class="highlight"><pre><span class="o">%%</span><span class="n">sql</span>
+<span class="n">DROP</span> <span class="n">TABLE</span> <span class="n">IF</span> <span class="n">EXISTS</span> <span class="n">test</span><span class="p">;</span>
+<span class="n">CREATE</span> <span class="n">TABLE</span> <span class="n">test</span><span class="p">(</span><span class="n">name</span> <span class="n">TEXT</span><span class="p">,</span> <span class="n">created</span> <span class="n">TIMESTAMP</span> <span class="n">WITH</span> <span class="n">TIME</span> <span class="n">ZONE</span> <span class="n">DEFAULT</span> <span class="p">(</span><span class="n">NOW</span><span class="p">()</span> <span class="p">));</span>
+</pre></div>
+<div class="highlight"><pre><span class="o">%%</span><span class="n">sql</span>
+<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">test</span> <span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="s1">&#39;zaphod beeblebrox&#39;</span><span class="p">);</span>
+<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">test</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="n">created</span><span class="p">)</span> <span class="n">VALUES</span><span class="p">(</span><span class="s1">&#39;ford prefect&#39;</span><span class="p">,</span><span class="n">now</span><span class="p">()</span> <span class="p">);</span>
+<span class="n">SELECT</span> <span class="o">*</span> <span class="n">FROM</span> <span class="n">test</span><span class="p">;</span>
+</pre></div>
+<table class="table table-bordered table-striped">
+    <tr>
+        <th>name</th>
+        <th>created</th>
+    </tr>
+    <tr>
+        <td>zaphod beeblebrox</td>
+        <td>2014-08-18 22:35:15.988764-04:00</td>
+    </tr>
+    <tr>
+        <td>ford prefect</td>
+        <td>2014-08-18 22:35:15.989726-04:00</td>
+    </tr>
+</table><p>So now the dates are globally meaningful. But I <em>still</em> have to be
+careful, because if I use the wrong date format to populate this table,
+it'll still get messed up.</p>
+<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">test</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="n">created</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="s1">&#39;arthur dent&#39;</span><span class="p">,</span><span class="n">now</span><span class="p">()</span> <span class="n">at</span> <span class="n">time</span> <span class="n">zone</span> <span class="s1">&#39;utc&#39;</span><span class="p">)</span>
+<span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="o">*</span> <span class="n">FROM</span> <span class="n">test</span><span class="p">;</span>
+</pre></div>
+<table class="table table-bordered table-striped">
+    <tr>
+        <th>name</th>
+        <th>created</th>
+    </tr>
+    <tr>
+        <td>zaphod beeblebrox</td>
+        <td>2014-08-18 22:35:15.988764-04:00</td>
+    </tr>
+    <tr>
+        <td>ford prefect</td>
+        <td>2014-08-18 22:35:15.989726-04:00</td>
+    </tr>
+    <tr>
+        <td>arthur dent</td>
+        <td>2014-08-19 02:35:15.990308-04:00</td>
+    </tr>
+</table><p>Note how <strong>arthur dent</strong> has completely the wrong created time.</p>
+<p>Now, if I want to <em>report</em> on this data, I'm going to now have to
+specify <em>which</em> timezone I want the dates formatted too:</p>
+<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">delete</span> <span class="kn">from</span> <span class="nn">test</span> <span class="nn">WHERE</span> <span class="nn">name</span><span class="o">=</span><span class="s1">&#39;arthur dent&#39;</span><span class="p">;</span>
+</pre></div>
+<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">select</span> <span class="n">name</span><span class="p">,</span> <span class="n">created</span> <span class="n">FROM</span> <span class="n">test</span><span class="p">;</span>
+</pre></div>
+<table class="table table-bordered table-striped">
+    <tr>
+        <th>name</th>
+        <th>created</th>
+    </tr>
+    <tr>
+        <td>zaphod beeblebrox</td>
+        <td>2014-08-18 22:35:15.988764-04:00</td>
+    </tr>
+    <tr>
+        <td>ford prefect</td>
+        <td>2014-08-18 22:35:15.989726-04:00</td>
+    </tr>
+</table><p>gives me timestamps formatted in the timezone of the database server,
+which isn't necessarily particularly helpful, which <em>may</em> be helpful,
+but will be less so if the actual <em>users</em> of the data are in a different
+time zone.</p>
+<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span>  <span class="n">SELECT</span> <span class="n">name</span><span class="p">,</span> <span class="n">created</span> <span class="n">at</span> <span class="n">time</span> <span class="n">zone</span> <span class="s1">&#39;utc&#39;</span> <span class="n">FROM</span> <span class="n">test</span><span class="p">;</span>
+</pre></div>
+<table class="table table-bordered table-striped">
+    <tr>
+        <th>name</th>
+        <th>timezone</th>
+    </tr>
+    <tr>
+        <td>zaphod beeblebrox</td>
+        <td>2014-08-19 02:35:15.988764</td>
+    </tr>
+    <tr>
+        <td>ford prefect</td>
+        <td>2014-08-19 02:35:15.989726</td>
+    </tr>
+</table><p>gives me the time formatted in the UTC timezone, and</p>
+<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">select</span> <span class="n">CREATED</span> <span class="n">at</span> <span class="n">time</span> <span class="n">zone</span> <span class="s1">&#39;CST&#39;</span> <span class="n">FROM</span> <span class="n">test</span><span class="p">;</span>
+</pre></div>
+<table class="table table-bordered table-striped">
+    <tr>
+        <th>timezone</th>
+    </tr>
+    <tr>
+        <td>2014-08-18 20:35:15.988764</td>
+    </tr>
+    <tr>
+        <td>2014-08-18 20:35:15.989726</td>
+    </tr>
+</table><p>gives me the time formatted for central standard time.</p>
+<div class="section" id="external-data">
+<h2>external data</h2>
+<p>Now so far we've been letting the database create the timestamps, but
+sometimes we want to save data provided to us from an external source.
+In this case it's very important the we know what timezone the incoming
+data comes from. So our middleware should <em>require</em> that all dates
+include a timestamp. Fortunately, if we're writing javascript
+applications, we get this automatically:</p>
+<div class="highlight"><pre><span class="o">%%</span><span class="n">html</span>
+<span class="o">&lt;</span><span class="n">div</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;js-output&quot;</span><span class="o">&gt;&lt;/</span><span class="n">div</span><span class="o">&gt;</span>
+</pre></div>
+<div id="js-output"></div><div class="highlight"><pre><span class="o">%%</span><span class="n">javascript</span>
+<span class="n">var</span> <span class="n">d</span> <span class="o">=</span> <span class="n">JSON</span><span class="o">.</span><span class="n">stringify</span><span class="p">(</span><span class="n">new</span> <span class="n">Date</span><span class="p">())</span>
+</pre></div>
+<pre class="literal-block">
+&quot;2014-08-19T02:41:12.872Z&quot;
+</pre>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">psycopg2</span><span class="o">,</span><span class="nn">pandas</span>
+<span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span><span class="n">params</span><span class="o">=</span><span class="p">{}):</span>
+    <span class="k">with</span> <span class="n">psycopg2</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">database</span><span class="o">=</span><span class="s1">&#39;test&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">connection</span><span class="p">:</span>
+        <span class="k">with</span> <span class="n">connection</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span> <span class="k">as</span> <span class="n">cursor</span><span class="p">:</span>
+            <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span><span class="n">params</span><span class="p">)</span>
+</pre></div>
+<p>So let's imagine that we got this string submitted to us by a client,
+and we're going to store it in the database via some Python code.</p>
+<div class="highlight"><pre><span class="n">sql</span><span class="o">=</span><span class="s2">&quot;INSERT INTO test (name, created) VALUES ( &#39;externally created date&#39;, </span><span class="si">%(date)s</span><span class="s2">)&quot;</span>
+<span class="n">params</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">date</span><span class="o">=</span><span class="s2">&quot;2014-08-19T02:35:24.321Z&quot;</span><span class="p">)</span>
+<span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span><span class="n">params</span><span class="p">)</span>
+</pre></div>
+<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="o">*</span> <span class="n">FROM</span> <span class="n">test</span>
+</pre></div>
+<table class="table table-bordered table-striped">
+    <tr>
+        <th>name</th>
+        <th>created</th>
+    </tr>
+    <tr>
+        <td>zaphod beeblebrox</td>
+        <td>2014-08-18 22:35:15.988764-04:00</td>
+    </tr>
+    <tr>
+        <td>ford prefect</td>
+        <td>2014-08-18 22:35:15.989726-04:00</td>
+    </tr>
+    <tr>
+        <td>externally created date</td>
+        <td>2014-08-18 22:35:24.321000-04:00</td>
+    </tr>
+</table><p>And now we're getting to the point where all our timestamp data is both
+stored and displayed unambiguously.</p>
+</div>
+
+
+            </div>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container">
+            <p class="subtitle is-4">
+                Thu 01 January 2015
+            </p>
+            
+            <h2 class="title is-2">
+                <a href="/python-comprehensions.html" rel="bookmark" title="Permalink to Python Comprehensions">
+                    Python Comprehensions
+                </a>
+            </h2>
+
+            <div class="content is-medium">
+                <p>Python <strong>list comprehensions</strong> are one of the most powerful and useful
 features of the language. However, I've noticed even quite experienced
 Python programmers using less powerful idioms when a list comprehension
 would be the perfect solution to their problem, and even though I've
@@ -115,7 +397,7 @@ append()</code>
 [1, 1, 4, 27, 256, 3125, 46656, 823543, 16777216, 387420489]
 </pre>
 <p>Comprehensions work with any kind of iterable as an import source:</p>
-<div class="highlight"><pre><span class="p">[</span><span class="nb">ord</span><span class="p">(</span><span class="n">letter</span><span class="p">)</span> <span class="k">for</span> <span class="n">letter</span> <span class="ow">in</span> <span class="s">&quot;hello world&quot;</span><span class="p">]</span>
+<div class="highlight"><pre><span class="p">[</span><span class="nb">ord</span><span class="p">(</span><span class="n">letter</span><span class="p">)</span> <span class="k">for</span> <span class="n">letter</span> <span class="ow">in</span> <span class="s2">&quot;hello world&quot;</span><span class="p">]</span>
 </pre></div>
 <pre class="literal-block">
 [104, 101, 108, 108, 111, 32, 119, 111, 114, 108, 100]
@@ -132,7 +414,7 @@ input data source:</p>
 </pre>
 <p>Instead of just boring numbers, we could use this to construct some
 sentences.</p>
-<div class="highlight"><pre><span class="p">[(</span><span class="n">number</span><span class="p">,</span> <span class="n">animal</span><span class="p">)</span> <span class="k">for</span> <span class="n">number</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="k">for</span> <span class="n">animal</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;cats&#39;</span><span class="p">,</span><span class="s">&#39;dogs&#39;</span><span class="p">,</span><span class="s">&#39;elephants&#39;</span><span class="p">]]</span>
+<div class="highlight"><pre><span class="p">[(</span><span class="n">number</span><span class="p">,</span> <span class="n">animal</span><span class="p">)</span> <span class="k">for</span> <span class="n">number</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="k">for</span> <span class="n">animal</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;cats&#39;</span><span class="p">,</span><span class="s1">&#39;dogs&#39;</span><span class="p">,</span><span class="s1">&#39;elephants&#39;</span><span class="p">]]</span>
 </pre></div>
 <pre class="literal-block">
 [(0, 'cats'),
@@ -149,9 +431,9 @@ sentences.</p>
 output objects - we can put any valid python expression in the
 left-hand-side.</p>
 <div class="highlight"><pre><span class="p">[</span>
-    <span class="s">&quot;{0} {1}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">adjective</span><span class="p">,</span><span class="n">animal</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">adjective</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;red&#39;</span><span class="p">,</span><span class="s">&#39;cute&#39;</span><span class="p">,</span><span class="s">&#39;hungry&#39;</span><span class="p">]</span>
-    <span class="k">for</span> <span class="n">animal</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;cat&#39;</span><span class="p">,</span><span class="s">&#39;puppy&#39;</span><span class="p">,</span><span class="s">&#39;hippo&#39;</span><span class="p">]</span>
+    <span class="s2">&quot;{0} {1}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">adjective</span><span class="p">,</span><span class="n">animal</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">adjective</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;red&#39;</span><span class="p">,</span><span class="s1">&#39;cute&#39;</span><span class="p">,</span><span class="s1">&#39;hungry&#39;</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">animal</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;cat&#39;</span><span class="p">,</span><span class="s1">&#39;puppy&#39;</span><span class="p">,</span><span class="s1">&#39;hippo&#39;</span><span class="p">]</span>
 <span class="p">]</span>
 </pre></div>
 <pre class="literal-block">
@@ -167,10 +449,10 @@ left-hand-side.</p>
 </pre>
 <p>or even</p>
 <div class="highlight"><pre><span class="p">[</span>
-    <span class="s">&quot;There are {0} {1} {2}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">number</span><span class="p">,</span> <span class="n">adjective</span><span class="p">,</span><span class="n">animal</span><span class="p">)</span>
+    <span class="s2">&quot;There are {0} {1} {2}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">number</span><span class="p">,</span> <span class="n">adjective</span><span class="p">,</span><span class="n">animal</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">number</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">adjective</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;cute&#39;</span><span class="p">,</span><span class="s">&#39;hungry&#39;</span><span class="p">]</span>
-    <span class="k">for</span> <span class="n">animal</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;puppys&#39;</span><span class="p">,</span><span class="s">&#39;bats&#39;</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">adjective</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;cute&#39;</span><span class="p">,</span><span class="s1">&#39;hungry&#39;</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">animal</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;puppys&#39;</span><span class="p">,</span><span class="s1">&#39;bats&#39;</span><span class="p">]</span>
 <span class="p">]</span>
 </pre></div>
 <pre class="literal-block">
@@ -192,9 +474,9 @@ dictionaries using a very similar syntax.</p>
 <div class="highlight"><pre><span class="p">{</span>
     <span class="n">key</span><span class="p">:</span><span class="n">value</span>
     <span class="k">for</span> <span class="n">key</span><span class="p">,</span><span class="n">value</span> <span class="ow">in</span> <span class="p">[</span>
-        <span class="p">(</span><span class="s">&#39;k&#39;</span><span class="p">,</span><span class="s">&#39;v&#39;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s">&#39;foo&#39;</span><span class="p">,</span><span class="s">&#39;bar&#39;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s">&#39;this&#39;</span><span class="p">,</span><span class="s">&#39;that&#39;</span><span class="p">)</span>
+        <span class="p">(</span><span class="s1">&#39;k&#39;</span><span class="p">,</span><span class="s1">&#39;v&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span><span class="s1">&#39;bar&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;this&#39;</span><span class="p">,</span><span class="s1">&#39;that&#39;</span><span class="p">)</span>
     <span class="p">]</span>
 <span class="p">}</span>
 </pre></div>
@@ -206,30 +488,30 @@ from one structure to another. Recently I've found them <em>very</em> helpful
 for unpacking nested data structures.</p>
 <p>Consider a simple org-structure:</p>
 <div class="highlight"><pre><span class="n">departments</span><span class="o">=</span><span class="p">[</span>
-    <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span><span class="s">&#39;Manufacturing&#39;</span><span class="p">,</span> <span class="s">&#39;staff&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&quot;Jacob&quot;</span><span class="p">,</span><span class="s">&quot;Jonah&quot;</span><span class="p">,</span> <span class="s">&quot;Chloe&quot;</span><span class="p">,</span><span class="s">&quot;Liam&quot;</span><span class="p">]},</span>
-    <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span><span class="s">&#39;Marketing&#39;</span><span class="p">,</span><span class="s">&#39;staff&#39;</span><span class="p">:[</span><span class="s">&quot;Emily&quot;</span><span class="p">,</span><span class="s">&quot;Shawn&quot;</span><span class="p">,</span><span class="s">&quot;Alex&quot;</span><span class="p">]},</span>
-    <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span><span class="s">&#39;HR&#39;</span><span class="p">,</span><span class="s">&#39;staff&#39;</span><span class="p">:[</span><span class="s">&quot;David&quot;</span><span class="p">,</span><span class="s">&quot;Jessica&quot;</span><span class="p">]},</span>
-    <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span><span class="s">&#39;Accounts&#39;</span><span class="p">,</span><span class="s">&#39;staff&#39;</span><span class="p">:[</span><span class="s">&quot;Nicole&quot;</span><span class="p">]}</span>
+    <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;Manufacturing&#39;</span><span class="p">,</span> <span class="s1">&#39;staff&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Jacob&quot;</span><span class="p">,</span><span class="s2">&quot;Jonah&quot;</span><span class="p">,</span> <span class="s2">&quot;Chloe&quot;</span><span class="p">,</span><span class="s2">&quot;Liam&quot;</span><span class="p">]},</span>
+    <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;Marketing&#39;</span><span class="p">,</span><span class="s1">&#39;staff&#39;</span><span class="p">:[</span><span class="s2">&quot;Emily&quot;</span><span class="p">,</span><span class="s2">&quot;Shawn&quot;</span><span class="p">,</span><span class="s2">&quot;Alex&quot;</span><span class="p">]},</span>
+    <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;HR&#39;</span><span class="p">,</span><span class="s1">&#39;staff&#39;</span><span class="p">:[</span><span class="s2">&quot;David&quot;</span><span class="p">,</span><span class="s2">&quot;Jessica&quot;</span><span class="p">]},</span>
+    <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;Accounts&#39;</span><span class="p">,</span><span class="s1">&#39;staff&#39;</span><span class="p">:[</span><span class="s2">&quot;Nicole&quot;</span><span class="p">]}</span>
 <span class="p">]</span>
 </pre></div>
 <p>Now let's extract some data from it.</p>
-<div class="highlight"><pre><span class="c">#Department names</span>
-<span class="p">[</span><span class="n">department</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">department</span> <span class="ow">in</span> <span class="n">departments</span><span class="p">]</span>
+<div class="highlight"><pre><span class="c1">#Department names</span>
+<span class="p">[</span><span class="n">department</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">department</span> <span class="ow">in</span> <span class="n">departments</span><span class="p">]</span>
 </pre></div>
 <pre class="literal-block">
 ['Manufacturing', 'Marketing', 'HR', 'Accounts']
 </pre>
-<div class="highlight"><pre><span class="c">#Staff count</span>
-<span class="nb">sum</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">department</span><span class="p">[</span><span class="s">&#39;staff&#39;</span><span class="p">])</span> <span class="k">for</span> <span class="n">department</span> <span class="ow">in</span> <span class="n">departments</span><span class="p">])</span>
+<div class="highlight"><pre><span class="c1">#Staff count</span>
+<span class="nb">sum</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">department</span><span class="p">[</span><span class="s1">&#39;staff&#39;</span><span class="p">])</span> <span class="k">for</span> <span class="n">department</span> <span class="ow">in</span> <span class="n">departments</span><span class="p">])</span>
 </pre></div>
 <pre class="literal-block">
 10
 </pre>
-<div class="highlight"><pre><span class="c">#All staff names</span>
+<div class="highlight"><pre><span class="c1">#All staff names</span>
 <span class="p">[</span>
     <span class="n">name</span>
     <span class="k">for</span> <span class="n">department</span> <span class="ow">in</span> <span class="n">departments</span>
-    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">department</span><span class="p">[</span><span class="s">&#39;staff&#39;</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">department</span><span class="p">[</span><span class="s1">&#39;staff&#39;</span><span class="p">]</span>
 <span class="p">]</span>
 </pre></div>
 <pre class="literal-block">
@@ -252,43 +534,43 @@ department['staff']</code>
 complicated...</p>
 <div class="highlight"><pre><span class="n">departments</span><span class="o">=</span><span class="p">[</span>
     <span class="p">{</span>
-        <span class="s">&#39;name&#39;</span><span class="p">:</span><span class="s">&#39;Manufacturing&#39;</span><span class="p">,</span>
-        <span class="s">&#39;staff&#39;</span><span class="p">:</span> <span class="p">[</span>
-            <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span><span class="s">&quot;Jacob&quot;</span><span class="p">,</span><span class="s">&#39;salary&#39;</span><span class="p">:</span><span class="mi">50000</span><span class="p">},</span>
-            <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span><span class="s">&quot;Chloe&quot;</span><span class="p">,</span><span class="s">&#39;salary&#39;</span><span class="p">:</span><span class="mi">60000</span><span class="p">},</span>
-            <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span><span class="s">&quot;Liam&quot;</span><span class="p">,</span><span class="s">&#39;salary&#39;</span><span class="p">:</span><span class="mi">70000</span><span class="p">},</span>
-            <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span><span class="s">&quot;Jonah&quot;</span><span class="p">,</span><span class="s">&#39;salary&#39;</span><span class="p">:</span><span class="mi">55000</span><span class="p">},</span>
+        <span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;Manufacturing&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;staff&#39;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s2">&quot;Jacob&quot;</span><span class="p">,</span><span class="s1">&#39;salary&#39;</span><span class="p">:</span><span class="mi">50000</span><span class="p">},</span>
+            <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s2">&quot;Chloe&quot;</span><span class="p">,</span><span class="s1">&#39;salary&#39;</span><span class="p">:</span><span class="mi">60000</span><span class="p">},</span>
+            <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s2">&quot;Liam&quot;</span><span class="p">,</span><span class="s1">&#39;salary&#39;</span><span class="p">:</span><span class="mi">70000</span><span class="p">},</span>
+            <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s2">&quot;Jonah&quot;</span><span class="p">,</span><span class="s1">&#39;salary&#39;</span><span class="p">:</span><span class="mi">55000</span><span class="p">},</span>
         <span class="p">]</span>
     <span class="p">},</span>
     <span class="p">{</span>
-        <span class="s">&#39;name&#39;</span><span class="p">:</span><span class="s">&#39;Marketing&#39;</span><span class="p">,</span>
-        <span class="s">&#39;staff&#39;</span><span class="p">:[</span>
-            <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span><span class="s">&quot;Emily&quot;</span><span class="p">,</span><span class="s">&#39;salary&#39;</span><span class="p">:</span><span class="mi">50000</span><span class="p">},</span>
-            <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span><span class="s">&quot;Shawn&quot;</span><span class="p">,</span><span class="s">&#39;salary&#39;</span><span class="p">:</span><span class="mi">45000</span><span class="p">},</span>
-            <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span><span class="s">&quot;Alex&quot;</span><span class="p">,</span><span class="s">&#39;salary&#39;</span><span class="p">:</span><span class="mi">40000</span><span class="p">},</span>
+        <span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;Marketing&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;staff&#39;</span><span class="p">:[</span>
+            <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s2">&quot;Emily&quot;</span><span class="p">,</span><span class="s1">&#39;salary&#39;</span><span class="p">:</span><span class="mi">50000</span><span class="p">},</span>
+            <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s2">&quot;Shawn&quot;</span><span class="p">,</span><span class="s1">&#39;salary&#39;</span><span class="p">:</span><span class="mi">45000</span><span class="p">},</span>
+            <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s2">&quot;Alex&quot;</span><span class="p">,</span><span class="s1">&#39;salary&#39;</span><span class="p">:</span><span class="mi">40000</span><span class="p">},</span>
         <span class="p">]</span>
     <span class="p">},</span>
     <span class="p">{</span>
-        <span class="s">&#39;name&#39;</span><span class="p">:</span><span class="s">&#39;HR&#39;</span><span class="p">,</span>
-        <span class="s">&#39;staff&#39;</span><span class="p">:[</span>
+        <span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;HR&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;staff&#39;</span><span class="p">:[</span>
 
-            <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span><span class="s">&quot;David&quot;</span><span class="p">,</span><span class="s">&#39;salary&#39;</span><span class="p">:</span><span class="mi">50000</span><span class="p">},</span>
-            <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span><span class="s">&quot;Jessica&quot;</span><span class="p">,</span><span class="s">&#39;salary&#39;</span><span class="p">:</span><span class="mi">60000</span><span class="p">},</span>
+            <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s2">&quot;David&quot;</span><span class="p">,</span><span class="s1">&#39;salary&#39;</span><span class="p">:</span><span class="mi">50000</span><span class="p">},</span>
+            <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s2">&quot;Jessica&quot;</span><span class="p">,</span><span class="s1">&#39;salary&#39;</span><span class="p">:</span><span class="mi">60000</span><span class="p">},</span>
        <span class="p">]</span>
     <span class="p">},</span>
     <span class="p">{</span>
-        <span class="s">&#39;name&#39;</span><span class="p">:</span><span class="s">&#39;Accounts&#39;</span><span class="p">,</span>
-        <span class="s">&#39;staff&#39;</span><span class="p">:[</span>
-            <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span><span class="s">&quot;Nicole&quot;</span><span class="p">,</span><span class="s">&#39;salary&#39;</span><span class="p">:</span><span class="mi">40000</span><span class="p">}</span>
+        <span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;Accounts&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;staff&#39;</span><span class="p">:[</span>
+            <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s2">&quot;Nicole&quot;</span><span class="p">,</span><span class="s1">&#39;salary&#39;</span><span class="p">:</span><span class="mi">40000</span><span class="p">}</span>
         <span class="p">]</span>
     <span class="p">}</span>
 <span class="p">]</span>
 </pre></div>
 <p>Calculate the total salary:</p>
 <div class="highlight"><pre><span class="nb">sum</span><span class="p">(</span>
-    <span class="n">person</span><span class="p">[</span><span class="s">&#39;salary&#39;</span><span class="p">]</span>
+    <span class="n">person</span><span class="p">[</span><span class="s1">&#39;salary&#39;</span><span class="p">]</span>
     <span class="k">for</span> <span class="n">department</span> <span class="ow">in</span> <span class="n">departments</span>
-    <span class="k">for</span> <span class="n">person</span> <span class="ow">in</span> <span class="n">department</span><span class="p">[</span><span class="s">&#39;staff&#39;</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">person</span> <span class="ow">in</span> <span class="n">department</span><span class="p">[</span><span class="s1">&#39;staff&#39;</span><span class="p">]</span>
 <span class="p">)</span>
 </pre></div>
 <pre class="literal-block">
@@ -297,7 +579,7 @@ complicated...</p>
 <p>Now let's calculate the wages bill by department, and put the results in
 a dictionary</p>
 <div class="highlight"><pre><span class="p">{</span>
-    <span class="n">department</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span> <span class="p">:</span> <span class="nb">sum</span><span class="p">(</span><span class="n">person</span><span class="p">[</span><span class="s">&#39;salary&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">person</span> <span class="ow">in</span> <span class="n">department</span><span class="p">[</span><span class="s">&#39;staff&#39;</span><span class="p">])</span>
+    <span class="n">department</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="p">:</span> <span class="nb">sum</span><span class="p">(</span><span class="n">person</span><span class="p">[</span><span class="s1">&#39;salary&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">person</span> <span class="ow">in</span> <span class="n">department</span><span class="p">[</span><span class="s1">&#39;staff&#39;</span><span class="p">])</span>
     <span class="k">for</span> <span class="n">department</span> <span class="ow">in</span> <span class="n">departments</span>
 <span class="p">}</span>
 </pre></div>
@@ -323,19 +605,24 @@ for</code>
 </div>
 </div>
 
-                    
-                </div>  
-                
-                
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/remote-systems-administration-with-fabric.html">Remote Systems Administration with Fabric</a></h2>
-                
-                
-                <div class="entry-content">
 
-                    <p>A tool I'm finding myself using more and more these days is <a class="reference external" href="http://fabric.readthedocs.org/en/1.8/">Fabric</a>.</p>
+            </div>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container">
+            <p class="subtitle is-4">
+                Thu 01 January 2015
+            </p>
+            
+            <h2 class="title is-2">
+                <a href="/remote-systems-administration-with-fabric.html" rel="bookmark" title="Permalink to Remote Systems Administration with Fabric">
+                    Remote Systems Administration with Fabric
+                </a>
+            </h2>
+
+            <div class="content is-medium">
+                <p>A tool I'm finding myself using more and more these days is <a class="reference external" href="http://fabric.readthedocs.org/en/1.8/">Fabric</a>.</p>
 <p>Fabric is a python utility and library for streamlining systems administration
 tasks on multiple machines.</p>
 <p>Although I'm primarily a developer and systems architect, I find that as our
@@ -355,10 +642,10 @@ in our infrastructure.</p>
 all my servers, I have a task set up in my fabfile like this:</p>
 <div class="highlight"><pre><span class="nd">@parallel</span>
 <span class="k">def</span> <span class="nf">lsb_release</span><span class="p">():</span>
-    <span class="n">run</span><span class="p">(</span><span class="s">&#39;lsb_release -a&#39;</span><span class="p">)</span>
+    <span class="n">run</span><span class="p">(</span><span class="s1">&#39;lsb_release -a&#39;</span><span class="p">)</span>
 </pre></div>
 <p>When I invoke this via:</p>
-<div class="highlight"><pre><span class="nv">$ </span>fab lsb_release
+<div class="highlight"><pre>$ fab lsb_release
 </pre></div>
 <p>I get a nice little print-out of the current version of all my servers.  Fabric
 runs the task in parallel against every host in the <code class="code">
@@ -367,33 +654,38 @@ env.hosts</code>
 which can be set at the command line or in the <strong>fabfile</strong>.</p>
 <p>The following example allows me to see a list of every database running on every
 database server.</p>
-<div class="highlight"><pre><span class="n">DATABASE_HOST_MACHINES</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;dbserver1&#39;</span><span class="p">,</span><span class="s">&#39;dbserver2&#39;</span><span class="p">,</span><span class="o">...</span><span class="p">]</span>
+<div class="highlight"><pre><span class="n">DATABASE_HOST_MACHINES</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;dbserver1&#39;</span><span class="p">,</span><span class="s1">&#39;dbserver2&#39;</span><span class="p">,</span><span class="o">...</span><span class="p">]</span>
 
 <span class="nd">@hosts</span><span class="p">(</span><span class="n">DATABASE_HOST_MACHINES</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">databases</span><span class="p">():</span>
     <span class="k">with</span> <span class="n">warn_only</span><span class="p">():</span>
-        <span class="n">run</span><span class="p">(</span><span class="s">&#39;psql -c &quot;select datname from pg_database;&quot;&#39;</span><span class="p">)</span>
+        <span class="n">run</span><span class="p">(</span><span class="s1">&#39;psql -c &quot;select datname from pg_database;&quot;&#39;</span><span class="p">)</span>
 </pre></div>
 <p>And <em>voila</em>, a call to</p>
-<div class="highlight"><pre><span class="nv">$ </span>fab databases
+<div class="highlight"><pre>$ fab databases
 </pre></div>
 <p>gives me a company-wide view of all our databases.</p>
 <p>One further demonstration - this blog itself is generated using Fabric! For details, see
 the fabfile my <a class="reference external" href="https://github.com/trvrm/trvrm.github.io/blob/master/fabfile.py">Github</a> repository.</p>
 
-                    
-                </div>  
-                
-                
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/reportlab-images-in-ipython.html">Reportlab Images in IPython</a></h2>
-                
-                
-                <div class="entry-content">
 
-                    <p>With a bit of work we can get IPython to render ReportLab objects
+            </div>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container">
+            <p class="subtitle is-4">
+                Thu 01 January 2015
+            </p>
+            
+            <h2 class="title is-2">
+                <a href="/reportlab-images-in-ipython.html" rel="bookmark" title="Permalink to Reportlab Images in IPython">
+                    Reportlab Images in IPython
+                </a>
+            </h2>
+
+            <div class="content is-medium">
+                <p>With a bit of work we can get IPython to render ReportLab objects
 directly to the page as Matplotlib plots.</p>
 <p>Huge thanks to github user <a class="reference external" href="https://github.com/deeplook">deeplook</a>,
 this is basically a modification of
@@ -412,12 +704,12 @@ notebook.</p>
 rendered when we type out its name.</p>
 <div class="highlight"><pre><span class="k">def</span> <span class="nf">display_reportlab_drawing</span><span class="p">(</span><span class="n">drawing</span><span class="p">):</span>
     <span class="n">buff</span><span class="o">=</span><span class="n">BytesIO</span><span class="p">()</span>
-    <span class="n">renderPM</span><span class="o">.</span><span class="n">drawToFile</span><span class="p">(</span><span class="n">drawing</span><span class="p">,</span><span class="n">buff</span><span class="p">,</span><span class="n">fmt</span><span class="o">=</span><span class="s">&#39;png&#39;</span><span class="p">,</span><span class="n">dpi</span><span class="o">=</span><span class="mi">72</span><span class="p">)</span>
+    <span class="n">renderPM</span><span class="o">.</span><span class="n">drawToFile</span><span class="p">(</span><span class="n">drawing</span><span class="p">,</span><span class="n">buff</span><span class="p">,</span><span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;png&#39;</span><span class="p">,</span><span class="n">dpi</span><span class="o">=</span><span class="mi">72</span><span class="p">)</span>
     <span class="n">data</span><span class="o">=</span><span class="n">buff</span><span class="o">.</span><span class="n">getvalue</span><span class="p">()</span>
-    <span class="n">ip_img</span><span class="o">=</span><span class="n">display</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span><span class="n">format</span><span class="o">=</span><span class="s">&#39;png&#39;</span><span class="p">,</span><span class="n">embed</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">ip_img</span><span class="o">=</span><span class="n">display</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span><span class="n">format</span><span class="o">=</span><span class="s1">&#39;png&#39;</span><span class="p">,</span><span class="n">embed</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">ip_img</span><span class="o">.</span><span class="n">_repr_png_</span><span class="p">()</span>
 </pre></div>
-<div class="highlight"><pre><span class="n">png_formatter</span><span class="o">=</span><span class="n">get_ipython</span><span class="p">()</span><span class="o">.</span><span class="n">display_formatter</span><span class="o">.</span><span class="n">formatters</span><span class="p">[</span><span class="s">&#39;image/png&#39;</span><span class="p">]</span>
+<div class="highlight"><pre><span class="n">png_formatter</span><span class="o">=</span><span class="n">get_ipython</span><span class="p">()</span><span class="o">.</span><span class="n">display_formatter</span><span class="o">.</span><span class="n">formatters</span><span class="p">[</span><span class="s1">&#39;image/png&#39;</span><span class="p">]</span>
 <span class="n">drd</span><span class="o">=</span><span class="n">png_formatter</span><span class="o">.</span><span class="n">for_type</span><span class="p">(</span><span class="n">Drawing</span><span class="p">,</span><span class="n">display_reportlab_drawing</span><span class="p">)</span>
 </pre></div>
 <p>Now that's done, we can start creating ReportLab objects and see them
@@ -435,26 +727,31 @@ immediately.</p>
 </pre></div>
 <img alt="" src="reportlab-images-ipython_files/reportlab-images-ipython_11_0.png" />
 
-                    
-                </div>  
-                
-                
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/seriously-subtle-bug.html">A Seriously Subtle Bug</a></h2>
-                
-                
-                <div class="entry-content">
 
-                    <p>I build and maintain a number of web applications built using <a class="reference external" href="http://python.org">Python</a>, <a class="reference external" href="http://bottlepy.org/docs/dev/index.html">Bottle</a>, and <a class="reference external" href="http://uwsgi-docs.readthedocs.org/en/latest/index.html">uWSGI</a>.
+            </div>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container">
+            <p class="subtitle is-4">
+                Thu 01 January 2015
+            </p>
+            
+            <h2 class="title is-2">
+                <a href="/seriously-subtle-bug.html" rel="bookmark" title="Permalink to A Seriously Subtle Bug">
+                    A Seriously Subtle Bug
+                </a>
+            </h2>
+
+            <div class="content is-medium">
+                <p>I build and maintain a number of web applications built using <a class="reference external" href="http://python.org">Python</a>, <a class="reference external" href="http://bottlepy.org/docs/dev/index.html">Bottle</a>, and <a class="reference external" href="http://uwsgi-docs.readthedocs.org/en/latest/index.html">uWSGI</a>.
 In general, I've found this a very powerful and robust software stack.  However, this week
 we encountered a very strange issue that took us many hours to fully diagnose.</p>
 <p>Our first indication that something was wrong was when our automated monitoring tools warned
 us that one of our sites was offline.  We manage our applications through the uWSGI <a class="reference external" href="http://uwsgi-docs.readthedocs.org/en/latest/Emperor.html">Emperor</a>
 service, which makes it easy to restart errant applications.  Simply touching the config file for
 the application in question causes it to be reloaded:</p>
-<div class="highlight"><pre><span class="nv">$ </span>touch /etc/uwsgi-emperor/vassals/myapp.ini
+<div class="highlight"><pre>$ touch /etc/uwsgi-emperor/vassals/myapp.ini
 </pre></div>
 <p>This brought our systems back up, but obviously didn't explain the problem, and over the coming weeks
 it recurred several times, usually several days apart.  So, obviously my first step was to look at
@@ -472,7 +769,7 @@ helpful:</p>
 linux systems administration tool <code class="code">
 lsof</code>
 .  This tool lists information about currently open files</p>
-<div class="highlight"><pre><span class="nv">$ </span>sudo lsof &gt; lsof.txt
+<div class="highlight"><pre>$ sudo lsof &gt; lsof.txt
 
 COMMAND     PID   TID       USER   FD      TYPE             DEVICE  SIZE/OFF       NODE NAME
 init          <span class="m">1</span>             root  cwd       DIR                8,1      <span class="m">4096</span>          <span class="m">2</span> /
@@ -491,11 +788,11 @@ and <code class="code">
 grep</code>
 , I'm finding that more and more I'm staying inside the python ecosystem to do systems administration
 and analysis tasks.  I use the <a class="reference external" href="http://pandas.pydata.org/">Pandas</a> data analysis library heavily, and it was a perfect fit for this particular task.</p>
-<div class="highlight"><pre><span class="nv">$ </span>ipython
+<div class="highlight"><pre>$ ipython
 </pre></div>
 <div class="highlight"><pre><span class="kn">import</span> <span class="nn">pandas</span>
 <span class="n">widths</span><span class="o">=</span><span class="p">[</span><span class="mi">9</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">19</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">200</span><span class="p">]</span>
-<span class="n">frame</span><span class="o">=</span><span class="n">pandas</span><span class="o">.</span><span class="n">read_fwf</span><span class="p">(</span><span class="s">&#39;lsof.txt&#39;</span><span class="p">,</span><span class="n">widths</span><span class="o">=</span><span class="n">widths</span><span class="p">)</span>
+<span class="n">frame</span><span class="o">=</span><span class="n">pandas</span><span class="o">.</span><span class="n">read_fwf</span><span class="p">(</span><span class="s1">&#39;lsof.txt&#39;</span><span class="p">,</span><span class="n">widths</span><span class="o">=</span><span class="n">widths</span><span class="p">)</span>
 <span class="n">frame</span><span class="o">.</span><span class="n">columns</span>
 </pre></div>
 <pre class="literal-block">
@@ -512,7 +809,7 @@ had the <em>most</em> files open:</p>
 ...
 </pre>
 <p>So process <strong>2445</strong> has 745 open files.  OK, what is that process?</p>
-<div class="highlight"><pre><span class="n">frame</span><span class="p">[</span><span class="n">frame</span><span class="o">.</span><span class="n">PID</span><span class="o">==</span><span class="mi">2445</span><span class="p">][[</span><span class="s">&#39;USER&#39;</span><span class="p">,</span><span class="s">&#39;COMMAND&#39;</span><span class="p">]]</span>
+<div class="highlight"><pre><span class="n">frame</span><span class="p">[</span><span class="n">frame</span><span class="o">.</span><span class="n">PID</span><span class="o">==</span><span class="mi">2445</span><span class="p">][[</span><span class="s1">&#39;USER&#39;</span><span class="p">,</span><span class="s1">&#39;COMMAND&#39;</span><span class="p">]]</span>
 </pre></div>
 <pre class="literal-block">
           USER    COMMAND
@@ -524,8 +821,8 @@ had the <em>most</em> files open:</p>
 <p>So we've learned, then, that a uWSGI process belonging to www-data is holding open more than 700 files.  Now, under
 Ubuntu, this is going to be a problem very soon, because the maximum number of files that www-data may have open
 per-process is 1024.</p>
-<div class="highlight"><pre><span class="nv">$ </span>sudo su www-data
-<span class="nv">$ </span><span class="nb">ulimit</span> -n
+<div class="highlight"><pre>$ sudo su www-data
+$ <span class="nb">ulimit</span> -n
 </pre></div>
 <pre class="literal-block">
 1024
@@ -558,9 +855,9 @@ recreate the bug.  Then, I wrote a very bare-bones Bottle app that simply served
 
 <span class="n">application</span><span class="o">=</span><span class="n">bottle</span><span class="o">.</span><span class="n">Bottle</span><span class="p">()</span>
 
-<span class="nd">@application.get</span><span class="p">(</span><span class="s">&#39;/diagnose&#39;</span><span class="p">)</span>
+<span class="nd">@application.get</span><span class="p">(</span><span class="s1">&#39;/diagnose&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">test</span><span class="p">():</span>
-    <span class="k">return</span> <span class="n">bottle</span><span class="o">.</span><span class="n">static_file</span><span class="p">(</span><span class="s">&#39;cat.jpg&#39;</span><span class="p">,</span> <span class="s">&#39;.&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">bottle</span><span class="o">.</span><span class="n">static_file</span><span class="p">(</span><span class="s1">&#39;cat.jpg&#39;</span><span class="p">,</span> <span class="s1">&#39;.&#39;</span><span class="p">)</span>
 </pre></div>
 <p>And I immediately saw that this <em>didn't</em> trigger any kind of file leak.  The main difference between the two was that our
 production application uses Bottle's <em>mounting</em> capability to namespace URLS.  So I changed my test application as follows:</p>
@@ -568,12 +865,12 @@ production application uses Bottle's <em>mounting</em> capability to namespace U
 
 <span class="n">app</span><span class="o">=</span><span class="n">bottle</span><span class="o">.</span><span class="n">Bottle</span><span class="p">()</span>
 
-<span class="nd">@app.get</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)</span>
+<span class="nd">@app.get</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">test</span><span class="p">():</span>
-    <span class="k">return</span> <span class="n">bottle</span><span class="o">.</span><span class="n">static_file</span><span class="p">(</span><span class="s">&#39;cat.jpg&#39;</span><span class="p">,</span> <span class="s">&#39;.&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">bottle</span><span class="o">.</span><span class="n">static_file</span><span class="p">(</span><span class="s1">&#39;cat.jpg&#39;</span><span class="p">,</span> <span class="s1">&#39;.&#39;</span><span class="p">)</span>
 
 <span class="n">rootapp</span><span class="o">=</span><span class="n">bottle</span><span class="o">.</span><span class="n">Bottle</span><span class="p">()</span>
-<span class="n">rootapp</span><span class="o">.</span><span class="n">mount</span><span class="p">(</span><span class="s">&quot;/diagnose&quot;</span><span class="p">,</span> <span class="n">app</span><span class="p">)</span>
+<span class="n">rootapp</span><span class="o">.</span><span class="n">mount</span><span class="p">(</span><span class="s2">&quot;/diagnose&quot;</span><span class="p">,</span> <span class="n">app</span><span class="p">)</span>
 <span class="n">application</span><span class="o">=</span><span class="n">rootapp</span>
 </pre></div>
 <p>And   <code class="code">
@@ -600,11 +897,11 @@ file</code>
 </p>
 <div class="highlight"><pre><span class="k">class</span> <span class="nc">MonitoredFile</span><span class="p">(</span><span class="nb">file</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name</span><span class="p">,</span><span class="n">mode</span><span class="p">):</span>
-        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Opening {0}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Opening {0}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
         <span class="nb">file</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name</span><span class="p">,</span><span class="n">mode</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;file.__del__({0})&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;file.__del__({0})&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
 </pre></div>
 <p>So this object behaves exactly like a regular file, but logs events when it is created and when it is destroyed.  And sure enough,
 I saw that in the file-leaking version of my code, <code class="code">
@@ -627,10 +924,10 @@ _cast()</code>
 handle all sorts of things as response objects - strings, dictionaries, JSON objects, lists, but if it notices that it is handling
 a <em>file</em> then it treats it specially.  The smoking gun code is here:
 <a class="reference external" href="https://github.com/bottlepy/bottle/blob/854fbd7f88aa2f809f54dd724aea7ecf918a3b6e/bottle.py#L913">https://github.com/bottlepy/bottle/blob/854fbd7f88aa2f809f54dd724aea7ecf918a3b6e/bottle.py#L913</a></p>
-<div class="highlight"><pre><span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="s">&#39;read&#39;</span><span class="p">):</span>
-    <span class="k">if</span> <span class="s">&#39;wsgi.file_wrapper&#39;</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">request</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s">&#39;wsgi.file_wrapper&#39;</span><span class="p">](</span><span class="n">out</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="s">&#39;close&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="s">&#39;__iter__&#39;</span><span class="p">):</span>
+<div class="highlight"><pre><span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="s1">&#39;read&#39;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="s1">&#39;wsgi.file_wrapper&#39;</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">request</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;wsgi.file_wrapper&#39;</span><span class="p">](</span><span class="n">out</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="s1">&#39;close&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="s1">&#39;__iter__&#39;</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">WSGIFileWrapper</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
 </pre></div>
 <p>Which <em>looks</em> innocent enough, and indeed is in the first version of our code.  But in the <em>second</em> version, our file handler
@@ -671,8 +968,8 @@ Py_INCREF</code>
  is getting called on the file object.  So if this function is called twice,
 presumably the internal reference count is incremented twice, but only decremented once elsewhere.</p>
 <p>And indeed, as soon as I added:</p>
-<div class="highlight"><pre><span class="k">if</span> <span class="s">&#39;wsgi.file_wrapper&#39;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
-    <span class="k">del</span> <span class="n">environ</span><span class="p">[</span><span class="s">&#39;wsgi.file_wrapper&#39;</span><span class="p">]</span>
+<div class="highlight"><pre><span class="k">if</span> <span class="s1">&#39;wsgi.file_wrapper&#39;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
+    <span class="k">del</span> <span class="n">environ</span><span class="p">[</span><span class="s1">&#39;wsgi.file_wrapper&#39;</span><span class="p">]</span>
 </pre></div>
 <p>to my application code, the file leaking stopped.</p>
 </div>
@@ -686,19 +983,24 @@ supposed to do - I clearly have more research to do, time permitting.  And becau
 a bug.  But hopefully this analysis will help prevent others from going through the same headaches I just did.</p>
 </div>
 
-                    
-                </div>  
-                
-                
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/sql-magic.html">SQL Magic</a></h2>
-                
-                
-                <div class="entry-content">
 
-                    <p>I'm finding the <code class="code">
+            </div>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container">
+            <p class="subtitle is-4">
+                Thu 01 January 2015
+            </p>
+            
+            <h2 class="title is-2">
+                <a href="/sql-magic.html" rel="bookmark" title="Permalink to SQL Magic">
+                    SQL Magic
+                </a>
+            </h2>
+
+            <div class="content is-medium">
+                <p>I'm finding the <code class="code">
 %sql</code>
  magic function extremely useful. It turns
 IPython into a very nice front-end to Postgresql.</p>
@@ -727,9 +1029,9 @@ psql</code>
 <span class="n">CREATE</span> <span class="n">TABLE</span> <span class="n">people</span> <span class="p">(</span><span class="n">first</span> <span class="n">text</span><span class="p">,</span> <span class="n">last</span> <span class="n">text</span><span class="p">,</span> <span class="n">drink</span> <span class="n">text</span><span class="p">);</span>
 <span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">people</span> <span class="p">(</span><span class="n">first</span><span class="p">,</span><span class="n">last</span><span class="p">,</span><span class="n">drink</span><span class="p">)</span>
 <span class="n">VALUES</span>
-    <span class="p">(</span><span class="s">&#39;zaphod&#39;</span><span class="p">,</span><span class="s">&#39;beeblebrox&#39;</span><span class="p">,</span><span class="s">&#39;pan galactic gargle blaster&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;arthur&#39;</span><span class="p">,</span><span class="s">&#39;dent&#39;</span><span class="p">,</span><span class="s">&#39;tea&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;ford&#39;</span><span class="p">,</span><span class="s">&#39;prefect&#39;</span><span class="p">,</span><span class="s">&#39;old janx spirit&#39;</span><span class="p">)</span>
+    <span class="p">(</span><span class="s1">&#39;zaphod&#39;</span><span class="p">,</span><span class="s1">&#39;beeblebrox&#39;</span><span class="p">,</span><span class="s1">&#39;pan galactic gargle blaster&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;arthur&#39;</span><span class="p">,</span><span class="s1">&#39;dent&#39;</span><span class="p">,</span><span class="s1">&#39;tea&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;ford&#39;</span><span class="p">,</span><span class="s1">&#39;prefect&#39;</span><span class="p">,</span><span class="s1">&#39;old janx spirit&#39;</span><span class="p">)</span>
     <span class="p">;</span>
 </pre></div>
 <pre class="literal-block">
@@ -810,7 +1112,7 @@ Done.
   </tbody>
 </table>
 <p>3 rows × 3 columns</p>
-</div><div class="highlight"><pre><span class="n">frame</span><span class="p">[</span><span class="s">&#39;first&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+</div><div class="highlight"><pre><span class="n">frame</span><span class="p">[</span><span class="s1">&#39;first&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
 </pre></div>
 <pre class="literal-block">
 0    ZAPHOD
@@ -819,19 +1121,24 @@ Done.
 Name: first, dtype: object
 </pre>
 
-                    
-                </div>  
-                
-                
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/basic-ipython-plotting.html">Basic IPython Plotting</a></h2>
-                
-                
-                <div class="entry-content">
 
-                    <p><strong>Things have changed a bit since IPython 1</strong></p>
+            </div>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container">
+            <p class="subtitle is-4">
+                Tue 20 May 2014
+            </p>
+            
+            <h2 class="title is-2">
+                <a href="/basic-ipython-plotting.html" rel="bookmark" title="Permalink to Basic IPython Plotting">
+                    Basic IPython Plotting
+                </a>
+            </h2>
+
+            <div class="content is-medium">
+                <p><strong>Things have changed a bit since IPython 1</strong></p>
 <p>Now apparently we want to manually specify the use of inline matplotlib
 rather than enable globally in the server.</p>
 <p><a class="reference external" href="http://nbviewer.ipython.org/github/ipython/ipython/blob/1.x/examples/notebooks/Part%203%20-%20Plotting%20with%20Matplotlib.ipynb">http://nbviewer.ipython.org/github/ipython/ipython/blob/1.x/examples/notebooks/Part%203%20-%20Plotting%20with%20Matplotlib.ipynb</a></p>
@@ -842,68 +1149,50 @@ rather than enable globally in the server.</p>
 </pre></div>
 <div class="highlight"><pre><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;A simple chirp&#39;</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;A simple chirp&#39;</span><span class="p">);</span>
 </pre></div>
 <img alt="basic plotting example" src="Basic%20Plotting%20Example_files/Basic%20Plotting%20Example_3_0.png" />
 
-                    
-                </div>  
-                
-                
-            </article>
-            <hr/>
 
-        <ul class="pagination">
-                <li class="prev"><a href="/tag/python.html">&laquo;</a>
-                </li>
-                    <li class=""><a
-                            href="/tag/python.html">1</a></li>
-                    <li class="active"><a
-                            href="/tag/python2.html">2</a></li>
-                <li class="next disabled"><a href="#">&raquo;</a></li>
-        </ul>
+            </div>
         </div>
-        <div class="col-sm-3" id="sidebar">
-            <aside>
+    </section>
 
-<section class="well well-sm">
-    <ul class="list-group list-group-flush">
-            <li class="list-group-item"><h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Social</span></h4>
-              <ul class="list-group" id="social">
-                <li class="list-group-item"><a href="https://twitter.com/trvrm"><i class="fa fa-twitter-square fa-lg"></i> twitter</a></li>
-              </ul>
-            </li>
+   
 
 
-
-
-
-    </ul>
-</section>
-            </aside>
-        </div>
+<section class="section">
+    <div class="container">
+        
+        <nav class="pagination">
+                <a href="/tag/python.html">Previous</a>
+            
+            <ul>
+                    <li class="">
+                        <a href="/tag/python.html">1</a>
+                    </li>
+                    <li class="is-active">
+                        <a href="/tag/python2.html">2</a>
+                    </li>
+            </ul>
+            
+            
+        </nav>
+    
     </div>
-</div>
-<footer>
-   <div class="container">
-      <hr>
-      <div class="row">
-         <div class="col-xs-10">&copy; 2015 trvrm
-            &middot; Powered by <a href="https://github.com/DandyDev/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
-            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
-            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
-         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
-      </div>
-   </div>
-</footer>
-<script src="/theme/js/jquery.min.js"></script>
 
-<!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="/theme/js/bootstrap.min.js"></script>
-
-<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
-<script src="/theme/js/respond.min.js"></script>
+</section>
 
 
+    <footer class="footer">
+        <div class="container">
+            <div class="content has-text-centered">
+                <p>
+                    Powered by <a href="http://getpelican.com/">Pelican</a>, <a href="http://python.org">Python</a>, 
+                    and <a href="http://bulma.io/">Bulma</a>
+                </p>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>

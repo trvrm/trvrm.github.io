@@ -1,84 +1,59 @@
 <!DOCTYPE html>
-<html lang="en" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<html lang="en">
 <head>
-    <title>Database - trvrm</title>
-    <!-- Using the latest rendering mode for IE -->
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-
-    <link href="/images/favicon.png" rel="icon">
-
-
-    <meta name="author" content="trvrm" />
-    <meta name="keywords" content="Database" />
-
-    <!-- Open Graph tags -->
-        <meta property="og:site_name" content="trvrm" />
-        <meta property="og:type" content="website"/>
-        <meta property="og:title" content="trvrm"/>
-        <meta property="og:url" content=""/>
-        <meta property="og:description" content="trvrm"/>
-
-
-    <!-- Bootstrap -->
-        <link rel="stylesheet" href="/theme/css/bootstrap.flatly.min.css" type="text/css"/>
-    <link href="/theme/css/font-awesome.min.css" rel="stylesheet">
-
-    <link href="/theme/css/pygments/tango.css" rel="stylesheet">
-    <link rel="stylesheet" href="/theme/css/style.css" type="text/css"/>
-
-
-
-
-
+        <title>trvrm</title>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" type="text/css" href="/theme/css/bulma.min.css" />
+        <link rel="stylesheet" type="text/css" href="/theme/css/style.css" />
 </head>
+
 <body>
 
-<div class="navbar navbar-default navbar-fixed-top" role="navigation">
-	<div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a href="/" class="navbar-brand">
-trvrm            </a>
+    <section class="hero is-primary is-bold">
+        <div class="hero-head">
+            <div class="container">
+                <nav class="nav has-shadow">
+                        <div class="nav-left">
+                                <a class="nav-item is-tab  active " href="/category/database.html">Database</a>
+                                <a class="nav-item is-tab " href="/category/software.html">Software</a>
+                                <a class="nav-item is-tab " href="/category/systems.html">Systems</a>
+                    
+                    </div>              
+                </nav>
+            </div>
         </div>
-        <div class="collapse navbar-collapse navbar-ex1-collapse">
-            <ul class="nav navbar-nav">
-                        <li class="active">
-                            <a href="/category/database.html">Database</a>
-                        </li>
-                        <li >
-                            <a href="/category/software.html">Software</a>
-                        </li>
-                        <li >
-                            <a href="/category/systems.html">Systems</a>
-                        </li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-              <li><a href="/archives.html"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
-            </ul>
+        <div class="hero-body">
+            <div class="container">
+                <div class="columns is-vcentered">
+                    <div class="column">
+                        <h1 class="title">
+                            <a href="/">trvrm  </a>
+                        </h1>
+                        
+<h2>Articles in the Database category</h2>
+                    </div>
+                </div>
+            </div>
         </div>
-        <!-- /.navbar-collapse -->
-    </div>
-</div> <!-- /.navbar -->
-<!-- Banner -->
-<!-- End Banner -->
-<div class="container">
-    <div class="row">
-        <div class="col-sm-9">
-            <article>
-                <h2><a href="/bulk-psycopg2-inserts.html">Efficient Postgres Bulk Inserts using Psycopg2 and Unnest</a></h2>
-                
-                
-                <div class="entry-content">
+    </section>  
+    
 
-                    <p>One of the biggest challenges I face maintaining large Postgres systems
+
+
+    <section class="section">
+        <div class="container">
+            <p class="subtitle is-4">
+                Thu 22 October 2015
+            </p>
+            
+            <h2 class="title is-2">
+                <a href="/bulk-psycopg2-inserts.html" rel="bookmark" title="Permalink to Efficient Postgres Bulk Inserts using Psycopg2 and Unnest">
+                    Efficient Postgres Bulk Inserts using Psycopg2 and Unnest
+                </a>
+            </h2>
+
+            <div class="content is-medium">
+                <p>One of the biggest challenges I face maintaining large Postgres systems
 is getting data <em>into</em> them in an efficient manner. Postgres is very,
 very good at maintaining, organising, querying and retrieving data, but
 inserts themselves can be quite slow.</p>
@@ -110,12 +85,12 @@ efficient technique I've found so far.</p>
 <div class="section" id="a-context-manager-for-timing-operations">
 <h2>A context manager for timing operations.</h2>
 <div class="highlight"><pre><span class="nd">@contextlib.contextmanager</span>
-<span class="k">def</span> <span class="nf">timer</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;duration&quot;</span><span class="p">):</span>
-    <span class="s">&#39;Utility function for timing execution&#39;</span>
+<span class="k">def</span> <span class="nf">timer</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;duration&quot;</span><span class="p">):</span>
+    <span class="s1">&#39;Utility function for timing execution&#39;</span>
     <span class="n">start</span><span class="o">=</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
     <span class="k">yield</span>
     <span class="n">duration</span><span class="o">=</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="o">-</span><span class="n">start</span>
-    <span class="k">print</span><span class="p">(</span><span class="s">&quot;{0}: {1} second(s)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="n">duration</span><span class="p">))</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;{0}: {1} second(s)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="n">duration</span><span class="p">))</span>
 </pre></div>
 </div>
 <div class="section" id="test-setup">
@@ -124,31 +99,31 @@ efficient technique I've found so far.</p>
 it takes to perform inserts on it via several different methods. The
 table has a couple of default columns, a text column, and an HSTORE
 column.</p>
-<div class="highlight"><pre><span class="n">SETUP_SQL</span><span class="o">=</span><span class="s">&quot;&quot;&quot;</span>
-<span class="s">    DROP TABLE IF EXISTS upload_time_test;</span>
+<div class="highlight"><pre><span class="n">SETUP_SQL</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    DROP TABLE IF EXISTS upload_time_test;</span>
 
-<span class="s">    CREATE TABLE upload_time_test(</span>
-<span class="s">        uuid uuid primary key default uuid_generate_v4(),</span>
-<span class="s">        created timestamp with time zone not null default now(),</span>
-<span class="s">        text text not null,</span>
-<span class="s">        properties hstore not null default &#39;&#39;::hstore</span>
-<span class="s">    );</span>
+<span class="s2">    CREATE TABLE upload_time_test(</span>
+<span class="s2">        uuid uuid primary key default uuid_generate_v4(),</span>
+<span class="s2">        created timestamp with time zone not null default now(),</span>
+<span class="s2">        text text not null,</span>
+<span class="s2">        properties hstore not null default &#39;&#39;::hstore</span>
+<span class="s2">    );</span>
 
-<span class="s">    GRANT ALL ON upload_time_test TO test;</span>
-<span class="s">&quot;&quot;&quot;</span>
+<span class="s2">    GRANT ALL ON upload_time_test TO test;</span>
+<span class="s2">&quot;&quot;&quot;</span>
 </pre></div>
 <p>This is the SQL we'll use for inserting a single row into the database
 table:</p>
-<div class="highlight"><pre><span class="n">SINGLE_INSERT</span><span class="o">=</span><span class="s">&quot;&quot;&quot;</span>
-<span class="s">    INSERT INTO upload_time_test(text,properties)</span>
-<span class="s">         VALUES (</span><span class="si">%(text)s</span><span class="s">, </span><span class="si">%(properties)s</span><span class="s">)</span>
-<span class="s">&quot;&quot;&quot;</span>
+<div class="highlight"><pre><span class="n">SINGLE_INSERT</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    INSERT INTO upload_time_test(text,properties)</span>
+<span class="s2">         VALUES (</span><span class="si">%(text)s</span><span class="s2">, </span><span class="si">%(properties)s</span><span class="s2">)</span>
+<span class="s2">&quot;&quot;&quot;</span>
 </pre></div>
 <p>Credentials for connecting to my local test database</p>
-<div class="highlight"><pre><span class="n">HOST</span><span class="o">=</span><span class="s">&#39;localhost&#39;</span>
-<span class="n">DATABASE</span><span class="o">=</span><span class="s">&#39;test&#39;</span>
-<span class="n">USER</span><span class="o">=</span><span class="s">&#39;test&#39;</span>
-<span class="n">PASSWORD</span><span class="o">=</span><span class="s">&#39;password&#39;</span>
+<div class="highlight"><pre><span class="n">HOST</span><span class="o">=</span><span class="s1">&#39;localhost&#39;</span>
+<span class="n">DATABASE</span><span class="o">=</span><span class="s1">&#39;test&#39;</span>
+<span class="n">USER</span><span class="o">=</span><span class="s1">&#39;test&#39;</span>
+<span class="n">PASSWORD</span><span class="o">=</span><span class="s1">&#39;password&#39;</span>
 </pre></div>
 <p>Then we define a couple of simple wrappers around <code class="code">
 psycopg2</code>
@@ -192,8 +167,8 @@ unroll a set of arrays passed in through psycopg2</li>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">=</span><span class="p">[</span>
             <span class="p">{</span>
-                <span class="s">&#39;text&#39;</span><span class="p">:</span><span class="s">&#39;Some text&#39;</span><span class="p">,</span>
-                <span class="s">&#39;properties&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&quot;key&quot;</span><span class="p">:</span><span class="s">&quot;value&quot;</span><span class="p">},</span>
+                <span class="s1">&#39;text&#39;</span><span class="p">:</span><span class="s1">&#39;Some text&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;properties&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;key&quot;</span><span class="p">:</span><span class="s2">&quot;value&quot;</span><span class="p">},</span>
             <span class="p">}</span>
             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">count</span><span class="p">)</span>
         <span class="p">]</span>
@@ -203,8 +178,8 @@ unroll a set of arrays passed in through psycopg2</li>
 <span class="sd">            Creates a new connection for each insertion</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">:</span>
-            <span class="n">text</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s">&#39;text&#39;</span><span class="p">]</span>
-            <span class="n">properties</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s">&#39;properties&#39;</span><span class="p">]</span>
+            <span class="n">text</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span>
+            <span class="n">properties</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;properties&#39;</span><span class="p">]</span>
             <span class="n">execute</span><span class="p">(</span><span class="n">SINGLE_INSERT</span><span class="p">,</span><span class="nb">locals</span><span class="p">())</span>
 
     <span class="k">def</span> <span class="nf">insert</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -215,8 +190,8 @@ unroll a set of arrays passed in through psycopg2</li>
         <span class="k">with</span> <span class="n">connect</span><span class="p">()</span> <span class="k">as</span> <span class="n">connection</span><span class="p">:</span>
             <span class="k">with</span> <span class="n">connection</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span> <span class="k">as</span> <span class="n">cursor</span><span class="p">:</span>
                 <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">:</span>
-                    <span class="n">text</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s">&#39;text&#39;</span><span class="p">]</span>
-                    <span class="n">properties</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s">&#39;properties&#39;</span><span class="p">]</span>
+                    <span class="n">text</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span>
+                    <span class="n">properties</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;properties&#39;</span><span class="p">]</span>
                     <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">SINGLE_INSERT</span><span class="p">,</span><span class="nb">locals</span><span class="p">())</span>
 
 
@@ -224,26 +199,26 @@ unroll a set of arrays passed in through psycopg2</li>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">            One connection, one query.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
-        <span class="n">sql</span><span class="o">=</span><span class="s">&#39;&#39;&#39;</span>
-<span class="s">            INSERT INTO upload_time_test(text,properties)</span>
-<span class="s">              SELECT unnest( </span><span class="si">%(texts)s</span><span class="s"> ) ,</span>
-<span class="s">                     unnest( </span><span class="si">%(properties)s</span><span class="s">)</span>
+        <span class="n">sql</span><span class="o">=</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">            INSERT INTO upload_time_test(text,properties)</span>
+<span class="s1">              SELECT unnest( </span><span class="si">%(texts)s</span><span class="s1"> ) ,</span>
+<span class="s1">                     unnest( </span><span class="si">%(properties)s</span><span class="s1">)</span>
 
-<span class="s">        &#39;&#39;&#39;</span>
+<span class="s1">        &#39;&#39;&#39;</span>
 
-        <span class="n">texts</span><span class="o">=</span><span class="p">[</span><span class="n">r</span><span class="p">[</span><span class="s">&#39;text&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">]</span>
-        <span class="n">properties</span><span class="o">=</span><span class="p">[</span><span class="n">r</span><span class="p">[</span><span class="s">&#39;properties&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">]</span>
+        <span class="n">texts</span><span class="o">=</span><span class="p">[</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">]</span>
+        <span class="n">properties</span><span class="o">=</span><span class="p">[</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;properties&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">]</span>
         <span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span><span class="nb">locals</span><span class="p">())</span>
 </pre></div>
 <p>So now we have the Tester class written, we can see how log each
 approach takes to insert 1000 rows</p>
 <div class="highlight"><pre><span class="k">def</span> <span class="nf">runTests</span><span class="p">(</span><span class="n">iterations</span><span class="p">):</span>
     <span class="n">tester</span> <span class="o">=</span> <span class="n">Tester</span><span class="p">(</span><span class="n">iterations</span><span class="p">)</span>
-    <span class="k">with</span> <span class="n">timer</span><span class="p">(</span><span class="s">&#39;slow&#39;</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">timer</span><span class="p">(</span><span class="s1">&#39;slow&#39;</span><span class="p">):</span>
         <span class="n">tester</span><span class="o">.</span><span class="n">slowInsert</span><span class="p">()</span>
-    <span class="k">with</span> <span class="n">timer</span><span class="p">(</span><span class="s">&#39;normal&#39;</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">timer</span><span class="p">(</span><span class="s1">&#39;normal&#39;</span><span class="p">):</span>
         <span class="n">tester</span><span class="o">.</span><span class="n">insert</span><span class="p">()</span>
-    <span class="k">with</span> <span class="n">timer</span><span class="p">(</span><span class="s">&#39;fast&#39;</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">timer</span><span class="p">(</span><span class="s1">&#39;fast&#39;</span><span class="p">):</span>
         <span class="n">tester</span><span class="o">.</span><span class="n">fastInsert</span><span class="p">()</span>
 </pre></div>
 <div class="highlight"><pre><span class="n">runTests</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
@@ -265,11 +240,11 @@ unnest()</code>
 rows. I won't bother with the slowest approach, because that's clearly
 unusable.</p>
 <div class="highlight"><pre><span class="n">tester</span><span class="o">=</span><span class="n">Tester</span><span class="p">(</span><span class="n">count</span><span class="o">=</span><span class="mi">100000</span><span class="p">)</span>
-<span class="k">with</span> <span class="n">timer</span><span class="p">(</span><span class="s">&#39;normal&#39;</span><span class="p">):</span>
+<span class="k">with</span> <span class="n">timer</span><span class="p">(</span><span class="s1">&#39;normal&#39;</span><span class="p">):</span>
     <span class="n">tester</span><span class="o">.</span><span class="n">insert</span><span class="p">()</span>
 
 <span class="n">tester</span><span class="o">=</span><span class="n">Tester</span><span class="p">(</span><span class="n">count</span><span class="o">=</span><span class="mi">100000</span><span class="p">)</span>
-<span class="k">with</span> <span class="n">timer</span><span class="p">(</span><span class="s">&#39;fast&#39;</span><span class="p">):</span>
+<span class="k">with</span> <span class="n">timer</span><span class="p">(</span><span class="s1">&#39;fast&#39;</span><span class="p">):</span>
     <span class="n">tester</span><span class="o">.</span><span class="n">fastInsert</span><span class="p">()</span>
 </pre></div>
 <pre class="literal-block">
@@ -306,16 +281,16 @@ our two methods:</p>
 
 <span class="n">rates</span><span class="o">=</span><span class="p">[</span>
     <span class="p">{</span>
-        <span class="s">&quot;count&quot;</span><span class="p">:</span><span class="n">count</span><span class="p">,</span>
-         <span class="s">&#39;bulk&#39;</span><span class="p">:</span><span class="n">bulkInsertRate</span><span class="p">(</span><span class="n">count</span><span class="p">),</span>
-        <span class="s">&#39;normal&#39;</span><span class="p">:</span><span class="n">normalInsertRate</span><span class="p">(</span><span class="n">count</span><span class="p">)</span>
+        <span class="s2">&quot;count&quot;</span><span class="p">:</span><span class="n">count</span><span class="p">,</span>
+         <span class="s1">&#39;bulk&#39;</span><span class="p">:</span><span class="n">bulkInsertRate</span><span class="p">(</span><span class="n">count</span><span class="p">),</span>
+        <span class="s1">&#39;normal&#39;</span><span class="p">:</span><span class="n">normalInsertRate</span><span class="p">(</span><span class="n">count</span><span class="p">)</span>
 
     <span class="p">}</span>
     <span class="k">for</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">counts</span>
 <span class="p">]</span>
 </pre></div>
 <p>Finally, I use Pandas to plot the output data from these tests.</p>
-<div class="highlight"><pre><span class="n">frame</span><span class="o">=</span><span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rates</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s">&#39;count&#39;</span><span class="p">)</span>
+<div class="highlight"><pre><span class="n">frame</span><span class="o">=</span><span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rates</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;count&#39;</span><span class="p">)</span>
 <span class="n">frame</span>
 </pre></div>
 <div style="max-height:1000px;max-width:1500px;overflow:auto;">
@@ -416,19 +391,24 @@ is transferred back and forth across the network.</li>
 </div>
 </div>
 
-                    
-                </div>  
-                
-                
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/postgres-json-aggregation.html">Postgres JSON Aggregation</a></h2>
-                
-                
-                <div class="entry-content">
 
-                    <p>I've been using the new JSON functionality in Postgres a lot recently:
+            </div>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container">
+            <p class="subtitle is-4">
+                Thu 01 January 2015
+            </p>
+            
+            <h2 class="title is-2">
+                <a href="/postgres-json-aggregation.html" rel="bookmark" title="Permalink to Postgres JSON Aggregation">
+                    Postgres JSON Aggregation
+                </a>
+            </h2>
+
+            <div class="content is-medium">
+                <p>I've been using the new JSON functionality in Postgres a lot recently:
 I'm fond of saying that Postgresql is the best NoSQL database available
 today. I'm quite serious about this: having used key-value and JSON
 stores such as CouchDB in the past, it's amazing to me how the Postgres
@@ -459,7 +439,7 @@ u'Connected: <a class="reference external" href="mailto:testuser&#64;test">testu
 <span class="p">);</span>
 
 <span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">person</span> <span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="n">VALUES</span>
-<span class="p">(</span><span class="s">&#39;emily&#39;</span><span class="p">),(</span><span class="s">&#39;arthur&#39;</span><span class="p">),(</span><span class="s">&#39;nicki&#39;</span><span class="p">),(</span><span class="s">&#39;oliver&#39;</span><span class="p">)</span>
+<span class="p">(</span><span class="s1">&#39;emily&#39;</span><span class="p">),(</span><span class="s1">&#39;arthur&#39;</span><span class="p">),(</span><span class="s1">&#39;nicki&#39;</span><span class="p">),(</span><span class="s1">&#39;oliver&#39;</span><span class="p">)</span>
 <span class="p">;</span>
 </pre></div>
 <pre class="literal-block">
@@ -509,12 +489,12 @@ JOINS</code>
     <span class="nb">type</span> <span class="n">text</span> <span class="ow">not</span> <span class="n">null</span>
 <span class="p">);</span>
 
-<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">action</span><span class="p">(</span><span class="n">person_name</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="s">&#39;emily&#39;</span><span class="p">,</span><span class="s">&#39;login&#39;</span><span class="p">);</span>
-<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">action</span><span class="p">(</span><span class="n">person_name</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="s">&#39;emily&#39;</span><span class="p">,</span><span class="s">&#39;pageview&#39;</span><span class="p">);</span>
-<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">action</span><span class="p">(</span><span class="n">person_name</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="s">&#39;arthur&#39;</span><span class="p">,</span><span class="s">&#39;login&#39;</span><span class="p">);</span>
-<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">action</span><span class="p">(</span><span class="n">person_name</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="s">&#39;emily&#39;</span><span class="p">,</span><span class="s">&#39;logout&#39;</span><span class="p">);</span>
-<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">action</span><span class="p">(</span><span class="n">person_name</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="s">&#39;nicki&#39;</span><span class="p">,</span><span class="s">&#39;password_change&#39;</span><span class="p">);</span>
-<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">action</span><span class="p">(</span><span class="n">person_name</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="s">&#39;nicki&#39;</span><span class="p">,</span><span class="s">&#39;createpost&#39;</span><span class="p">);</span>
+<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">action</span><span class="p">(</span><span class="n">person_name</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="s1">&#39;emily&#39;</span><span class="p">,</span><span class="s1">&#39;login&#39;</span><span class="p">);</span>
+<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">action</span><span class="p">(</span><span class="n">person_name</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="s1">&#39;emily&#39;</span><span class="p">,</span><span class="s1">&#39;pageview&#39;</span><span class="p">);</span>
+<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">action</span><span class="p">(</span><span class="n">person_name</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="s1">&#39;arthur&#39;</span><span class="p">,</span><span class="s1">&#39;login&#39;</span><span class="p">);</span>
+<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">action</span><span class="p">(</span><span class="n">person_name</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="s1">&#39;emily&#39;</span><span class="p">,</span><span class="s1">&#39;logout&#39;</span><span class="p">);</span>
+<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">action</span><span class="p">(</span><span class="n">person_name</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="s1">&#39;nicki&#39;</span><span class="p">,</span><span class="s1">&#39;password_change&#39;</span><span class="p">);</span>
+<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">action</span><span class="p">(</span><span class="n">person_name</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="s1">&#39;nicki&#39;</span><span class="p">,</span><span class="s1">&#39;createpost&#39;</span><span class="p">);</span>
 </pre></div>
 <pre class="literal-block">
 []
@@ -598,7 +578,7 @@ nicki
 <div class="highlight"><pre><span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">actions</span> <span class="ow">in</span> <span class="n">people</span><span class="p">:</span>
     <span class="k">print</span> <span class="n">name</span>
     <span class="k">for</span> <span class="n">action</span> <span class="ow">in</span> <span class="n">actions</span><span class="p">:</span>
-        <span class="k">print</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s">&#39;</span><span class="p">,</span><span class="n">action</span><span class="p">[</span><span class="s">&#39;type&#39;</span><span class="p">]</span>
+        <span class="k">print</span> <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span><span class="n">action</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span>
 </pre></div>
 <pre class="literal-block">
 arthur
@@ -615,19 +595,24 @@ nicki
 hierarchical Python data structure. From here we can easily continue to
 XML, JSON, HTML or whatever document type suits your need.</p>
 
-                    
-                </div>  
-                
-                
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/postgres-timestamps.html">Postgres Timestamps</a></h2>
-                
-                
-                <div class="entry-content">
 
-                    <p>At my company, I maintain a large distributed. data collection platform
+            </div>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container">
+            <p class="subtitle is-4">
+                Thu 01 January 2015
+            </p>
+            
+            <h2 class="title is-2">
+                <a href="/postgres-timestamps.html" rel="bookmark" title="Permalink to Postgres Timestamps">
+                    Postgres Timestamps
+                </a>
+            </h2>
+
+            <div class="content is-medium">
+                <p>At my company, I maintain a large distributed. data collection platform
 . Pretty much every record we collect needs to be stamped with a
 <code class="code">
 created</code>
@@ -695,7 +680,7 @@ TIMESTAMP</code>
 </table><p>Which is <strong>not</strong> the current UTC time. We have stripped the timezone
 offset right of it. However, if we <strong>explicitly</strong> do the conversion, we
 get:</p>
-<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="n">NOW</span><span class="p">()</span> <span class="n">AT</span> <span class="n">TIME</span> <span class="n">ZONE</span> <span class="s">&#39;UTC&#39;</span><span class="p">;</span>
+<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="n">NOW</span><span class="p">()</span> <span class="n">AT</span> <span class="n">TIME</span> <span class="n">ZONE</span> <span class="s1">&#39;UTC&#39;</span><span class="p">;</span>
 </pre></div>
 <table class="table table-bordered table-striped">
     <tr>
@@ -736,8 +721,8 @@ wasn't clear about my inputs.</p>
 </pre></div>
 <p>Which I then populate:</p>
 <div class="highlight"><pre><span class="o">%%</span><span class="n">sql</span>
-<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">test</span> <span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="s">&#39;zaphod beeblebrox&#39;</span><span class="p">);</span>
-<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">test</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="n">created</span><span class="p">)</span> <span class="n">VALUES</span><span class="p">(</span><span class="s">&#39;ford prefect&#39;</span><span class="p">,</span><span class="n">now</span><span class="p">()</span> <span class="n">at</span> <span class="n">time</span> <span class="n">zone</span> <span class="s">&#39;utc&#39;</span><span class="p">);</span>
+<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">test</span> <span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="s1">&#39;zaphod beeblebrox&#39;</span><span class="p">);</span>
+<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">test</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="n">created</span><span class="p">)</span> <span class="n">VALUES</span><span class="p">(</span><span class="s1">&#39;ford prefect&#39;</span><span class="p">,</span><span class="n">now</span><span class="p">()</span> <span class="n">at</span> <span class="n">time</span> <span class="n">zone</span> <span class="s1">&#39;utc&#39;</span><span class="p">);</span>
 <span class="n">SELECT</span> <span class="o">*</span> <span class="n">FROM</span> <span class="n">test</span><span class="p">;</span>
 </pre></div>
 <table class="table table-bordered table-striped">
@@ -772,8 +757,8 @@ definition:</p>
 <span class="n">CREATE</span> <span class="n">TABLE</span> <span class="n">test</span><span class="p">(</span><span class="n">name</span> <span class="n">TEXT</span><span class="p">,</span> <span class="n">created</span> <span class="n">TIMESTAMP</span> <span class="n">WITH</span> <span class="n">TIME</span> <span class="n">ZONE</span> <span class="n">DEFAULT</span> <span class="p">(</span><span class="n">NOW</span><span class="p">()</span> <span class="p">));</span>
 </pre></div>
 <div class="highlight"><pre><span class="o">%%</span><span class="n">sql</span>
-<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">test</span> <span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="s">&#39;zaphod beeblebrox&#39;</span><span class="p">);</span>
-<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">test</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="n">created</span><span class="p">)</span> <span class="n">VALUES</span><span class="p">(</span><span class="s">&#39;ford prefect&#39;</span><span class="p">,</span><span class="n">now</span><span class="p">()</span> <span class="p">);</span>
+<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">test</span> <span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="s1">&#39;zaphod beeblebrox&#39;</span><span class="p">);</span>
+<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">test</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="n">created</span><span class="p">)</span> <span class="n">VALUES</span><span class="p">(</span><span class="s1">&#39;ford prefect&#39;</span><span class="p">,</span><span class="n">now</span><span class="p">()</span> <span class="p">);</span>
 <span class="n">SELECT</span> <span class="o">*</span> <span class="n">FROM</span> <span class="n">test</span><span class="p">;</span>
 </pre></div>
 <table class="table table-bordered table-striped">
@@ -792,7 +777,7 @@ definition:</p>
 </table><p>So now the dates are globally meaningful. But I <em>still</em> have to be
 careful, because if I use the wrong date format to populate this table,
 it'll still get messed up.</p>
-<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">test</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="n">created</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="s">&#39;arthur dent&#39;</span><span class="p">,</span><span class="n">now</span><span class="p">()</span> <span class="n">at</span> <span class="n">time</span> <span class="n">zone</span> <span class="s">&#39;utc&#39;</span><span class="p">)</span>
+<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">test</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="n">created</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="s1">&#39;arthur dent&#39;</span><span class="p">,</span><span class="n">now</span><span class="p">()</span> <span class="n">at</span> <span class="n">time</span> <span class="n">zone</span> <span class="s1">&#39;utc&#39;</span><span class="p">)</span>
 <span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="o">*</span> <span class="n">FROM</span> <span class="n">test</span><span class="p">;</span>
 </pre></div>
 <table class="table table-bordered table-striped">
@@ -815,7 +800,7 @@ it'll still get messed up.</p>
 </table><p>Note how <strong>arthur dent</strong> has completely the wrong created time.</p>
 <p>Now, if I want to <em>report</em> on this data, I'm going to now have to
 specify <em>which</em> timezone I want the dates formatted too:</p>
-<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">delete</span> <span class="kn">from</span> <span class="nn">test</span> <span class="nn">WHERE</span> <span class="nn">name</span><span class="o">=</span><span class="s">&#39;arthur dent&#39;</span><span class="p">;</span>
+<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">delete</span> <span class="kn">from</span> <span class="nn">test</span> <span class="nn">WHERE</span> <span class="nn">name</span><span class="o">=</span><span class="s1">&#39;arthur dent&#39;</span><span class="p">;</span>
 </pre></div>
 <div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">select</span> <span class="n">name</span><span class="p">,</span> <span class="n">created</span> <span class="n">FROM</span> <span class="n">test</span><span class="p">;</span>
 </pre></div>
@@ -836,7 +821,7 @@ specify <em>which</em> timezone I want the dates formatted too:</p>
 which isn't necessarily particularly helpful, which <em>may</em> be helpful,
 but will be less so if the actual <em>users</em> of the data are in a different
 time zone.</p>
-<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span>  <span class="n">SELECT</span> <span class="n">name</span><span class="p">,</span> <span class="n">created</span> <span class="n">at</span> <span class="n">time</span> <span class="n">zone</span> <span class="s">&#39;utc&#39;</span> <span class="n">FROM</span> <span class="n">test</span><span class="p">;</span>
+<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span>  <span class="n">SELECT</span> <span class="n">name</span><span class="p">,</span> <span class="n">created</span> <span class="n">at</span> <span class="n">time</span> <span class="n">zone</span> <span class="s1">&#39;utc&#39;</span> <span class="n">FROM</span> <span class="n">test</span><span class="p">;</span>
 </pre></div>
 <table class="table table-bordered table-striped">
     <tr>
@@ -852,7 +837,7 @@ time zone.</p>
         <td>2014-08-19 02:35:15.989726</td>
     </tr>
 </table><p>gives me the time formatted in the UTC timezone, and</p>
-<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">select</span> <span class="n">CREATED</span> <span class="n">at</span> <span class="n">time</span> <span class="n">zone</span> <span class="s">&#39;CST&#39;</span> <span class="n">FROM</span> <span class="n">test</span><span class="p">;</span>
+<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">select</span> <span class="n">CREATED</span> <span class="n">at</span> <span class="n">time</span> <span class="n">zone</span> <span class="s1">&#39;CST&#39;</span> <span class="n">FROM</span> <span class="n">test</span><span class="p">;</span>
 </pre></div>
 <table class="table table-bordered table-striped">
     <tr>
@@ -874,7 +859,7 @@ data comes from. So our middleware should <em>require</em> that all dates
 include a timestamp. Fortunately, if we're writing javascript
 applications, we get this automatically:</p>
 <div class="highlight"><pre><span class="o">%%</span><span class="n">html</span>
-<span class="o">&lt;</span><span class="n">div</span> <span class="nb">id</span><span class="o">=</span><span class="s">&quot;js-output&quot;</span><span class="o">&gt;&lt;/</span><span class="n">div</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">div</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;js-output&quot;</span><span class="o">&gt;&lt;/</span><span class="n">div</span><span class="o">&gt;</span>
 </pre></div>
 <div id="js-output"></div><div class="highlight"><pre><span class="o">%%</span><span class="n">javascript</span>
 <span class="n">var</span> <span class="n">d</span> <span class="o">=</span> <span class="n">JSON</span><span class="o">.</span><span class="n">stringify</span><span class="p">(</span><span class="n">new</span> <span class="n">Date</span><span class="p">())</span>
@@ -884,14 +869,14 @@ applications, we get this automatically:</p>
 </pre>
 <div class="highlight"><pre><span class="kn">import</span> <span class="nn">psycopg2</span><span class="o">,</span><span class="nn">pandas</span>
 <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span><span class="n">params</span><span class="o">=</span><span class="p">{}):</span>
-    <span class="k">with</span> <span class="n">psycopg2</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">database</span><span class="o">=</span><span class="s">&#39;test&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">connection</span><span class="p">:</span>
+    <span class="k">with</span> <span class="n">psycopg2</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">database</span><span class="o">=</span><span class="s1">&#39;test&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">connection</span><span class="p">:</span>
         <span class="k">with</span> <span class="n">connection</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span> <span class="k">as</span> <span class="n">cursor</span><span class="p">:</span>
             <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span><span class="n">params</span><span class="p">)</span>
 </pre></div>
 <p>So let's imagine that we got this string submitted to us by a client,
 and we're going to store it in the database via some Python code.</p>
-<div class="highlight"><pre><span class="n">sql</span><span class="o">=</span><span class="s">&quot;INSERT INTO test (name, created) VALUES ( &#39;externally created date&#39;, </span><span class="si">%(date)s</span><span class="s">)&quot;</span>
-<span class="n">params</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">date</span><span class="o">=</span><span class="s">&quot;2014-08-19T02:35:24.321Z&quot;</span><span class="p">)</span>
+<div class="highlight"><pre><span class="n">sql</span><span class="o">=</span><span class="s2">&quot;INSERT INTO test (name, created) VALUES ( &#39;externally created date&#39;, </span><span class="si">%(date)s</span><span class="s2">)&quot;</span>
+<span class="n">params</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">date</span><span class="o">=</span><span class="s2">&quot;2014-08-19T02:35:24.321Z&quot;</span><span class="p">)</span>
 <span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span><span class="n">params</span><span class="p">)</span>
 </pre></div>
 <div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="o">*</span> <span class="n">FROM</span> <span class="n">test</span>
@@ -917,55 +902,24 @@ and we're going to store it in the database via some Python code.</p>
 stored and displayed unambiguously.</p>
 </div>
 
-                    
-                </div>  
-                
-                
-            </article>
-            <hr/>
 
+            </div>
         </div>
-        <div class="col-sm-3" id="sidebar">
-            <aside>
+    </section>
 
-<section class="well well-sm">
-    <ul class="list-group list-group-flush">
-            <li class="list-group-item"><h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Social</span></h4>
-              <ul class="list-group" id="social">
-                <li class="list-group-item"><a href="https://twitter.com/trvrm"><i class="fa fa-twitter-square fa-lg"></i> twitter</a></li>
-              </ul>
-            </li>
+   
 
 
 
-
-
-    </ul>
-</section>
-            </aside>
+    <footer class="footer">
+        <div class="container">
+            <div class="content has-text-centered">
+                <p>
+                    Powered by <a href="http://getpelican.com/">Pelican</a>, <a href="http://python.org">Python</a>, 
+                    and <a href="http://bulma.io/">Bulma</a>
+                </p>
+            </div>
         </div>
-    </div>
-</div>
-<footer>
-   <div class="container">
-      <hr>
-      <div class="row">
-         <div class="col-xs-10">&copy; 2015 trvrm
-            &middot; Powered by <a href="https://github.com/DandyDev/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
-            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
-            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
-         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
-      </div>
-   </div>
-</footer>
-<script src="/theme/js/jquery.min.js"></script>
-
-<!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="/theme/js/bootstrap.min.js"></script>
-
-<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
-<script src="/theme/js/respond.min.js"></script>
-
-
+    </footer>
 </body>
 </html>

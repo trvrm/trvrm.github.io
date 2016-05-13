@@ -1,114 +1,64 @@
 <!DOCTYPE html>
-<html lang="en" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<html lang="en">
 <head>
-    <title>IPython with Python 3 - trvrm</title>
-    <!-- Using the latest rendering mode for IE -->
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-
-    <link href="/images/favicon.png" rel="icon">
-
-<link rel="canonical" href="/ipython-with-python-3.html">
-
-        <meta name="author" content="Trevor" />
-        <meta name="keywords" content="Python,IPython" />
-        <meta name="description" content="This took me longer than I was expecting. In general when working with IPython I use pip rather than apt-get , as pip tends to have more up-to-date packages. In the end I found the simplest thing to do was to set up IPython in an isolated virtualenv environment. The main ..." />
-
-        <meta property="og:site_name" content="trvrm" />
-        <meta property="og:type" content="article"/>
-        <meta property="og:title" content="IPython with Python 3"/>
-        <meta property="og:url" content="/ipython-with-python-3.html"/>
-        <meta property="og:description" content="This took me longer than I was expecting. In general when working with IPython I use pip rather than apt-get , as pip tends to have more up-to-date packages. In the end I found the simplest thing to do was to set up IPython in an isolated virtualenv environment. The main ..."/>
-        <meta property="article:published_time" content="2015-01-01" />
-            <meta property="article:section" content="Software" />
-            <meta property="article:tag" content="Python" />
-            <meta property="article:tag" content="IPython" />
-            <meta property="article:author" content="Trevor" />
-
-
-    <!-- Bootstrap -->
-        <link rel="stylesheet" href="/theme/css/bootstrap.flatly.min.css" type="text/css"/>
-    <link href="/theme/css/font-awesome.min.css" rel="stylesheet">
-
-    <link href="/theme/css/pygments/tango.css" rel="stylesheet">
-    <link rel="stylesheet" href="/theme/css/style.css" type="text/css"/>
+          <title>trvrm</title>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" type="text/css" href="/theme/css/bulma.min.css" />
+        <link rel="stylesheet" type="text/css" href="/theme/css/style.css" />
 
 
 
-
+    <meta name="tags" content="Python" />
+    <meta name="tags" content="IPython" />
 
 </head>
+
 <body>
 
-<div class="navbar navbar-default navbar-fixed-top" role="navigation">
-	<div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a href="/" class="navbar-brand">
-trvrm            </a>
+    <section class="hero is-primary is-bold">
+        <div class="hero-head">
+            <div class="container">
+                <nav class="nav has-shadow">
+                        <div class="nav-left">
+                                <a class="nav-item is-tab " href="/category/database.html">Database</a>
+                                <a class="nav-item is-tab  active " href="/category/software.html">Software</a>
+                                <a class="nav-item is-tab " href="/category/systems.html">Systems</a>
+                    
+                    </div>              
+                </nav>
+            </div>
         </div>
-        <div class="collapse navbar-collapse navbar-ex1-collapse">
-            <ul class="nav navbar-nav">
-                        <li >
-                            <a href="/category/database.html">Database</a>
-                        </li>
-                        <li class="active">
-                            <a href="/category/software.html">Software</a>
-                        </li>
-                        <li >
-                            <a href="/category/systems.html">Systems</a>
-                        </li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-              <li><a href="/archives.html"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
-            </ul>
-        </div>
-        <!-- /.navbar-collapse -->
-    </div>
-</div> <!-- /.navbar -->
-<!-- Banner -->
-<!-- End Banner -->
-<div class="container">
-    <div class="row">
-        <div class="col-sm-9">
-    <section id="content">
-        <article>
-            <header class="page-header">
-                <h1>
-                    <a href="/ipython-with-python-3.html"
-                       rel="bookmark"
-                       title="Permalink to IPython with Python 3">
-                        IPython with Python 3
-                    </a>
-                </h1>
-            </header>
-            <div class="entry-content">
-                <div class="panel">
-                    <div class="panel-body">
-<footer class="post-info">
-    <span class="label label-default">Date</span>
-    <span class="published">
-        <i class="fa fa-calendar"></i><time datetime="2015-01-01T00:00:00+01:00"> Thu 01 January 2015</time>
-    </span>
-
-
-
-
-
-<span class="label label-default">Tags</span>
-	<a href="/tag/python.html">Python</a>
-        /
-	<a href="/tag/ipython.html">IPython</a>
-    
-</footer><!-- /.post-info -->                    </div>
+        <div class="hero-body">
+            <div class="container">
+                <div class="columns is-vcentered">
+                    <div class="column">
+                        <h1 class="title">
+                            <a href="/">trvrm  </a>
+                        </h1>
+                        
+                            
+                            <p class="subtitle">
+                                
+                            </p>
+                    </div>
                 </div>
+            </div>
+        </div>
+    </section>  
+    
+    <section class="section">
+        <div class="container">
+            <p class="subtitle is-4">
+                Thu 01 January 2015
+            </p>
+            
+            <h2 class="title is-2">
+                <a href="/ipython-with-python-3.html" rel="bookmark" title="Permalink to IPython with Python 3">
+                    IPython with Python 3
+                </a>
+            </h2>
+
+            <div class="content is-medium">
                 <p>This took me longer than I was expecting.</p>
 <p>In general when working with IPython I use <code class="code">
 pip</code>
@@ -119,11 +69,11 @@ pip tends to have more up-to-date packages.</p>
 <p>In the end I found the simplest thing to do was to set up IPython in an isolated
 virtualenv environment.  The main trick is to let virtualenv know what version of
 Python you want it to use by default.</p>
-<div class="highlight"><pre><span class="nv">$ </span>virtualenv --python<span class="o">=</span>python3.4 python_3_demo
-<span class="nv">$ </span><span class="nb">cd </span>python_3_demo/
-<span class="nv">$ </span><span class="nb">source</span> ./bin/activate
-<span class="nv">$ </span>pip install ipython
-<span class="nv">$ </span>ipython
+<div class="highlight"><pre>$ virtualenv --python<span class="o">=</span>python3.4 python_3_demo
+$ <span class="nb">cd</span> python_3_demo/
+$ <span class="nb">source</span> ./bin/activate
+$ pip install ipython
+$ ipython
 </pre></div>
 <div class="highlight"><pre><span class="n">Python</span> <span class="mf">3.4</span><span class="o">.</span><span class="mi">0</span> <span class="p">(</span><span class="n">default</span><span class="p">,</span> <span class="n">Apr</span> <span class="mi">11</span> <span class="mi">2014</span><span class="p">,</span> <span class="mi">13</span><span class="p">:</span><span class="mo">05</span><span class="p">:</span><span class="mi">11</span><span class="p">)</span>
 <span class="o">...</span>
@@ -137,53 +87,19 @@ Python you want it to use by default.</p>
 <p>And voila, I have Python 3 in the best Python interpreter ever built, I'm ready to
 start wrapping my head around byte arrays and UTF-8 encodings.</p>
 
+
             </div>
-            <!-- /.entry-content -->
-        </article>
+        </div>
     </section>
-
+    <footer class="footer">
+        <div class="container">
+            <div class="content has-text-centered">
+                <p>
+                    Powered by <a href="http://getpelican.com/">Pelican</a>, <a href="http://python.org">Python</a>, 
+                    and <a href="http://bulma.io/">Bulma</a>
+                </p>
+            </div>
         </div>
-        <div class="col-sm-3" id="sidebar">
-            <aside>
-
-<section class="well well-sm">
-    <ul class="list-group list-group-flush">
-            <li class="list-group-item"><h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Social</span></h4>
-              <ul class="list-group" id="social">
-                <li class="list-group-item"><a href="https://twitter.com/trvrm"><i class="fa fa-twitter-square fa-lg"></i> twitter</a></li>
-              </ul>
-            </li>
-
-
-
-
-
-    </ul>
-</section>
-            </aside>
-        </div>
-    </div>
-</div>
-<footer>
-   <div class="container">
-      <hr>
-      <div class="row">
-         <div class="col-xs-10">&copy; 2015 trvrm
-            &middot; Powered by <a href="https://github.com/DandyDev/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
-            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
-            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
-         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
-      </div>
-   </div>
-</footer>
-<script src="/theme/js/jquery.min.js"></script>
-
-<!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="/theme/js/bootstrap.min.js"></script>
-
-<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
-<script src="/theme/js/respond.min.js"></script>
-
-
+    </footer>
 </body>
 </html>

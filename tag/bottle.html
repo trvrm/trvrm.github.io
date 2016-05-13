@@ -1,91 +1,66 @@
 <!DOCTYPE html>
-<html lang="en" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<html lang="en">
 <head>
-    <title>bottle - trvrm</title>
-    <!-- Using the latest rendering mode for IE -->
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-
-    <link href="/images/favicon.png" rel="icon">
-
-
-    <meta name="author" content="trvrm" />
-    <meta name="keywords" content="bottle" />
-
-    <!-- Open Graph tags -->
-        <meta property="og:site_name" content="trvrm" />
-        <meta property="og:type" content="website"/>
-        <meta property="og:title" content="trvrm"/>
-        <meta property="og:url" content=""/>
-        <meta property="og:description" content="trvrm"/>
-
-
-    <!-- Bootstrap -->
-        <link rel="stylesheet" href="/theme/css/bootstrap.flatly.min.css" type="text/css"/>
-    <link href="/theme/css/font-awesome.min.css" rel="stylesheet">
-
-    <link href="/theme/css/pygments/tango.css" rel="stylesheet">
-    <link rel="stylesheet" href="/theme/css/style.css" type="text/css"/>
-
-
-
-
-
+        <title>trvrm</title>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" type="text/css" href="/theme/css/bulma.min.css" />
+        <link rel="stylesheet" type="text/css" href="/theme/css/style.css" />
 </head>
+
 <body>
 
-<div class="navbar navbar-default navbar-fixed-top" role="navigation">
-	<div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a href="/" class="navbar-brand">
-trvrm            </a>
+    <section class="hero is-primary is-bold">
+        <div class="hero-head">
+            <div class="container">
+                <nav class="nav has-shadow">
+                        <div class="nav-left">
+                                <a class="nav-item is-tab " href="/category/database.html">Database</a>
+                                <a class="nav-item is-tab " href="/category/software.html">Software</a>
+                                <a class="nav-item is-tab " href="/category/systems.html">Systems</a>
+                    
+                    </div>              
+                </nav>
+            </div>
         </div>
-        <div class="collapse navbar-collapse navbar-ex1-collapse">
-            <ul class="nav navbar-nav">
-                        <li >
-                            <a href="/category/database.html">Database</a>
-                        </li>
-                        <li >
-                            <a href="/category/software.html">Software</a>
-                        </li>
-                        <li >
-                            <a href="/category/systems.html">Systems</a>
-                        </li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-              <li><a href="/archives.html"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
-            </ul>
+        <div class="hero-body">
+            <div class="container">
+                <div class="columns is-vcentered">
+                    <div class="column">
+                        <h1 class="title">
+                            <a href="/">trvrm  </a>
+                        </h1>
+                        
+    <h2>Articles tagged bottle</h2>
+                    </div>
+                </div>
+            </div>
         </div>
-        <!-- /.navbar-collapse -->
-    </div>
-</div> <!-- /.navbar -->
-<!-- Banner -->
-<!-- End Banner -->
-<div class="container">
-    <div class="row">
-        <div class="col-sm-9">
-            <article>
-                <h2><a href="/seriously-subtle-bug.html">A Seriously Subtle Bug</a></h2>
-                
-                
-                <div class="entry-content">
+    </section>  
+    
 
-                    <p>I build and maintain a number of web applications built using <a class="reference external" href="http://python.org">Python</a>, <a class="reference external" href="http://bottlepy.org/docs/dev/index.html">Bottle</a>, and <a class="reference external" href="http://uwsgi-docs.readthedocs.org/en/latest/index.html">uWSGI</a>.
+
+
+    <section class="section">
+        <div class="container">
+            <p class="subtitle is-4">
+                Thu 01 January 2015
+            </p>
+            
+            <h2 class="title is-2">
+                <a href="/seriously-subtle-bug.html" rel="bookmark" title="Permalink to A Seriously Subtle Bug">
+                    A Seriously Subtle Bug
+                </a>
+            </h2>
+
+            <div class="content is-medium">
+                <p>I build and maintain a number of web applications built using <a class="reference external" href="http://python.org">Python</a>, <a class="reference external" href="http://bottlepy.org/docs/dev/index.html">Bottle</a>, and <a class="reference external" href="http://uwsgi-docs.readthedocs.org/en/latest/index.html">uWSGI</a>.
 In general, I've found this a very powerful and robust software stack.  However, this week
 we encountered a very strange issue that took us many hours to fully diagnose.</p>
 <p>Our first indication that something was wrong was when our automated monitoring tools warned
 us that one of our sites was offline.  We manage our applications through the uWSGI <a class="reference external" href="http://uwsgi-docs.readthedocs.org/en/latest/Emperor.html">Emperor</a>
 service, which makes it easy to restart errant applications.  Simply touching the config file for
 the application in question causes it to be reloaded:</p>
-<div class="highlight"><pre><span class="nv">$ </span>touch /etc/uwsgi-emperor/vassals/myapp.ini
+<div class="highlight"><pre>$ touch /etc/uwsgi-emperor/vassals/myapp.ini
 </pre></div>
 <p>This brought our systems back up, but obviously didn't explain the problem, and over the coming weeks
 it recurred several times, usually several days apart.  So, obviously my first step was to look at
@@ -103,7 +78,7 @@ helpful:</p>
 linux systems administration tool <code class="code">
 lsof</code>
 .  This tool lists information about currently open files</p>
-<div class="highlight"><pre><span class="nv">$ </span>sudo lsof &gt; lsof.txt
+<div class="highlight"><pre>$ sudo lsof &gt; lsof.txt
 
 COMMAND     PID   TID       USER   FD      TYPE             DEVICE  SIZE/OFF       NODE NAME
 init          <span class="m">1</span>             root  cwd       DIR                8,1      <span class="m">4096</span>          <span class="m">2</span> /
@@ -122,11 +97,11 @@ and <code class="code">
 grep</code>
 , I'm finding that more and more I'm staying inside the python ecosystem to do systems administration
 and analysis tasks.  I use the <a class="reference external" href="http://pandas.pydata.org/">Pandas</a> data analysis library heavily, and it was a perfect fit for this particular task.</p>
-<div class="highlight"><pre><span class="nv">$ </span>ipython
+<div class="highlight"><pre>$ ipython
 </pre></div>
 <div class="highlight"><pre><span class="kn">import</span> <span class="nn">pandas</span>
 <span class="n">widths</span><span class="o">=</span><span class="p">[</span><span class="mi">9</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">19</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">200</span><span class="p">]</span>
-<span class="n">frame</span><span class="o">=</span><span class="n">pandas</span><span class="o">.</span><span class="n">read_fwf</span><span class="p">(</span><span class="s">&#39;lsof.txt&#39;</span><span class="p">,</span><span class="n">widths</span><span class="o">=</span><span class="n">widths</span><span class="p">)</span>
+<span class="n">frame</span><span class="o">=</span><span class="n">pandas</span><span class="o">.</span><span class="n">read_fwf</span><span class="p">(</span><span class="s1">&#39;lsof.txt&#39;</span><span class="p">,</span><span class="n">widths</span><span class="o">=</span><span class="n">widths</span><span class="p">)</span>
 <span class="n">frame</span><span class="o">.</span><span class="n">columns</span>
 </pre></div>
 <pre class="literal-block">
@@ -143,7 +118,7 @@ had the <em>most</em> files open:</p>
 ...
 </pre>
 <p>So process <strong>2445</strong> has 745 open files.  OK, what is that process?</p>
-<div class="highlight"><pre><span class="n">frame</span><span class="p">[</span><span class="n">frame</span><span class="o">.</span><span class="n">PID</span><span class="o">==</span><span class="mi">2445</span><span class="p">][[</span><span class="s">&#39;USER&#39;</span><span class="p">,</span><span class="s">&#39;COMMAND&#39;</span><span class="p">]]</span>
+<div class="highlight"><pre><span class="n">frame</span><span class="p">[</span><span class="n">frame</span><span class="o">.</span><span class="n">PID</span><span class="o">==</span><span class="mi">2445</span><span class="p">][[</span><span class="s1">&#39;USER&#39;</span><span class="p">,</span><span class="s1">&#39;COMMAND&#39;</span><span class="p">]]</span>
 </pre></div>
 <pre class="literal-block">
           USER    COMMAND
@@ -155,8 +130,8 @@ had the <em>most</em> files open:</p>
 <p>So we've learned, then, that a uWSGI process belonging to www-data is holding open more than 700 files.  Now, under
 Ubuntu, this is going to be a problem very soon, because the maximum number of files that www-data may have open
 per-process is 1024.</p>
-<div class="highlight"><pre><span class="nv">$ </span>sudo su www-data
-<span class="nv">$ </span><span class="nb">ulimit</span> -n
+<div class="highlight"><pre>$ sudo su www-data
+$ <span class="nb">ulimit</span> -n
 </pre></div>
 <pre class="literal-block">
 1024
@@ -189,9 +164,9 @@ recreate the bug.  Then, I wrote a very bare-bones Bottle app that simply served
 
 <span class="n">application</span><span class="o">=</span><span class="n">bottle</span><span class="o">.</span><span class="n">Bottle</span><span class="p">()</span>
 
-<span class="nd">@application.get</span><span class="p">(</span><span class="s">&#39;/diagnose&#39;</span><span class="p">)</span>
+<span class="nd">@application.get</span><span class="p">(</span><span class="s1">&#39;/diagnose&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">test</span><span class="p">():</span>
-    <span class="k">return</span> <span class="n">bottle</span><span class="o">.</span><span class="n">static_file</span><span class="p">(</span><span class="s">&#39;cat.jpg&#39;</span><span class="p">,</span> <span class="s">&#39;.&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">bottle</span><span class="o">.</span><span class="n">static_file</span><span class="p">(</span><span class="s1">&#39;cat.jpg&#39;</span><span class="p">,</span> <span class="s1">&#39;.&#39;</span><span class="p">)</span>
 </pre></div>
 <p>And I immediately saw that this <em>didn't</em> trigger any kind of file leak.  The main difference between the two was that our
 production application uses Bottle's <em>mounting</em> capability to namespace URLS.  So I changed my test application as follows:</p>
@@ -199,12 +174,12 @@ production application uses Bottle's <em>mounting</em> capability to namespace U
 
 <span class="n">app</span><span class="o">=</span><span class="n">bottle</span><span class="o">.</span><span class="n">Bottle</span><span class="p">()</span>
 
-<span class="nd">@app.get</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)</span>
+<span class="nd">@app.get</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">test</span><span class="p">():</span>
-    <span class="k">return</span> <span class="n">bottle</span><span class="o">.</span><span class="n">static_file</span><span class="p">(</span><span class="s">&#39;cat.jpg&#39;</span><span class="p">,</span> <span class="s">&#39;.&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">bottle</span><span class="o">.</span><span class="n">static_file</span><span class="p">(</span><span class="s1">&#39;cat.jpg&#39;</span><span class="p">,</span> <span class="s1">&#39;.&#39;</span><span class="p">)</span>
 
 <span class="n">rootapp</span><span class="o">=</span><span class="n">bottle</span><span class="o">.</span><span class="n">Bottle</span><span class="p">()</span>
-<span class="n">rootapp</span><span class="o">.</span><span class="n">mount</span><span class="p">(</span><span class="s">&quot;/diagnose&quot;</span><span class="p">,</span> <span class="n">app</span><span class="p">)</span>
+<span class="n">rootapp</span><span class="o">.</span><span class="n">mount</span><span class="p">(</span><span class="s2">&quot;/diagnose&quot;</span><span class="p">,</span> <span class="n">app</span><span class="p">)</span>
 <span class="n">application</span><span class="o">=</span><span class="n">rootapp</span>
 </pre></div>
 <p>And   <code class="code">
@@ -231,11 +206,11 @@ file</code>
 </p>
 <div class="highlight"><pre><span class="k">class</span> <span class="nc">MonitoredFile</span><span class="p">(</span><span class="nb">file</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name</span><span class="p">,</span><span class="n">mode</span><span class="p">):</span>
-        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Opening {0}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Opening {0}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
         <span class="nb">file</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name</span><span class="p">,</span><span class="n">mode</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;file.__del__({0})&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;file.__del__({0})&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
 </pre></div>
 <p>So this object behaves exactly like a regular file, but logs events when it is created and when it is destroyed.  And sure enough,
 I saw that in the file-leaking version of my code, <code class="code">
@@ -258,10 +233,10 @@ _cast()</code>
 handle all sorts of things as response objects - strings, dictionaries, JSON objects, lists, but if it notices that it is handling
 a <em>file</em> then it treats it specially.  The smoking gun code is here:
 <a class="reference external" href="https://github.com/bottlepy/bottle/blob/854fbd7f88aa2f809f54dd724aea7ecf918a3b6e/bottle.py#L913">https://github.com/bottlepy/bottle/blob/854fbd7f88aa2f809f54dd724aea7ecf918a3b6e/bottle.py#L913</a></p>
-<div class="highlight"><pre><span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="s">&#39;read&#39;</span><span class="p">):</span>
-    <span class="k">if</span> <span class="s">&#39;wsgi.file_wrapper&#39;</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">request</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s">&#39;wsgi.file_wrapper&#39;</span><span class="p">](</span><span class="n">out</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="s">&#39;close&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="s">&#39;__iter__&#39;</span><span class="p">):</span>
+<div class="highlight"><pre><span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="s1">&#39;read&#39;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="s1">&#39;wsgi.file_wrapper&#39;</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">request</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;wsgi.file_wrapper&#39;</span><span class="p">](</span><span class="n">out</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="s1">&#39;close&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="s1">&#39;__iter__&#39;</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">WSGIFileWrapper</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
 </pre></div>
 <p>Which <em>looks</em> innocent enough, and indeed is in the first version of our code.  But in the <em>second</em> version, our file handler
@@ -302,8 +277,8 @@ Py_INCREF</code>
  is getting called on the file object.  So if this function is called twice,
 presumably the internal reference count is incremented twice, but only decremented once elsewhere.</p>
 <p>And indeed, as soon as I added:</p>
-<div class="highlight"><pre><span class="k">if</span> <span class="s">&#39;wsgi.file_wrapper&#39;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
-    <span class="k">del</span> <span class="n">environ</span><span class="p">[</span><span class="s">&#39;wsgi.file_wrapper&#39;</span><span class="p">]</span>
+<div class="highlight"><pre><span class="k">if</span> <span class="s1">&#39;wsgi.file_wrapper&#39;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
+    <span class="k">del</span> <span class="n">environ</span><span class="p">[</span><span class="s1">&#39;wsgi.file_wrapper&#39;</span><span class="p">]</span>
 </pre></div>
 <p>to my application code, the file leaking stopped.</p>
 </div>
@@ -317,55 +292,24 @@ supposed to do - I clearly have more research to do, time permitting.  And becau
 a bug.  But hopefully this analysis will help prevent others from going through the same headaches I just did.</p>
 </div>
 
-                    
-                </div>  
-                
-                
-            </article>
-            <hr/>
 
+            </div>
         </div>
-        <div class="col-sm-3" id="sidebar">
-            <aside>
+    </section>
 
-<section class="well well-sm">
-    <ul class="list-group list-group-flush">
-            <li class="list-group-item"><h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Social</span></h4>
-              <ul class="list-group" id="social">
-                <li class="list-group-item"><a href="https://twitter.com/trvrm"><i class="fa fa-twitter-square fa-lg"></i> twitter</a></li>
-              </ul>
-            </li>
+   
 
 
 
-
-
-    </ul>
-</section>
-            </aside>
+    <footer class="footer">
+        <div class="container">
+            <div class="content has-text-centered">
+                <p>
+                    Powered by <a href="http://getpelican.com/">Pelican</a>, <a href="http://python.org">Python</a>, 
+                    and <a href="http://bulma.io/">Bulma</a>
+                </p>
+            </div>
         </div>
-    </div>
-</div>
-<footer>
-   <div class="container">
-      <hr>
-      <div class="row">
-         <div class="col-xs-10">&copy; 2015 trvrm
-            &middot; Powered by <a href="https://github.com/DandyDev/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
-            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
-            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
-         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
-      </div>
-   </div>
-</footer>
-<script src="/theme/js/jquery.min.js"></script>
-
-<!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="/theme/js/bootstrap.min.js"></script>
-
-<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
-<script src="/theme/js/respond.min.js"></script>
-
-
+    </footer>
 </body>
 </html>

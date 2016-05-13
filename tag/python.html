@@ -1,84 +1,95 @@
 <!DOCTYPE html>
-<html lang="en" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<html lang="en">
 <head>
-    <title>Python - trvrm</title>
-    <!-- Using the latest rendering mode for IE -->
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-
-    <link href="/images/favicon.png" rel="icon">
-
-
-    <meta name="author" content="trvrm" />
-    <meta name="keywords" content="Python" />
-
-    <!-- Open Graph tags -->
-        <meta property="og:site_name" content="trvrm" />
-        <meta property="og:type" content="website"/>
-        <meta property="og:title" content="trvrm"/>
-        <meta property="og:url" content=""/>
-        <meta property="og:description" content="trvrm"/>
-
-
-    <!-- Bootstrap -->
-        <link rel="stylesheet" href="/theme/css/bootstrap.flatly.min.css" type="text/css"/>
-    <link href="/theme/css/font-awesome.min.css" rel="stylesheet">
-
-    <link href="/theme/css/pygments/tango.css" rel="stylesheet">
-    <link rel="stylesheet" href="/theme/css/style.css" type="text/css"/>
-
-
-
-
-
+        <title>trvrm</title>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" type="text/css" href="/theme/css/bulma.min.css" />
+        <link rel="stylesheet" type="text/css" href="/theme/css/style.css" />
 </head>
+
 <body>
 
-<div class="navbar navbar-default navbar-fixed-top" role="navigation">
-	<div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a href="/" class="navbar-brand">
-trvrm            </a>
+    <section class="hero is-primary is-bold">
+        <div class="hero-head">
+            <div class="container">
+                <nav class="nav has-shadow">
+                        <div class="nav-left">
+                                <a class="nav-item is-tab " href="/category/database.html">Database</a>
+                                <a class="nav-item is-tab " href="/category/software.html">Software</a>
+                                <a class="nav-item is-tab " href="/category/systems.html">Systems</a>
+                    
+                    </div>              
+                </nav>
+            </div>
         </div>
-        <div class="collapse navbar-collapse navbar-ex1-collapse">
-            <ul class="nav navbar-nav">
-                        <li >
-                            <a href="/category/database.html">Database</a>
-                        </li>
-                        <li >
-                            <a href="/category/software.html">Software</a>
-                        </li>
-                        <li >
-                            <a href="/category/systems.html">Systems</a>
-                        </li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-              <li><a href="/archives.html"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
-            </ul>
+        <div class="hero-body">
+            <div class="container">
+                <div class="columns is-vcentered">
+                    <div class="column">
+                        <h1 class="title">
+                            <a href="/">trvrm  </a>
+                        </h1>
+                        
+    <h2>Articles tagged Python</h2>
+                    </div>
+                </div>
+            </div>
         </div>
-        <!-- /.navbar-collapse -->
-    </div>
-</div> <!-- /.navbar -->
-<!-- Banner -->
-<!-- End Banner -->
-<div class="container">
-    <div class="row">
-        <div class="col-sm-9">
-            <article>
-                <h2><a href="/bulk-psycopg2-inserts.html">Efficient Postgres Bulk Inserts using Psycopg2 and Unnest</a></h2>
-                
-                
-                <div class="entry-content">
+    </section>  
+    
 
-                    <p>One of the biggest challenges I face maintaining large Postgres systems
+
+
+    <section class="section">
+        <div class="container">
+            <p class="subtitle is-4">
+                Fri 13 May 2016
+            </p>
+            
+            <h2 class="title is-2">
+                <a href="/new-blog-theme.html" rel="bookmark" title="Permalink to New Blog Theme">
+                    New Blog Theme
+                </a>
+            </h2>
+
+            <div class="content is-medium">
+                <p>Yesterday I discovered the <a href="http://bulma.io/">Bulma</a> CSS library.  It seems to be basically 'bootstrap for the flexbox world.'</p>
+<p>Given that Bootstrap version 4 has been promising us Flexbox support for nearly a year now, I think Bulma could be my
+new best CSS friend.  Of course, I won't be able to use it anywhere where I have to support even reasonably old
+browsers, but so far it's been very pleasant to work with.</p>
+<p>I also used this opportunity to learn how to <a href="http://docs.getpelican.com/en/3.1.1/themes.html">create themes for Pelican</a>.  I basically took the 'simple' theme from the Pelican distribution and systematically rewrote each template
+to use Bulma classes.  Here's an example from the <code>article.html</code> template</p>
+<div class="highlight"><pre><span class="nt">&lt;section</span> <span class="na">class=</span><span class="s">&quot;section&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;container&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;p</span> <span class="na">class=</span><span class="s">&quot;subtitle is-4&quot;</span><span class="nt">&gt;</span>
+            <span class="cp">{{</span> <span class="nv">article.locale_date</span> <span class="cp">}}</span>
+        <span class="nt">&lt;/p&gt;</span>
+
+        <span class="nt">&lt;h2</span> <span class="na">class=</span><span class="s">&quot;title is-2&quot;</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">SITEURL</span> <span class="cp">}}</span><span class="s">/</span><span class="cp">{{</span> <span class="nv">article.url</span> <span class="cp">}}</span><span class="s">&quot;</span> <span class="na">rel=</span><span class="s">&quot;bookmark&quot;</span> <span class="na">title=</span><span class="s">&quot;Permalink to </span><span class="cp">{{</span> <span class="nv">article.title</span><span class="o">|</span><span class="nf">striptags</span> <span class="cp">}}</span><span class="s">&quot;</span><span class="nt">&gt;</span>
+                <span class="cp">{{</span> <span class="nv">article.title</span> <span class="cp">}}</span>
+            <span class="nt">&lt;/a&gt;</span>
+        <span class="nt">&lt;/h2&gt;</span>
+        ...
+</pre></div>
+
+            </div>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container">
+            <p class="subtitle is-4">
+                Thu 22 October 2015
+            </p>
+            
+            <h2 class="title is-2">
+                <a href="/bulk-psycopg2-inserts.html" rel="bookmark" title="Permalink to Efficient Postgres Bulk Inserts using Psycopg2 and Unnest">
+                    Efficient Postgres Bulk Inserts using Psycopg2 and Unnest
+                </a>
+            </h2>
+
+            <div class="content is-medium">
+                <p>One of the biggest challenges I face maintaining large Postgres systems
 is getting data <em>into</em> them in an efficient manner. Postgres is very,
 very good at maintaining, organising, querying and retrieving data, but
 inserts themselves can be quite slow.</p>
@@ -110,12 +121,12 @@ efficient technique I've found so far.</p>
 <div class="section" id="a-context-manager-for-timing-operations">
 <h2>A context manager for timing operations.</h2>
 <div class="highlight"><pre><span class="nd">@contextlib.contextmanager</span>
-<span class="k">def</span> <span class="nf">timer</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;duration&quot;</span><span class="p">):</span>
-    <span class="s">&#39;Utility function for timing execution&#39;</span>
+<span class="k">def</span> <span class="nf">timer</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;duration&quot;</span><span class="p">):</span>
+    <span class="s1">&#39;Utility function for timing execution&#39;</span>
     <span class="n">start</span><span class="o">=</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
     <span class="k">yield</span>
     <span class="n">duration</span><span class="o">=</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="o">-</span><span class="n">start</span>
-    <span class="k">print</span><span class="p">(</span><span class="s">&quot;{0}: {1} second(s)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="n">duration</span><span class="p">))</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;{0}: {1} second(s)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="n">duration</span><span class="p">))</span>
 </pre></div>
 </div>
 <div class="section" id="test-setup">
@@ -124,31 +135,31 @@ efficient technique I've found so far.</p>
 it takes to perform inserts on it via several different methods. The
 table has a couple of default columns, a text column, and an HSTORE
 column.</p>
-<div class="highlight"><pre><span class="n">SETUP_SQL</span><span class="o">=</span><span class="s">&quot;&quot;&quot;</span>
-<span class="s">    DROP TABLE IF EXISTS upload_time_test;</span>
+<div class="highlight"><pre><span class="n">SETUP_SQL</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    DROP TABLE IF EXISTS upload_time_test;</span>
 
-<span class="s">    CREATE TABLE upload_time_test(</span>
-<span class="s">        uuid uuid primary key default uuid_generate_v4(),</span>
-<span class="s">        created timestamp with time zone not null default now(),</span>
-<span class="s">        text text not null,</span>
-<span class="s">        properties hstore not null default &#39;&#39;::hstore</span>
-<span class="s">    );</span>
+<span class="s2">    CREATE TABLE upload_time_test(</span>
+<span class="s2">        uuid uuid primary key default uuid_generate_v4(),</span>
+<span class="s2">        created timestamp with time zone not null default now(),</span>
+<span class="s2">        text text not null,</span>
+<span class="s2">        properties hstore not null default &#39;&#39;::hstore</span>
+<span class="s2">    );</span>
 
-<span class="s">    GRANT ALL ON upload_time_test TO test;</span>
-<span class="s">&quot;&quot;&quot;</span>
+<span class="s2">    GRANT ALL ON upload_time_test TO test;</span>
+<span class="s2">&quot;&quot;&quot;</span>
 </pre></div>
 <p>This is the SQL we'll use for inserting a single row into the database
 table:</p>
-<div class="highlight"><pre><span class="n">SINGLE_INSERT</span><span class="o">=</span><span class="s">&quot;&quot;&quot;</span>
-<span class="s">    INSERT INTO upload_time_test(text,properties)</span>
-<span class="s">         VALUES (</span><span class="si">%(text)s</span><span class="s">, </span><span class="si">%(properties)s</span><span class="s">)</span>
-<span class="s">&quot;&quot;&quot;</span>
+<div class="highlight"><pre><span class="n">SINGLE_INSERT</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    INSERT INTO upload_time_test(text,properties)</span>
+<span class="s2">         VALUES (</span><span class="si">%(text)s</span><span class="s2">, </span><span class="si">%(properties)s</span><span class="s2">)</span>
+<span class="s2">&quot;&quot;&quot;</span>
 </pre></div>
 <p>Credentials for connecting to my local test database</p>
-<div class="highlight"><pre><span class="n">HOST</span><span class="o">=</span><span class="s">&#39;localhost&#39;</span>
-<span class="n">DATABASE</span><span class="o">=</span><span class="s">&#39;test&#39;</span>
-<span class="n">USER</span><span class="o">=</span><span class="s">&#39;test&#39;</span>
-<span class="n">PASSWORD</span><span class="o">=</span><span class="s">&#39;password&#39;</span>
+<div class="highlight"><pre><span class="n">HOST</span><span class="o">=</span><span class="s1">&#39;localhost&#39;</span>
+<span class="n">DATABASE</span><span class="o">=</span><span class="s1">&#39;test&#39;</span>
+<span class="n">USER</span><span class="o">=</span><span class="s1">&#39;test&#39;</span>
+<span class="n">PASSWORD</span><span class="o">=</span><span class="s1">&#39;password&#39;</span>
 </pre></div>
 <p>Then we define a couple of simple wrappers around <code class="code">
 psycopg2</code>
@@ -192,8 +203,8 @@ unroll a set of arrays passed in through psycopg2</li>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">=</span><span class="p">[</span>
             <span class="p">{</span>
-                <span class="s">&#39;text&#39;</span><span class="p">:</span><span class="s">&#39;Some text&#39;</span><span class="p">,</span>
-                <span class="s">&#39;properties&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&quot;key&quot;</span><span class="p">:</span><span class="s">&quot;value&quot;</span><span class="p">},</span>
+                <span class="s1">&#39;text&#39;</span><span class="p">:</span><span class="s1">&#39;Some text&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;properties&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;key&quot;</span><span class="p">:</span><span class="s2">&quot;value&quot;</span><span class="p">},</span>
             <span class="p">}</span>
             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">count</span><span class="p">)</span>
         <span class="p">]</span>
@@ -203,8 +214,8 @@ unroll a set of arrays passed in through psycopg2</li>
 <span class="sd">            Creates a new connection for each insertion</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">:</span>
-            <span class="n">text</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s">&#39;text&#39;</span><span class="p">]</span>
-            <span class="n">properties</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s">&#39;properties&#39;</span><span class="p">]</span>
+            <span class="n">text</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span>
+            <span class="n">properties</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;properties&#39;</span><span class="p">]</span>
             <span class="n">execute</span><span class="p">(</span><span class="n">SINGLE_INSERT</span><span class="p">,</span><span class="nb">locals</span><span class="p">())</span>
 
     <span class="k">def</span> <span class="nf">insert</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -215,8 +226,8 @@ unroll a set of arrays passed in through psycopg2</li>
         <span class="k">with</span> <span class="n">connect</span><span class="p">()</span> <span class="k">as</span> <span class="n">connection</span><span class="p">:</span>
             <span class="k">with</span> <span class="n">connection</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span> <span class="k">as</span> <span class="n">cursor</span><span class="p">:</span>
                 <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">:</span>
-                    <span class="n">text</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s">&#39;text&#39;</span><span class="p">]</span>
-                    <span class="n">properties</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s">&#39;properties&#39;</span><span class="p">]</span>
+                    <span class="n">text</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span>
+                    <span class="n">properties</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;properties&#39;</span><span class="p">]</span>
                     <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">SINGLE_INSERT</span><span class="p">,</span><span class="nb">locals</span><span class="p">())</span>
 
 
@@ -224,26 +235,26 @@ unroll a set of arrays passed in through psycopg2</li>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">            One connection, one query.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
-        <span class="n">sql</span><span class="o">=</span><span class="s">&#39;&#39;&#39;</span>
-<span class="s">            INSERT INTO upload_time_test(text,properties)</span>
-<span class="s">              SELECT unnest( </span><span class="si">%(texts)s</span><span class="s"> ) ,</span>
-<span class="s">                     unnest( </span><span class="si">%(properties)s</span><span class="s">)</span>
+        <span class="n">sql</span><span class="o">=</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">            INSERT INTO upload_time_test(text,properties)</span>
+<span class="s1">              SELECT unnest( </span><span class="si">%(texts)s</span><span class="s1"> ) ,</span>
+<span class="s1">                     unnest( </span><span class="si">%(properties)s</span><span class="s1">)</span>
 
-<span class="s">        &#39;&#39;&#39;</span>
+<span class="s1">        &#39;&#39;&#39;</span>
 
-        <span class="n">texts</span><span class="o">=</span><span class="p">[</span><span class="n">r</span><span class="p">[</span><span class="s">&#39;text&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">]</span>
-        <span class="n">properties</span><span class="o">=</span><span class="p">[</span><span class="n">r</span><span class="p">[</span><span class="s">&#39;properties&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">]</span>
+        <span class="n">texts</span><span class="o">=</span><span class="p">[</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">]</span>
+        <span class="n">properties</span><span class="o">=</span><span class="p">[</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;properties&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">]</span>
         <span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span><span class="nb">locals</span><span class="p">())</span>
 </pre></div>
 <p>So now we have the Tester class written, we can see how log each
 approach takes to insert 1000 rows</p>
 <div class="highlight"><pre><span class="k">def</span> <span class="nf">runTests</span><span class="p">(</span><span class="n">iterations</span><span class="p">):</span>
     <span class="n">tester</span> <span class="o">=</span> <span class="n">Tester</span><span class="p">(</span><span class="n">iterations</span><span class="p">)</span>
-    <span class="k">with</span> <span class="n">timer</span><span class="p">(</span><span class="s">&#39;slow&#39;</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">timer</span><span class="p">(</span><span class="s1">&#39;slow&#39;</span><span class="p">):</span>
         <span class="n">tester</span><span class="o">.</span><span class="n">slowInsert</span><span class="p">()</span>
-    <span class="k">with</span> <span class="n">timer</span><span class="p">(</span><span class="s">&#39;normal&#39;</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">timer</span><span class="p">(</span><span class="s1">&#39;normal&#39;</span><span class="p">):</span>
         <span class="n">tester</span><span class="o">.</span><span class="n">insert</span><span class="p">()</span>
-    <span class="k">with</span> <span class="n">timer</span><span class="p">(</span><span class="s">&#39;fast&#39;</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">timer</span><span class="p">(</span><span class="s1">&#39;fast&#39;</span><span class="p">):</span>
         <span class="n">tester</span><span class="o">.</span><span class="n">fastInsert</span><span class="p">()</span>
 </pre></div>
 <div class="highlight"><pre><span class="n">runTests</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
@@ -265,11 +276,11 @@ unnest()</code>
 rows. I won't bother with the slowest approach, because that's clearly
 unusable.</p>
 <div class="highlight"><pre><span class="n">tester</span><span class="o">=</span><span class="n">Tester</span><span class="p">(</span><span class="n">count</span><span class="o">=</span><span class="mi">100000</span><span class="p">)</span>
-<span class="k">with</span> <span class="n">timer</span><span class="p">(</span><span class="s">&#39;normal&#39;</span><span class="p">):</span>
+<span class="k">with</span> <span class="n">timer</span><span class="p">(</span><span class="s1">&#39;normal&#39;</span><span class="p">):</span>
     <span class="n">tester</span><span class="o">.</span><span class="n">insert</span><span class="p">()</span>
 
 <span class="n">tester</span><span class="o">=</span><span class="n">Tester</span><span class="p">(</span><span class="n">count</span><span class="o">=</span><span class="mi">100000</span><span class="p">)</span>
-<span class="k">with</span> <span class="n">timer</span><span class="p">(</span><span class="s">&#39;fast&#39;</span><span class="p">):</span>
+<span class="k">with</span> <span class="n">timer</span><span class="p">(</span><span class="s1">&#39;fast&#39;</span><span class="p">):</span>
     <span class="n">tester</span><span class="o">.</span><span class="n">fastInsert</span><span class="p">()</span>
 </pre></div>
 <pre class="literal-block">
@@ -306,16 +317,16 @@ our two methods:</p>
 
 <span class="n">rates</span><span class="o">=</span><span class="p">[</span>
     <span class="p">{</span>
-        <span class="s">&quot;count&quot;</span><span class="p">:</span><span class="n">count</span><span class="p">,</span>
-         <span class="s">&#39;bulk&#39;</span><span class="p">:</span><span class="n">bulkInsertRate</span><span class="p">(</span><span class="n">count</span><span class="p">),</span>
-        <span class="s">&#39;normal&#39;</span><span class="p">:</span><span class="n">normalInsertRate</span><span class="p">(</span><span class="n">count</span><span class="p">)</span>
+        <span class="s2">&quot;count&quot;</span><span class="p">:</span><span class="n">count</span><span class="p">,</span>
+         <span class="s1">&#39;bulk&#39;</span><span class="p">:</span><span class="n">bulkInsertRate</span><span class="p">(</span><span class="n">count</span><span class="p">),</span>
+        <span class="s1">&#39;normal&#39;</span><span class="p">:</span><span class="n">normalInsertRate</span><span class="p">(</span><span class="n">count</span><span class="p">)</span>
 
     <span class="p">}</span>
     <span class="k">for</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">counts</span>
 <span class="p">]</span>
 </pre></div>
 <p>Finally, I use Pandas to plot the output data from these tests.</p>
-<div class="highlight"><pre><span class="n">frame</span><span class="o">=</span><span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rates</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s">&#39;count&#39;</span><span class="p">)</span>
+<div class="highlight"><pre><span class="n">frame</span><span class="o">=</span><span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rates</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;count&#39;</span><span class="p">)</span>
 <span class="n">frame</span>
 </pre></div>
 <div style="max-height:1000px;max-width:1500px;overflow:auto;">
@@ -416,19 +427,24 @@ is transferred back and forth across the network.</li>
 </div>
 </div>
 
-                    
-                </div>  
-                
-                
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/asynchronous-python.html">Asynchronous Python</a></h2>
-                
-                
-                <div class="entry-content">
 
-                    <p>It's possible to get python to do node-like non-blocking requests, this could
+            </div>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container">
+            <p class="subtitle is-4">
+                Thu 01 January 2015
+            </p>
+            
+            <h2 class="title is-2">
+                <a href="/asynchronous-python.html" rel="bookmark" title="Permalink to Asynchronous Python">
+                    Asynchronous Python
+                </a>
+            </h2>
+
+            <div class="content is-medium">
+                <p>It's possible to get python to do node-like non-blocking requests, this could
 take away one of the key reasons for using node.</p>
 <p>The following is a full bottle-based python web application.</p>
 <p>A client can sucessfully call /test while another client is waiting for
@@ -438,62 +454,72 @@ take away one of the key reasons for using node.</p>
 <span class="kn">from</span> <span class="nn">bottle</span> <span class="kn">import</span> <span class="n">route</span><span class="p">,</span> <span class="n">run</span>
 <span class="kn">import</span> <span class="nn">time</span>
 
-<span class="nd">@route</span><span class="p">(</span><span class="s">&#39;/sleep/&lt;seconds:int&gt;&#39;</span><span class="p">)</span>
+<span class="nd">@route</span><span class="p">(</span><span class="s1">&#39;/sleep/&lt;seconds:int&gt;&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">sleep</span><span class="p">(</span><span class="n">seconds</span><span class="p">):</span>
     <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">seconds</span><span class="p">)</span>
-    <span class="k">return</span> <span class="s">&quot;Slept For {0}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">seconds</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s2">&quot;Slept For {0}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">seconds</span><span class="p">)</span>
 
-<span class="nd">@route</span><span class="p">(</span><span class="s">&#39;/test&#39;</span><span class="p">)</span>
+<span class="nd">@route</span><span class="p">(</span><span class="s1">&#39;/test&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">test</span><span class="p">():</span>
-     <span class="k">return</span> <span class="s">&#39;test&#39;</span>
+     <span class="k">return</span> <span class="s1">&#39;test&#39;</span>
 
 
-<span class="nd">@route</span><span class="p">(</span><span class="s">&#39;/slowproxy/&lt;seconds:int&gt;&#39;</span><span class="p">)</span>
+<span class="nd">@route</span><span class="p">(</span><span class="s1">&#39;/slowproxy/&lt;seconds:int&gt;&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">slowproxy</span><span class="p">(</span><span class="n">seconds</span><span class="p">):</span>
     <span class="kn">import</span> <span class="nn">requests</span>
-    <span class="n">url</span><span class="o">=</span><span class="s">&quot;https://s.nooro.com/sleeptest.php?seconds=</span><span class="si">%i</span><span class="s">&quot;</span> <span class="o">%</span><span class="n">seconds</span>
+    <span class="n">url</span><span class="o">=</span><span class="s2">&quot;https://s.nooro.com/sleeptest.php?seconds=</span><span class="si">%i</span><span class="s2">&quot;</span> <span class="o">%</span><span class="n">seconds</span>
     <span class="n">response</span><span class="o">=</span><span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
     <span class="n">response</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">text</span>
 
-<span class="n">run</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s">&#39;0.0.0.0&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">8080</span><span class="p">,</span><span class="n">server</span><span class="o">=</span><span class="s">&#39;gevent&#39;</span><span class="p">)</span>
+<span class="n">run</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;0.0.0.0&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">8080</span><span class="p">,</span><span class="n">server</span><span class="o">=</span><span class="s1">&#39;gevent&#39;</span><span class="p">)</span>
 </pre></div>
 <p>My first attempt used grequests, but apparently that's not even necessary.</p>
 <p>I guess that the call to monkey.patch_all() even patches the socket code
 that requests uses.  I'm very impressed.</p>
 
-                    
-                </div>  
-                
-                
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/configuring-systems-with-fabric-and-cuisine.html">Configuring Systems with Fabric and Cuisine</a></h2>
-                
-                
-                <div class="entry-content">
 
-                    <p>I've mentioned <a class="reference external" href="http://fabric.readthedocs.org/en/1.8/">Fabric</a> before on this blog.  Because so much of my development time is spent in Python, it makes
+            </div>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container">
+            <p class="subtitle is-4">
+                Thu 01 January 2015
+            </p>
+            
+            <h2 class="title is-2">
+                <a href="/configuring-systems-with-fabric-and-cuisine.html" rel="bookmark" title="Permalink to Configuring Systems with Fabric and Cuisine">
+                    Configuring Systems with Fabric and Cuisine
+                </a>
+            </h2>
+
+            <div class="content is-medium">
+                <p>I've mentioned <a class="reference external" href="http://fabric.readthedocs.org/en/1.8/">Fabric</a> before on this blog.  Because so much of my development time is spent in Python, it makes
 sense for me to look for system administration tools that are also written in Python.  Fabric fits the bill
 perfectly, and allows me to run tasks remotely on multiple machines simultaneously.</p>
 <p>A useful addition to Fabric is <a class="reference external" href="https://github.com/sebastien/cuisine">Cuisine</a>.  <strong>Cuisine is a small set of functions that sit on top of Fabric,
 to abstract common administration operations such as file/dir operations, user/group creation,
 package install/upgrade, making it easier to write portable administration and deployment scripts.</strong></p>
 
-                    
-                </div>  
-                
-                
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/ipython-with-python-3.html">IPython with Python 3</a></h2>
-                
-                
-                <div class="entry-content">
 
-                    <p>This took me longer than I was expecting.</p>
+            </div>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container">
+            <p class="subtitle is-4">
+                Thu 01 January 2015
+            </p>
+            
+            <h2 class="title is-2">
+                <a href="/ipython-with-python-3.html" rel="bookmark" title="Permalink to IPython with Python 3">
+                    IPython with Python 3
+                </a>
+            </h2>
+
+            <div class="content is-medium">
+                <p>This took me longer than I was expecting.</p>
 <p>In general when working with IPython I use <code class="code">
 pip</code>
  rather than <code class="code">
@@ -503,11 +529,11 @@ pip tends to have more up-to-date packages.</p>
 <p>In the end I found the simplest thing to do was to set up IPython in an isolated
 virtualenv environment.  The main trick is to let virtualenv know what version of
 Python you want it to use by default.</p>
-<div class="highlight"><pre><span class="nv">$ </span>virtualenv --python<span class="o">=</span>python3.4 python_3_demo
-<span class="nv">$ </span><span class="nb">cd </span>python_3_demo/
-<span class="nv">$ </span><span class="nb">source</span> ./bin/activate
-<span class="nv">$ </span>pip install ipython
-<span class="nv">$ </span>ipython
+<div class="highlight"><pre>$ virtualenv --python<span class="o">=</span>python3.4 python_3_demo
+$ <span class="nb">cd</span> python_3_demo/
+$ <span class="nb">source</span> ./bin/activate
+$ pip install ipython
+$ ipython
 </pre></div>
 <div class="highlight"><pre><span class="n">Python</span> <span class="mf">3.4</span><span class="o">.</span><span class="mi">0</span> <span class="p">(</span><span class="n">default</span><span class="p">,</span> <span class="n">Apr</span> <span class="mi">11</span> <span class="mi">2014</span><span class="p">,</span> <span class="mi">13</span><span class="p">:</span><span class="mo">05</span><span class="p">:</span><span class="mi">11</span><span class="p">)</span>
 <span class="o">...</span>
@@ -521,25 +547,30 @@ Python you want it to use by default.</p>
 <p>And voila, I have Python 3 in the best Python interpreter ever built, I'm ready to
 start wrapping my head around byte arrays and UTF-8 encodings.</p>
 
-                    
-                </div>  
-                
-                
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/nginx-uwsgi-ubuntu-14.html">Nginx and UWSGI on Ubuntu 14</a></h2>
-                
-                
-                <div class="entry-content">
 
-                    <p>The documentation for Nginx and UWSGI is long and complex, but with ubuntu 14
+            </div>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container">
+            <p class="subtitle is-4">
+                Thu 01 January 2015
+            </p>
+            
+            <h2 class="title is-2">
+                <a href="/nginx-uwsgi-ubuntu-14.html" rel="bookmark" title="Permalink to Nginx and UWSGI on Ubuntu 14">
+                    Nginx and UWSGI on Ubuntu 14
+                </a>
+            </h2>
+
+            <div class="content is-medium">
+                <p>The documentation for Nginx and UWSGI is long and complex, but with ubuntu 14
 it's actually pretty straightforward to get them up and running.</p>
 <p>I present here a a setup that uses nginx and uwsgi emperor to host
 multiple python web applications simultaneously on an ubuntu 14 machine.</p>
 <p>First, the packages</p>
-<div class="highlight"><pre><span class="nv">$ </span>sudo apt-get install nginx
-<span class="nv">$ </span>sudo apt-get install uwsgi uwsgi-emperor uwsgi-plugin-python
+<div class="highlight"><pre>$ sudo apt-get install nginx
+$ sudo apt-get install uwsgi uwsgi-emperor uwsgi-plugin-python
 </pre></div>
 <p>Our configuration files will now be under <code class="code">
 /etc/nginx</code>
@@ -547,15 +578,15 @@ multiple python web applications simultaneously on an ubuntu 14 machine.</p>
 /etc/uwsgi-emperor</code>
 </p>
 <p>You can start, stop, and reload nginx as follows:</p>
-<div class="highlight"><pre><span class="nv">$ </span>sudo service nginx start
-<span class="nv">$ </span>sudo service nginx stop
-<span class="nv">$ </span>sudo service nginx reload
+<div class="highlight"><pre>$ sudo service nginx start
+$ sudo service nginx stop
+$ sudo service nginx reload
 </pre></div>
 <p>The last command is useful when changing configuration settings.</p>
 <p>Now set up a site by creating a file in <code class="code">
 /etc/nginx/sites-available</code>
 </p>
-<div class="highlight"><pre><span class="c">#/etc/nginx/sites-available/mysite</span>
+<div class="highlight"><pre><span class="c1">#/etc/nginx/sites-available/mysite</span>
 server<span class="o">{</span>
 
     server_name     your_host_name<span class="p">;</span>
@@ -571,7 +602,7 @@ server<span class="o">{</span>
 <span class="o">}</span>
 </pre></div>
 <p>Then,</p>
-<div class="highlight"><pre><span class="nv">$ </span>sudo ln -s /etc/nginx/apps-available/mysite /etc/nginx/sites-enabled
+<div class="highlight"><pre>$ sudo ln -s /etc/nginx/apps-available/mysite /etc/nginx/sites-enabled
 </pre></div>
 <div class="alert  alert-warning compound">
 <p class="compound-first"><strong>Warning</strong></p>
@@ -626,33 +657,38 @@ application can be only a few lines long:</p>
 /srv/app1/main.py</code>
 </p>
 <div class="highlight"><pre><span class="k">def</span> <span class="nf">application</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">start_response</span><span class="p">):</span>
-    <span class="n">start_response</span><span class="p">(</span><span class="s">&#39;200 OK&#39;</span><span class="p">,</span> <span class="p">[(</span><span class="s">&#39;Content-Type&#39;</span><span class="p">,</span><span class="s">&#39;text/html&#39;</span><span class="p">)])</span>
-    <span class="k">return</span> <span class="p">[</span><span class="s">&quot;Hello World, I am app1&quot;</span><span class="p">]</span>
+    <span class="n">start_response</span><span class="p">(</span><span class="s1">&#39;200 OK&#39;</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;Content-Type&#39;</span><span class="p">,</span><span class="s1">&#39;text/html&#39;</span><span class="p">)])</span>
+    <span class="k">return</span> <span class="p">[</span><span class="s2">&quot;Hello World, I am app1&quot;</span><span class="p">]</span>
 </pre></div>
 <p>And <code class="code">
 /srv/app2/main.py</code>
 </p>
 <div class="highlight"><pre><span class="k">def</span> <span class="nf">application</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">start_response</span><span class="p">):</span>
-    <span class="n">start_response</span><span class="p">(</span><span class="s">&#39;200 OK&#39;</span><span class="p">,</span> <span class="p">[(</span><span class="s">&#39;Content-Type&#39;</span><span class="p">,</span><span class="s">&#39;text/html&#39;</span><span class="p">)])</span>
-    <span class="k">return</span> <span class="p">[</span><span class="s">&quot;I, however, am app2. &quot;</span><span class="p">]</span>
+    <span class="n">start_response</span><span class="p">(</span><span class="s1">&#39;200 OK&#39;</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;Content-Type&#39;</span><span class="p">,</span><span class="s1">&#39;text/html&#39;</span><span class="p">)])</span>
+    <span class="k">return</span> <span class="p">[</span><span class="s2">&quot;I, however, am app2. &quot;</span><span class="p">]</span>
 </pre></div>
 <p>And that's it!</p>
 <p>Visiting <a class="reference external" href="http://your_host_name/app1">http://your_host_name/app1</a> or <a class="reference external" href="http://your_host_name/app2">http://your_host_name/app2</a> should return the text
 you put in the python files.</p>
 
-                    
-                </div>  
-                
-                
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/pdf-generation-with-pelican.html">PDF Generation With Pelican</a></h2>
-                
-                
-                <div class="entry-content">
 
-                    <p>The existing documentation is a little unclear on this, because it says
+            </div>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container">
+            <p class="subtitle is-4">
+                Thu 01 January 2015
+            </p>
+            
+            <h2 class="title is-2">
+                <a href="/pdf-generation-with-pelican.html" rel="bookmark" title="Permalink to PDF Generation With Pelican">
+                    PDF Generation With Pelican
+                </a>
+            </h2>
+
+            <div class="content is-medium">
+                <p>The existing documentation is a little unclear on this, because it says
 you need to add <code class="code">
 PDF_GENERATOR=True</code>
  to your <cite>pelicanconf.py</cite> file.</p>
@@ -660,13 +696,13 @@ PDF_GENERATOR=True</code>
 <p>So you need to first make sure you have <code class="code">
 rst2pdf</code>
  installed:</p>
-<div class="highlight"><pre><span class="nv">$ </span>sudo apt-get install rst2pdf
+<div class="highlight"><pre>$ sudo apt-get install rst2pdf
 </pre></div>
 <p>and then add the following to <code class="code">
 pelicanconf.py</code>
 </p>
-<div class="highlight"><pre><span class="n">PLUGIN_PATH</span> <span class="o">=</span> <span class="s">&#39;../pelican-plugins&#39;</span>  <span class="c"># or wherever.</span>
-<span class="n">PLUGINS</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;pdf&#39;</span><span class="p">]</span>
+<div class="highlight"><pre><span class="n">PLUGIN_PATH</span> <span class="o">=</span> <span class="s1">&#39;../pelican-plugins&#39;</span>  <span class="c1"># or wherever.</span>
+<span class="n">PLUGINS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;pdf&#39;</span><span class="p">]</span>
 </pre></div>
 <p>However, doing this seems to screw up the pygments highlighting on my regular
 html output.  This is because deep in the rst2pdf code, in a file called <code class="code">
@@ -677,19 +713,24 @@ pygment-</code>
 .  I haven't
 figured out how to generate HTML and PDF nicely at the same time.</p>
 
-                    
-                </div>  
-                
-                
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/postgres-json-aggregation.html">Postgres JSON Aggregation</a></h2>
-                
-                
-                <div class="entry-content">
 
-                    <p>I've been using the new JSON functionality in Postgres a lot recently:
+            </div>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container">
+            <p class="subtitle is-4">
+                Thu 01 January 2015
+            </p>
+            
+            <h2 class="title is-2">
+                <a href="/postgres-json-aggregation.html" rel="bookmark" title="Permalink to Postgres JSON Aggregation">
+                    Postgres JSON Aggregation
+                </a>
+            </h2>
+
+            <div class="content is-medium">
+                <p>I've been using the new JSON functionality in Postgres a lot recently:
 I'm fond of saying that Postgresql is the best NoSQL database available
 today. I'm quite serious about this: having used key-value and JSON
 stores such as CouchDB in the past, it's amazing to me how the Postgres
@@ -720,7 +761,7 @@ u'Connected: <a class="reference external" href="mailto:testuser&#64;test">testu
 <span class="p">);</span>
 
 <span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">person</span> <span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="n">VALUES</span>
-<span class="p">(</span><span class="s">&#39;emily&#39;</span><span class="p">),(</span><span class="s">&#39;arthur&#39;</span><span class="p">),(</span><span class="s">&#39;nicki&#39;</span><span class="p">),(</span><span class="s">&#39;oliver&#39;</span><span class="p">)</span>
+<span class="p">(</span><span class="s1">&#39;emily&#39;</span><span class="p">),(</span><span class="s1">&#39;arthur&#39;</span><span class="p">),(</span><span class="s1">&#39;nicki&#39;</span><span class="p">),(</span><span class="s1">&#39;oliver&#39;</span><span class="p">)</span>
 <span class="p">;</span>
 </pre></div>
 <pre class="literal-block">
@@ -770,12 +811,12 @@ JOINS</code>
     <span class="nb">type</span> <span class="n">text</span> <span class="ow">not</span> <span class="n">null</span>
 <span class="p">);</span>
 
-<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">action</span><span class="p">(</span><span class="n">person_name</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="s">&#39;emily&#39;</span><span class="p">,</span><span class="s">&#39;login&#39;</span><span class="p">);</span>
-<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">action</span><span class="p">(</span><span class="n">person_name</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="s">&#39;emily&#39;</span><span class="p">,</span><span class="s">&#39;pageview&#39;</span><span class="p">);</span>
-<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">action</span><span class="p">(</span><span class="n">person_name</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="s">&#39;arthur&#39;</span><span class="p">,</span><span class="s">&#39;login&#39;</span><span class="p">);</span>
-<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">action</span><span class="p">(</span><span class="n">person_name</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="s">&#39;emily&#39;</span><span class="p">,</span><span class="s">&#39;logout&#39;</span><span class="p">);</span>
-<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">action</span><span class="p">(</span><span class="n">person_name</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="s">&#39;nicki&#39;</span><span class="p">,</span><span class="s">&#39;password_change&#39;</span><span class="p">);</span>
-<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">action</span><span class="p">(</span><span class="n">person_name</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="s">&#39;nicki&#39;</span><span class="p">,</span><span class="s">&#39;createpost&#39;</span><span class="p">);</span>
+<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">action</span><span class="p">(</span><span class="n">person_name</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="s1">&#39;emily&#39;</span><span class="p">,</span><span class="s1">&#39;login&#39;</span><span class="p">);</span>
+<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">action</span><span class="p">(</span><span class="n">person_name</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="s1">&#39;emily&#39;</span><span class="p">,</span><span class="s1">&#39;pageview&#39;</span><span class="p">);</span>
+<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">action</span><span class="p">(</span><span class="n">person_name</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="s1">&#39;arthur&#39;</span><span class="p">,</span><span class="s1">&#39;login&#39;</span><span class="p">);</span>
+<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">action</span><span class="p">(</span><span class="n">person_name</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="s1">&#39;emily&#39;</span><span class="p">,</span><span class="s1">&#39;logout&#39;</span><span class="p">);</span>
+<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">action</span><span class="p">(</span><span class="n">person_name</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="s1">&#39;nicki&#39;</span><span class="p">,</span><span class="s1">&#39;password_change&#39;</span><span class="p">);</span>
+<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">action</span><span class="p">(</span><span class="n">person_name</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="s1">&#39;nicki&#39;</span><span class="p">,</span><span class="s1">&#39;createpost&#39;</span><span class="p">);</span>
 </pre></div>
 <pre class="literal-block">
 []
@@ -859,7 +900,7 @@ nicki
 <div class="highlight"><pre><span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">actions</span> <span class="ow">in</span> <span class="n">people</span><span class="p">:</span>
     <span class="k">print</span> <span class="n">name</span>
     <span class="k">for</span> <span class="n">action</span> <span class="ow">in</span> <span class="n">actions</span><span class="p">:</span>
-        <span class="k">print</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s">&#39;</span><span class="p">,</span><span class="n">action</span><span class="p">[</span><span class="s">&#39;type&#39;</span><span class="p">]</span>
+        <span class="k">print</span> <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span><span class="n">action</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span>
 </pre></div>
 <pre class="literal-block">
 arthur
@@ -876,366 +917,46 @@ nicki
 hierarchical Python data structure. From here we can easily continue to
 XML, JSON, HTML or whatever document type suits your need.</p>
 
-                    
-                </div>  
-                
-                
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/postgres-timestamps.html">Postgres Timestamps</a></h2>
-                
-                
-                <div class="entry-content">
 
-                    <p>At my company, I maintain a large distributed. data collection platform
-. Pretty much every record we collect needs to be stamped with a
-<code class="code">
-created</code>
- field. But because the incoming data comes from sources on
-various devices in multiple countries and timezones, making sure that
-the timestamps are precise and meaningful can be a challenge.
-<a class="reference external" href="http://www.postgresql.org/">Postgres</a> can do this very elegantly,
-but can also trip you up in subtle ways.</p>
-<p>Postgres has two subtly different timestamp data types: <code class="code">
-TIMESTAMP</code>
-
-and <code class="code">
-TIMESTAMP WITH TIMEZONE</code>
-.</p>
-<p>The former stores year/month/day/hour/minutes/second/milliseconds, as
-you’d expect, and the later ALSO stores a timezone offset, expressed in
-hours.</p>
-<p>We can switch between the two using the <code class="code">
-AT TIMEZONE</code>
- syntax, but, and
-here is the tricky bit the function goes BOTH WAYS, and you can easily
-get confused if you don’t know what type you’re starting with.</p>
-<p>Furthermore, Postgres will sometimes sneakily convert one to the other
-without you asking.</p>
-<div class="highlight"><pre><span class="o">%</span><span class="n">load_ext</span> <span class="n">sql</span>
-<span class="o">%</span><span class="n">config</span> <span class="n">SqlMagic</span><span class="o">.</span><span class="n">feedback</span><span class="o">=</span><span class="bp">False</span>
-</pre></div>
-<div class="highlight"><pre><span class="o">%%</span><span class="n">sql</span>
-<span class="n">postgresql</span><span class="p">:</span><span class="o">//</span><span class="n">testuser</span><span class="p">:</span><span class="n">password</span><span class="nd">@localhost</span><span class="o">/</span><span class="n">test</span>
-</pre></div>
-<pre class="literal-block">
-u'Connected: <a class="reference external" href="mailto:testuser&#64;test">testuser&#64;test</a>'
-</pre>
-<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="n">NOW</span><span class="p">();</span>
-</pre></div>
-<table class="table table-bordered table-striped">
-    <tr>
-        <th>now</th>
-    </tr>
-    <tr>
-        <td>2014-08-18 22:33:58.998549-04:00</td>
-    </tr>
-</table><p><code class="code">
-now()</code>
- returns a <code class="code">
-TIMESTAMP WITH TIME ZONE</code>
-. It shows the current
-<strong>local</strong> time, and the offset between that time and UTC
-(<a class="reference external" href="http://time.is/UTC">http://time.is/UTC</a>)</p>
-<p>But if we put the output from <code class="code">
-now()</code>
- into a field that has type
-<code class="code">
-TIMESTAMP</code>
- we will get a silent conversion:</p>
-<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="n">NOW</span><span class="p">()::</span> <span class="n">timestamp</span>
-</pre></div>
-<table class="table table-bordered table-striped">
-    <tr>
-        <th>now</th>
-    </tr>
-    <tr>
-        <td>2014-08-18 22:33:58.998549</td>
-    </tr>
-</table><p>Which is <strong>not</strong> the current UTC time. We have stripped the timezone
-offset right of it. However, if we <strong>explicitly</strong> do the conversion, we
-get:</p>
-<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="n">NOW</span><span class="p">()</span> <span class="n">AT</span> <span class="n">TIME</span> <span class="n">ZONE</span> <span class="s">&#39;UTC&#39;</span><span class="p">;</span>
-</pre></div>
-<table class="table table-bordered table-striped">
-    <tr>
-        <th>timezone</th>
-    </tr>
-    <tr>
-        <td>2014-08-19 02:33:58.998549</td>
-    </tr>
-</table><p>Which <em>is</em> the current UTC time: (<a class="reference external" href="http://time.is/UTC">http://time.is/UTC</a>)</p>
-<p>It's worth reviewing the <a class="reference external" href="http://www.postgresql.org/docs/9.1/static/functions-datetime.html#FUNCTIONS-DATETIME-ZONECONVERT-TABLE">Postgresql documentation on this
-construct</a>
-at this point.</p>
-<table class="table table-bordered">
-<tr><th><p>Expression</p>
-</th><th><p>Return Type</p>
-</th><th><p>Description</p>
-</th></tr>
-<tr><td><p>timestamp without time zone AT TIME ZONE zone</p>
-</td><td><p>timestamp with time zone</p>
-</td><td><p>Treat given time stamp without time zone as located in the specified
-time zone</p>
-</td></tr>
-<tr><td><p>timestamp with time zone AT TIME ZONE zone</p>
-</td><td><p>timestamp without time zone</p>
-</td><td><p>Convert given time stamp with time zone to the new time zone, with no
-time zone designation</p>
-</td></tr><table class="table table-bordered table-striped"><p>The danger here is that the <code class="code">
-AT TIMEZONE</code>
- construct goes <strong>both
-ways</strong>. If you don't know what type you're feeding in, you won't know
-what type you're getting out. I've been bitten by this in the past;
-ending up with a timestamp that is wrong by several hours because I
-wasn't clear about my inputs.</p>
-<p>Specifically, consider a table that looks like this:</p>
-<div class="highlight"><pre><span class="o">%%</span><span class="n">sql</span>
-<span class="n">DROP</span> <span class="n">TABLE</span> <span class="n">IF</span> <span class="n">EXISTS</span> <span class="n">test</span><span class="p">;</span>
-<span class="n">CREATE</span> <span class="n">TABLE</span> <span class="n">test</span><span class="p">(</span><span class="n">name</span> <span class="n">TEXT</span><span class="p">,</span> <span class="n">created</span> <span class="n">TIMESTAMP</span> <span class="n">DEFAULT</span> <span class="n">NOW</span><span class="p">());</span>
-</pre></div>
-<p>Which I then populate:</p>
-<div class="highlight"><pre><span class="o">%%</span><span class="n">sql</span>
-<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">test</span> <span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="s">&#39;zaphod beeblebrox&#39;</span><span class="p">);</span>
-<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">test</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="n">created</span><span class="p">)</span> <span class="n">VALUES</span><span class="p">(</span><span class="s">&#39;ford prefect&#39;</span><span class="p">,</span><span class="n">now</span><span class="p">()</span> <span class="n">at</span> <span class="n">time</span> <span class="n">zone</span> <span class="s">&#39;utc&#39;</span><span class="p">);</span>
-<span class="n">SELECT</span> <span class="o">*</span> <span class="n">FROM</span> <span class="n">test</span><span class="p">;</span>
-</pre></div>
-<table class="table table-bordered table-striped">
-    <tr>
-        <th>name</th>
-        <th>created</th>
-    </tr>
-    <tr>
-        <td>zaphod beeblebrox</td>
-        <td>2014-08-18 22:34:03.620583</td>
-    </tr>
-    <tr>
-        <td>ford prefect</td>
-        <td>2014-08-19 02:34:03.621957</td>
-    </tr>
-</table><p>Note that the second record contains the current UTC time, but the first
-contains the current time <strong>local to the database server</strong>. This <em>seems</em>
-a good idea, and tends to work fine in local testing. But when you try
-to maintain a system where the database may be in one province, the data
-<em>collected</em> in another, and then <em>reviewed</em> in a third, you start to
-understand why this is too simplistic.</p>
-<p>The fact that it's 10:12 now in Toronto isn't very helpful for a record
-that's getting created for a user in Halifax and is monitored from
-Vancouver.</p>
-<p>So it's probably best to save timestamps WITH their timezone so as to
-avoid any ambiguity. This is the recommendation given
-<a class="reference external" href="http://justatheory.com/computers/databases/postgresql/use-timestamptz.html">here</a>.</p>
-<p>In our above example, the simplest approach is to change the table
-definition:</p>
-<div class="highlight"><pre><span class="o">%%</span><span class="n">sql</span>
-<span class="n">DROP</span> <span class="n">TABLE</span> <span class="n">IF</span> <span class="n">EXISTS</span> <span class="n">test</span><span class="p">;</span>
-<span class="n">CREATE</span> <span class="n">TABLE</span> <span class="n">test</span><span class="p">(</span><span class="n">name</span> <span class="n">TEXT</span><span class="p">,</span> <span class="n">created</span> <span class="n">TIMESTAMP</span> <span class="n">WITH</span> <span class="n">TIME</span> <span class="n">ZONE</span> <span class="n">DEFAULT</span> <span class="p">(</span><span class="n">NOW</span><span class="p">()</span> <span class="p">));</span>
-</pre></div>
-<div class="highlight"><pre><span class="o">%%</span><span class="n">sql</span>
-<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">test</span> <span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="s">&#39;zaphod beeblebrox&#39;</span><span class="p">);</span>
-<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">test</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="n">created</span><span class="p">)</span> <span class="n">VALUES</span><span class="p">(</span><span class="s">&#39;ford prefect&#39;</span><span class="p">,</span><span class="n">now</span><span class="p">()</span> <span class="p">);</span>
-<span class="n">SELECT</span> <span class="o">*</span> <span class="n">FROM</span> <span class="n">test</span><span class="p">;</span>
-</pre></div>
-<table class="table table-bordered table-striped">
-    <tr>
-        <th>name</th>
-        <th>created</th>
-    </tr>
-    <tr>
-        <td>zaphod beeblebrox</td>
-        <td>2014-08-18 22:35:15.988764-04:00</td>
-    </tr>
-    <tr>
-        <td>ford prefect</td>
-        <td>2014-08-18 22:35:15.989726-04:00</td>
-    </tr>
-</table><p>So now the dates are globally meaningful. But I <em>still</em> have to be
-careful, because if I use the wrong date format to populate this table,
-it'll still get messed up.</p>
-<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">test</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="n">created</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="s">&#39;arthur dent&#39;</span><span class="p">,</span><span class="n">now</span><span class="p">()</span> <span class="n">at</span> <span class="n">time</span> <span class="n">zone</span> <span class="s">&#39;utc&#39;</span><span class="p">)</span>
-<span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="o">*</span> <span class="n">FROM</span> <span class="n">test</span><span class="p">;</span>
-</pre></div>
-<table class="table table-bordered table-striped">
-    <tr>
-        <th>name</th>
-        <th>created</th>
-    </tr>
-    <tr>
-        <td>zaphod beeblebrox</td>
-        <td>2014-08-18 22:35:15.988764-04:00</td>
-    </tr>
-    <tr>
-        <td>ford prefect</td>
-        <td>2014-08-18 22:35:15.989726-04:00</td>
-    </tr>
-    <tr>
-        <td>arthur dent</td>
-        <td>2014-08-19 02:35:15.990308-04:00</td>
-    </tr>
-</table><p>Note how <strong>arthur dent</strong> has completely the wrong created time.</p>
-<p>Now, if I want to <em>report</em> on this data, I'm going to now have to
-specify <em>which</em> timezone I want the dates formatted too:</p>
-<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">delete</span> <span class="kn">from</span> <span class="nn">test</span> <span class="nn">WHERE</span> <span class="nn">name</span><span class="o">=</span><span class="s">&#39;arthur dent&#39;</span><span class="p">;</span>
-</pre></div>
-<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">select</span> <span class="n">name</span><span class="p">,</span> <span class="n">created</span> <span class="n">FROM</span> <span class="n">test</span><span class="p">;</span>
-</pre></div>
-<table class="table table-bordered table-striped">
-    <tr>
-        <th>name</th>
-        <th>created</th>
-    </tr>
-    <tr>
-        <td>zaphod beeblebrox</td>
-        <td>2014-08-18 22:35:15.988764-04:00</td>
-    </tr>
-    <tr>
-        <td>ford prefect</td>
-        <td>2014-08-18 22:35:15.989726-04:00</td>
-    </tr>
-</table><p>gives me timestamps formatted in the timezone of the database server,
-which isn't necessarily particularly helpful, which <em>may</em> be helpful,
-but will be less so if the actual <em>users</em> of the data are in a different
-time zone.</p>
-<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span>  <span class="n">SELECT</span> <span class="n">name</span><span class="p">,</span> <span class="n">created</span> <span class="n">at</span> <span class="n">time</span> <span class="n">zone</span> <span class="s">&#39;utc&#39;</span> <span class="n">FROM</span> <span class="n">test</span><span class="p">;</span>
-</pre></div>
-<table class="table table-bordered table-striped">
-    <tr>
-        <th>name</th>
-        <th>timezone</th>
-    </tr>
-    <tr>
-        <td>zaphod beeblebrox</td>
-        <td>2014-08-19 02:35:15.988764</td>
-    </tr>
-    <tr>
-        <td>ford prefect</td>
-        <td>2014-08-19 02:35:15.989726</td>
-    </tr>
-</table><p>gives me the time formatted in the UTC timezone, and</p>
-<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">select</span> <span class="n">CREATED</span> <span class="n">at</span> <span class="n">time</span> <span class="n">zone</span> <span class="s">&#39;CST&#39;</span> <span class="n">FROM</span> <span class="n">test</span><span class="p">;</span>
-</pre></div>
-<table class="table table-bordered table-striped">
-    <tr>
-        <th>timezone</th>
-    </tr>
-    <tr>
-        <td>2014-08-18 20:35:15.988764</td>
-    </tr>
-    <tr>
-        <td>2014-08-18 20:35:15.989726</td>
-    </tr>
-</table><p>gives me the time formatted for central standard time.</p>
-<div class="section" id="external-data">
-<h2>external data</h2>
-<p>Now so far we've been letting the database create the timestamps, but
-sometimes we want to save data provided to us from an external source.
-In this case it's very important the we know what timezone the incoming
-data comes from. So our middleware should <em>require</em> that all dates
-include a timestamp. Fortunately, if we're writing javascript
-applications, we get this automatically:</p>
-<div class="highlight"><pre><span class="o">%%</span><span class="n">html</span>
-<span class="o">&lt;</span><span class="n">div</span> <span class="nb">id</span><span class="o">=</span><span class="s">&quot;js-output&quot;</span><span class="o">&gt;&lt;/</span><span class="n">div</span><span class="o">&gt;</span>
-</pre></div>
-<div id="js-output"></div><div class="highlight"><pre><span class="o">%%</span><span class="n">javascript</span>
-<span class="n">var</span> <span class="n">d</span> <span class="o">=</span> <span class="n">JSON</span><span class="o">.</span><span class="n">stringify</span><span class="p">(</span><span class="n">new</span> <span class="n">Date</span><span class="p">())</span>
-</pre></div>
-<pre class="literal-block">
-&quot;2014-08-19T02:41:12.872Z&quot;
-</pre>
-<div class="highlight"><pre><span class="kn">import</span> <span class="nn">psycopg2</span><span class="o">,</span><span class="nn">pandas</span>
-<span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span><span class="n">params</span><span class="o">=</span><span class="p">{}):</span>
-    <span class="k">with</span> <span class="n">psycopg2</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">database</span><span class="o">=</span><span class="s">&#39;test&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">connection</span><span class="p">:</span>
-        <span class="k">with</span> <span class="n">connection</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span> <span class="k">as</span> <span class="n">cursor</span><span class="p">:</span>
-            <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span><span class="n">params</span><span class="p">)</span>
-</pre></div>
-<p>So let's imagine that we got this string submitted to us by a client,
-and we're going to store it in the database via some Python code.</p>
-<div class="highlight"><pre><span class="n">sql</span><span class="o">=</span><span class="s">&quot;INSERT INTO test (name, created) VALUES ( &#39;externally created date&#39;, </span><span class="si">%(date)s</span><span class="s">)&quot;</span>
-<span class="n">params</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">date</span><span class="o">=</span><span class="s">&quot;2014-08-19T02:35:24.321Z&quot;</span><span class="p">)</span>
-<span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span><span class="n">params</span><span class="p">)</span>
-</pre></div>
-<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="o">*</span> <span class="n">FROM</span> <span class="n">test</span>
-</pre></div>
-<table class="table table-bordered table-striped">
-    <tr>
-        <th>name</th>
-        <th>created</th>
-    </tr>
-    <tr>
-        <td>zaphod beeblebrox</td>
-        <td>2014-08-18 22:35:15.988764-04:00</td>
-    </tr>
-    <tr>
-        <td>ford prefect</td>
-        <td>2014-08-18 22:35:15.989726-04:00</td>
-    </tr>
-    <tr>
-        <td>externally created date</td>
-        <td>2014-08-18 22:35:24.321000-04:00</td>
-    </tr>
-</table><p>And now we're getting to the point where all our timestamp data is both
-stored and displayed unambiguously.</p>
-</div>
-
-                    
-                </div>  
-                
-                
-            </article>
-            <hr/>
-
-        <ul class="pagination">
-                <li class="prev disabled"><a href="#">&laquo;</a></li>
-                    <li class="active"><a
-                            href="/tag/python.html">1</a></li>
-                    <li class=""><a
-                            href="/tag/python2.html">2</a></li>
-                <li class="next"><a
-                        href="/tag/python2.html">&raquo;</a></li>
-        </ul>
+            </div>
         </div>
-        <div class="col-sm-3" id="sidebar">
-            <aside>
+    </section>
 
-<section class="well well-sm">
-    <ul class="list-group list-group-flush">
-            <li class="list-group-item"><h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Social</span></h4>
-              <ul class="list-group" id="social">
-                <li class="list-group-item"><a href="https://twitter.com/trvrm"><i class="fa fa-twitter-square fa-lg"></i> twitter</a></li>
-              </ul>
-            </li>
+   
 
 
-
-
-
-    </ul>
-</section>
-            </aside>
-        </div>
+<section class="section">
+    <div class="container">
+        
+        <nav class="pagination">
+            
+            <ul>
+                    <li class="is-active">
+                        <a href="/tag/python.html">1</a>
+                    </li>
+                    <li class="">
+                        <a href="/tag/python2.html">2</a>
+                    </li>
+            </ul>
+            
+            
+                <a href="/tag/python2.html">Next</a>
+        </nav>
+    
     </div>
-</div>
-<footer>
-   <div class="container">
-      <hr>
-      <div class="row">
-         <div class="col-xs-10">&copy; 2015 trvrm
-            &middot; Powered by <a href="https://github.com/DandyDev/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
-            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
-            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
-         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
-      </div>
-   </div>
-</footer>
-<script src="/theme/js/jquery.min.js"></script>
 
-<!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="/theme/js/bootstrap.min.js"></script>
-
-<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
-<script src="/theme/js/respond.min.js"></script>
+</section>
 
 
+    <footer class="footer">
+        <div class="container">
+            <div class="content has-text-centered">
+                <p>
+                    Powered by <a href="http://getpelican.com/">Pelican</a>, <a href="http://python.org">Python</a>, 
+                    and <a href="http://bulma.io/">Bulma</a>
+                </p>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>
