@@ -52,226 +52,505 @@
 <section class="section">
     <div class="container">
         <h1 class="title">Archives for trvrm</h1>
-            <div class="box">
+        
+        <div class="columns is-multiline">
+                <div class="column is-one-quarter">
+                    <article class="message is-primary">
+                        <div class="message-header">
+                            Tue 24 January 2017
+                        </div>
+                        <div class="message-body">
+                            <a href="/fractal-dimension.html" rel="bookmark" title="Permalink to Fractal Dimension">
+                                Fractal Dimension
+                            </a>
+                            
+                            <div class="content">
+                                <p>Inspired by the <a href="https://www.youtube.com/watch?v=bSfe5M_zG2s">keynote</a> given at PyCon Portland by K Lars Lohn,, I wanted to try my hand 
+at computing the fractal dimension of a few different images.</p>
+<p>This is a very simple implementation of a <a href="https://en.wikipedia.org/wiki/Minkowski%E2%80%93Bouligand_dimension">box counting</a> algorithm.</p>
+<p>A couple of ideas are borrowed from https://github.com/twobraids ...</p>
+                            </div>
+                        </div>
+                    </article>
                 
+                </div>
+                <div class="column is-one-quarter">
+                    <article class="message is-primary">
+                        <div class="message-header">
+                            Fri 13 May 2016
+                        </div>
+                        <div class="message-body">
+                            <a href="/new-blog-theme.html" rel="bookmark" title="Permalink to New Blog Theme">
+                                New Blog Theme
+                            </a>
+                            
+                            <div class="content">
+                                <p>Yesterday I discovered the <a href="http://bulma.io/">Bulma</a> CSS library.  It seems to be basically 'bootstrap for the flexbox world.'</p>
+<p>Given that Bootstrap version 4 has been promising us Flexbox support for nearly a year now, I think Bulma could be my
+new best CSS friend.  Of course, I won't be able ...</p>
+                            </div>
+                        </div>
+                    </article>
                 
-                <p><small>Fri 13 May 2016</small></p>
-                <strong>
-                    <a href="/new-blog-theme.html" rel="bookmark" title="Permalink to New Blog Theme">
-                    New Blog Theme
-                    </a>
-                </strong>
-            </div>
-            <div class="box">
+                </div>
+                <div class="column is-one-quarter">
+                    <article class="message is-primary">
+                        <div class="message-header">
+                            Sun 25 October 2015
+                        </div>
+                        <div class="message-body">
+                            <a href="/streaming-php-output-with-fpm-and-nginx.html" rel="bookmark" title="Permalink to Streaming PHP Output with FPM and NGINX">
+                                Streaming PHP Output with FPM and NGINX
+                            </a>
+                            
+                            <div class="content">
+                                <p><strong>Problem:</strong> We had a PHP report that takes around 45 seconds to render.  To give the user feedback
+that their report was actually being generated, I wanted to change our PHP installation to deliver at least some output to the client as soon as possible, rather than waiting until the ...</p>
+                            </div>
+                        </div>
+                    </article>
                 
+                </div>
+                <div class="column is-one-quarter">
+                    <article class="message is-primary">
+                        <div class="message-header">
+                            Thu 22 October 2015
+                        </div>
+                        <div class="message-body">
+                            <a href="/bulk-psycopg2-inserts.html" rel="bookmark" title="Permalink to Efficient Postgres Bulk Inserts using Psycopg2 and Unnest">
+                                Efficient Postgres Bulk Inserts using Psycopg2 and Unnest
+                            </a>
+                            
+                            <div class="content">
+                                <p>One of the biggest challenges I face maintaining large Postgres systems
+is getting data <em>into</em> them in an efficient manner. Postgres is very,
+very good at maintaining, organising, querying and retrieving data, but
+inserts themselves can be quite slow.</p>
+<p>Various stackoverflow questions suggest using things like <code class="code">
+COPY</code>
+, but
+that assumes ...</p>
+                            </div>
+                        </div>
+                    </article>
                 
-                <p><small>Sun 25 October 2015</small></p>
-                <strong>
-                    <a href="/streaming-php-output-with-fpm-and-nginx.html" rel="bookmark" title="Permalink to Streaming PHP Output with FPM and NGINX">
-                    Streaming PHP Output with FPM and NGINX
-                    </a>
-                </strong>
-            </div>
-            <div class="box">
+                </div>
+                <div class="column is-one-quarter">
+                    <article class="message is-primary">
+                        <div class="message-header">
+                            Fri 26 June 2015
+                        </div>
+                        <div class="message-body">
+                            <a href="/pelican-atom-and-markdown.html" rel="bookmark" title="Permalink to Pelican, Atom and Markdown">
+                                Pelican, Atom and Markdown
+                            </a>
+                            
+                            <div class="content">
+                                <p>I've been using reStructured text in general to write this blog, but I think I'm
+going to be switching to Markdown.  As an experiment, I'm writing this post in Markdown.</p>
+<p>I'm also writing it in the <a href="https://atom.io/">Atom text editor</a>, which has really come on a
+long ...</p>
+                            </div>
+                        </div>
+                    </article>
                 
+                </div>
+                <div class="column is-one-quarter">
+                    <article class="message is-primary">
+                        <div class="message-header">
+                            Thu 01 January 2015
+                        </div>
+                        <div class="message-body">
+                            <a href="/asynchronous-python.html" rel="bookmark" title="Permalink to Asynchronous Python">
+                                Asynchronous Python
+                            </a>
+                            
+                            <div class="content">
+                                <p>It's possible to get python to do node-like non-blocking requests, this could
+take away one of the key reasons for using node.</p>
+<p>The following is a full bottle-based python web application.</p>
+<p>A client can sucessfully call /test while another client is waiting for
+/slowproxy to return a result from ...</p>
+                            </div>
+                        </div>
+                    </article>
                 
-                <p><small>Thu 22 October 2015</small></p>
-                <strong>
-                    <a href="/bulk-psycopg2-inserts.html" rel="bookmark" title="Permalink to Efficient Postgres Bulk Inserts using Psycopg2 and Unnest">
-                    Efficient Postgres Bulk Inserts using Psycopg2 and Unnest
-                    </a>
-                </strong>
-            </div>
-            <div class="box">
+                </div>
+                <div class="column is-one-quarter">
+                    <article class="message is-primary">
+                        <div class="message-header">
+                            Thu 01 January 2015
+                        </div>
+                        <div class="message-body">
+                            <a href="/coffeescript.html" rel="bookmark" title="Permalink to CoffeeScript">
+                                CoffeeScript
+                            </a>
+                            
+                            <div class="content">
+                                <p>Through a bizarre twist of history, the entire client-side web runs on a <a class="reference external" href="http://en.wikipedia.org/wiki/Brendan_Eich#Netscape_and_JavaScript">language</a>
+that was thrown together in 10 days.</p>
+<p>Despite huge investments in their own proprietary technology by the likes of Sun
+Microsystems, Adobe and Microsoft, this weird little spinoff of <strong>self</strong> and <strong>scheme</strong>
+is everywhere, while client-side ...</p>
+                            </div>
+                        </div>
+                    </article>
                 
+                </div>
+                <div class="column is-one-quarter">
+                    <article class="message is-primary">
+                        <div class="message-header">
+                            Thu 01 January 2015
+                        </div>
+                        <div class="message-body">
+                            <a href="/configuring-systems-with-fabric-and-cuisine.html" rel="bookmark" title="Permalink to Configuring Systems with Fabric and Cuisine">
+                                Configuring Systems with Fabric and Cuisine
+                            </a>
+                            
+                            <div class="content">
+                                <p>I've mentioned <a class="reference external" href="http://fabric.readthedocs.org/en/1.8/">Fabric</a> before on this blog.  Because so much of my development time is spent in Python, it makes
+sense for me to look for system administration tools that are also written in Python.  Fabric fits the bill
+perfectly, and allows me to run tasks remotely on multiple ...</p>
+                            </div>
+                        </div>
+                    </article>
                 
-                <p><small>Fri 26 June 2015</small></p>
-                <strong>
-                    <a href="/pelican-atom-and-markdown.html" rel="bookmark" title="Permalink to Pelican, Atom and Markdown">
-                    Pelican, Atom and Markdown
-                    </a>
-                </strong>
-            </div>
-            <div class="box">
+                </div>
+                <div class="column is-one-quarter">
+                    <article class="message is-primary">
+                        <div class="message-header">
+                            Thu 01 January 2015
+                        </div>
+                        <div class="message-body">
+                            <a href="/ipython-with-python-3.html" rel="bookmark" title="Permalink to IPython with Python 3">
+                                IPython with Python 3
+                            </a>
+                            
+                            <div class="content">
+                                <p>This took me longer than I was expecting.</p>
+<p>In general when working with IPython I use <code class="code">
+pip</code>
+ rather than <code class="code">
+apt-get</code>
+, as
+pip tends to have more up-to-date packages.</p>
+<p>In the end I found the simplest thing to do was to set up IPython in an isolated
+virtualenv environment.  The main ...</p>
+                            </div>
+                        </div>
+                    </article>
                 
+                </div>
+                <div class="column is-one-quarter">
+                    <article class="message is-primary">
+                        <div class="message-header">
+                            Thu 01 January 2015
+                        </div>
+                        <div class="message-body">
+                            <a href="/logrotate.html" rel="bookmark" title="Permalink to logrotate">
+                                logrotate
+                            </a>
+                            
+                            <div class="content">
+                                <p>I have a large, complex <a class="reference external" href="/postfix.html">mailing system</a> that processes
+a significant amount of data every hour.  While I'm developing it, I want to know
+what it's doing, and whether it's having any problems.  So I use the excellent
+python <a class="reference external" href="https://docs.python.org/2/library/logging.html">logging</a> library to produce comprehensive monitoring data.</p>
+<p>The ...</p>
+                            </div>
+                        </div>
+                    </article>
                 
-                <p><small>Thu 01 January 2015</small></p>
-                <strong>
-                    <a href="/asynchronous-python.html" rel="bookmark" title="Permalink to Asynchronous Python">
-                    Asynchronous Python
-                    </a>
-                </strong>
-            </div>
-            <div class="box">
+                </div>
+                <div class="column is-one-quarter">
+                    <article class="message is-primary">
+                        <div class="message-header">
+                            Thu 01 January 2015
+                        </div>
+                        <div class="message-body">
+                            <a href="/more-ractive.html" rel="bookmark" title="Permalink to More Ractive">
+                                More Ractive
+                            </a>
+                            
+                            <div class="content">
+                                <p>I've used <a class="reference external" href="http://www.ractivejs.org/">Ractive</a> for several projects recently.
+It's been like a breath of fresh air.  I've been writing user interfaces of one
+kind or another for more than a decade, and keeping <em>what's displayed to the user</em>
+in sync with <em>what's stored in the data ...</em></p>
+                            </div>
+                        </div>
+                    </article>
                 
+                </div>
+                <div class="column is-one-quarter">
+                    <article class="message is-primary">
+                        <div class="message-header">
+                            Thu 01 January 2015
+                        </div>
+                        <div class="message-body">
+                            <a href="/nginx-uwsgi-ubuntu-14.html" rel="bookmark" title="Permalink to Nginx and UWSGI on Ubuntu 14">
+                                Nginx and UWSGI on Ubuntu 14
+                            </a>
+                            
+                            <div class="content">
+                                <p>The documentation for Nginx and UWSGI is long and complex, but with ubuntu 14
+it's actually pretty straightforward to get them up and running.</p>
+<p>I present here a a setup that uses nginx and uwsgi emperor to host
+multiple python web applications simultaneously on an ubuntu 14 machine.</p>
+<p>First ...</p>
+                            </div>
+                        </div>
+                    </article>
                 
-                <p><small>Thu 01 January 2015</small></p>
-                <strong>
-                    <a href="/coffeescript.html" rel="bookmark" title="Permalink to CoffeeScript">
-                    CoffeeScript
-                    </a>
-                </strong>
-            </div>
-            <div class="box">
+                </div>
+                <div class="column is-one-quarter">
+                    <article class="message is-primary">
+                        <div class="message-header">
+                            Thu 01 January 2015
+                        </div>
+                        <div class="message-body">
+                            <a href="/pdf-generation-with-pelican.html" rel="bookmark" title="Permalink to PDF Generation With Pelican">
+                                PDF Generation With Pelican
+                            </a>
+                            
+                            <div class="content">
+                                <p>The existing documentation is a little unclear on this, because it says
+you need to add <code class="code">
+PDF_GENERATOR=True</code>
+ to your <cite>pelicanconf.py</cite> file.</p>
+<p>This advice is out of date: PDF generation has been moved to a plugin.</p>
+<p>So you need to first make sure you have <code class="code">
+rst2pdf</code>
+ installed:</p>
+<div class="highlight"><pre>$ sudo apt-get ...</pre></div>
+                            </div>
+                        </div>
+                    </article>
                 
+                </div>
+                <div class="column is-one-quarter">
+                    <article class="message is-primary">
+                        <div class="message-header">
+                            Thu 01 January 2015
+                        </div>
+                        <div class="message-body">
+                            <a href="/postfix.html" rel="bookmark" title="Permalink to Postfix">
+                                Postfix
+                            </a>
+                            
+                            <div class="content">
+                                <p>Postfix is a ghastly horror that really should be quietly eliminated.  But that truism hides a deeper issue - email itself is a ghastly horror, the result of 30 years of hacks, edge-cases, non-conformant implementations and competing design constraints, that only persists because we still haven't come up with anything ...</p>
+                            </div>
+                        </div>
+                    </article>
                 
-                <p><small>Thu 01 January 2015</small></p>
-                <strong>
-                    <a href="/configuring-systems-with-fabric-and-cuisine.html" rel="bookmark" title="Permalink to Configuring Systems with Fabric and Cuisine">
-                    Configuring Systems with Fabric and Cuisine
-                    </a>
-                </strong>
-            </div>
-            <div class="box">
+                </div>
+                <div class="column is-one-quarter">
+                    <article class="message is-primary">
+                        <div class="message-header">
+                            Thu 01 January 2015
+                        </div>
+                        <div class="message-body">
+                            <a href="/postgres-json-aggregation.html" rel="bookmark" title="Permalink to Postgres JSON Aggregation">
+                                Postgres JSON Aggregation
+                            </a>
+                            
+                            <div class="content">
+                                <p>I've been using the new JSON functionality in Postgres a lot recently:
+I'm fond of saying that Postgresql is the best NoSQL database available
+today. I'm quite serious about this: having used key-value and JSON
+stores such as CouchDB in the past, it's amazing to me ...</p>
+                            </div>
+                        </div>
+                    </article>
                 
+                </div>
+                <div class="column is-one-quarter">
+                    <article class="message is-primary">
+                        <div class="message-header">
+                            Thu 01 January 2015
+                        </div>
+                        <div class="message-body">
+                            <a href="/postgres-timestamps.html" rel="bookmark" title="Permalink to Postgres Timestamps">
+                                Postgres Timestamps
+                            </a>
+                            
+                            <div class="content">
+                                <p>At my company, I maintain a large distributed. data collection platform
+. Pretty much every record we collect needs to be stamped with a
+<code class="code">
+created</code>
+ field. But because the incoming data comes from sources on
+various devices in multiple countries and timezones, making sure that
+the timestamps are precise and meaningful ...</p>
+                            </div>
+                        </div>
+                    </article>
                 
-                <p><small>Thu 01 January 2015</small></p>
-                <strong>
-                    <a href="/ipython-with-python-3.html" rel="bookmark" title="Permalink to IPython with Python 3">
-                    IPython with Python 3
-                    </a>
-                </strong>
-            </div>
-            <div class="box">
+                </div>
+                <div class="column is-one-quarter">
+                    <article class="message is-primary">
+                        <div class="message-header">
+                            Thu 01 January 2015
+                        </div>
+                        <div class="message-body">
+                            <a href="/python-comprehensions.html" rel="bookmark" title="Permalink to Python Comprehensions">
+                                Python Comprehensions
+                            </a>
+                            
+                            <div class="content">
+                                <p>Python <strong>list comprehensions</strong> are one of the most powerful and useful
+features of the language. However, I've noticed even quite experienced
+Python programmers using less powerful idioms when a list comprehension
+would be the perfect solution to their problem, and even though I've
+been a Python developer for ...</p>
+                            </div>
+                        </div>
+                    </article>
                 
+                </div>
+                <div class="column is-one-quarter">
+                    <article class="message is-primary">
+                        <div class="message-header">
+                            Thu 01 January 2015
+                        </div>
+                        <div class="message-body">
+                            <a href="/remote-systems-administration-with-fabric.html" rel="bookmark" title="Permalink to Remote Systems Administration with Fabric">
+                                Remote Systems Administration with Fabric
+                            </a>
+                            
+                            <div class="content">
+                                <p>A tool I'm finding myself using more and more these days is <a class="reference external" href="http://fabric.readthedocs.org/en/1.8/">Fabric</a>.</p>
+<p>Fabric is a python utility and library for streamlining systems administration
+tasks on multiple machines.</p>
+<p>Although I'm primarily a developer and systems architect, I find that as our
+company grows I keep getting drawn into ...</p>
+                            </div>
+                        </div>
+                    </article>
                 
-                <p><small>Thu 01 January 2015</small></p>
-                <strong>
-                    <a href="/logrotate.html" rel="bookmark" title="Permalink to logrotate">
-                    logrotate
-                    </a>
-                </strong>
-            </div>
-            <div class="box">
+                </div>
+                <div class="column is-one-quarter">
+                    <article class="message is-primary">
+                        <div class="message-header">
+                            Thu 01 January 2015
+                        </div>
+                        <div class="message-body">
+                            <a href="/reportlab-images-in-ipython.html" rel="bookmark" title="Permalink to Reportlab Images in IPython">
+                                Reportlab Images in IPython
+                            </a>
+                            
+                            <div class="content">
+                                <p>With a bit of work we can get IPython to render ReportLab objects
+directly to the page as Matplotlib plots.</p>
+<p>Huge thanks to github user <a class="reference external" href="https://github.com/deeplook">deeplook</a>,
+this is basically a modification of
+<a class="reference external" href="http://nbviewer.ipython.org/gist/deeplook/5162445">this</a> IPython
+notebook.</p>
+<p>First our imports.</p>
+<div class="highlight"><pre><span class="kn">from</span> <span class="nn">reportlab.lib</span> <span class="kn">import</span> <span class="n">colors</span>
+<span class="kn">from</span> <span class="nn">reportlab.graphics</span> <span class="kn">import</span> <span class="n">renderPM</span>
+<span class="kn">from</span> <span class="nn">reportlab ...</span></pre></div>
+                            </div>
+                        </div>
+                    </article>
                 
+                </div>
+                <div class="column is-one-quarter">
+                    <article class="message is-primary">
+                        <div class="message-header">
+                            Thu 01 January 2015
+                        </div>
+                        <div class="message-body">
+                            <a href="/seriously-subtle-bug.html" rel="bookmark" title="Permalink to A Seriously Subtle Bug">
+                                A Seriously Subtle Bug
+                            </a>
+                            
+                            <div class="content">
+                                <p>I build and maintain a number of web applications built using <a class="reference external" href="http://python.org">Python</a>, <a class="reference external" href="http://bottlepy.org/docs/dev/index.html">Bottle</a>, and <a class="reference external" href="http://uwsgi-docs.readthedocs.org/en/latest/index.html">uWSGI</a>.
+In general, I've found this a very powerful and robust software stack.  However, this week
+we encountered a very strange issue that took us many hours to fully diagnose.</p>
+<p>Our first indication that something ...</p>
+                            </div>
+                        </div>
+                    </article>
                 
-                <p><small>Thu 01 January 2015</small></p>
-                <strong>
-                    <a href="/more-ractive.html" rel="bookmark" title="Permalink to More Ractive">
-                    More Ractive
-                    </a>
-                </strong>
-            </div>
-            <div class="box">
+                </div>
+                <div class="column is-one-quarter">
+                    <article class="message is-primary">
+                        <div class="message-header">
+                            Thu 01 January 2015
+                        </div>
+                        <div class="message-body">
+                            <a href="/sql-magic.html" rel="bookmark" title="Permalink to SQL Magic">
+                                SQL Magic
+                            </a>
+                            
+                            <div class="content">
+                                <p>I'm finding the <code class="code">
+%sql</code>
+ magic function extremely useful. It turns
+IPython into a very nice front-end to Postgresql.</p>
+<p>First, make sure you have the <code class="code">
+ipython-sql</code>
+ extension installed:</p>
+<p><pre>
+pip install ipython-sql</pre>
+</p>
+<p><a class="reference external" href="https://pypi.python.org/pypi/ipython-sql">https://pypi.python.org/pypi/ipython-sql</a></p>
+<p>Then we load the extension</p>
+<div class="highlight"><pre><span class="o">%</span><span class="n">load_ext</span> <span class="n">sql</span>
+</pre></div>
+<p>Then we set up our database ...</p>
+                            </div>
+                        </div>
+                    </article>
                 
+                </div>
+                <div class="column is-one-quarter">
+                    <article class="message is-primary">
+                        <div class="message-header">
+                            Tue 20 May 2014
+                        </div>
+                        <div class="message-body">
+                            <a href="/basic-ipython-plotting.html" rel="bookmark" title="Permalink to Basic IPython Plotting">
+                                Basic IPython Plotting
+                            </a>
+                            
+                            <div class="content">
+                                <p><strong>Things have changed a bit since IPython 1</strong></p>
+<p>Now apparently we want to manually specify the use of inline matplotlib
+rather than enable globally in the server.</p>
+<p><a class="reference external" href="http://nbviewer.ipython.org/github/ipython/ipython/blob/1.x/examples/notebooks/Part%203%20-%20Plotting%20with%20Matplotlib.ipynb">http://nbviewer.ipython.org/github/ipython/ipython/blob/1.x/examples/notebooks/Part%203%20-%20Plotting%20with%20Matplotlib.ipynb</a></p>
+<div class="highlight"><pre><span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+</pre></div>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">matplotlib ...</span></pre></div>
+                            </div>
+                        </div>
+                    </article>
                 
-                <p><small>Thu 01 January 2015</small></p>
-                <strong>
-                    <a href="/nginx-uwsgi-ubuntu-14.html" rel="bookmark" title="Permalink to Nginx and UWSGI on Ubuntu 14">
-                    Nginx and UWSGI on Ubuntu 14
-                    </a>
-                </strong>
-            </div>
-            <div class="box">
+                </div>
+                <div class="column is-one-quarter">
+                    <article class="message is-primary">
+                        <div class="message-header">
+                            Wed 01 January 2014
+                        </div>
+                        <div class="message-body">
+                            <a href="/ractive-js.html" rel="bookmark" title="Permalink to Ractive.js">
+                                Ractive.js
+                            </a>
+                            
+                            <div class="content">
+                                <p><a class="reference external" href="http://www.ractivejs.org/">Ractive.js</a> caught my eye this week.  I've been using <a class="reference external" href="http://backbonejs.org/">Backbone</a> for the last couple
+of years to develop single page client-side applications, and I've liked how
+it doesn't get in your way, but simply allows you to get on with your work.</p>
+<p>When I noticed that ...</p>
+                            </div>
+                        </div>
+                    </article>
                 
-                
-                <p><small>Thu 01 January 2015</small></p>
-                <strong>
-                    <a href="/pdf-generation-with-pelican.html" rel="bookmark" title="Permalink to PDF Generation With Pelican">
-                    PDF Generation With Pelican
-                    </a>
-                </strong>
-            </div>
-            <div class="box">
-                
-                
-                <p><small>Thu 01 January 2015</small></p>
-                <strong>
-                    <a href="/postfix.html" rel="bookmark" title="Permalink to Postfix">
-                    Postfix
-                    </a>
-                </strong>
-            </div>
-            <div class="box">
-                
-                
-                <p><small>Thu 01 January 2015</small></p>
-                <strong>
-                    <a href="/postgres-json-aggregation.html" rel="bookmark" title="Permalink to Postgres JSON Aggregation">
-                    Postgres JSON Aggregation
-                    </a>
-                </strong>
-            </div>
-            <div class="box">
-                
-                
-                <p><small>Thu 01 January 2015</small></p>
-                <strong>
-                    <a href="/postgres-timestamps.html" rel="bookmark" title="Permalink to Postgres Timestamps">
-                    Postgres Timestamps
-                    </a>
-                </strong>
-            </div>
-            <div class="box">
-                
-                
-                <p><small>Thu 01 January 2015</small></p>
-                <strong>
-                    <a href="/python-comprehensions.html" rel="bookmark" title="Permalink to Python Comprehensions">
-                    Python Comprehensions
-                    </a>
-                </strong>
-            </div>
-            <div class="box">
-                
-                
-                <p><small>Thu 01 January 2015</small></p>
-                <strong>
-                    <a href="/remote-systems-administration-with-fabric.html" rel="bookmark" title="Permalink to Remote Systems Administration with Fabric">
-                    Remote Systems Administration with Fabric
-                    </a>
-                </strong>
-            </div>
-            <div class="box">
-                
-                
-                <p><small>Thu 01 January 2015</small></p>
-                <strong>
-                    <a href="/reportlab-images-in-ipython.html" rel="bookmark" title="Permalink to Reportlab Images in IPython">
-                    Reportlab Images in IPython
-                    </a>
-                </strong>
-            </div>
-            <div class="box">
-                
-                
-                <p><small>Thu 01 January 2015</small></p>
-                <strong>
-                    <a href="/seriously-subtle-bug.html" rel="bookmark" title="Permalink to A Seriously Subtle Bug">
-                    A Seriously Subtle Bug
-                    </a>
-                </strong>
-            </div>
-            <div class="box">
-                
-                
-                <p><small>Thu 01 January 2015</small></p>
-                <strong>
-                    <a href="/sql-magic.html" rel="bookmark" title="Permalink to SQL Magic">
-                    SQL Magic
-                    </a>
-                </strong>
-            </div>
-            <div class="box">
-                
-                
-                <p><small>Tue 20 May 2014</small></p>
-                <strong>
-                    <a href="/basic-ipython-plotting.html" rel="bookmark" title="Permalink to Basic IPython Plotting">
-                    Basic IPython Plotting
-                    </a>
-                </strong>
-            </div>
-            <div class="box">
-                
-                
-                <p><small>Wed 01 January 2014</small></p>
-                <strong>
-                    <a href="/ractive-js.html" rel="bookmark" title="Permalink to Ractive.js">
-                    Ractive.js
-                    </a>
-                </strong>
-            </div>
+                </div>
+        </div>
     </div>
 </section>
  

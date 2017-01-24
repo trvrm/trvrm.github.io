@@ -53,6 +53,165 @@
     <section class="section">
         <div class="container">
             <p class="subtitle is-4">
+                Tue 24 January 2017
+            </p>
+            
+            <h2 class="title is-2">
+                <a href="/fractal-dimension.html" rel="bookmark" title="Permalink to Fractal Dimension">
+                    Fractal Dimension
+                </a>
+            </h2>
+
+            <div class="content is-medium">
+                <p>Inspired by the <a href="https://www.youtube.com/watch?v=bSfe5M_zG2s">keynote</a> given at PyCon Portland by K Lars Lohn,, I wanted to try my hand 
+at computing the fractal dimension of a few different images.</p>
+<p>This is a very simple implementation of a <a href="https://en.wikipedia.org/wiki/Minkowski%E2%80%93Bouligand_dimension">box counting</a> algorithm.</p>
+<p>A couple of ideas are borrowed from https://github.com/twobraids/fracdim.</p>
+<p>First some imports:</p>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">pandas</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">display</span>
+<span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span>  <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">linregress</span>
+</pre></div>
+
+
+<p>Then a function to create simple black and white images.</p>
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">bw</span><span class="p">(</span><span class="n">img</span><span class="p">):</span>
+    <span class="n">gray</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="s1">&#39;L&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">gray</span><span class="o">.</span><span class="n">point</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="mi">0</span> <span class="k">if</span> <span class="n">x</span><span class="o">&lt;</span><span class="mi">128</span> <span class="k">else</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">)</span>
+</pre></div>
+
+
+<p>Some sample images.  Basically, I expect the fractal dimension of the Canadian
+coastline to be higher than that of, say, a square.</p>
+<div class="highlight"><pre><span class="n">texas</span><span class="o">=</span><span class="n">bw</span><span class="p">(</span><span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;./images/texas.gif&#39;</span><span class="p">))</span>
+<span class="n">tree</span><span class="o">=</span><span class="n">bw</span><span class="p">(</span><span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;./images/tree.jpg&#39;</span><span class="p">))</span>
+<span class="n">canada</span><span class="o">=</span><span class="n">bw</span><span class="p">(</span><span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;./images/Canada.png&#39;</span><span class="p">))</span>
+<span class="n">square</span><span class="o">=</span><span class="n">bw</span><span class="p">(</span><span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;./images/square.jpg&#39;</span><span class="p">))</span>
+</pre></div>
+
+
+<p>At various different scales, I want to divide each image up into squares and 
+then count how many squares have at least one black pixel in them.</p>
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">interesting</span><span class="p">(</span><span class="n">image</span><span class="p">):</span>
+    <span class="c1">#true if any data is 0, i.e. black</span>
+    <span class="k">return</span> <span class="mi">0</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">getdata</span><span class="p">())</span>
+</pre></div>
+
+
+<p>This function chops an image up into </p>
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">interesting_box_count</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">length</span><span class="p">):</span>
+    <span class="n">width</span><span class="p">,</span><span class="n">height</span><span class="o">=</span><span class="n">image</span><span class="o">.</span><span class="n">size</span>
+
+    <span class="n">interesting_count</span><span class="o">=</span><span class="mi">0</span>
+    <span class="n">box_count</span><span class="o">=</span><span class="mi">0</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">width</span><span class="o">/</span><span class="n">length</span><span class="p">)):</span>
+        <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">height</span><span class="o">/</span><span class="n">length</span><span class="p">)):</span>
+            <span class="n">C</span><span class="o">=</span><span class="p">(</span><span class="n">x</span><span class="o">*</span><span class="n">length</span><span class="p">,</span><span class="n">y</span><span class="o">*</span><span class="n">length</span><span class="p">,</span><span class="n">length</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span><span class="n">length</span><span class="o">*</span><span class="p">(</span><span class="n">y</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+
+            <span class="n">chopped</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">crop</span><span class="p">(</span><span class="n">C</span><span class="p">)</span>
+            <span class="n">box_count</span><span class="o">+=</span><span class="mi">1</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">interesting</span><span class="p">(</span><span class="n">chopped</span><span class="p">)):</span>
+                <span class="n">interesting_count</span><span class="o">+=</span><span class="mi">1</span>        
+
+    <span class="k">assert</span> <span class="n">box_count</span>
+    <span class="k">assert</span> <span class="n">interesting_count</span>
+    <span class="k">return</span> <span class="n">interesting_count</span>
+</pre></div>
+
+
+<p>This returns pairs of numbers. One represents the scale, the other the (log) count 
+of boxes at that scale that have black pixels in them.</p>
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">getcounts</span><span class="p">(</span><span class="n">image</span><span class="p">):</span>
+    <span class="n">length</span><span class="o">=</span><span class="nb">min</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+    <span class="k">while</span><span class="p">(</span><span class="n">length</span><span class="o">&gt;</span><span class="mi">5</span><span class="p">):</span>
+        <span class="n">interesting</span> <span class="o">=</span> <span class="n">interesting_box_count</span><span class="p">(</span><span class="n">image</span><span class="p">,</span><span class="n">length</span><span class="p">)</span>
+        <span class="k">yield</span> <span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mf">1.0</span><span class="o">/</span><span class="n">length</span><span class="p">),</span> <span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">interesting</span><span class="p">)</span>
+        <span class="n">length</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">length</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">counts</span><span class="p">(</span><span class="n">image</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">getcounts</span><span class="p">(</span><span class="n">image</span><span class="p">),</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">,</span><span class="s2">&quot;y&quot;</span><span class="p">])</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">dimension</span><span class="p">(</span><span class="n">image</span><span class="p">):</span>
+    <span class="n">frame</span><span class="o">=</span><span class="n">counts</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">linregress</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">x</span><span class="p">,</span><span class="n">frame</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+</pre></div>
+
+
+<p>And finally, armed with lists of pairs, we compute the slope we'd get if we 
+plotted them against each other.</p>
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">analyse</span><span class="p">(</span><span class="n">image</span><span class="p">):</span>
+    <span class="n">c</span><span class="o">=</span><span class="n">counts</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Fractal Dimension:&quot;</span><span class="p">,</span><span class="n">linregress</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">x</span><span class="p">,</span><span class="n">c</span><span class="o">.</span><span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">slope</span><span class="p">)</span>
+</pre></div>
+
+
+<h3>Results</h3>
+<div class="highlight"><pre><span class="n">square</span>
+</pre></div>
+
+
+<p><img alt="png" src="images/fractal_dimension/output_10_0.png" width="300" height="300"></p>
+<div class="highlight"><pre><span class="n">analyse</span><span class="p">(</span><span class="n">square</span><span class="p">)</span> 
+</pre></div>
+
+
+<div class="highlight"><pre>Fractal Dimension: 1.26420823227
+</pre></div>
+
+
+<div class="highlight"><pre><span class="n">texas</span>
+</pre></div>
+
+
+<p><img alt="png" src="images/fractal_dimension/output_12_0.png" width="300" height="300"></p>
+<div class="highlight"><pre><span class="n">analyse</span><span class="p">(</span><span class="n">texas</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre>Fractal Dimension: 1.45764518178
+</pre></div>
+
+
+<div class="highlight"><pre><span class="n">canada</span>
+</pre></div>
+
+
+<p><img alt="png" src="images/fractal_dimension/output_14_0.png" width="300" height="300"></p>
+<div class="highlight"><pre><span class="n">analyse</span><span class="p">(</span><span class="n">canada</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre>Fractal Dimension: 1.52450994232
+</pre></div>
+
+
+<div class="highlight"><pre><span class="n">tree</span>
+</pre></div>
+
+
+<p><img alt="png" src="images/fractal_dimension/output_16_0.png" width="300" height="300"></p>
+<div class="highlight"><pre><span class="n">analyse</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre>Fractal Dimension: 1.82487974473
+</pre></div>
+
+
+<p><strong>Which is exactly what we expected.</strong></p>
+<p>As K Lars Lohn said in his keynote, it's very rewarding when you try something out in Python and the result actually matches neatly up with the theory!</p>
+
+            </div>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container">
+            <p class="subtitle is-4">
                 Fri 13 May 2016
             </p>
             
@@ -690,51 +849,6 @@ perfectly, and allows me to run tasks remotely on multiple machines simultaneous
 <p>A useful addition to Fabric is <a class="reference external" href="https://github.com/sebastien/cuisine">Cuisine</a>.  <strong>Cuisine is a small set of functions that sit on top of Fabric,
 to abstract common administration operations such as file/dir operations, user/group creation,
 package install/upgrade, making it easier to write portable administration and deployment scripts.</strong></p>
-
-
-            </div>
-        </div>
-    </section>
-    <section class="section">
-        <div class="container">
-            <p class="subtitle is-4">
-                Thu 01 January 2015
-            </p>
-            
-            <h2 class="title is-2">
-                <a href="/ipython-with-python-3.html" rel="bookmark" title="Permalink to IPython with Python 3">
-                    IPython with Python 3
-                </a>
-            </h2>
-
-            <div class="content is-medium">
-                <p>This took me longer than I was expecting.</p>
-<p>In general when working with IPython I use <code class="code">
-pip</code>
- rather than <code class="code">
-apt-get</code>
-, as
-pip tends to have more up-to-date packages.</p>
-<p>In the end I found the simplest thing to do was to set up IPython in an isolated
-virtualenv environment.  The main trick is to let virtualenv know what version of
-Python you want it to use by default.</p>
-<div class="highlight"><pre>$ virtualenv --python<span class="o">=</span>python3.4 python_3_demo
-$ <span class="nb">cd</span> python_3_demo/
-$ <span class="nb">source</span> ./bin/activate
-$ pip install ipython
-$ ipython
-</pre></div>
-<div class="highlight"><pre><span class="n">Python</span> <span class="mf">3.4</span><span class="o">.</span><span class="mi">0</span> <span class="p">(</span><span class="n">default</span><span class="p">,</span> <span class="n">Apr</span> <span class="mi">11</span> <span class="mi">2014</span><span class="p">,</span> <span class="mi">13</span><span class="p">:</span><span class="mo">05</span><span class="p">:</span><span class="mi">11</span><span class="p">)</span>
-<span class="o">...</span>
-
-<span class="n">In</span> <span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="kn">import</span> <span class="nn">sys</span>
-
-<span class="n">In</span> <span class="p">[</span><span class="mi">2</span><span class="p">]:</span> <span class="k">print</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">version</span><span class="p">)</span>
-<span class="mf">3.4</span><span class="o">.</span><span class="mi">0</span> <span class="p">(</span><span class="n">default</span><span class="p">,</span> <span class="n">Apr</span> <span class="mi">11</span> <span class="mi">2014</span><span class="p">,</span> <span class="mi">13</span><span class="p">:</span><span class="mo">05</span><span class="p">:</span><span class="mi">11</span><span class="p">)</span>
-<span class="p">[</span><span class="n">GCC</span> <span class="mf">4.8</span><span class="o">.</span><span class="mi">2</span><span class="p">]</span>
-</pre></div>
-<p>And voila, I have Python 3 in the best Python interpreter ever built, I'm ready to
-start wrapping my head around byte arrays and UTF-8 encodings.</p>
 
 
             </div>

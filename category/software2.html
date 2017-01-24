@@ -54,6 +54,268 @@
             </p>
             
             <h2 class="title is-2">
+                <a href="/python-comprehensions.html" rel="bookmark" title="Permalink to Python Comprehensions">
+                    Python Comprehensions
+                </a>
+            </h2>
+
+            <div class="content is-medium">
+                <p>Python <strong>list comprehensions</strong> are one of the most powerful and useful
+features of the language. However, I've noticed even quite experienced
+Python programmers using less powerful idioms when a list comprehension
+would be the perfect solution to their problem, and even though I've
+been a Python developer for more than a decade, I've recently learned
+some very nice aspects of this feature.</p>
+<div class="section" id="what-s-a-list-comprehension">
+<h2>What's a List Comprehension?</h2>
+<p>Python is such a strong language in part because of its willingness to
+steal ideas from other languages. Python list comprehensions are an idea
+that comes from
+<a class="reference external" href="http://www.haskell.org/haskellwiki/List_comprehension">Haskell</a>.
+Fundamentally, they are a kind of 'syntactic sugar' for construct lists
+from other data sources in a tight, elegant fashion.</p>
+<p>One of the things I like most about them is they eliminate the need to
+manually create loop structures and extra variables. So consider the
+following:</p>
+<div class="highlight"><pre><span class="n">squares</span><span class="o">=</span><span class="nb">list</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+    <span class="n">squares</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="o">**</span><span class="n">i</span><span class="p">)</span>
+<span class="n">squares</span>
+</pre></div>
+<pre class="literal-block">
+[1, 1, 4, 27, 256, 3125, 46656, 823543, 16777216, 387420489]
+</pre>
+<p>With List Comprehensions we can eliminate both the <code class="code">
+for</code>
+ loop and the
+calls to <code class="code">
+append()</code>
+</p>
+<div class="highlight"><pre><span class="p">[</span><span class="n">i</span><span class="o">**</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)]</span>
+</pre></div>
+<pre class="literal-block">
+[1, 1, 4, 27, 256, 3125, 46656, 823543, 16777216, 387420489]
+</pre>
+<p>Comprehensions work with any kind of iterable as an import source:</p>
+<div class="highlight"><pre><span class="p">[</span><span class="nb">ord</span><span class="p">(</span><span class="n">letter</span><span class="p">)</span> <span class="k">for</span> <span class="n">letter</span> <span class="ow">in</span> <span class="s2">&quot;hello world&quot;</span><span class="p">]</span>
+</pre></div>
+<pre class="literal-block">
+[104, 101, 108, 108, 111, 32, 119, 111, 114, 108, 100]
+</pre>
+</div>
+<div class="section" id="multiple-generators">
+<h2>Multiple generators</h2>
+<p>To make things a little more complex, we can specifiy more than one
+input data source:</p>
+<div class="highlight"><pre><span class="p">[(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">3</span><span class="p">)]</span>
+</pre></div>
+<pre class="literal-block">
+[(0, 0), (0, 1), (0, 2), (1, 0), (1, 1), (1, 2)]
+</pre>
+<p>Instead of just boring numbers, we could use this to construct some
+sentences.</p>
+<div class="highlight"><pre><span class="p">[(</span><span class="n">number</span><span class="p">,</span> <span class="n">animal</span><span class="p">)</span> <span class="k">for</span> <span class="n">number</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="k">for</span> <span class="n">animal</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;cats&#39;</span><span class="p">,</span><span class="s1">&#39;dogs&#39;</span><span class="p">,</span><span class="s1">&#39;elephants&#39;</span><span class="p">]]</span>
+</pre></div>
+<pre class="literal-block">
+[(0, 'cats'),
+ (0, 'dogs'),
+ (0, 'elephants'),
+ (1, 'cats'),
+ (1, 'dogs'),
+ (1, 'elephants'),
+ (2, 'cats'),
+ (2, 'dogs'),
+ (2, 'elephants')]
+</pre>
+<p>Furthermore, we have a lot of control over <em>how</em> we construct the final
+output objects - we can put any valid python expression in the
+left-hand-side.</p>
+<div class="highlight"><pre><span class="p">[</span>
+    <span class="s2">&quot;{0} {1}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">adjective</span><span class="p">,</span><span class="n">animal</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">adjective</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;red&#39;</span><span class="p">,</span><span class="s1">&#39;cute&#39;</span><span class="p">,</span><span class="s1">&#39;hungry&#39;</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">animal</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;cat&#39;</span><span class="p">,</span><span class="s1">&#39;puppy&#39;</span><span class="p">,</span><span class="s1">&#39;hippo&#39;</span><span class="p">]</span>
+<span class="p">]</span>
+</pre></div>
+<pre class="literal-block">
+['red cat',
+ 'red puppy',
+ 'red hippo',
+ 'cute cat',
+ 'cute puppy',
+ 'cute hippo',
+ 'hungry cat',
+ 'hungry puppy',
+ 'hungry hippo']
+</pre>
+<p>or even</p>
+<div class="highlight"><pre><span class="p">[</span>
+    <span class="s2">&quot;There are {0} {1} {2}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">number</span><span class="p">,</span> <span class="n">adjective</span><span class="p">,</span><span class="n">animal</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">number</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">adjective</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;cute&#39;</span><span class="p">,</span><span class="s1">&#39;hungry&#39;</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">animal</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;puppys&#39;</span><span class="p">,</span><span class="s1">&#39;bats&#39;</span><span class="p">]</span>
+<span class="p">]</span>
+</pre></div>
+<pre class="literal-block">
+['There are 2 cute puppys',
+ 'There are 2 cute bats',
+ 'There are 2 hungry puppys',
+ 'There are 2 hungry bats',
+ 'There are 3 cute puppys',
+ 'There are 3 cute bats',
+ 'There are 3 hungry puppys',
+ 'There are 3 hungry bats']
+</pre>
+</div>
+<div class="section" id="dictionary-comprehensions">
+<h2>Dictionary Comprehensions</h2>
+<p>An equally powerful construct is the <em>dictionary comprehension</em>. Just
+like list comprehensions, this enables you to construct python
+dictionaries using a very similar syntax.</p>
+<div class="highlight"><pre><span class="p">{</span>
+    <span class="n">key</span><span class="p">:</span><span class="n">value</span>
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span><span class="n">value</span> <span class="ow">in</span> <span class="p">[</span>
+        <span class="p">(</span><span class="s1">&#39;k&#39;</span><span class="p">,</span><span class="s1">&#39;v&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span><span class="s1">&#39;bar&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;this&#39;</span><span class="p">,</span><span class="s1">&#39;that&#39;</span><span class="p">)</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+<pre class="literal-block">
+{'foo': 'bar', 'k': 'v', 'this': 'that'}
+</pre>
+<p>Armed with these tools, we can write very concise code to transform data
+from one structure to another. Recently I've found them <em>very</em> helpful
+for unpacking nested data structures.</p>
+<p>Consider a simple org-structure:</p>
+<div class="highlight"><pre><span class="n">departments</span><span class="o">=</span><span class="p">[</span>
+    <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;Manufacturing&#39;</span><span class="p">,</span> <span class="s1">&#39;staff&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Jacob&quot;</span><span class="p">,</span><span class="s2">&quot;Jonah&quot;</span><span class="p">,</span> <span class="s2">&quot;Chloe&quot;</span><span class="p">,</span><span class="s2">&quot;Liam&quot;</span><span class="p">]},</span>
+    <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;Marketing&#39;</span><span class="p">,</span><span class="s1">&#39;staff&#39;</span><span class="p">:[</span><span class="s2">&quot;Emily&quot;</span><span class="p">,</span><span class="s2">&quot;Shawn&quot;</span><span class="p">,</span><span class="s2">&quot;Alex&quot;</span><span class="p">]},</span>
+    <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;HR&#39;</span><span class="p">,</span><span class="s1">&#39;staff&#39;</span><span class="p">:[</span><span class="s2">&quot;David&quot;</span><span class="p">,</span><span class="s2">&quot;Jessica&quot;</span><span class="p">]},</span>
+    <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;Accounts&#39;</span><span class="p">,</span><span class="s1">&#39;staff&#39;</span><span class="p">:[</span><span class="s2">&quot;Nicole&quot;</span><span class="p">]}</span>
+<span class="p">]</span>
+</pre></div>
+<p>Now let's extract some data from it.</p>
+<div class="highlight"><pre><span class="c1">#Department names</span>
+<span class="p">[</span><span class="n">department</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">department</span> <span class="ow">in</span> <span class="n">departments</span><span class="p">]</span>
+</pre></div>
+<pre class="literal-block">
+['Manufacturing', 'Marketing', 'HR', 'Accounts']
+</pre>
+<div class="highlight"><pre><span class="c1">#Staff count</span>
+<span class="nb">sum</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">department</span><span class="p">[</span><span class="s1">&#39;staff&#39;</span><span class="p">])</span> <span class="k">for</span> <span class="n">department</span> <span class="ow">in</span> <span class="n">departments</span><span class="p">])</span>
+</pre></div>
+<pre class="literal-block">
+10
+</pre>
+<div class="highlight"><pre><span class="c1">#All staff names</span>
+<span class="p">[</span>
+    <span class="n">name</span>
+    <span class="k">for</span> <span class="n">department</span> <span class="ow">in</span> <span class="n">departments</span>
+    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">department</span><span class="p">[</span><span class="s1">&#39;staff&#39;</span><span class="p">]</span>
+<span class="p">]</span>
+</pre></div>
+<pre class="literal-block">
+['Jacob',
+ 'Jonah',
+ 'Chloe',
+ 'Liam',
+ 'Emily',
+ 'Shawn',
+ 'Alex',
+ 'David',
+ 'Jessica',
+ 'Nicole']
+</pre>
+<p>Note how in the last example the <em>second</em> data-generating clause,
+<code class="code">
+department['staff']</code>
+, used a reference from the <em>first</em> one.</p>
+<p>We can take this even further. Let's make our org-chart a little more
+complicated...</p>
+<div class="highlight"><pre><span class="n">departments</span><span class="o">=</span><span class="p">[</span>
+    <span class="p">{</span>
+        <span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;Manufacturing&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;staff&#39;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s2">&quot;Jacob&quot;</span><span class="p">,</span><span class="s1">&#39;salary&#39;</span><span class="p">:</span><span class="mi">50000</span><span class="p">},</span>
+            <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s2">&quot;Chloe&quot;</span><span class="p">,</span><span class="s1">&#39;salary&#39;</span><span class="p">:</span><span class="mi">60000</span><span class="p">},</span>
+            <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s2">&quot;Liam&quot;</span><span class="p">,</span><span class="s1">&#39;salary&#39;</span><span class="p">:</span><span class="mi">70000</span><span class="p">},</span>
+            <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s2">&quot;Jonah&quot;</span><span class="p">,</span><span class="s1">&#39;salary&#39;</span><span class="p">:</span><span class="mi">55000</span><span class="p">},</span>
+        <span class="p">]</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;Marketing&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;staff&#39;</span><span class="p">:[</span>
+            <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s2">&quot;Emily&quot;</span><span class="p">,</span><span class="s1">&#39;salary&#39;</span><span class="p">:</span><span class="mi">50000</span><span class="p">},</span>
+            <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s2">&quot;Shawn&quot;</span><span class="p">,</span><span class="s1">&#39;salary&#39;</span><span class="p">:</span><span class="mi">45000</span><span class="p">},</span>
+            <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s2">&quot;Alex&quot;</span><span class="p">,</span><span class="s1">&#39;salary&#39;</span><span class="p">:</span><span class="mi">40000</span><span class="p">},</span>
+        <span class="p">]</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;HR&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;staff&#39;</span><span class="p">:[</span>
+
+            <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s2">&quot;David&quot;</span><span class="p">,</span><span class="s1">&#39;salary&#39;</span><span class="p">:</span><span class="mi">50000</span><span class="p">},</span>
+            <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s2">&quot;Jessica&quot;</span><span class="p">,</span><span class="s1">&#39;salary&#39;</span><span class="p">:</span><span class="mi">60000</span><span class="p">},</span>
+       <span class="p">]</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;Accounts&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;staff&#39;</span><span class="p">:[</span>
+            <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s2">&quot;Nicole&quot;</span><span class="p">,</span><span class="s1">&#39;salary&#39;</span><span class="p">:</span><span class="mi">40000</span><span class="p">}</span>
+        <span class="p">]</span>
+    <span class="p">}</span>
+<span class="p">]</span>
+</pre></div>
+<p>Calculate the total salary:</p>
+<div class="highlight"><pre><span class="nb">sum</span><span class="p">(</span>
+    <span class="n">person</span><span class="p">[</span><span class="s1">&#39;salary&#39;</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">department</span> <span class="ow">in</span> <span class="n">departments</span>
+    <span class="k">for</span> <span class="n">person</span> <span class="ow">in</span> <span class="n">department</span><span class="p">[</span><span class="s1">&#39;staff&#39;</span><span class="p">]</span>
+<span class="p">)</span>
+</pre></div>
+<pre class="literal-block">
+520000
+</pre>
+<p>Now let's calculate the wages bill by department, and put the results in
+a dictionary</p>
+<div class="highlight"><pre><span class="p">{</span>
+    <span class="n">department</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="p">:</span> <span class="nb">sum</span><span class="p">(</span><span class="n">person</span><span class="p">[</span><span class="s1">&#39;salary&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">person</span> <span class="ow">in</span> <span class="n">department</span><span class="p">[</span><span class="s1">&#39;staff&#39;</span><span class="p">])</span>
+    <span class="k">for</span> <span class="n">department</span> <span class="ow">in</span> <span class="n">departments</span>
+<span class="p">}</span>
+</pre></div>
+<pre class="literal-block">
+{'Accounts': 40000, 'HR': 110000, 'Manufacturing': 235000, 'Marketing': 135000}
+</pre>
+<div class="section" id="conclusion">
+<h3>Conclusion</h3>
+<p>I've been finding this type of approach <em>very</em> helpful when working with
+document-oriented data stores. We store a lot of data in JSON documents,
+either on the file system or in Postgresql. For that data to be useful,
+we have to be able to quickly mine, explore, select and transform it.
+Tools like <a class="reference external" href="http://jsonselect.org/#overview">JSONSelect</a> do exist,
+but JSONSelect is only available in Javascript, and doesn't allow you to
+do the kind of rich expression-based transforms as you roll up the data
+that Python does.</p>
+<p>I also find that it avoids many common programming pitfalls:
+mis-assigned variables, off-by-one errors and so on. You'll note that in
+all the examples above I <em>never</em> need to create a temporary variable or
+explicitly construct a <code class="code">
+for</code>
+-loop.</p>
+</div>
+</div>
+
+
+            </div>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container">
+            <p class="subtitle is-4">
+                Thu 01 January 2015
+            </p>
+            
+            <h2 class="title is-2">
                 <a href="/reportlab-images-in-ipython.html" rel="bookmark" title="Permalink to Reportlab Images in IPython">
                     Reportlab Images in IPython
                 </a>
