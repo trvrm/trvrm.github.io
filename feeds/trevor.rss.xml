@@ -760,7 +760,7 @@ Knockout and React all play in this space, but it's my current favourite.&lt;/p&
 &lt;span class="p"&gt;});&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;We get:&lt;/p&gt;
-&lt;script src='http://cdn.ractivejs.org/latest/ractive.js'&gt;&lt;/script&gt;
+&lt;script src='//cdn.ractivejs.org/latest/ractive.js'&gt;&lt;/script&gt;
 
 &lt;div id="demo" class="well"&gt;&lt;/div&gt;
 &lt;script type="text/javascript"&gt;

@@ -1,66 +1,84 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
 <head>
-    
-    <meta charset="utf-8" />
+    <title>Software - trvrm</title>
+    <!-- Using the latest rendering mode for IE -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    
-    
-        
-        <title>trvrm</title>
-        
-        <link rel="stylesheet" type="text/css" href="/theme/css/bulma.min.css" />
-        <link rel="stylesheet" type="text/css" href="/theme/css/style.css" />
-</head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+
+    <link href="/images/favicon.png" rel="icon">
+
+
+    <meta name="author" content="trvrm" />
+    <meta name="keywords" content="Software" />
+
+    <!-- Open Graph tags -->
+        <meta property="og:site_name" content="trvrm" />
+        <meta property="og:type" content="website"/>
+        <meta property="og:title" content="trvrm"/>
+        <meta property="og:url" content=""/>
+        <meta property="og:description" content="trvrm"/>
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="/theme/css/bootstrap.flatly.min.css" type="text/css"/>
+    <link href="/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="/theme/css/pygments/tango.css" rel="stylesheet">
+    <link rel="stylesheet" href="/theme/css/style.css" type="text/css"/>
+
+
+
+
+
+</head>
 <body>
 
-    <section class="hero is-primary is-bold">
-        <div class="hero-head">
-            <div class="container">
-                <nav class="nav has-shadow">
-                        <div class="nav-left">
-                                <a class="nav-item is-tab " href="/category/database.html">Database</a>
-                                <a class="nav-item is-tab  active " href="/category/software.html">Software</a>
-                                <a class="nav-item is-tab " href="/category/systems.html">Systems</a>
-                    
-                    </div>              
-                </nav>
-            </div>
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="/" class="navbar-brand">
+trvrm            </a>
         </div>
-        <div class="hero-body">
-            <div class="container">
-                <div class="columns is-vcentered">
-                    <div class="column">
-                        <h1 class="title">
-                            <a href="/">trvrm  </a>
-                        </h1>
-                        
-<h2>Articles in the Software category</h2>
-                    </div>
-                </div>
-            </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                        <li >
+                            <a href="/category/database.html">Database</a>
+                        </li>
+                        <li class="active">
+                            <a href="/category/software.html">Software</a>
+                        </li>
+                        <li >
+                            <a href="/category/systems.html">Systems</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="/archives.html"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
+            </ul>
         </div>
-    </section>  
-    
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+<!-- Banner -->
+<!-- End Banner -->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+            <article>
+                <h2><a href="/fractal-dimension.html">Fractal Dimension</a></h2>
+                
+                
+                <div class="entry-content">
 
-
-
-    <section class="section">
-        <div class="container">
-            <p class="subtitle is-4">
-                Tue 24 January 2017
-            </p>
-            
-            <h2 class="title is-2">
-                <a href="/fractal-dimension.html" rel="bookmark" title="Permalink to Fractal Dimension">
-                    Fractal Dimension
-                </a>
-            </h2>
-
-            <div class="content is-medium">
-                <p>Inspired by the <a href="https://www.youtube.com/watch?v=bSfe5M_zG2s">keynote</a> given at PyCon Portland by K Lars Lohn,, I wanted to try my hand 
+                    <p>Inspired by the <a href="https://www.youtube.com/watch?v=bSfe5M_zG2s">keynote</a> given at PyCon Portland by K Lars Lohn,, I wanted to try my hand 
 at computing the fractal dimension of a few different images.</p>
 <p>This is a very simple implementation of a <a href="https://en.wikipedia.org/wiki/Minkowski%E2%80%93Bouligand_dimension">box counting</a> algorithm.</p>
 <p>A couple of ideas are borrowed from https://github.com/twobraids/fracdim.</p>
@@ -202,24 +220,19 @@ plotted them against each other.</p>
 
 <p><strong>Which is exactly what we expected.</strong></p>
 <p>As K Lars Lohn said in his keynote, it's very rewarding when you try something out in Python and the result actually matches neatly up with the theory!</p>
+                    
+                </div>  
+                
+                
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/new-blog-theme.html">New Blog Theme</a></h2>
+                
+                
+                <div class="entry-content">
 
-            </div>
-        </div>
-    </section>
-    <section class="section">
-        <div class="container">
-            <p class="subtitle is-4">
-                Fri 13 May 2016
-            </p>
-            
-            <h2 class="title is-2">
-                <a href="/new-blog-theme.html" rel="bookmark" title="Permalink to New Blog Theme">
-                    New Blog Theme
-                </a>
-            </h2>
-
-            <div class="content is-medium">
-                <p>Yesterday I discovered the <a href="http://bulma.io/">Bulma</a> CSS library.  It seems to be basically 'bootstrap for the flexbox world.'</p>
+                    <p>Yesterday I discovered the <a href="http://bulma.io/">Bulma</a> CSS library.  It seems to be basically 'bootstrap for the flexbox world.'</p>
 <p>Given that Bootstrap version 4 has been promising us Flexbox support for nearly a year now, I think Bulma could be my
 new best CSS friend.  Of course, I won't be able to use it anywhere where I have to support even reasonably old
 browsers, but so far it's been very pleasant to work with.</p>
@@ -238,24 +251,19 @@ to use Bulma classes.  Here's an example from the <code>article.html</code> temp
         <span class="nt">&lt;/h2&gt;</span>
         ...
 </pre></div>
+                    
+                </div>  
+                
+                
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/pelican-atom-and-markdown.html">Pelican, Atom and Markdown</a></h2>
+                
+                
+                <div class="entry-content">
 
-            </div>
-        </div>
-    </section>
-    <section class="section">
-        <div class="container">
-            <p class="subtitle is-4">
-                Fri 26 June 2015
-            </p>
-            
-            <h2 class="title is-2">
-                <a href="/pelican-atom-and-markdown.html" rel="bookmark" title="Permalink to Pelican, Atom and Markdown">
-                    Pelican, Atom and Markdown
-                </a>
-            </h2>
-
-            <div class="content is-medium">
-                <p>I've been using reStructured text in general to write this blog, but I think I'm
+                    <p>I've been using reStructured text in general to write this blog, but I think I'm
 going to be switching to Markdown.  As an experiment, I'm writing this post in Markdown.</p>
 <p>I'm also writing it in the <a href="https://atom.io/">Atom text editor</a>, which has really come on a
 long way since I last tried it.  Specifically, it includes a Markdown preview function, so
@@ -286,24 +294,19 @@ allows me to use the same syntax for my GitHub documentation, my IPython noteboo
 my blog posts.  </p>
 <p>I do use <strong>Sphinx</strong> in various places for Python code documentation, so that will still
 require reStructured text, but elsewhere I think Markdown is the way to go</p>
+                    
+                </div>  
+                
+                
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/asynchronous-python.html">Asynchronous Python</a></h2>
+                
+                
+                <div class="entry-content">
 
-            </div>
-        </div>
-    </section>
-    <section class="section">
-        <div class="container">
-            <p class="subtitle is-4">
-                Thu 01 January 2015
-            </p>
-            
-            <h2 class="title is-2">
-                <a href="/asynchronous-python.html" rel="bookmark" title="Permalink to Asynchronous Python">
-                    Asynchronous Python
-                </a>
-            </h2>
-
-            <div class="content is-medium">
-                <p>It's possible to get python to do node-like non-blocking requests, this could
+                    <p>It's possible to get python to do node-like non-blocking requests, this could
 take away one of the key reasons for using node.</p>
 <p>The following is a full bottle-based python web application.</p>
 <p>A client can sucessfully call /test while another client is waiting for
@@ -337,24 +340,19 @@ take away one of the key reasons for using node.</p>
 <p>I guess that the call to monkey.patch_all() even patches the socket code
 that requests uses.  I'm very impressed.</p>
 
+                    
+                </div>  
+                
+                
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/coffeescript.html">CoffeeScript</a></h2>
+                
+                
+                <div class="entry-content">
 
-            </div>
-        </div>
-    </section>
-    <section class="section">
-        <div class="container">
-            <p class="subtitle is-4">
-                Thu 01 January 2015
-            </p>
-            
-            <h2 class="title is-2">
-                <a href="/coffeescript.html" rel="bookmark" title="Permalink to CoffeeScript">
-                    CoffeeScript
-                </a>
-            </h2>
-
-            <div class="content is-medium">
-                <p>Through a bizarre twist of history, the entire client-side web runs on a <a class="reference external" href="http://en.wikipedia.org/wiki/Brendan_Eich#Netscape_and_JavaScript">language</a>
+                    <p>Through a bizarre twist of history, the entire client-side web runs on a <a class="reference external" href="http://en.wikipedia.org/wiki/Brendan_Eich#Netscape_and_JavaScript">language</a>
 that was thrown together in 10 days.</p>
 <p>Despite huge investments in their own proprietary technology by the likes of Sun
 Microsystems, Adobe and Microsoft, this weird little spinoff of <strong>self</strong> and <strong>scheme</strong>
@@ -413,24 +411,19 @@ if the compliation fails, so if I introduce a syntax error in my coffeescript, a
 as I refresh the page that is using it I'll be presented with the source of the problem.</p>
 </div>
 
+                    
+                </div>  
+                
+                
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/ipython-with-python-3.html">IPython with Python 3</a></h2>
+                
+                
+                <div class="entry-content">
 
-            </div>
-        </div>
-    </section>
-    <section class="section">
-        <div class="container">
-            <p class="subtitle is-4">
-                Thu 01 January 2015
-            </p>
-            
-            <h2 class="title is-2">
-                <a href="/ipython-with-python-3.html" rel="bookmark" title="Permalink to IPython with Python 3">
-                    IPython with Python 3
-                </a>
-            </h2>
-
-            <div class="content is-medium">
-                <p>This took me longer than I was expecting.</p>
+                    <p>This took me longer than I was expecting.</p>
 <p>In general when working with IPython I use <code class="code">
 pip</code>
  rather than <code class="code">
@@ -458,24 +451,19 @@ $ ipython
 <p>And voila, I have Python 3 in the best Python interpreter ever built, I'm ready to
 start wrapping my head around byte arrays and UTF-8 encodings.</p>
 
+                    
+                </div>  
+                
+                
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/more-ractive.html">More Ractive</a></h2>
+                
+                
+                <div class="entry-content">
 
-            </div>
-        </div>
-    </section>
-    <section class="section">
-        <div class="container">
-            <p class="subtitle is-4">
-                Thu 01 January 2015
-            </p>
-            
-            <h2 class="title is-2">
-                <a href="/more-ractive.html" rel="bookmark" title="Permalink to More Ractive">
-                    More Ractive
-                </a>
-            </h2>
-
-            <div class="content is-medium">
-                <p>I've used <a class="reference external" href="http://www.ractivejs.org/">Ractive</a> for several projects recently.
+                    <p>I've used <a class="reference external" href="http://www.ractivejs.org/">Ractive</a> for several projects recently.
 It's been like a breath of fresh air.  I've been writing user interfaces of one
 kind or another for more than a decade, and keeping <em>what's displayed to the user</em>
 in sync with <em>what's stored in the data structures</em> has often been a source of
@@ -503,7 +491,7 @@ Knockout and React all play in this space, but it's my current favourite.</p>
 <span class="p">});</span>
 </pre></div>
 <p>We get:</p>
-<script src='http://cdn.ractivejs.org/latest/ractive.js'></script>
+<script src='//cdn.ractivejs.org/latest/ractive.js'></script>
 
 <div id="demo" class="well"></div>
 <script type="text/javascript">
@@ -547,24 +535,19 @@ someone who believes in the unix philosophy of building systems from tools that
 each do one thing well, I'm very impressed.</p>
 </div>
 
+                    
+                </div>  
+                
+                
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/pdf-generation-with-pelican.html">PDF Generation With Pelican</a></h2>
+                
+                
+                <div class="entry-content">
 
-            </div>
-        </div>
-    </section>
-    <section class="section">
-        <div class="container">
-            <p class="subtitle is-4">
-                Thu 01 January 2015
-            </p>
-            
-            <h2 class="title is-2">
-                <a href="/pdf-generation-with-pelican.html" rel="bookmark" title="Permalink to PDF Generation With Pelican">
-                    PDF Generation With Pelican
-                </a>
-            </h2>
-
-            <div class="content is-medium">
-                <p>The existing documentation is a little unclear on this, because it says
+                    <p>The existing documentation is a little unclear on this, because it says
 you need to add <code class="code">
 PDF_GENERATOR=True</code>
  to your <cite>pelicanconf.py</cite> file.</p>
@@ -589,46 +572,64 @@ pygment-</code>
 .  I haven't
 figured out how to generate HTML and PDF nicely at the same time.</p>
 
+                    
+                </div>  
+                
+                
+            </article>
+            <hr/>
 
-            </div>
+        <ul class="pagination">
+                <li class="prev disabled"><a href="#">&laquo;</a></li>
+                    <li class="active"><a
+                            href="/category/software.html">1</a></li>
+                    <li class=""><a
+                            href="/category/software2.html">2</a></li>
+                <li class="next"><a
+                        href="/category/software2.html">&raquo;</a></li>
+        </ul>
         </div>
-    </section>
+        <div class="col-sm-3" id="sidebar">
+            <aside>
 
-   
+<section class="well well-sm">
+    <ul class="list-group list-group-flush">
+            <li class="list-group-item"><h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Social</span></h4>
+              <ul class="list-group" id="social">
+                <li class="list-group-item"><a href="https://twitter.com/trvrm"><i class="fa fa-twitter-square fa-lg"></i> twitter</a></li>
+              </ul>
+            </li>
 
 
-<section class="section">
-    <div class="container">
-        
-        <nav class="pagination">
-            
-            <ul>
-                    <li class="is-active">
-                        <a href="/category/software.html">1</a>
-                    </li>
-                    <li class="">
-                        <a href="/category/software2.html">2</a>
-                    </li>
-            </ul>
-            
-            
-                <a href="/category/software2.html">Next</a>
-        </nav>
-    
-    </div>
 
+
+
+    </ul>
 </section>
-
-
-    <footer class="footer">
-        <div class="container">
-            <div class="content has-text-centered">
-                <p>
-                    Powered by <a href="http://getpelican.com/">Pelican</a>, <a href="http://python.org">Python</a>, 
-                    and <a href="http://bulma.io/">Bulma</a>
-                </p>
-            </div>
+            </aside>
         </div>
-    </footer>
+    </div>
+</div>
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2017 trvrm
+            &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="/theme/js/respond.min.js"></script>
+
+
 </body>
 </html>
