@@ -73,6 +73,43 @@ trvrm            </a>
     <div class="row">
         <div class="col-sm-9">
             <article>
+                <h2><a href="/pdf-generation-with-pelican.html">PDF Generation With Pelican</a></h2>
+                
+                
+                <div class="entry-content">
+
+                    <p>The existing documentation is a little unclear on this, because it says
+you need to add <code class="code">
+PDF_GENERATOR=True</code>
+ to your <cite>pelicanconf.py</cite> file.</p>
+<p>This advice is out of date: PDF generation has been moved to a plugin.</p>
+<p>So you need to first make sure you have <code class="code">
+rst2pdf</code>
+ installed:</p>
+<div class="highlight"><pre>$ sudo apt-get install rst2pdf
+</pre></div>
+<p>and then add the following to <code class="code">
+pelicanconf.py</code>
+</p>
+<div class="highlight"><pre><span class="n">PLUGIN_PATH</span> <span class="o">=</span> <span class="s1">&#39;../pelican-plugins&#39;</span>  <span class="c1"># or wherever.</span>
+<span class="n">PLUGINS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;pdf&#39;</span><span class="p">]</span>
+</pre></div>
+<p>However, doing this seems to screw up the pygments highlighting on my regular
+html output.  This is because deep in the rst2pdf code, in a file called <code class="code">
+pygments2style.py</code>
+,
+all the pygment elements have their CSS classes prepended with <code class="code">
+pygment-</code>
+.  I haven't
+figured out how to generate HTML and PDF nicely at the same time.</p>
+
+                    
+                </div>  
+                
+                
+            </article>
+            <hr/>
+            <article>
                 <h2><a href="/python-comprehensions.html">Python Comprehensions</a></h2>
                 
                 

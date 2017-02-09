@@ -73,6 +73,43 @@ trvrm            </a>
     <div class="row">
         <div class="col-sm-9">
             <article>
+                <h2><a href="/pdf-generation-with-pelican.html">PDF Generation With Pelican</a></h2>
+                
+                
+                <div class="entry-content">
+
+                    <p>The existing documentation is a little unclear on this, because it says
+you need to add <code class="code">
+PDF_GENERATOR=True</code>
+ to your <cite>pelicanconf.py</cite> file.</p>
+<p>This advice is out of date: PDF generation has been moved to a plugin.</p>
+<p>So you need to first make sure you have <code class="code">
+rst2pdf</code>
+ installed:</p>
+<div class="highlight"><pre>$ sudo apt-get install rst2pdf
+</pre></div>
+<p>and then add the following to <code class="code">
+pelicanconf.py</code>
+</p>
+<div class="highlight"><pre><span class="n">PLUGIN_PATH</span> <span class="o">=</span> <span class="s1">&#39;../pelican-plugins&#39;</span>  <span class="c1"># or wherever.</span>
+<span class="n">PLUGINS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;pdf&#39;</span><span class="p">]</span>
+</pre></div>
+<p>However, doing this seems to screw up the pygments highlighting on my regular
+html output.  This is because deep in the rst2pdf code, in a file called <code class="code">
+pygments2style.py</code>
+,
+all the pygment elements have their CSS classes prepended with <code class="code">
+pygment-</code>
+.  I haven't
+figured out how to generate HTML and PDF nicely at the same time.</p>
+
+                    
+                </div>  
+                
+                
+            </article>
+            <hr/>
+            <article>
                 <h2><a href="/postgres-json-aggregation.html">Postgres JSON Aggregation</a></h2>
                 
                 
@@ -1326,33 +1363,6 @@ Name: first, dtype: object
                 
             </article>
             <hr/>
-            <article>
-                <h2><a href="/basic-ipython-plotting.html">Basic IPython Plotting</a></h2>
-                
-                
-                <div class="entry-content">
-
-                    <p><strong>Things have changed a bit since IPython 1</strong></p>
-<p>Now apparently we want to manually specify the use of inline matplotlib
-rather than enable globally in the server.</p>
-<p><a class="reference external" href="http://nbviewer.ipython.org/github/ipython/ipython/blob/1.x/examples/notebooks/Part%203%20-%20Plotting%20with%20Matplotlib.ipynb">http://nbviewer.ipython.org/github/ipython/ipython/blob/1.x/examples/notebooks/Part%203%20-%20Plotting%20with%20Matplotlib.ipynb</a></p>
-<div class="highlight"><pre><span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
-</pre></div>
-<div class="highlight"><pre><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-</pre></div>
-<div class="highlight"><pre><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;A simple chirp&#39;</span><span class="p">);</span>
-</pre></div>
-<img alt="basic plotting example" src="Basic%20Plotting%20Example_files/Basic%20Plotting%20Example_3_0.png" />
-
-                    
-                </div>  
-                
-                
-            </article>
-            <hr/>
 
         <ul class="pagination">
                 <li class="prev"><a href="/tag/python.html">&laquo;</a>
@@ -1361,7 +1371,10 @@ rather than enable globally in the server.</p>
                             href="/tag/python.html">1</a></li>
                     <li class="active"><a
                             href="/tag/python2.html">2</a></li>
-                <li class="next disabled"><a href="#">&raquo;</a></li>
+                    <li class=""><a
+                            href="/tag/python3.html">3</a></li>
+                <li class="next"><a
+                        href="/tag/python3.html">&raquo;</a></li>
         </ul>
         </div>
         <div class="col-sm-3" id="sidebar">

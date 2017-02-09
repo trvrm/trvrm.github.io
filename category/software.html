@@ -73,6 +73,82 @@ trvrm            </a>
     <div class="row">
         <div class="col-sm-9">
             <article>
+                <h2><a href="/using-tensorflow-to-compute-gradients.html">Using TensorFlow to compute gradients</a></h2>
+                
+                
+                <div class="entry-content">
+
+                    <p>I tried the basic linear regression example from <a href="https://medium.com/all-of-us-are-belong-to-machines/the-gentlest-introduction-to-tensorflow-248dc871a224#.8429xmd7s">this article</a>.  I was quite surprised by this line:</p>
+<div class="highlight"><pre><span class="n">train_step</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">GradientDescentOptimizer</span><span class="p">(</span><span class="mf">0.0000001</span><span class="p">)</span><span class="o">.</span><span class="n">minimize</span><span class="p">(</span><span class="n">cost</span><span class="p">)</span>                       
+</pre></div>
+
+
+<p>because it didn't seem to require me to tell the <code>GradientDescentOptimizer</code> what the first derivative of my cost function is.  Previously when I've used gradient descent, I've had to manually specify what the gradients with respect to my parameters as well as the cost function.</p>
+<p>A bit of reading indicates that TensorFlow can <a href="https://www.tensorflow.org/api_docs/python/train/gradient_computation">compute gradients</a> for a given computation graph.  Let's have a look at a basic example. </p>
+<div class="highlight"><pre><span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">tensorflow</span> <span class="kn">as</span> <span class="nn">tf</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">pi</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">mp</span>
+<span class="kn">import</span> <span class="nn">seaborn</span>
+<span class="n">seaborn</span><span class="o">.</span><span class="n">set</span><span class="p">()</span>
+</pre></div>
+
+
+<p>We'll compute the derivative of the sin function over the range 0 to <code>2*pi</code></p>
+<div class="highlight"><pre><span class="n">x_</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">pi</span><span class="o">*</span><span class="mi">2</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+
+
+<p>I'm still learning the relationship between Python variables and TensorFlow placeholders.</p>
+<p>Here <code>x_</code> and <code>y_</code> are Python variables, <code>x</code> and <code>y</code> are TensorFlow tensors</p>
+<div class="highlight"><pre><span class="n">x</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">placeholder</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+<span class="n">y</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span class="n">x</span>
+</pre></div>
+
+
+<div class="highlight"><pre>&lt;tf.Tensor &#39;Placeholder_3:0&#39; shape=&lt;unknown&gt; dtype=float32&gt;
+</pre></div>
+
+
+<div class="highlight"><pre><span class="n">y</span>
+</pre></div>
+
+
+<div class="highlight"><pre>&lt;tf.Tensor &#39;Sin_3:0&#39; shape=&lt;unknown&gt; dtype=float32&gt;
+</pre></div>
+
+
+<p>Now we ask TensorFlow to compute both the <code>sin</code> function AND the first derivative.  </p>
+<div class="highlight"><pre><span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
+    <span class="n">feed_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">x</span><span class="p">:</span><span class="n">x_</span><span class="p">}</span>
+    <span class="n">y_</span>  <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">feed_dict</span><span class="o">=</span><span class="n">feed_dict</span><span class="p">)</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">gradients</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">x</span><span class="p">),</span><span class="n">feed_dict</span><span class="o">=</span><span class="n">feed_dict</span><span class="p">)</span>
+    <span class="n">gradient</span><span class="o">=</span><span class="n">out</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span class="n">mp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_</span><span class="p">,</span><span class="n">y_</span><span class="p">)</span>
+<span class="n">mp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_</span><span class="p">,</span><span class="n">gradient</span><span class="p">)</span>
+</pre></div>
+
+
+<p><img alt="png" src="images/tensorflow_gradient/output_12_1.png" /></p>
+<p>Note that I haven't had to declare anywhere that the first derivative of <code>sine(x)</code> is <code>cosine(x)</code>. TensorFlow seems to be able to figure that out analytically, which is pretty cool.</p>
+                    
+                </div>  
+                
+                
+            </article>
+            <hr/>
+            <article>
                 <h2><a href="/fractal-dimension.html">Fractal Dimension</a></h2>
                 
                 
@@ -534,43 +610,6 @@ framework.  For those who like all-in-one solutions, this will be a weakness, bu
 someone who believes in the unix philosophy of building systems from tools that
 each do one thing well, I'm very impressed.</p>
 </div>
-
-                    
-                </div>  
-                
-                
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/pdf-generation-with-pelican.html">PDF Generation With Pelican</a></h2>
-                
-                
-                <div class="entry-content">
-
-                    <p>The existing documentation is a little unclear on this, because it says
-you need to add <code class="code">
-PDF_GENERATOR=True</code>
- to your <cite>pelicanconf.py</cite> file.</p>
-<p>This advice is out of date: PDF generation has been moved to a plugin.</p>
-<p>So you need to first make sure you have <code class="code">
-rst2pdf</code>
- installed:</p>
-<div class="highlight"><pre>$ sudo apt-get install rst2pdf
-</pre></div>
-<p>and then add the following to <code class="code">
-pelicanconf.py</code>
-</p>
-<div class="highlight"><pre><span class="n">PLUGIN_PATH</span> <span class="o">=</span> <span class="s1">&#39;../pelican-plugins&#39;</span>  <span class="c1"># or wherever.</span>
-<span class="n">PLUGINS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;pdf&#39;</span><span class="p">]</span>
-</pre></div>
-<p>However, doing this seems to screw up the pygments highlighting on my regular
-html output.  This is because deep in the rst2pdf code, in a file called <code class="code">
-pygments2style.py</code>
-,
-all the pygment elements have their CSS classes prepended with <code class="code">
-pygment-</code>
-.  I haven't
-figured out how to generate HTML and PDF nicely at the same time.</p>
 
                     
                 </div>  
