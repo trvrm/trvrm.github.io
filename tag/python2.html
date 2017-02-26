@@ -73,6 +73,125 @@ trvrm            </a>
     <div class="row">
         <div class="col-sm-9">
             <article>
+                <h2><a href="/nginx-uwsgi-ubuntu-14.html">Nginx and UWSGI on Ubuntu 14</a></h2>
+                
+                
+                <div class="entry-content">
+
+                    <p>The documentation for Nginx and UWSGI is long and complex, but with ubuntu 14
+it's actually pretty straightforward to get them up and running.</p>
+<p>I present here a a setup that uses nginx and uwsgi emperor to host
+multiple python web applications simultaneously on an ubuntu 14 machine.</p>
+<p>First, the packages</p>
+<div class="highlight"><pre>$ sudo apt-get install nginx
+$ sudo apt-get install uwsgi uwsgi-emperor uwsgi-plugin-python
+</pre></div>
+<p>Our configuration files will now be under <code class="code">
+/etc/nginx</code>
+ and <code class="code">
+/etc/uwsgi-emperor</code>
+</p>
+<p>You can start, stop, and reload nginx as follows:</p>
+<div class="highlight"><pre>$ sudo service nginx start
+$ sudo service nginx stop
+$ sudo service nginx reload
+</pre></div>
+<p>The last command is useful when changing configuration settings.</p>
+<p>Now set up a site by creating a file in <code class="code">
+/etc/nginx/sites-available</code>
+</p>
+<div class="highlight"><pre><span class="c1">#/etc/nginx/sites-available/mysite</span>
+server<span class="o">{</span>
+
+    server_name     your_host_name<span class="p">;</span>
+
+    location /app1 <span class="o">{</span>
+        uwsgi_pass unix:/tmp/app1.socket<span class="p">;</span>
+        include uwsgi_params<span class="p">;</span>
+    <span class="o">}</span>
+    location /app2 <span class="o">{</span>
+        uwsgi_pass unix:/tmp/app2.socket<span class="p">;</span>
+        include uwsgi_params<span class="p">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+<p>Then,</p>
+<div class="highlight"><pre>$ sudo ln -s /etc/nginx/apps-available/mysite /etc/nginx/sites-enabled
+</pre></div>
+<div class="alert  alert-warning compound">
+<p class="compound-first"><strong>Warning</strong></p>
+<p class="compound-last">A previous version of this tutorial had the sockets placed in <code class="code">
+/run/uwsgi</code>
+.
+This was a mistake, because under Ubuntu <code class="code">
+/run</code>
+ is mounted as a <code class="code">
+tmpfs</code>
+, and its content will be deleted on reboot
+Your uwsgi sub-directory will vanish and the uwsgi services will not restart.</p>
+</div>
+<p>Next, set up your 'vassals' (<a class="reference external" href="http://uwsgi-docs.readthedocs.org/en/latest/Emperor.html">http://uwsgi-docs.readthedocs.org/en/latest/Emperor.html</a>)</p>
+<p>Create  <code class="code">
+/etc/uwsgi-emperor/vassals/app1.ini</code>
+ as follows:</p>
+<div class="highlight"><pre><span class="k">[uwsgi]</span>
+<span class="na">plugin</span> <span class="o">=</span> <span class="s">python</span>
+<span class="na">processes</span> <span class="o">=</span> <span class="s">2</span>
+<span class="na">socket</span> <span class="o">=</span> <span class="s">/tmp/app1.socket</span>
+<span class="na">chmod-socket</span> <span class="o">=</span> <span class="s">666</span>
+
+<span class="na">chdir</span> <span class="o">=</span> <span class="s">/srv/app1</span>
+<span class="na">wsgi-file</span> <span class="o">=</span> <span class="s">/srv/app1/main.py</span>
+
+<span class="na">uid</span> <span class="o">=</span> <span class="s">www-data</span>
+<span class="na">gid</span> <span class="o">=</span> <span class="s">www-data</span>
+</pre></div>
+<p>And for your second application, create  <code class="code">
+/etc/uwsgi-emperor/vassals/app2.ini</code>
+ as similarly:</p>
+<div class="highlight"><pre><span class="k">[uwsgi]</span>
+<span class="na">plugin</span> <span class="o">=</span> <span class="s">python</span>
+<span class="na">processes</span> <span class="o">=</span> <span class="s">2</span>
+<span class="na">socket</span> <span class="o">=</span> <span class="s">/tmp/app2.socket</span>
+<span class="na">chmod-socket</span> <span class="o">=</span> <span class="s">666</span>
+
+<span class="na">chdir</span> <span class="o">=</span> <span class="s">/srv/app1</span>
+<span class="na">wsgi-file</span> <span class="o">=</span> <span class="s">/srv/app2/main.py</span>
+
+<span class="na">uid</span> <span class="o">=</span> <span class="s">www-data</span>
+<span class="na">gid</span> <span class="o">=</span> <span class="s">www-data</span>
+</pre></div>
+<p>The simple act of <em>creating</em> or touching a .ini file in <code class="code">
+/etc/uwsgi-emperor/vassals</code>
+ will cause
+the emperor process to try to restart your application.</p>
+<p>Of course, your applications don't exist yet, so let's create them.  The simplest wsgi
+application can be only a few lines long:</p>
+<p>Create <code class="code">
+/srv/app1/main.py</code>
+</p>
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">application</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">start_response</span><span class="p">):</span>
+    <span class="n">start_response</span><span class="p">(</span><span class="s1">&#39;200 OK&#39;</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;Content-Type&#39;</span><span class="p">,</span><span class="s1">&#39;text/html&#39;</span><span class="p">)])</span>
+    <span class="k">return</span> <span class="p">[</span><span class="s2">&quot;Hello World, I am app1&quot;</span><span class="p">]</span>
+</pre></div>
+<p>And <code class="code">
+/srv/app2/main.py</code>
+</p>
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">application</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">start_response</span><span class="p">):</span>
+    <span class="n">start_response</span><span class="p">(</span><span class="s1">&#39;200 OK&#39;</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;Content-Type&#39;</span><span class="p">,</span><span class="s1">&#39;text/html&#39;</span><span class="p">)])</span>
+    <span class="k">return</span> <span class="p">[</span><span class="s2">&quot;I, however, am app2. &quot;</span><span class="p">]</span>
+</pre></div>
+<p>And that's it!</p>
+<p>Visiting <a class="reference external" href="http://your_host_name/app1">http://your_host_name/app1</a> or <a class="reference external" href="http://your_host_name/app2">http://your_host_name/app2</a> should return the text
+you put in the python files.</p>
+
+                    
+                </div>  
+                
+                
+            </article>
+            <hr/>
+            <article>
                 <h2><a href="/pdf-generation-with-pelican.html">PDF Generation With Pelican</a></h2>
                 
                 
@@ -1223,139 +1342,6 @@ supposed to do - I clearly have more research to do, time permitting.  And becau
 <em>interacted</em> -  I couldn't trigger it in one or other environment on its own - it's hard to say that either project has
 a bug.  But hopefully this analysis will help prevent others from going through the same headaches I just did.</p>
 </div>
-
-                    
-                </div>  
-                
-                
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/sql-magic.html">SQL Magic</a></h2>
-                
-                
-                <div class="entry-content">
-
-                    <p>I'm finding the <code class="code">
-%sql</code>
- magic function extremely useful. It turns
-IPython into a very nice front-end to Postgresql.</p>
-<p>First, make sure you have the <code class="code">
-ipython-sql</code>
- extension installed:</p>
-<p><pre>
-pip install ipython-sql</pre>
-</p>
-<p><a class="reference external" href="https://pypi.python.org/pypi/ipython-sql">https://pypi.python.org/pypi/ipython-sql</a></p>
-<p>Then we load the extension</p>
-<div class="highlight"><pre><span class="o">%</span><span class="n">load_ext</span> <span class="n">sql</span>
-</pre></div>
-<p>Then we set up our database connection.</p>
-<div class="highlight"><pre><span class="o">%%</span><span class="n">sql</span>
-<span class="n">postgresql</span><span class="p">:</span><span class="o">//</span><span class="n">testuser</span><span class="p">:</span><span class="n">password</span><span class="nd">@localhost</span><span class="o">/</span><span class="n">test</span>
-</pre></div>
-<pre class="literal-block">
-u'Connected: <a class="reference external" href="mailto:testuser&#64;test">testuser&#64;test</a>'
-</pre>
-<p>And now we can start interacting directly with the database as if we
-were at the <code class="code">
-psql</code>
- command line.</p>
-<div class="highlight"><pre><span class="o">%%</span><span class="n">sql</span>
-<span class="n">CREATE</span> <span class="n">TABLE</span> <span class="n">people</span> <span class="p">(</span><span class="n">first</span> <span class="n">text</span><span class="p">,</span> <span class="n">last</span> <span class="n">text</span><span class="p">,</span> <span class="n">drink</span> <span class="n">text</span><span class="p">);</span>
-<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">people</span> <span class="p">(</span><span class="n">first</span><span class="p">,</span><span class="n">last</span><span class="p">,</span><span class="n">drink</span><span class="p">)</span>
-<span class="n">VALUES</span>
-    <span class="p">(</span><span class="s1">&#39;zaphod&#39;</span><span class="p">,</span><span class="s1">&#39;beeblebrox&#39;</span><span class="p">,</span><span class="s1">&#39;pan galactic gargle blaster&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s1">&#39;arthur&#39;</span><span class="p">,</span><span class="s1">&#39;dent&#39;</span><span class="p">,</span><span class="s1">&#39;tea&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s1">&#39;ford&#39;</span><span class="p">,</span><span class="s1">&#39;prefect&#39;</span><span class="p">,</span><span class="s1">&#39;old janx spirit&#39;</span><span class="p">)</span>
-    <span class="p">;</span>
-</pre></div>
-<pre class="literal-block">
-Done.
-3 rows affected.
-</pre>
-<pre class="literal-block">
-[]
-</pre>
-<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">select</span> <span class="o">*</span> <span class="kn">from</span> <span class="nn">people</span>
-</pre></div>
-<pre class="literal-block">
-3 rows affected.
-</pre>
-<table class="table table-bordered table-striped">
-    <tr>
-        <th>first</th>
-        <th>last</th>
-        <th>drink</th>
-    </tr>
-    <tr>
-        <td>zaphod</td>
-        <td>beeblebrox</td>
-        <td>pan galactic gargle blaster</td>
-    </tr>
-    <tr>
-        <td>arthur</td>
-        <td>dent</td>
-        <td>tea</td>
-    </tr>
-    <tr>
-        <td>ford</td>
-        <td>prefect</td>
-        <td>old janx spirit</td>
-    </tr>
-</table><p>We can access the results as a python object:</p>
-<div class="highlight"><pre><span class="n">result</span> <span class="o">=</span> <span class="o">%</span><span class="n">sql</span> <span class="n">select</span> <span class="o">*</span> <span class="kn">from</span> <span class="nn">people</span>
-<span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
-</pre></div>
-<pre class="literal-block">
-3
-</pre>
-<p>And we can even get our recordset as a <strong>pandas</strong> dataframe</p>
-<div class="highlight"><pre><span class="o">%</span><span class="n">config</span> <span class="n">SqlMagic</span><span class="o">.</span><span class="n">autopandas</span><span class="o">=</span><span class="bp">True</span>
-</pre></div>
-<div class="highlight"><pre><span class="n">frame</span> <span class="o">=</span> <span class="o">%</span><span class="n">sql</span> <span class="n">select</span> <span class="o">*</span> <span class="kn">from</span> <span class="nn">people</span>
-<span class="n">frame</span>
-</pre></div>
-<div style="max-height:1000px;max-width:1500px;overflow:auto;">
-<table class="table table-bordered table-striped">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>first</th>
-      <th>last</th>
-      <th>drink</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td> zaphod</td>
-      <td> beeblebrox</td>
-      <td> pan galactic gargle blaster</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td> arthur</td>
-      <td>       dent</td>
-      <td>                         tea</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>   ford</td>
-      <td>    prefect</td>
-      <td>             old janx spirit</td>
-    </tr>
-  </tbody>
-</table>
-<p>3 rows × 3 columns</p>
-</div><div class="highlight"><pre><span class="n">frame</span><span class="p">[</span><span class="s1">&#39;first&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
-</pre></div>
-<pre class="literal-block">
-0    ZAPHOD
-1    ARTHUR
-2      FORD
-Name: first, dtype: object
-</pre>
 
                     
                 </div>  

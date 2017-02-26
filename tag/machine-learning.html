@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<head>
+    <title>Machine Learning - trvrm</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <link href="/images/favicon.png" rel="icon">
+
+
+    <meta name="author" content="trvrm" />
+    <meta name="keywords" content="Machine Learning" />
+
+    <!-- Open Graph tags -->
+        <meta property="og:site_name" content="trvrm" />
+        <meta property="og:type" content="website"/>
+        <meta property="og:title" content="trvrm"/>
+        <meta property="og:url" content=""/>
+        <meta property="og:description" content="trvrm"/>
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="/theme/css/bootstrap.flatly.min.css" type="text/css"/>
+    <link href="/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="/theme/css/pygments/tango.css" rel="stylesheet">
+    <link rel="stylesheet" href="/theme/css/style.css" type="text/css"/>
+
+
+
+
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="/" class="navbar-brand">
+trvrm            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                        <li >
+                            <a href="/category/database.html">Database</a>
+                        </li>
+                        <li >
+                            <a href="/category/software.html">Software</a>
+                        </li>
+                        <li >
+                            <a href="/category/systems.html">Systems</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="/archives.html"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+<!-- Banner -->
+<!-- End Banner -->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+            <article>
+                <h2><a href="/basic-keras-example.html">Basic Keras Example</a></h2>
+                
+                
+                <div class="entry-content">
+
+                    <p><a href="https://keras.io/">Keras</a> is a high-level neural network Python library, designed to sit on top of lower level implementations such as <a href="https://www.tensorflow.org/">TensorFlow</a>.</p>
+<p>It provides abstractions that enable you to quickly create neural network structures.  Here I'm going to try to create a simple 3 layer network, and use it to solve a basic classification problem.</p>
+<p>For reference, the problem I'm trying to solve, and the network I'm using to solve it, are roughly equivalent to <a href="http://playground.tensorflow.org/#activation=relu&amp;regularization=L1&amp;batchSize=10&amp;dataset=xor&amp;regDataset=reg-plane&amp;learningRate=0.003&amp;regularizationRate=0.001&amp;noise=0&amp;networkShape=4,1&amp;seed=0.92802&amp;showTestData=false&amp;discretize=false&amp;percTrainData=50&amp;x=true&amp;y=true&amp;xTimesY=false&amp;xSquared=false&amp;ySquared=false&amp;cosX=false&amp;sinX=false&amp;cosY=false&amp;sinY=false&amp;collectStats=false&amp;problem=classification&amp;initZero=false&amp;hideText=false">this interactive example  at playground.tensorflow.org</a></p>
+<p><strong>Tell Jupyter to display matlplotlib plots directly in the notebook</strong></p>
+<div class="highlight"><pre><span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+</pre></div>
+
+
+<h3>Imports</h3>
+<p>A lot of machine learning work ends up being about 'housekeeping' - finding, filtering, parsing, loading data, transforming it into a usable shape, and so on.  The <a href="http://pandas.pydata.org/">Pandas</a> library is excellent for this type of work</p>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+</pre></div>
+
+
+<p>Numpy is commonly used for creating and managing arrays of numbers and performing a wide variety of mathematical operations on them.  Matplotlib and seaborn provide a number of useful plotting functions.</p>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">pl</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">seaborn</span>
+<span class="n">seaborn</span><span class="o">.</span><span class="n">set</span><span class="p">()</span>
+</pre></div>
+
+
+<p>TensorFlow is Google's Machine Learning library</p>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">tensorflow</span> <span class="kn">as</span> <span class="nn">tf</span>
+</pre></div>
+
+
+<p>This is a useful function for splitting data sets into training and testing subsets.</p>
+<div class="highlight"><pre><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+</pre></div>
+
+
+<p>And finally Keras is the library I actually want to explore.  My understanding is that it provides a high-level abstraction to common TensorFlow operations</p>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">keras</span>
+<span class="kn">from</span> <span class="nn">keras.layers</span> <span class="kn">import</span> <span class="n">Dense</span><span class="p">,</span> <span class="n">Activation</span>
+</pre></div>
+
+
+<h1>Create training data.</h1>
+<p>I'm going to create an array of data with two features, <em>x1</em> and <em>x2</em></p>
+<div class="highlight"><pre><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">1500</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span><span class="o">*</span><span class="mi">20</span> <span class="o">-</span> <span class="mi">10</span><span class="p">,</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;x1&#39;</span><span class="p">,</span><span class="s1">&#39;x2&#39;</span><span class="p">])</span>
+</pre></div>
+
+
+<p>For simpler visualisation, I'm going to filter out values that lie very close to the axes.</p>
+<div class="highlight"><pre><span class="n">data</span><span class="o">=</span> <span class="n">data</span><span class="p">[(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">x1</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">)</span><span class="o">&amp;</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">x2</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">)][</span><span class="mi">0</span><span class="p">:</span><span class="mi">1000</span><span class="p">]</span>
+</pre></div>
+
+
+<p>And then for each <code>(x1,x2)</code> pair, I'm going to assign a value <em>y</em> that is true if <code>x*y</code> is greater than 0.</p>
+<div class="highlight"><pre><span class="n">data</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">]</span><span class="o">=</span><span class="p">((</span><span class="n">data</span><span class="o">.</span><span class="n">x1</span><span class="o">*</span><span class="n">data</span><span class="o">.</span><span class="n">x2</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span class="n">data</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+
+<div>
+<table border="1" class="dataframe table table-striped table-bordered">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>x1</th>
+      <th>x2</th>
+      <th>y</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>-4.131299</td>
+      <td>-2.266670</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>9.359900</td>
+      <td>-3.169526</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>-5.079496</td>
+      <td>-7.030525</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>8.475884</td>
+      <td>-4.005687</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>5.072955</td>
+      <td>-3.757722</td>
+      <td>False</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2>Visualize the input data</h2>
+<p>Seaborn provides a <a href="http://seaborn.pydata.org/generated/seaborn.lmplot.html">function</a> that gives me exactly the visualization that I want:</p>
+<div class="highlight"><pre><span class="n">seaborn</span><span class="o">.</span><span class="n">lmplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;x1&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;x2&quot;</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span><span class="n">fit_reg</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre>&lt;seaborn.axisgrid.FacetGrid at 0x7efd8407dd68&gt;
+</pre></div>
+
+
+<p><img alt="png" src="images/basic_keras_example/output_23_1.png" /></p>
+<p>So we have two classes, and we're going to see if we can create a neural network that can distinguish between the two.</p>
+<h2>Create training data and test data</h2>
+<p>We assign 80% of the data to the training set, with the remaining 20% left over for testing the accuracy of our hypothesis.</p>
+<div class="highlight"><pre><span class="n">train</span><span class="p">,</span><span class="n">test</span><span class="o">=</span><span class="n">train_test_split</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="n">train_size</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span class="nb">len</span><span class="p">(</span><span class="n">train</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">test</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre>(800, 200)
+</pre></div>
+
+
+<p>Keras seems to require input data in the form of Numpy arrays, so we extract those from our Pandas dataframe:</p>
+<div class="highlight"><pre><span class="n">X_train</span> <span class="o">=</span> <span class="n">train</span><span class="p">[[</span><span class="s1">&#39;x1&#39;</span><span class="p">,</span><span class="s1">&#39;x2&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">Y_train</span> <span class="o">=</span> <span class="n">train</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+</pre></div>
+
+
+<h2>Define a neural network</h2>
+<p>Now we can use Keras to define our network. I'm going to specify a network with an input layer, an output layer, and a 4-node hidden layer.</p>
+<div class="highlight"><pre><span class="n">model</span><span class="o">=</span><span class="n">keras</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">Sequential</span><span class="p">()</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="n">output_dim</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">input_dim</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">activation</span><span class="o">=</span><span class="s1">&#39;tanh&#39;</span><span class="p">))</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="n">output_dim</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>  <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;tanh&#39;</span><span class="p">))</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="n">output_dim</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>  <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;tanh&#39;</span><span class="p">))</span>
+</pre></div>
+
+
+<h2>Train the network</h2>
+<p>This is the bit that would take considerably more lines of code in a lower-level library.  I can tweak parameters such as the cost function, the optimizer and so on. Here I choose a mean-squared-error cost function and a stochastic gradient descent optimizer.</p>
+<p>I haven't yet figured out how to change the learning rate, which would be very helpful to know.</p>
+<div class="highlight"><pre><span class="o">%%</span><span class="n">time</span>
+<span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">loss</span><span class="o">=</span><span class="s1">&#39;mean_squared_error&#39;</span><span class="p">,</span> <span class="n">optimizer</span><span class="o">=</span><span class="s1">&#39;sgd&#39;</span><span class="p">)</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span>
+          <span class="n">Y_train</span><span class="p">,</span>
+          <span class="n">nb_epoch</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span>
+          <span class="n">batch_size</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span>
+          <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre>CPU times: user 3.26 s, sys: 40 ms, total: 3.3 s
+Wall time: 3.34 s
+</pre></div>
+
+
+<h2>Having trained the network, check it against the test data.</h2>
+<p><code>plotPrediction</code> runs the <code>predict_classes</code> method to attempt to classify the test data we provide, and then displays its guesses:</p>
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">plotPrediction</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="n">model</span><span class="p">):</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">ix</span><span class="p">[:,:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+    <span class="n">Y</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+
+    <span class="n">d</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">d</span><span class="p">[</span><span class="s1">&#39;pred&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">predict_classes</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">))</span>
+
+    <span class="n">matches</span> <span class="o">=</span> <span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s1">&#39;pred&#39;</span><span class="p">]</span><span class="o">==</span><span class="n">Y</span><span class="p">)</span>
+    <span class="n">accuracy</span> <span class="o">=</span> <span class="mi">100</span><span class="o">*</span> <span class="n">matches</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">/</span><span class="n">matches</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Accuracy: {}%&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">accuracy</span><span class="p">))</span>        <span class="c1">#I&#39;d rather compute an F-Score here.</span>
+
+    <span class="n">seaborn</span><span class="o">.</span><span class="n">lmplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;x1&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;x2&quot;</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s2">&quot;pred&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">d</span><span class="p">,</span><span class="n">fit_reg</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span class="n">plotPrediction</span><span class="p">(</span><span class="n">test</span><span class="p">,</span><span class="n">model</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span class="n">Accuracy</span><span class="o">:</span> <span class="mf">91.5</span><span class="o">%</span>
+</pre></div>
+
+
+<p><img alt="png" src="images/basic_keras_example/output_36_1.png" /></p>
+<h2>Conclusion</h2>
+<p>So we see that after 250 training cycles, the network can mostly correctly identify input data.</p>
+<p>Because the network is initialized with random data at the beginning of every run, sometimes I get better results than this and sometimes worse.  And Keras gives me many ways of quickly tweaking my algorithm - I can adjust the number of nodes in each layer, the number of layers, the activation function, the cost function, the number of training cycles, the test/training split and so on.  </p>
+<p>Next I'd like to figure out how to adjust regularization parameters and the learning rate, and explore how that affects the efficiency of the network.</p>
+<h3>Source</h3>
+<p>The source for this post is <a href="https://github.com/trvrm/notebooks/blob/master/Basic%20Keras%20example.ipynb">available here on github</a></p>
+                    
+                </div>  
+                
+                
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/using-tensorflow-to-compute-gradients.html">Using TensorFlow to compute gradients</a></h2>
+                
+                
+                <div class="entry-content">
+
+                    <p>I tried the basic linear regression example from <a href="https://medium.com/all-of-us-are-belong-to-machines/the-gentlest-introduction-to-tensorflow-248dc871a224#.8429xmd7s">this article</a>.  I was quite surprised by this line:</p>
+<div class="highlight"><pre><span class="n">train_step</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">GradientDescentOptimizer</span><span class="p">(</span><span class="mf">0.0000001</span><span class="p">)</span><span class="o">.</span><span class="n">minimize</span><span class="p">(</span><span class="n">cost</span><span class="p">)</span>                       
+</pre></div>
+
+
+<p>because it didn't seem to require me to tell the <code>GradientDescentOptimizer</code> what the first derivative of my cost function is.  Previously when I've used gradient descent, I've had to manually specify what the gradients with respect to my parameters as well as the cost function.</p>
+<p>A bit of reading indicates that TensorFlow can <a href="https://www.tensorflow.org/api_docs/python/train/gradient_computation">compute gradients</a> for a given computation graph.  Let's have a look at a basic example. </p>
+<div class="highlight"><pre><span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">tensorflow</span> <span class="kn">as</span> <span class="nn">tf</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">pi</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">mp</span>
+<span class="kn">import</span> <span class="nn">seaborn</span>
+<span class="n">seaborn</span><span class="o">.</span><span class="n">set</span><span class="p">()</span>
+</pre></div>
+
+
+<p>We'll compute the derivative of the sin function over the range 0 to <code>2*pi</code></p>
+<div class="highlight"><pre><span class="n">x_</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">pi</span><span class="o">*</span><span class="mi">2</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+
+
+<p>I'm still learning the relationship between Python variables and TensorFlow placeholders.</p>
+<p>Here <code>x_</code> and <code>y_</code> are Python variables, <code>x</code> and <code>y</code> are TensorFlow tensors</p>
+<div class="highlight"><pre><span class="n">x</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">placeholder</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+<span class="n">y</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span class="n">x</span>
+</pre></div>
+
+
+<div class="highlight"><pre>&lt;tf.Tensor &#39;Placeholder_3:0&#39; shape=&lt;unknown&gt; dtype=float32&gt;
+</pre></div>
+
+
+<div class="highlight"><pre><span class="n">y</span>
+</pre></div>
+
+
+<div class="highlight"><pre>&lt;tf.Tensor &#39;Sin_3:0&#39; shape=&lt;unknown&gt; dtype=float32&gt;
+</pre></div>
+
+
+<p>Now we ask TensorFlow to compute both the <code>sin</code> function AND the first derivative.  </p>
+<div class="highlight"><pre><span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
+    <span class="n">feed_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">x</span><span class="p">:</span><span class="n">x_</span><span class="p">}</span>
+    <span class="n">y_</span>  <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">feed_dict</span><span class="o">=</span><span class="n">feed_dict</span><span class="p">)</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">gradients</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">x</span><span class="p">),</span><span class="n">feed_dict</span><span class="o">=</span><span class="n">feed_dict</span><span class="p">)</span>
+    <span class="n">gradient</span><span class="o">=</span><span class="n">out</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span class="n">mp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_</span><span class="p">,</span><span class="n">y_</span><span class="p">)</span>
+<span class="n">mp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_</span><span class="p">,</span><span class="n">gradient</span><span class="p">)</span>
+</pre></div>
+
+
+<p><img alt="png" src="images/tensorflow_gradient/output_12_1.png" /></p>
+<p>Note that I haven't had to declare anywhere that the first derivative of <code>sine(x)</code> is <code>cosine(x)</code>. TensorFlow seems to be able to figure that out analytically, which is pretty cool.</p>
+                    
+                </div>  
+                
+                
+            </article>
+            <hr/>
+
+        </div>
+        <div class="col-sm-3" id="sidebar">
+            <aside>
+
+<section class="well well-sm">
+    <ul class="list-group list-group-flush">
+            <li class="list-group-item"><h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Social</span></h4>
+              <ul class="list-group" id="social">
+                <li class="list-group-item"><a href="https://twitter.com/trvrm"><i class="fa fa-twitter-square fa-lg"></i> twitter</a></li>
+              </ul>
+            </li>
+
+
+
+
+
+    </ul>
+</section>
+            </aside>
+        </div>
+    </div>
+</div>
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2017 trvrm
+            &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="/theme/js/respond.min.js"></script>
+
+
+</body>
+</html>

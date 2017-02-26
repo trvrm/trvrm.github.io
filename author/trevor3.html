@@ -72,6 +72,205 @@ trvrm            </a>
     <div class="row">
         <div class="col-sm-9">
             <article>
+                <h2><a href="/postgres-json-aggregation.html">Postgres JSON Aggregation</a></h2>
+                
+                
+                <div class="entry-content">
+
+                    <p>I've been using the new JSON functionality in Postgres a lot recently:
+I'm fond of saying that Postgresql is the best NoSQL database available
+today. I'm quite serious about this: having used key-value and JSON
+stores such as CouchDB in the past, it's amazing to me how the Postgres
+developers have managed to marry the best of traditional relational
+technology with the flexibility of schema-free JSON documents.</p>
+<p>As of version 9.3, postgres allows you to create JSON column types, and
+provides a number of functions to access and iterate through the data
+stored in them.</p>
+<p>This week I discovered another hidden gem - <code class="code">
+json_agg()</code>
+. This
+function lets you take the results from an aggregation operation and
+convert them into a JSON block - very helpful if you're then going to
+work with the returned data in a language like Python</p>
+<p>To demonstrate this, we'll first set up some simple tables.</p>
+<div class="highlight"><pre><span class="o">%</span><span class="n">load_ext</span> <span class="n">sql</span>
+<span class="o">%</span><span class="n">config</span> <span class="n">SqlMagic</span><span class="o">.</span><span class="n">feedback</span><span class="o">=</span><span class="bp">False</span>
+</pre></div>
+<div class="highlight"><pre><span class="o">%%</span><span class="n">sql</span>
+<span class="n">postgresql</span><span class="p">:</span><span class="o">//</span><span class="n">testuser</span><span class="p">:</span><span class="n">password</span><span class="nd">@localhost</span><span class="o">/</span><span class="n">test</span>
+</pre></div>
+<pre class="literal-block">
+u'Connected: <a class="reference external" href="mailto:testuser&#64;test">testuser&#64;test</a>'
+</pre>
+<div class="highlight"><pre><span class="o">%%</span><span class="n">sql</span>
+<span class="n">CREATE</span> <span class="n">TABLE</span> <span class="n">IF</span> <span class="n">NOT</span> <span class="n">EXISTS</span> <span class="n">person</span> <span class="p">(</span>
+    <span class="n">name</span> <span class="n">text</span> <span class="n">primary</span> <span class="n">key</span>
+<span class="p">);</span>
+
+<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">person</span> <span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="n">VALUES</span>
+<span class="p">(</span><span class="s1">&#39;emily&#39;</span><span class="p">),(</span><span class="s1">&#39;arthur&#39;</span><span class="p">),(</span><span class="s1">&#39;nicki&#39;</span><span class="p">),(</span><span class="s1">&#39;oliver&#39;</span><span class="p">)</span>
+<span class="p">;</span>
+</pre></div>
+<pre class="literal-block">
+[]
+</pre>
+<p>We can query this in the usual way:</p>
+<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="o">*</span> <span class="n">FROM</span> <span class="n">person</span><span class="p">;</span>
+</pre></div>
+<table class="table table-bordered">
+    <tr>
+        <th>name</th>
+    </tr>
+    <tr>
+        <td>emily</td>
+    </tr>
+    <tr>
+        <td>arthur</td>
+    </tr>
+    <tr>
+        <td>nicki</td>
+    </tr>
+    <tr>
+        <td>oliver</td>
+    </tr>
+</table><p>But we can also use <code class="code">
+json_agg()</code>
+</p>
+<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="n">json_agg</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="n">FROM</span> <span class="n">person</span>
+</pre></div>
+<table class="table table-bordered">
+    <tr>
+        <th>json_agg</th>
+    </tr>
+    <tr>
+        <td>[u'emily', u'arthur', u'nicki', u'oliver']</td>
+    </tr>
+</table><p>Which gives us a single object to work with. So far, this isn't
+particularly helpful, but it becomes very useful when we start doing
+<code class="code">
+JOINS</code>
+</p>
+<div class="highlight"><pre><span class="o">%%</span><span class="n">sql</span>
+<span class="n">CREATE</span> <span class="n">TABLE</span> <span class="n">IF</span> <span class="n">NOT</span> <span class="n">EXISTS</span> <span class="n">action</span><span class="p">(</span>
+    <span class="nb">id</span> <span class="n">serial</span> <span class="n">primary</span> <span class="n">key</span><span class="p">,</span>
+    <span class="n">created</span> <span class="n">timestamp</span> <span class="k">with</span> <span class="n">time</span> <span class="n">zone</span> <span class="n">default</span> <span class="n">now</span><span class="p">(),</span>
+    <span class="n">person_name</span> <span class="n">text</span> <span class="n">references</span> <span class="n">person</span><span class="p">,</span>
+    <span class="nb">type</span> <span class="n">text</span> <span class="ow">not</span> <span class="n">null</span>
+<span class="p">);</span>
+
+<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">action</span><span class="p">(</span><span class="n">person_name</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="s1">&#39;emily&#39;</span><span class="p">,</span><span class="s1">&#39;login&#39;</span><span class="p">);</span>
+<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">action</span><span class="p">(</span><span class="n">person_name</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="s1">&#39;emily&#39;</span><span class="p">,</span><span class="s1">&#39;pageview&#39;</span><span class="p">);</span>
+<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">action</span><span class="p">(</span><span class="n">person_name</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="s1">&#39;arthur&#39;</span><span class="p">,</span><span class="s1">&#39;login&#39;</span><span class="p">);</span>
+<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">action</span><span class="p">(</span><span class="n">person_name</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="s1">&#39;emily&#39;</span><span class="p">,</span><span class="s1">&#39;logout&#39;</span><span class="p">);</span>
+<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">action</span><span class="p">(</span><span class="n">person_name</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="s1">&#39;nicki&#39;</span><span class="p">,</span><span class="s1">&#39;password_change&#39;</span><span class="p">);</span>
+<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">action</span><span class="p">(</span><span class="n">person_name</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="s1">&#39;nicki&#39;</span><span class="p">,</span><span class="s1">&#39;createpost&#39;</span><span class="p">);</span>
+</pre></div>
+<pre class="literal-block">
+[]
+</pre>
+<p>If we want to ask Postgres to give us every user and every action
+they've performed, we <em>could</em> do it this way:</p>
+<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="n">person</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>  <span class="n">action</span><span class="o">.</span><span class="n">type</span> <span class="p">,</span> <span class="n">action</span><span class="o">.</span><span class="n">created</span> <span class="n">FROM</span> <span class="n">action</span> <span class="n">JOIN</span> <span class="n">person</span> <span class="n">ON</span> <span class="n">action</span><span class="o">.</span><span class="n">person_name</span><span class="o">=</span><span class="n">person</span><span class="o">.</span><span class="n">name</span>
+</pre></div>
+<table class="table table-bordered">
+    <tr>
+        <th>name</th>
+        <th>type</th>
+        <th>created</th>
+    </tr>
+    <tr>
+        <td>emily</td>
+        <td>login</td>
+        <td>2014-11-08 17:45:05.963569-05:00</td>
+    </tr>
+    <tr>
+        <td>emily</td>
+        <td>pageview</td>
+        <td>2014-11-08 17:45:05.964663-05:00</td>
+    </tr>
+    <tr>
+        <td>arthur</td>
+        <td>login</td>
+        <td>2014-11-08 17:45:05.965214-05:00</td>
+    </tr>
+    <tr>
+        <td>emily</td>
+        <td>logout</td>
+        <td>2014-11-08 17:45:05.965741-05:00</td>
+    </tr>
+    <tr>
+        <td>nicki</td>
+        <td>password_change</td>
+        <td>2014-11-08 17:45:05.966274-05:00</td>
+    </tr>
+    <tr>
+        <td>nicki</td>
+        <td>createpost</td>
+        <td>2014-11-08 17:45:05.966824-05:00</td>
+    </tr>
+</table><p>But then iterating through this recordset is a pain - I can't easily
+construct a nested for loop to iterate through each person and then
+through each action.</p>
+<p>Enter <code class="code">
+json_agg()</code>
+</p>
+<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="n">person</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>  <span class="n">json_agg</span><span class="p">(</span><span class="n">action</span><span class="p">)</span> <span class="n">FROM</span> <span class="n">action</span> <span class="n">JOIN</span> <span class="n">person</span> <span class="n">ON</span> <span class="n">action</span><span class="o">.</span><span class="n">person_name</span><span class="o">=</span><span class="n">person</span><span class="o">.</span><span class="n">name</span> <span class="n">GROUP</span> <span class="n">BY</span> <span class="n">person</span><span class="o">.</span><span class="n">name</span>
+</pre></div>
+<table class="table table-bordered">
+    <tr>
+        <th>name</th>
+        <th>json_agg</th>
+    </tr>
+    <tr>
+        <td>arthur</td>
+        <td>[{u'person_name': u'arthur', u'type': u'login', u'id': 3, u'created': u'2014-11-08 17:45:05.965214-05'}]</td>
+    </tr>
+    <tr>
+        <td>emily</td>
+        <td>[{u'person_name': u'emily', u'type': u'login', u'id': 1, u'created': u'2014-11-08 17:45:05.963569-05'}, {u'person_name': u'emily', u'type': u'pageview', u'id': 2, u'created': u'2014-11-08 17:45:05.964663-05'}, {u'person_name': u'emily', u'type': u'logout', u'id': 4, u'created': u'2014-11-08 17:45:05.965741-05'}]</td>
+    </tr>
+    <tr>
+        <td>nicki</td>
+        <td>[{u'person_name': u'nicki', u'type': u'password_change', u'id': 5, u'created': u'2014-11-08 17:45:05.966274-05'}, {u'person_name': u'nicki', u'type': u'createpost', u'id': 6, u'created': u'2014-11-08 17:45:05.966824-05'}]</td>
+    </tr>
+</table><p>Which becomes much more usable in Python:</p>
+<div class="highlight"><pre><span class="n">people</span> <span class="o">=</span> <span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="n">person</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>  <span class="n">json_agg</span><span class="p">(</span><span class="n">action</span><span class="p">)</span> <span class="n">FROM</span> <span class="n">action</span> <span class="n">JOIN</span> <span class="n">person</span> <span class="n">ON</span> <span class="n">action</span><span class="o">.</span><span class="n">person_name</span><span class="o">=</span><span class="n">person</span><span class="o">.</span><span class="n">name</span> <span class="n">GROUP</span> <span class="n">BY</span> <span class="n">person</span><span class="o">.</span><span class="n">name</span>
+</pre></div>
+<div class="highlight"><pre><span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">actions</span> <span class="ow">in</span> <span class="n">people</span><span class="p">:</span>
+    <span class="k">print</span> <span class="n">name</span>
+</pre></div>
+<pre class="literal-block">
+arthur
+emily
+nicki
+</pre>
+<div class="highlight"><pre><span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">actions</span> <span class="ow">in</span> <span class="n">people</span><span class="p">:</span>
+    <span class="k">print</span> <span class="n">name</span>
+    <span class="k">for</span> <span class="n">action</span> <span class="ow">in</span> <span class="n">actions</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span><span class="n">action</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span>
+</pre></div>
+<pre class="literal-block">
+arthur
+    login
+emily
+    login
+    pageview
+    logout
+nicki
+    password_change
+    createpost
+</pre>
+<p>So now we've managed to easily convert relational Postgres data into a
+hierarchical Python data structure. From here we can easily continue to
+XML, JSON, HTML or whatever document type suits your need.</p>
+
+                    
+                </div>  
+                
+                
+            </article>
+            <hr/>
+            <article>
                 <h2><a href="/postgres-timestamps.html">Postgres Timestamps</a></h2>
                 
                 
@@ -1153,62 +1352,6 @@ rather than enable globally in the server.</p>
                 
             </article>
             <hr/>
-            <article>
-                <h2><a href="/ractive-js.html">Ractive.js</a></h2>
-                
-                
-                <div class="entry-content">
-
-                    <p><a class="reference external" href="http://www.ractivejs.org/">Ractive.js</a> caught my eye this week.  I've been using <a class="reference external" href="http://backbonejs.org/">Backbone</a> for the last couple
-of years to develop single page client-side applications, and I've liked how
-it doesn't get in your way, but simply allows you to get on with your work.</p>
-<p>When I noticed that three of the tools I was using: Coffeescript, Underscore, and
-<a class="reference external" href="http://backbonejs.org/">Backbone</a> were all written by the same guy, I realised that Jeremy Ashkenas
-is a seriously genius level developer.  I've loved working with his tools; and I
-love the fact that the code that he produces is so readable.  I'm always more comfortable
-working with a library when I can read through the entire source code if I run
-into problems.  Check out the nicely annotated source code for Backbone, for example,
-here: <a class="reference external" href="http://backbonejs.org/docs/backbone.html">http://backbonejs.org/docs/backbone.html</a></p>
-<p>(On that note, I love working with <a class="reference external" href="http://bottlepy.org/docs/dev/_modules/bottle.html">Bottle</a> for exactly the same reason - the entire
-framework is contained in a single, very readable, Python file.)</p>
-<p>But one problem that comes up time and time again, no matter what library or framework
-you're using, is the problem of binding data to controls.  Currently in my Backbone-based
-code I have event handling code that reacts to user input and updates the model, and
-I have more code that reacts to changes in the data model and updates the UI.  Wouldn't
-it be nice if this two-way data binding could happen automatically?  Wouldn't it be
-nice, for example, if you could do something like this:</p>
-<p>Imagine having a user interface like this:</p>
-<div class="highlight"><pre><span class="p">&lt;</span><span class="nt">label</span><span class="p">&gt;</span>
-    <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&#39;checkbox&#39;</span> <span class="na">checked</span><span class="o">=</span><span class="s">&#39;{{visible}}&#39;</span><span class="p">&gt;</span> visible?
-<span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
-</pre></div>
-<p>And underlying data like this:</p>
-<div class="highlight"><pre><span class="nx">data</span><span class="o">:</span> <span class="p">{</span>
-  <span class="s2">&quot;visible&quot;</span><span class="o">:</span> <span class="kc">false</span>
-<span class="p">}</span>
-</pre></div>
-<p>And imagine if all the data binding was handled for you, so that clicking on the checkbox
-will automatically change the value of the underlying javascript object, and changing
-the value of the object via <code class="code">
-ractive.set('visible',true)</code>
- updated the interface.</p>
-<p>That is exactly what Ractive does.  I haven't tried using it in production yet, but
-at the moment it feels like the next logical iteration in javascript frameworks.</p>
-<p>I was busy using Backbone heavily when Angular and Knockout came out, so I don't have
-much experience with them, but asking around the shop the consensus seems to be that
-Ractive looks significantly nicer to use than Knockout.</p>
-<p>And the best feature so far is their <em>awesome</em> <a class="reference external" href="http://learn.ractivejs.org/hello-world/1/">tutorial</a>.  This is, apparently, entirely
-written in Ractive, and guides you step by step through all the basic concepts of
-the library in an elegant, interactive fashion.  No more jumping through package installations
-and dependency hell before you can try out a new framework.  <em>This</em> is the way to
-introduce people to your work.  I'm very impressed.</p>
-
-                    
-                </div>  
-                
-                
-            </article>
-            <hr/>
 
         <ul class="pagination">
                 <li class="prev"><a href="/author/trevor2.html">&laquo;</a>
@@ -1219,7 +1362,10 @@ introduce people to your work.  I'm very impressed.</p>
                             href="/author/trevor2.html">2</a></li>
                     <li class="active"><a
                             href="/author/trevor3.html">3</a></li>
-                <li class="next disabled"><a href="#">&raquo;</a></li>
+                    <li class=""><a
+                            href="/author/trevor4.html">4</a></li>
+                <li class="next"><a
+                        href="/author/trevor4.html">&raquo;</a></li>
         </ul>
         </div>
         <div class="col-sm-3" id="sidebar">

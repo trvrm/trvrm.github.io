@@ -72,6 +72,77 @@ trvrm            </a>
     <div class="row">
         <div class="col-sm-9">
             <article>
+                <h2><a href="/coffeescript.html">CoffeeScript</a></h2>
+                
+                
+                <div class="entry-content">
+
+                    <p>Through a bizarre twist of history, the entire client-side web runs on a <a class="reference external" href="http://en.wikipedia.org/wiki/Brendan_Eich#Netscape_and_JavaScript">language</a>
+that was thrown together in 10 days.</p>
+<p>Despite huge investments in their own proprietary technology by the likes of Sun
+Microsystems, Adobe and Microsoft, this weird little spinoff of <strong>self</strong> and <strong>scheme</strong>
+is everywhere, while client-side Java, ActiveX and Flash fade into obscurity.</p>
+<p>Unsurprisingly for a language developed so quickly, Javascript is pretty ugly.
+I'm fond of saying that it's a horrible language, with a really nice language
+inside trying to get out.  It gets some things, like scoping rules, very, very
+wrong.  But it got other things, like anonymous functions, exactly right, long before
+they were adopted in Java, C#, or C++.  Even Python, my favourite language ever,
+doesn't get them quite right.</p>
+<p>Several people have attempted to build a nicer syntax on top of the javascript
+virtual machine.  In fact, the <a class="reference external" href="https://github.com/jashkenas/coffeescript/wiki/List-of-languages-that-compile-to-JS">list</a> of languages that compile to JS is startlingly
+big.</p>
+<p>For the last couple of years I've been using <a class="reference external" href="http://coffeescript.org/">CoffeeScript</a> as my standard javascript syntax.</p>
+<p>From the project page:</p>
+<blockquote>
+&quot;CoffeeScript is a little language that compiles into JavaScript.
+Underneath that awkward Java-esque patina, JavaScript has always
+had a gorgeous heart. CoffeeScript is an attempt to expose the
+good parts of JavaScript in a simple way.&quot;</blockquote>
+<p>and I think it achieves this admirably.  It doesn't solve <em>all</em> of javascript's problems -
+you can still get into trouble with the Infamous Loop Problem, but it does make the language
+considerably more succinct, mostly by stealing ideas from Python and Haskell.</p>
+<div class="section" id="examples">
+<h2>Examples</h2>
+<p>Function definitions go from</p>
+<div class="highlight"><pre><span class="kd">function</span> <span class="nx">d</span><span class="p">(</span><span class="nx">x</span><span class="p">){</span>
+    <span class="k">return</span> <span class="mi">2</span><span class="o">*</span><span class="nx">x</span>
+<span class="p">}</span>
+</pre></div>
+<p>to</p>
+<div class="highlight"><pre><span class="nv">d = </span><span class="nf">(x) -&gt;</span> <span class="mi">2</span><span class="o">*</span><span class="nx">x</span>
+</pre></div>
+<p>This makes for very quick object construction:</p>
+<div class="highlight"><pre><span class="nv">math =</span>
+    <span class="nv">root: </span>  <span class="nb">Math</span><span class="p">.</span><span class="nx">sqrt</span>
+    <span class="nv">square: </span><span class="nx">square</span>
+    <span class="nv">cube: </span>  <span class="nf">(x) -&gt;</span> <span class="nx">x</span> <span class="o">*</span> <span class="nx">square</span> <span class="nx">x</span>
+</pre></div>
+<p>It also borrows Python's list comprehension syntax:</p>
+<div class="highlight"><pre><span class="nx">values</span><span class="o">=</span><span class="p">(</span><span class="nx">option</span><span class="p">.</span><span class="nx">value</span> <span class="k">for</span> <span class="nx">option</span> <span class="k">in</span> <span class="nx">question</span><span class="p">.</span><span class="nx">options</span><span class="p">)</span>
+</pre></div>
+<p>The near complete absense of curly brackets saves a lot of wasted lines in
+my source code, and enables me to see what's going on a lot clearer than in raw
+javascript.  On the downside, I do find myself fairly regularly testing out code
+snippets in the <a class="reference external" href="http://coffeescript.org/">CoffeeScript</a> online compiler to make sure that I've properly understood
+how they will be interpreted.</p>
+<p>Because CoffeeScript is a compiled language, to work with it effectively requires
+integrating the compiler into your toolchain.  For my larger projects I've hand-written
+a tool using Python's <a class="reference external" href="https://pypi.python.org/pypi/watchdog">Watchdog</a> package to monitor my source code directories and
+output compiled javascript everytime a file changes.</p>
+<p>As a nice little extra, my tool jams in a warning message wrapped in an <code class="code">
+alert</code>
+ call
+if the compliation fails, so if I introduce a syntax error in my coffeescript, as soon
+as I refresh the page that is using it I'll be presented with the source of the problem.</p>
+</div>
+
+                    
+                </div>  
+                
+                
+            </article>
+            <hr/>
+            <article>
                 <h2><a href="/configuring-systems-with-fabric-and-cuisine.html">Configuring Systems with Fabric and Cuisine</a></h2>
                 
                 
@@ -522,205 +593,6 @@ delivered almost 10 million messages for clients of <a class="reference external
                 
             </article>
             <hr/>
-            <article>
-                <h2><a href="/postgres-json-aggregation.html">Postgres JSON Aggregation</a></h2>
-                
-                
-                <div class="entry-content">
-
-                    <p>I've been using the new JSON functionality in Postgres a lot recently:
-I'm fond of saying that Postgresql is the best NoSQL database available
-today. I'm quite serious about this: having used key-value and JSON
-stores such as CouchDB in the past, it's amazing to me how the Postgres
-developers have managed to marry the best of traditional relational
-technology with the flexibility of schema-free JSON documents.</p>
-<p>As of version 9.3, postgres allows you to create JSON column types, and
-provides a number of functions to access and iterate through the data
-stored in them.</p>
-<p>This week I discovered another hidden gem - <code class="code">
-json_agg()</code>
-. This
-function lets you take the results from an aggregation operation and
-convert them into a JSON block - very helpful if you're then going to
-work with the returned data in a language like Python</p>
-<p>To demonstrate this, we'll first set up some simple tables.</p>
-<div class="highlight"><pre><span class="o">%</span><span class="n">load_ext</span> <span class="n">sql</span>
-<span class="o">%</span><span class="n">config</span> <span class="n">SqlMagic</span><span class="o">.</span><span class="n">feedback</span><span class="o">=</span><span class="bp">False</span>
-</pre></div>
-<div class="highlight"><pre><span class="o">%%</span><span class="n">sql</span>
-<span class="n">postgresql</span><span class="p">:</span><span class="o">//</span><span class="n">testuser</span><span class="p">:</span><span class="n">password</span><span class="nd">@localhost</span><span class="o">/</span><span class="n">test</span>
-</pre></div>
-<pre class="literal-block">
-u'Connected: <a class="reference external" href="mailto:testuser&#64;test">testuser&#64;test</a>'
-</pre>
-<div class="highlight"><pre><span class="o">%%</span><span class="n">sql</span>
-<span class="n">CREATE</span> <span class="n">TABLE</span> <span class="n">IF</span> <span class="n">NOT</span> <span class="n">EXISTS</span> <span class="n">person</span> <span class="p">(</span>
-    <span class="n">name</span> <span class="n">text</span> <span class="n">primary</span> <span class="n">key</span>
-<span class="p">);</span>
-
-<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">person</span> <span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="n">VALUES</span>
-<span class="p">(</span><span class="s1">&#39;emily&#39;</span><span class="p">),(</span><span class="s1">&#39;arthur&#39;</span><span class="p">),(</span><span class="s1">&#39;nicki&#39;</span><span class="p">),(</span><span class="s1">&#39;oliver&#39;</span><span class="p">)</span>
-<span class="p">;</span>
-</pre></div>
-<pre class="literal-block">
-[]
-</pre>
-<p>We can query this in the usual way:</p>
-<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="o">*</span> <span class="n">FROM</span> <span class="n">person</span><span class="p">;</span>
-</pre></div>
-<table class="table table-bordered">
-    <tr>
-        <th>name</th>
-    </tr>
-    <tr>
-        <td>emily</td>
-    </tr>
-    <tr>
-        <td>arthur</td>
-    </tr>
-    <tr>
-        <td>nicki</td>
-    </tr>
-    <tr>
-        <td>oliver</td>
-    </tr>
-</table><p>But we can also use <code class="code">
-json_agg()</code>
-</p>
-<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="n">json_agg</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="n">FROM</span> <span class="n">person</span>
-</pre></div>
-<table class="table table-bordered">
-    <tr>
-        <th>json_agg</th>
-    </tr>
-    <tr>
-        <td>[u'emily', u'arthur', u'nicki', u'oliver']</td>
-    </tr>
-</table><p>Which gives us a single object to work with. So far, this isn't
-particularly helpful, but it becomes very useful when we start doing
-<code class="code">
-JOINS</code>
-</p>
-<div class="highlight"><pre><span class="o">%%</span><span class="n">sql</span>
-<span class="n">CREATE</span> <span class="n">TABLE</span> <span class="n">IF</span> <span class="n">NOT</span> <span class="n">EXISTS</span> <span class="n">action</span><span class="p">(</span>
-    <span class="nb">id</span> <span class="n">serial</span> <span class="n">primary</span> <span class="n">key</span><span class="p">,</span>
-    <span class="n">created</span> <span class="n">timestamp</span> <span class="k">with</span> <span class="n">time</span> <span class="n">zone</span> <span class="n">default</span> <span class="n">now</span><span class="p">(),</span>
-    <span class="n">person_name</span> <span class="n">text</span> <span class="n">references</span> <span class="n">person</span><span class="p">,</span>
-    <span class="nb">type</span> <span class="n">text</span> <span class="ow">not</span> <span class="n">null</span>
-<span class="p">);</span>
-
-<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">action</span><span class="p">(</span><span class="n">person_name</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="s1">&#39;emily&#39;</span><span class="p">,</span><span class="s1">&#39;login&#39;</span><span class="p">);</span>
-<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">action</span><span class="p">(</span><span class="n">person_name</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="s1">&#39;emily&#39;</span><span class="p">,</span><span class="s1">&#39;pageview&#39;</span><span class="p">);</span>
-<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">action</span><span class="p">(</span><span class="n">person_name</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="s1">&#39;arthur&#39;</span><span class="p">,</span><span class="s1">&#39;login&#39;</span><span class="p">);</span>
-<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">action</span><span class="p">(</span><span class="n">person_name</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="s1">&#39;emily&#39;</span><span class="p">,</span><span class="s1">&#39;logout&#39;</span><span class="p">);</span>
-<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">action</span><span class="p">(</span><span class="n">person_name</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="s1">&#39;nicki&#39;</span><span class="p">,</span><span class="s1">&#39;password_change&#39;</span><span class="p">);</span>
-<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">action</span><span class="p">(</span><span class="n">person_name</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="s1">&#39;nicki&#39;</span><span class="p">,</span><span class="s1">&#39;createpost&#39;</span><span class="p">);</span>
-</pre></div>
-<pre class="literal-block">
-[]
-</pre>
-<p>If we want to ask Postgres to give us every user and every action
-they've performed, we <em>could</em> do it this way:</p>
-<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="n">person</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>  <span class="n">action</span><span class="o">.</span><span class="n">type</span> <span class="p">,</span> <span class="n">action</span><span class="o">.</span><span class="n">created</span> <span class="n">FROM</span> <span class="n">action</span> <span class="n">JOIN</span> <span class="n">person</span> <span class="n">ON</span> <span class="n">action</span><span class="o">.</span><span class="n">person_name</span><span class="o">=</span><span class="n">person</span><span class="o">.</span><span class="n">name</span>
-</pre></div>
-<table class="table table-bordered">
-    <tr>
-        <th>name</th>
-        <th>type</th>
-        <th>created</th>
-    </tr>
-    <tr>
-        <td>emily</td>
-        <td>login</td>
-        <td>2014-11-08 17:45:05.963569-05:00</td>
-    </tr>
-    <tr>
-        <td>emily</td>
-        <td>pageview</td>
-        <td>2014-11-08 17:45:05.964663-05:00</td>
-    </tr>
-    <tr>
-        <td>arthur</td>
-        <td>login</td>
-        <td>2014-11-08 17:45:05.965214-05:00</td>
-    </tr>
-    <tr>
-        <td>emily</td>
-        <td>logout</td>
-        <td>2014-11-08 17:45:05.965741-05:00</td>
-    </tr>
-    <tr>
-        <td>nicki</td>
-        <td>password_change</td>
-        <td>2014-11-08 17:45:05.966274-05:00</td>
-    </tr>
-    <tr>
-        <td>nicki</td>
-        <td>createpost</td>
-        <td>2014-11-08 17:45:05.966824-05:00</td>
-    </tr>
-</table><p>But then iterating through this recordset is a pain - I can't easily
-construct a nested for loop to iterate through each person and then
-through each action.</p>
-<p>Enter <code class="code">
-json_agg()</code>
-</p>
-<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="n">person</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>  <span class="n">json_agg</span><span class="p">(</span><span class="n">action</span><span class="p">)</span> <span class="n">FROM</span> <span class="n">action</span> <span class="n">JOIN</span> <span class="n">person</span> <span class="n">ON</span> <span class="n">action</span><span class="o">.</span><span class="n">person_name</span><span class="o">=</span><span class="n">person</span><span class="o">.</span><span class="n">name</span> <span class="n">GROUP</span> <span class="n">BY</span> <span class="n">person</span><span class="o">.</span><span class="n">name</span>
-</pre></div>
-<table class="table table-bordered">
-    <tr>
-        <th>name</th>
-        <th>json_agg</th>
-    </tr>
-    <tr>
-        <td>arthur</td>
-        <td>[{u'person_name': u'arthur', u'type': u'login', u'id': 3, u'created': u'2014-11-08 17:45:05.965214-05'}]</td>
-    </tr>
-    <tr>
-        <td>emily</td>
-        <td>[{u'person_name': u'emily', u'type': u'login', u'id': 1, u'created': u'2014-11-08 17:45:05.963569-05'}, {u'person_name': u'emily', u'type': u'pageview', u'id': 2, u'created': u'2014-11-08 17:45:05.964663-05'}, {u'person_name': u'emily', u'type': u'logout', u'id': 4, u'created': u'2014-11-08 17:45:05.965741-05'}]</td>
-    </tr>
-    <tr>
-        <td>nicki</td>
-        <td>[{u'person_name': u'nicki', u'type': u'password_change', u'id': 5, u'created': u'2014-11-08 17:45:05.966274-05'}, {u'person_name': u'nicki', u'type': u'createpost', u'id': 6, u'created': u'2014-11-08 17:45:05.966824-05'}]</td>
-    </tr>
-</table><p>Which becomes much more usable in Python:</p>
-<div class="highlight"><pre><span class="n">people</span> <span class="o">=</span> <span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="n">person</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>  <span class="n">json_agg</span><span class="p">(</span><span class="n">action</span><span class="p">)</span> <span class="n">FROM</span> <span class="n">action</span> <span class="n">JOIN</span> <span class="n">person</span> <span class="n">ON</span> <span class="n">action</span><span class="o">.</span><span class="n">person_name</span><span class="o">=</span><span class="n">person</span><span class="o">.</span><span class="n">name</span> <span class="n">GROUP</span> <span class="n">BY</span> <span class="n">person</span><span class="o">.</span><span class="n">name</span>
-</pre></div>
-<div class="highlight"><pre><span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">actions</span> <span class="ow">in</span> <span class="n">people</span><span class="p">:</span>
-    <span class="k">print</span> <span class="n">name</span>
-</pre></div>
-<pre class="literal-block">
-arthur
-emily
-nicki
-</pre>
-<div class="highlight"><pre><span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">actions</span> <span class="ow">in</span> <span class="n">people</span><span class="p">:</span>
-    <span class="k">print</span> <span class="n">name</span>
-    <span class="k">for</span> <span class="n">action</span> <span class="ow">in</span> <span class="n">actions</span><span class="p">:</span>
-        <span class="k">print</span> <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span><span class="n">action</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span>
-</pre></div>
-<pre class="literal-block">
-arthur
-    login
-emily
-    login
-    pageview
-    logout
-nicki
-    password_change
-    createpost
-</pre>
-<p>So now we've managed to easily convert relational Postgres data into a
-hierarchical Python data structure. From here we can easily continue to
-XML, JSON, HTML or whatever document type suits your need.</p>
-
-                    
-                </div>  
-                
-                
-            </article>
-            <hr/>
 
         <ul class="pagination">
                 <li class="prev"><a href="/index.html">&laquo;</a>
@@ -731,6 +603,8 @@ XML, JSON, HTML or whatever document type suits your need.</p>
                             href="/index2.html">2</a></li>
                     <li class=""><a
                             href="/index3.html">3</a></li>
+                    <li class=""><a
+                            href="/index4.html">4</a></li>
                 <li class="next"><a
                         href="/index3.html">&raquo;</a></li>
         </ul>

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<head>
+    <title>trvrm</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <link href="/images/favicon.png" rel="icon">
+
+<link rel="canonical" href="">
+        <meta name="author" content="trvrm" />
+
+    <!-- Open Graph tags -->
+        <meta property="og:site_name" content="trvrm" />
+        <meta property="og:type" content="website"/>
+        <meta property="og:title" content="trvrm"/>
+        <meta property="og:url" content=""/>
+        <meta property="og:description" content="trvrm"/>
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="/theme/css/bootstrap.flatly.min.css" type="text/css"/>
+    <link href="/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="/theme/css/pygments/tango.css" rel="stylesheet">
+    <link rel="stylesheet" href="/theme/css/style.css" type="text/css"/>
+
+
+
+
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="/" class="navbar-brand">
+trvrm            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                        <li >
+                            <a href="/category/database.html">Database</a>
+                        </li>
+                        <li >
+                            <a href="/category/software.html">Software</a>
+                        </li>
+                        <li >
+                            <a href="/category/systems.html">Systems</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="/archives.html"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+<!-- Banner -->
+<!-- End Banner -->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+            <article>
+                <h2><a href="/ractive-js.html">Ractive.js</a></h2>
+                
+                
+                <div class="entry-content">
+
+                    <p><a class="reference external" href="http://www.ractivejs.org/">Ractive.js</a> caught my eye this week.  I've been using <a class="reference external" href="http://backbonejs.org/">Backbone</a> for the last couple
+of years to develop single page client-side applications, and I've liked how
+it doesn't get in your way, but simply allows you to get on with your work.</p>
+<p>When I noticed that three of the tools I was using: Coffeescript, Underscore, and
+<a class="reference external" href="http://backbonejs.org/">Backbone</a> were all written by the same guy, I realised that Jeremy Ashkenas
+is a seriously genius level developer.  I've loved working with his tools; and I
+love the fact that the code that he produces is so readable.  I'm always more comfortable
+working with a library when I can read through the entire source code if I run
+into problems.  Check out the nicely annotated source code for Backbone, for example,
+here: <a class="reference external" href="http://backbonejs.org/docs/backbone.html">http://backbonejs.org/docs/backbone.html</a></p>
+<p>(On that note, I love working with <a class="reference external" href="http://bottlepy.org/docs/dev/_modules/bottle.html">Bottle</a> for exactly the same reason - the entire
+framework is contained in a single, very readable, Python file.)</p>
+<p>But one problem that comes up time and time again, no matter what library or framework
+you're using, is the problem of binding data to controls.  Currently in my Backbone-based
+code I have event handling code that reacts to user input and updates the model, and
+I have more code that reacts to changes in the data model and updates the UI.  Wouldn't
+it be nice if this two-way data binding could happen automatically?  Wouldn't it be
+nice, for example, if you could do something like this:</p>
+<p>Imagine having a user interface like this:</p>
+<div class="highlight"><pre><span class="p">&lt;</span><span class="nt">label</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&#39;checkbox&#39;</span> <span class="na">checked</span><span class="o">=</span><span class="s">&#39;{{visible}}&#39;</span><span class="p">&gt;</span> visible?
+<span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+</pre></div>
+<p>And underlying data like this:</p>
+<div class="highlight"><pre><span class="nx">data</span><span class="o">:</span> <span class="p">{</span>
+  <span class="s2">&quot;visible&quot;</span><span class="o">:</span> <span class="kc">false</span>
+<span class="p">}</span>
+</pre></div>
+<p>And imagine if all the data binding was handled for you, so that clicking on the checkbox
+will automatically change the value of the underlying javascript object, and changing
+the value of the object via <code class="code">
+ractive.set('visible',true)</code>
+ updated the interface.</p>
+<p>That is exactly what Ractive does.  I haven't tried using it in production yet, but
+at the moment it feels like the next logical iteration in javascript frameworks.</p>
+<p>I was busy using Backbone heavily when Angular and Knockout came out, so I don't have
+much experience with them, but asking around the shop the consensus seems to be that
+Ractive looks significantly nicer to use than Knockout.</p>
+<p>And the best feature so far is their <em>awesome</em> <a class="reference external" href="http://learn.ractivejs.org/hello-world/1/">tutorial</a>.  This is, apparently, entirely
+written in Ractive, and guides you step by step through all the basic concepts of
+the library in an elegant, interactive fashion.  No more jumping through package installations
+and dependency hell before you can try out a new framework.  <em>This</em> is the way to
+introduce people to your work.  I'm very impressed.</p>
+
+                    
+                </div>  
+                
+                
+            </article>
+            <hr/>
+
+        <ul class="pagination">
+                <li class="prev"><a href="/index3.html">&laquo;</a>
+                </li>
+                    <li class=""><a
+                            href="/index.html">1</a></li>
+                    <li class=""><a
+                            href="/index2.html">2</a></li>
+                    <li class=""><a
+                            href="/index3.html">3</a></li>
+                    <li class="active"><a
+                            href="/index4.html">4</a></li>
+                <li class="next disabled"><a href="#">&raquo;</a></li>
+        </ul>
+        </div>
+        <div class="col-sm-3" id="sidebar">
+            <aside>
+
+<section class="well well-sm">
+    <ul class="list-group list-group-flush">
+            <li class="list-group-item"><h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Social</span></h4>
+              <ul class="list-group" id="social">
+                <li class="list-group-item"><a href="https://twitter.com/trvrm"><i class="fa fa-twitter-square fa-lg"></i> twitter</a></li>
+              </ul>
+            </li>
+
+
+
+
+
+    </ul>
+</section>
+            </aside>
+        </div>
+    </div>
+</div>
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2017 trvrm
+            &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="/theme/js/respond.min.js"></script>
+
+
+</body>
+</html>
