@@ -1,5 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>trvrm</title><link>/</link><description></description><atom:link href="/feeds/trevor.rss.xml" rel="self"></atom:link><lastBuildDate>Sun, 26 Feb 2017 00:00:00 +0100</lastBuildDate><item><title>Basic Keras Example</title><link>/basic-keras-example.html</link><description>&lt;p&gt;&lt;a href="https://keras.io/"&gt;Keras&lt;/a&gt; is a high-level neural network Python library, designed to sit on top of lower level implementations such as &lt;a href="https://www.tensorflow.org/"&gt;TensorFlow&lt;/a&gt;.&lt;/p&gt;
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>trvrm</title><link>/</link><description></description><atom:link href="/feeds/trevor.rss.xml" rel="self"></atom:link><lastBuildDate>Fri, 17 Mar 2017 00:00:00 +0100</lastBuildDate><item><title>Image recognition with Keras, Tensorflow, and InceptionV3</title><link>/image-recognition-with-keras-tensorflow-and-inceptionv3.html</link><description>&lt;p&gt;Neural networks are a powerful tool for teaching computers to recognize complex patterns, and now tools like &lt;a href="https://keras.io/"&gt;Keras&lt;/a&gt; and &lt;a href="https://www.tensorflow.org/"&gt;TensorFlow&lt;/a&gt; are beginning to make them a practical tool for programmers who don't have a PhD in machine learning.&lt;/p&gt;
+&lt;p&gt;One very powerful aspect of these tools is the ability to share pre-trained models with others. There are many tutorials and courses that will walk you through the process of building a neural net and training it on some data set.  But in other areas of software development we are far more likely to use off-the-shelf implementations of common algorithms rather than rolling them ourselves.  We might work through implementing a sort algorithm or a binary tree in order to better understand the concepts, but having done so we almost always end up using the algorithms that come built in to our language or programming environment.&lt;/p&gt;
+&lt;p&gt;I suspect we'll see the same sort of thing happen in the machine learning world. While being able to train models on our own data will continue to be extremely valuable, there will be many cases where a model already exists that does what we want, and we'll just want to plug it in to our data.&lt;/p&gt;
+&lt;p&gt;Keras already provides some pre-trained models: in this article, I'll use the &lt;a href="https://www.tensorflow.org/tutorials/image_recognition"&gt;Inception V3&lt;/a&gt; model to classify an image.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;numpy&lt;/span&gt; &lt;span class="kn"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;np&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;keras&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;keras.preprocessing&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;image&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;keras.applications.inception_v3&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;decode_predictions&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;keras.applications.inception_v3&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;preprocess_input&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;Load the pre-trained model&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;inception&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;keras&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;applications&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;inception_v3&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;InceptionV3&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+    &lt;span class="n"&gt;include_top&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; 
+    &lt;span class="n"&gt;weights&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;imagenet&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; 
+    &lt;span class="n"&gt;input_tensor&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; 
+    &lt;span class="n"&gt;input_shape&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;None&lt;/span&gt;
+&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;(This actually downloads the weights from github.  Keras saves your model files in &lt;code&gt;~/.keras/models&lt;/code&gt; in the &lt;a href="https://en.wikipedia.org/wiki/Hierarchical_Data_Format"&gt;HDF5&lt;/a&gt; file format.)&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="err"&gt;!&lt;/span&gt;&lt;span class="n"&gt;ls&lt;/span&gt;  &lt;span class="o"&gt;~/.&lt;/span&gt;&lt;span class="n"&gt;keras&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;models&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;inception_v3_weights_tf_dim_ordering_tf_kernels.h5
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;inception&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&amp;lt;keras.engine.training.Model at 0x7f6946e537b8&amp;gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;inception&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;summary&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;____________________________________________________________________________________________________
+Layer (type)                     Output Shape          Param #     Connected to                     
+====================================================================================================
+input_1 (InputLayer)             (None, 299, 299, 3)   0                                            
+____________________________________________________________________________________________________
+conv2d_1 (Conv2D)                (None, 149, 149, 32)  864                                          
+____________________________________________________________________________________________________
+batch_normalization_1 (BatchNorm (None, 149, 149, 32)  96
+
+
+(snipped several hundred lines here...)
+
+
+
+mixed10 (Concatenate)            (None, 8, 8, 2048)    0                                            
+____________________________________________________________________________________________________
+avg_pool (GlobalAveragePooling2D (None, 2048)          0                                            
+____________________________________________________________________________________________________
+predictions (Dense)              (None, 1000)          2049000                                      
+====================================================================================================
+Total params: 23,851,784.0
+Trainable params: 23,817,352.0
+Non-trainable params: 34,432.0
+____________________________________________________________________________________________________
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;Now let's load an image and see if Inception can recognize it&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;img&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;image&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;load_img&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;./hamster.jpg&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;target_size&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;299&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;299&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;img&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;img alt="png" src="images/inception/output_14_0.png" /&gt;&lt;/p&gt;
+&lt;p&gt;Keras requires the input data to be in a specific shape.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;image&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;img_to_array&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;img&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;expand_dims&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;axis&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;preprocess_input&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;shape&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;(1, 299, 299, 3)
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;predictions&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;inception&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;predict&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;prediction&lt;/span&gt;  &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;decode_predictions&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;preds&lt;/span&gt;&lt;span class="p"&gt;)[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="n"&gt;prediction&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;(&amp;#39;n02342885&amp;#39;, &amp;#39;hamster&amp;#39;, 0.91639304)
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;And we're done&lt;/h3&gt;
+&lt;p&gt;Inception is pretty confident that this is a picture of a hamster.  Without having 
+to do any training ourselves, or really having to know anything at all about neural networks,
+we've leveraged a publicly available model to classify our image.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Trevor</dc:creator><pubDate>Fri, 17 Mar 2017 00:00:00 +0100</pubDate><guid>tag:,2017-03-17:image-recognition-with-keras-tensorflow-and-inceptionv3.html</guid><category>Python</category><category>TensorFlow</category><category>Machine Learning</category><category>Keras</category></item><item><title>Basic Keras Example</title><link>/basic-keras-example.html</link><description>&lt;p&gt;&lt;a href="https://keras.io/"&gt;Keras&lt;/a&gt; is a high-level neural network Python library, designed to sit on top of lower level implementations such as &lt;a href="https://www.tensorflow.org/"&gt;TensorFlow&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;It provides abstractions that enable you to quickly create neural network structures.  Here I'm going to try to create a simple 3 layer network, and use it to solve a basic classification problem.&lt;/p&gt;
 &lt;p&gt;For reference, the problem I'm trying to solve, and the network I'm using to solve it, are roughly equivalent to &lt;a href="http://playground.tensorflow.org/#activation=relu&amp;amp;regularization=L1&amp;amp;batchSize=10&amp;amp;dataset=xor&amp;amp;regDataset=reg-plane&amp;amp;learningRate=0.003&amp;amp;regularizationRate=0.001&amp;amp;noise=0&amp;amp;networkShape=4,1&amp;amp;seed=0.92802&amp;amp;showTestData=false&amp;amp;discretize=false&amp;amp;percTrainData=50&amp;amp;x=true&amp;amp;y=true&amp;amp;xTimesY=false&amp;amp;xSquared=false&amp;amp;ySquared=false&amp;amp;cosX=false&amp;amp;sinX=false&amp;amp;cosY=false&amp;amp;sinY=false&amp;amp;collectStats=false&amp;amp;problem=classification&amp;amp;initZero=false&amp;amp;hideText=false"&gt;this interactive example  at playground.tensorflow.org&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Tell Jupyter to display matlplotlib plots directly in the notebook&lt;/strong&gt;&lt;/p&gt;

@@ -73,6 +73,46 @@ trvrm            </a>
     <div class="row">
         <div class="col-sm-9">
             <article>
+                <h2><a href="/ipython-with-python-3.html">IPython with Python 3</a></h2>
+                
+                
+                <div class="entry-content">
+
+                    <p>This took me longer than I was expecting.</p>
+<p>In general when working with IPython I use <code class="code">
+pip</code>
+ rather than <code class="code">
+apt-get</code>
+, as
+pip tends to have more up-to-date packages.</p>
+<p>In the end I found the simplest thing to do was to set up IPython in an isolated
+virtualenv environment.  The main trick is to let virtualenv know what version of
+Python you want it to use by default.</p>
+<div class="highlight"><pre>$ virtualenv --python<span class="o">=</span>python3.4 python_3_demo
+$ <span class="nb">cd</span> python_3_demo/
+$ <span class="nb">source</span> ./bin/activate
+$ pip install ipython
+$ ipython
+</pre></div>
+<div class="highlight"><pre><span class="n">Python</span> <span class="mf">3.4</span><span class="o">.</span><span class="mi">0</span> <span class="p">(</span><span class="n">default</span><span class="p">,</span> <span class="n">Apr</span> <span class="mi">11</span> <span class="mi">2014</span><span class="p">,</span> <span class="mi">13</span><span class="p">:</span><span class="mo">05</span><span class="p">:</span><span class="mi">11</span><span class="p">)</span>
+<span class="o">...</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">2</span><span class="p">]:</span> <span class="k">print</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">version</span><span class="p">)</span>
+<span class="mf">3.4</span><span class="o">.</span><span class="mi">0</span> <span class="p">(</span><span class="n">default</span><span class="p">,</span> <span class="n">Apr</span> <span class="mi">11</span> <span class="mi">2014</span><span class="p">,</span> <span class="mi">13</span><span class="p">:</span><span class="mo">05</span><span class="p">:</span><span class="mi">11</span><span class="p">)</span>
+<span class="p">[</span><span class="n">GCC</span> <span class="mf">4.8</span><span class="o">.</span><span class="mi">2</span><span class="p">]</span>
+</pre></div>
+<p>And voila, I have Python 3 in the best Python interpreter ever built, I'm ready to
+start wrapping my head around byte arrays and UTF-8 encodings.</p>
+
+                    
+                </div>  
+                
+                
+            </article>
+            <hr/>
+            <article>
                 <h2><a href="/more-ractive.html">More Ractive</a></h2>
                 
                 
@@ -915,62 +955,6 @@ rather than enable globally in the server.</p>
                 
             </article>
             <hr/>
-            <article>
-                <h2><a href="/ractive-js.html">Ractive.js</a></h2>
-                
-                
-                <div class="entry-content">
-
-                    <p><a class="reference external" href="http://www.ractivejs.org/">Ractive.js</a> caught my eye this week.  I've been using <a class="reference external" href="http://backbonejs.org/">Backbone</a> for the last couple
-of years to develop single page client-side applications, and I've liked how
-it doesn't get in your way, but simply allows you to get on with your work.</p>
-<p>When I noticed that three of the tools I was using: Coffeescript, Underscore, and
-<a class="reference external" href="http://backbonejs.org/">Backbone</a> were all written by the same guy, I realised that Jeremy Ashkenas
-is a seriously genius level developer.  I've loved working with his tools; and I
-love the fact that the code that he produces is so readable.  I'm always more comfortable
-working with a library when I can read through the entire source code if I run
-into problems.  Check out the nicely annotated source code for Backbone, for example,
-here: <a class="reference external" href="http://backbonejs.org/docs/backbone.html">http://backbonejs.org/docs/backbone.html</a></p>
-<p>(On that note, I love working with <a class="reference external" href="http://bottlepy.org/docs/dev/_modules/bottle.html">Bottle</a> for exactly the same reason - the entire
-framework is contained in a single, very readable, Python file.)</p>
-<p>But one problem that comes up time and time again, no matter what library or framework
-you're using, is the problem of binding data to controls.  Currently in my Backbone-based
-code I have event handling code that reacts to user input and updates the model, and
-I have more code that reacts to changes in the data model and updates the UI.  Wouldn't
-it be nice if this two-way data binding could happen automatically?  Wouldn't it be
-nice, for example, if you could do something like this:</p>
-<p>Imagine having a user interface like this:</p>
-<div class="highlight"><pre><span class="p">&lt;</span><span class="nt">label</span><span class="p">&gt;</span>
-    <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&#39;checkbox&#39;</span> <span class="na">checked</span><span class="o">=</span><span class="s">&#39;{{visible}}&#39;</span><span class="p">&gt;</span> visible?
-<span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
-</pre></div>
-<p>And underlying data like this:</p>
-<div class="highlight"><pre><span class="nx">data</span><span class="o">:</span> <span class="p">{</span>
-  <span class="s2">&quot;visible&quot;</span><span class="o">:</span> <span class="kc">false</span>
-<span class="p">}</span>
-</pre></div>
-<p>And imagine if all the data binding was handled for you, so that clicking on the checkbox
-will automatically change the value of the underlying javascript object, and changing
-the value of the object via <code class="code">
-ractive.set('visible',true)</code>
- updated the interface.</p>
-<p>That is exactly what Ractive does.  I haven't tried using it in production yet, but
-at the moment it feels like the next logical iteration in javascript frameworks.</p>
-<p>I was busy using Backbone heavily when Angular and Knockout came out, so I don't have
-much experience with them, but asking around the shop the consensus seems to be that
-Ractive looks significantly nicer to use than Knockout.</p>
-<p>And the best feature so far is their <em>awesome</em> <a class="reference external" href="http://learn.ractivejs.org/hello-world/1/">tutorial</a>.  This is, apparently, entirely
-written in Ractive, and guides you step by step through all the basic concepts of
-the library in an elegant, interactive fashion.  No more jumping through package installations
-and dependency hell before you can try out a new framework.  <em>This</em> is the way to
-introduce people to your work.  I'm very impressed.</p>
-
-                    
-                </div>  
-                
-                
-            </article>
-            <hr/>
 
         <ul class="pagination">
                 <li class="prev"><a href="/category/software.html">&laquo;</a>
@@ -979,7 +963,10 @@ introduce people to your work.  I'm very impressed.</p>
                             href="/category/software.html">1</a></li>
                     <li class="active"><a
                             href="/category/software2.html">2</a></li>
-                <li class="next disabled"><a href="#">&raquo;</a></li>
+                    <li class=""><a
+                            href="/category/software3.html">3</a></li>
+                <li class="next"><a
+                        href="/category/software3.html">&raquo;</a></li>
         </ul>
         </div>
         <div class="col-sm-3" id="sidebar">
