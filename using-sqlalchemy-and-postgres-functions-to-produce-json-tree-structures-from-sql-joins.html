@@ -119,7 +119,7 @@ trvrm            </a>
 <p>I also show how to wrap these tricks in SQLAlchemy expressions.  I've started writing my SQL queries almost exclusively in SQLAlchemy, since I discovered that it allows me to think and reason about queries as collections of composable elements.  </p>
 <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sqlalchemy</span>
 <span class="kn">import</span> <span class="nn">pandas</span>
-<span class="kn">from</span> <span class="nn">sqlalchemy.sql</span> <span class="kn">import</span> <span class="n">func</span><span class="p">,</span><span class="n">select</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy.sql</span> <span class="kn">import</span> <span class="n">func</span><span class="p">,</span><span class="n">select</span><span class="p">,</span> <span class="n">literal_column</span>
 <span class="kn">import</span> <span class="nn">functools</span>
 
 <span class="n">pandas</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s2">&quot;display.width&quot;</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span>
