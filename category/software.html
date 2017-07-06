@@ -73,6 +73,822 @@ trvrm            </a>
     <div class="row">
         <div class="col-sm-9">
             <article>
+                <h2><a href="/using-sqlalchemy-and-postgres-functions-to-produce-json-tree-structures-from-sql-joins.html">Using SQLAlchemy and Postgres functions to produce JSON tree structures from SQL joins</a></h2>
+                
+                
+                <div class="entry-content">
+
+                    <p>More and more I'm discovering that Postgres is an amazingly powerful 'NoSQL' database, as well as the best relational database available today.</p>
+<p>Since the introduction of the JSON and JSONB data types, I've been able to store both deeply nested, unstructured data AND highly relational data in the same data store.</p>
+<p>But sometimes I need to be able to map between the two domains. For example, I want to perform a join across two tables and return the result as a nested tree structure, perhaps for rendering on a webpage.</p>
+<p>In the past I might have aggregated the data manually in a loop, but here I demonstrate some neat tricks to get Postgres to do the heavy lifting for you.</p>
+<p>I also show how to wrap these tricks in SQLAlchemy expressions.  I've started writing my SQL queries almost exclusively in SQLAlchemy, since I discovered that it allows me to think and reason about queries as collections of composable elements.  </p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sqlalchemy</span>
+<span class="kn">import</span> <span class="nn">pandas</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy.sql</span> <span class="kn">import</span> <span class="n">func</span><span class="p">,</span><span class="n">select</span>
+<span class="kn">import</span> <span class="nn">functools</span>
+
+<span class="n">pandas</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s2">&quot;display.width&quot;</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span>
+<span class="n">pandas</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;display.max_colwidth&#39;</span><span class="p">,</span> <span class="mi">110</span><span class="p">)</span>
+
+<span class="n">engine</span> <span class="o">=</span> <span class="n">sqlalchemy</span><span class="o">.</span><span class="n">create_engine</span><span class="p">(</span><span class="s1">&#39;postgresql+psycopg2://demo:password@localhost/demo&#39;</span><span class="p">)</span>
+<span class="n">read</span> <span class="o">=</span> <span class="n">functools</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span><span class="n">pandas</span><span class="o">.</span><span class="n">read_sql</span><span class="p">,</span><span class="n">con</span><span class="o">=</span><span class="n">engine</span><span class="p">)</span>
+</pre></div>
+
+
+<h2>Turn a simple join into a nested JSON structure</h2>
+<p>Consider a database consisting of two tables: <code>book</code> and <code>author</code>.</p>
+<p>Each author may have written multiple books.  I want a list of authors, and for each author I want a nested list of the books they have written.</p>
+<h4>Create the tables</h4>
+<div class="highlight"><pre><span></span><span class="n">engine</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">    DROP TABLE IF EXISTS book;</span>
+<span class="s1">    DROP TABLE IF EXISTS author;</span>
+<span class="s1">    CREATE TABLE IF NOT EXISTS author(</span>
+<span class="s1">        id int primary key,</span>
+<span class="s1">        name text</span>
+<span class="s1">    );</span>
+
+<span class="s1">    CREATE TABLE IF NOT EXISTS book(</span>
+<span class="s1">        id int primary key  ,</span>
+<span class="s1">        author_id int references author,</span>
+<span class="s1">        name text</span>
+<span class="s1">    );</span>
+<span class="s1">&#39;&#39;&#39;</span><span class="p">);</span>
+</pre></div>
+
+
+<h4>Use  SQLAlchemy reflection to get objects that represent each table</h4>
+<div class="highlight"><pre><span></span><span class="n">metadata</span> <span class="o">=</span> <span class="n">sqlalchemy</span><span class="o">.</span><span class="n">MetaData</span><span class="p">(</span><span class="n">bind</span><span class="o">=</span><span class="n">engine</span><span class="p">)</span>
+<span class="n">metadata</span><span class="o">.</span><span class="n">reflect</span><span class="p">()</span>
+<span class="n">tables</span><span class="o">=</span><span class="n">metadata</span><span class="o">.</span><span class="n">tables</span>
+<span class="n">Author</span> <span class="o">=</span> <span class="n">tables</span><span class="p">[</span><span class="s1">&#39;author&#39;</span><span class="p">]</span>
+<span class="n">Book</span> <span class="o">=</span> <span class="n">tables</span><span class="p">[</span><span class="s1">&#39;book&#39;</span><span class="p">]</span>
+</pre></div>
+
+
+<h4>Populate the database</h4>
+<div class="highlight"><pre><span></span><span class="n">engine</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">Author</span><span class="o">.</span><span class="n">insert</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;Douglas Adams&#39;</span><span class="p">))</span>
+<span class="n">engine</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">Author</span><span class="o">.</span><span class="n">insert</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;JK Rowling&#39;</span><span class="p">))</span>
+<span class="n">engine</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">Author</span><span class="o">.</span><span class="n">insert</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;JRR Tolkien&#39;</span><span class="p">))</span>
+
+<span class="n">engine</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">Book</span><span class="o">.</span><span class="n">insert</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">author_id</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;The Hitchhikers Guide to the Galaxy&#39;</span><span class="p">))</span>
+<span class="n">engine</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">Book</span><span class="o">.</span><span class="n">insert</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">author_id</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;The Restaraunt at the End of the Universe&#39;</span><span class="p">))</span>
+<span class="n">engine</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">Book</span><span class="o">.</span><span class="n">insert</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">author_id</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;Life, The Universe, and Everything&#39;</span><span class="p">))</span>
+<span class="n">engine</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">Book</span><span class="o">.</span><span class="n">insert</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">author_id</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;Harry Potter and the Giant Plot Hole&#39;</span><span class="p">))</span>
+<span class="n">engine</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">Book</span><span class="o">.</span><span class="n">insert</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">author_id</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;The Silmarillion&#39;</span><span class="p">))</span>
+<span class="n">engine</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">Book</span><span class="o">.</span><span class="n">insert</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span> <span class="n">author_id</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;The Lord of the Rings&#39;</span><span class="p">));</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="n">read</span><span class="p">(</span><span class="n">Author</span><span class="o">.</span><span class="n">select</span><span class="p">())</span>
+</pre></div>
+
+
+<div>
+
+<table border="1" class="dataframe table table-striped table-bordered">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>Douglas Adams</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>JK Rowling</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>JRR Tolkien</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="highlight"><pre><span></span><span class="n">read</span><span class="p">(</span><span class="n">Book</span><span class="o">.</span><span class="n">select</span><span class="p">())</span>
+</pre></div>
+
+
+<div>
+<table border="1" class="dataframe table table-striped table-bordered">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>author_id</th>
+      <th>name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>4</td>
+      <td>1</td>
+      <td>The Hitchhikers Guide to the Galaxy</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>5</td>
+      <td>1</td>
+      <td>The Restaraunt at the End of the Universe</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>6</td>
+      <td>1</td>
+      <td>Life, The Universe, and Everything</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>7</td>
+      <td>2</td>
+      <td>Harry Potter and the Giant Plot Hole</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>8</td>
+      <td>3</td>
+      <td>The Silmarillion</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>9</td>
+      <td>3</td>
+      <td>The Lord of the Rings</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2>The problem: JOIN creates multiple rows per author</h2>
+<div class="highlight"><pre><span></span><span class="n">read</span><span class="p">(</span>
+    <span class="n">select</span><span class="p">([</span>
+        <span class="n">Author</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">Book</span><span class="p">)</span>
+    <span class="p">])</span>
+<span class="p">)</span>
+</pre></div>
+
+
+<div>
+<table border="1" class="dataframe table table-striped table-bordered">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>name</th>
+      <th>id</th>
+      <th>author_id</th>
+      <th>name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>Douglas Adams</td>
+      <td>4</td>
+      <td>1</td>
+      <td>The Hitchhikers Guide to the Galaxy</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>Douglas Adams</td>
+      <td>5</td>
+      <td>1</td>
+      <td>The Restaraunt at the End of the Universe</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1</td>
+      <td>Douglas Adams</td>
+      <td>6</td>
+      <td>1</td>
+      <td>Life, The Universe, and Everything</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2</td>
+      <td>JK Rowling</td>
+      <td>7</td>
+      <td>2</td>
+      <td>Harry Potter and the Giant Plot Hole</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>3</td>
+      <td>JRR Tolkien</td>
+      <td>8</td>
+      <td>3</td>
+      <td>The Silmarillion</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>3</td>
+      <td>JRR Tolkien</td>
+      <td>9</td>
+      <td>3</td>
+      <td>The Lord of the Rings</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2>The goal</h2>
+<p>It would be far more helpful to have a query that returns three rows - one for each author, with each author's books contained in a sub list.</p>
+<p>We do that by using two powerful Postgres techniques:</p>
+<ul>
+<li><a href="https://www.postgresql.org/docs/9.6/static/queries-with.html">Common Table Expressions</a></li>
+<li><a href="https://www.postgresql.org/docs/9.6/static/functions-aggregate.html">Aggregate functions</a>  </li>
+</ul>
+<p>Specifically we use the function <code>json_agg</code> to roll up a set of books into a JSON list</p>
+<div class="highlight"><pre><span></span><span class="n">frame</span> <span class="o">=</span> <span class="n">read</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">    WITH author_books AS (SELECT author_id, json_agg(book) FROM book GROUP BY author_id)</span>
+
+<span class="s1">    SELECT * FROM author</span>
+<span class="s1">     JOIN author_books ON author_books.author_id=author.id </span>
+
+<span class="s1">&#39;&#39;&#39;</span><span class="p">)</span>
+
+<span class="n">frame</span>
+</pre></div>
+
+
+<div>
+<table border="1" class="dataframe table table-striped table-bordered">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>name</th>
+      <th>author_id</th>
+      <th>json_agg</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>Douglas Adams</td>
+      <td>1</td>
+      <td>[{'id': 4, 'name': 'The Hitchhikers Guide to the Galaxy', 'author_id': 1}, {'id': 5, 'name': 'The Restarau...</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>3</td>
+      <td>JRR Tolkien</td>
+      <td>3</td>
+      <td>[{'id': 8, 'name': 'The Silmarillion', 'author_id': 3}, {'id': 9, 'name': 'The Lord of the Rings', 'author...</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2</td>
+      <td>JK Rowling</td>
+      <td>2</td>
+      <td>[{'id': 7, 'name': 'Harry Potter and the Giant Plot Hole', 'author_id': 2}]</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<p>And because we're using Pandas dataframes, we even have a convenience function to turn this directly into a nested Python dictionary:</p>
+<div class="highlight"><pre><span></span><span class="n">frame</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(</span><span class="s1">&#39;records&#39;</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>[{&#39;author_id&#39;: 1,
+  &#39;id&#39;: 1,
+  &#39;json_agg&#39;: [{&#39;author_id&#39;: 1,
+    &#39;id&#39;: 4,
+    &#39;name&#39;: &#39;The Hitchhikers Guide to the Galaxy&#39;},
+   {&#39;author_id&#39;: 1,
+    &#39;id&#39;: 5,
+    &#39;name&#39;: &#39;The Restaraunt at the End of the Universe&#39;},
+   {&#39;author_id&#39;: 1, &#39;id&#39;: 6, &#39;name&#39;: &#39;Life, The Universe, and Everything&#39;}],
+  &#39;name&#39;: &#39;Douglas Adams&#39;},
+ {&#39;author_id&#39;: 3,
+  &#39;id&#39;: 3,
+  &#39;json_agg&#39;: [{&#39;author_id&#39;: 3, &#39;id&#39;: 8, &#39;name&#39;: &#39;The Silmarillion&#39;},
+   {&#39;author_id&#39;: 3, &#39;id&#39;: 9, &#39;name&#39;: &#39;The Lord of the Rings&#39;}],
+  &#39;name&#39;: &#39;JRR Tolkien&#39;},
+ {&#39;author_id&#39;: 2,
+  &#39;id&#39;: 2,
+  &#39;json_agg&#39;: [{&#39;author_id&#39;: 2,
+    &#39;id&#39;: 7,
+    &#39;name&#39;: &#39;Harry Potter and the Giant Plot Hole&#39;}],
+  &#39;name&#39;: &#39;JK Rowling&#39;}]
+</pre></div>
+
+
+<p>So now we have our data in a form which would be very easy to use in the templating language of your choice when building a web application.</p>
+<h2>Ok, but can I do that in SQLAlchemy?</h2>
+<p>I'm glad you asked.  First I define a little helper function to represent the underlying <code>json_agg</code> function.</p>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">json_agg</span><span class="p">(</span><span class="n">table</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">func</span><span class="o">.</span><span class="n">json_agg</span><span class="p">(</span><span class="n">literal_column</span><span class="p">(</span><span class="s1">&#39;&quot;&#39;</span><span class="o">+</span> <span class="n">table</span><span class="o">.</span><span class="n">name</span><span class="o">+</span><span class="s1">&#39;&quot;&#39;</span><span class="p">))</span>
+</pre></div>
+
+
+<p>Then I create my CTE:</p>
+<div class="highlight"><pre><span></span><span class="n">AuthorBooks</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">select</span><span class="p">([</span>
+        <span class="n">Book</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">author_id</span><span class="p">,</span>
+        <span class="n">json_agg</span><span class="p">(</span><span class="n">Book</span><span class="p">)</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="s1">&#39;books&#39;</span><span class="p">)</span>
+    <span class="p">])</span>
+    <span class="o">.</span><span class="n">select_from</span><span class="p">(</span><span class="n">Book</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">group_by</span><span class="p">(</span><span class="n">Book</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">author_id</span><span class="p">)</span>
+<span class="p">)</span><span class="o">.</span><span class="n">cte</span><span class="p">(</span><span class="s1">&#39;author_books&#39;</span><span class="p">)</span>
+</pre></div>
+
+
+<p>And finally I use my CTE exactly as if it were a real table:</p>
+<div class="highlight"><pre><span></span><span class="n">query</span><span class="o">=</span><span class="p">(</span>
+    <span class="n">select</span><span class="p">([</span>
+        <span class="n">Author</span><span class="p">,</span>
+        <span class="n">AuthorBooks</span>
+    <span class="p">])</span>
+    <span class="o">.</span><span class="n">select_from</span><span class="p">(</span>
+        <span class="n">Author</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">AuthorBooks</span><span class="p">)</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="n">frame</span><span class="o">=</span><span class="n">read</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="n">frame</span>
+</pre></div>
+
+
+<div>
+<table border="1" class="dataframe table table-striped table-bordered">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>name</th>
+      <th>author_id</th>
+      <th>books</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>Douglas Adams</td>
+      <td>1</td>
+      <td>[{'id': 4, 'name': 'The Hitchhikers Guide to the Galaxy', 'author_id': 1}, {'id': 5, 'name': 'The Restarau...</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>3</td>
+      <td>JRR Tolkien</td>
+      <td>3</td>
+      <td>[{'id': 8, 'name': 'The Silmarillion', 'author_id': 3}, {'id': 9, 'name': 'The Lord of the Rings', 'author...</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2</td>
+      <td>JK Rowling</td>
+      <td>2</td>
+      <td>[{'id': 7, 'name': 'Harry Potter and the Giant Plot Hole', 'author_id': 2}]</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<p>And as before we can turn this into a nested Python data structure</p>
+<div class="highlight"><pre><span></span><span class="n">authors</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(</span><span class="s1">&#39;records&#39;</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="n">authors</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>&#39;Douglas Adams&#39;
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="n">authors</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;books&#39;</span><span class="p">]</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>[{&#39;author_id&#39;: 1, &#39;id&#39;: 4, &#39;name&#39;: &#39;The Hitchhikers Guide to the Galaxy&#39;},
+ {&#39;author_id&#39;: 1,
+  &#39;id&#39;: 5,
+  &#39;name&#39;: &#39;The Restaraunt at the End of the Universe&#39;},
+ {&#39;author_id&#39;: 1, &#39;id&#39;: 6, &#39;name&#39;: &#39;Life, The Universe, and Everything&#39;}]
+</pre></div>
+
+
+<h1>What about many-to-many joins?</h1>
+<p>Let's consider a slightly more complex example, that of 'users' and 'groups'.</p>
+<ul>
+<li>Users can belong to many groups</li>
+<li>Groups can contain many users.</li>
+</ul>
+<p>(As an extra bit of fun, both <code>user</code> and <code>group</code> are reserved keywords in Postgres, so we have to be careful with our quoting to make this work)</p>
+<div class="highlight"><pre><span></span><span class="n">engine</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">    DROP TABLE IF EXISTS &quot;user_to_group&quot;;</span>
+<span class="s1">    DROP TABLE IF EXISTS &quot;group&quot;;</span>
+<span class="s1">    DROP TABLE IF EXISTS &quot;user&quot;;</span>
+
+
+<span class="s1">    CREATE TABLE IF NOT EXISTS &quot;group&quot;(</span>
+<span class="s1">        id int primary key,</span>
+<span class="s1">        name text</span>
+<span class="s1">    );</span>
+<span class="s1">    CREATE TABLE IF NOT EXISTS &quot;user&quot;(</span>
+<span class="s1">        id int primary key,</span>
+<span class="s1">        name text</span>
+<span class="s1">    );</span>
+<span class="s1">    CREATE TABLE IF NOT EXISTS &quot;user_to_group&quot;(</span>
+<span class="s1">        group_id int references &quot;group&quot;,</span>
+<span class="s1">        user_id int references &quot;user&quot;</span>
+<span class="s1">        );</span>
+<span class="s1">&#39;&#39;&#39;</span><span class="p">);</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="n">metadata</span> <span class="o">=</span> <span class="n">sqlalchemy</span><span class="o">.</span><span class="n">MetaData</span><span class="p">(</span><span class="n">bind</span><span class="o">=</span><span class="n">engine</span><span class="p">)</span>
+<span class="n">metadata</span><span class="o">.</span><span class="n">reflect</span><span class="p">()</span>
+<span class="n">tables</span><span class="o">=</span><span class="n">metadata</span><span class="o">.</span><span class="n">tables</span>
+
+<span class="n">User</span>        <span class="o">=</span> <span class="n">tables</span><span class="p">[</span><span class="s1">&#39;user&#39;</span><span class="p">]</span>
+<span class="n">Group</span>       <span class="o">=</span> <span class="n">tables</span><span class="p">[</span><span class="s1">&#39;group&#39;</span><span class="p">]</span>
+<span class="n">UserToGroup</span> <span class="o">=</span> <span class="n">tables</span><span class="p">[</span><span class="s1">&#39;user_to_group&#39;</span><span class="p">]</span>
+</pre></div>
+
+
+<h2>Populate the data</h2>
+<p>We'll create three groups and five users, some of whom may be in more than one group</p>
+<div class="highlight"><pre><span></span><span class="n">inserts</span><span class="o">=</span><span class="p">[</span>
+    <span class="n">Group</span><span class="o">.</span><span class="n">insert</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;Hobbits&#39;</span><span class="p">),</span>
+    <span class="n">Group</span><span class="o">.</span><span class="n">insert</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;Wizards&#39;</span><span class="p">),</span>
+    <span class="n">Group</span><span class="o">.</span><span class="n">insert</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;The Fellowship&#39;</span><span class="p">),</span>
+
+    <span class="n">User</span><span class="o">.</span><span class="n">insert</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;Frodo&#39;</span><span class="p">),</span>
+    <span class="n">User</span><span class="o">.</span><span class="n">insert</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;Gandalf&#39;</span><span class="p">),</span>
+    <span class="n">User</span><span class="o">.</span><span class="n">insert</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;Legolas&#39;</span><span class="p">),</span>
+    <span class="n">User</span><span class="o">.</span><span class="n">insert</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;Pippin&#39;</span><span class="p">),</span>
+    <span class="n">User</span><span class="o">.</span><span class="n">insert</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;Saruman&#39;</span><span class="p">),</span>
+
+
+    <span class="n">UserToGroup</span><span class="o">.</span><span class="n">insert</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">group_id</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+    <span class="n">UserToGroup</span><span class="o">.</span><span class="n">insert</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span><span class="n">group_id</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+    <span class="n">UserToGroup</span><span class="o">.</span><span class="n">insert</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">group_id</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
+    <span class="n">UserToGroup</span><span class="o">.</span><span class="n">insert</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span><span class="n">group_id</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
+
+
+    <span class="n">UserToGroup</span><span class="o">.</span><span class="n">insert</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">group_id</span><span class="o">=</span><span class="mi">3</span><span class="p">),</span>
+    <span class="n">UserToGroup</span><span class="o">.</span><span class="n">insert</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">group_id</span><span class="o">=</span><span class="mi">3</span><span class="p">),</span>
+    <span class="n">UserToGroup</span><span class="o">.</span><span class="n">insert</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span><span class="n">group_id</span><span class="o">=</span><span class="mi">3</span><span class="p">),</span>
+    <span class="n">UserToGroup</span><span class="o">.</span><span class="n">insert</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span><span class="n">group_id</span><span class="o">=</span><span class="mi">3</span><span class="p">),</span>
+<span class="p">]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">inserts</span><span class="p">:</span>
+    <span class="n">engine</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+</pre></div>
+
+
+<h4>A simple join gives us all our data, but in a form that may be clunky to work with.</h4>
+<div class="highlight"><pre><span></span><span class="n">read</span><span class="p">(</span><span class="n">Group</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">UserToGroup</span><span class="p">)</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">User</span><span class="p">)</span><span class="o">.</span><span class="n">select</span><span class="p">())</span>
+</pre></div>
+
+
+<div>
+<table border="1" class="dataframe table table-striped table-bordered">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>name</th>
+      <th>group_id</th>
+      <th>user_id</th>
+      <th>id</th>
+      <th>name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>Hobbits</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Frodo</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>Hobbits</td>
+      <td>1</td>
+      <td>4</td>
+      <td>4</td>
+      <td>Pippin</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2</td>
+      <td>Wizards</td>
+      <td>2</td>
+      <td>2</td>
+      <td>2</td>
+      <td>Gandalf</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2</td>
+      <td>Wizards</td>
+      <td>2</td>
+      <td>5</td>
+      <td>5</td>
+      <td>Saruman</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>3</td>
+      <td>The Fellowship</td>
+      <td>3</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Frodo</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>3</td>
+      <td>The Fellowship</td>
+      <td>3</td>
+      <td>2</td>
+      <td>2</td>
+      <td>Gandalf</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>3</td>
+      <td>The Fellowship</td>
+      <td>3</td>
+      <td>3</td>
+      <td>3</td>
+      <td>Legolas</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>3</td>
+      <td>The Fellowship</td>
+      <td>3</td>
+      <td>4</td>
+      <td>4</td>
+      <td>Pippin</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Instead, let's create two queries</h3>
+<ul>
+<li>a list of users, each with a list of their groups</li>
+<li>a list of groups, each with a list of their users</li>
+</ul>
+<p>In SQL, it looks like this:</p>
+<div class="highlight"><pre><span></span><span class="n">read</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">    WITH user_groups AS (</span>
+<span class="s1">        SELECT user_id, json_agg(&quot;group&quot;) AS groups</span>
+<span class="s1">          FROM user_to_group </span>
+<span class="s1">          JOIN &quot;group&quot; </span>
+<span class="s1">            ON user_to_group.group_id=&quot;group&quot;.id</span>
+<span class="s1">        GROUP BY user_id  </span>
+
+<span class="s1">    )</span>
+
+<span class="s1">    SELECT id,name,groups FROM &quot;user&quot;</span>
+<span class="s1">     JOIN user_groups on &quot;user&quot;.id = user_groups.user_id</span>
+
+<span class="s1">&#39;&#39;&#39;</span><span class="p">)</span>
+</pre></div>
+
+
+<div>
+<table border="1" class="dataframe table table-striped table-bordered">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>name</th>
+      <th>groups</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>4</td>
+      <td>Pippin</td>
+      <td>[{'id': 1, 'name': 'Hobbits'}, {'id': 3, 'name': 'The Fellowship'}]</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>Frodo</td>
+      <td>[{'id': 1, 'name': 'Hobbits'}, {'id': 3, 'name': 'The Fellowship'}]</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>5</td>
+      <td>Saruman</td>
+      <td>[{'id': 2, 'name': 'Wizards'}]</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>3</td>
+      <td>Legolas</td>
+      <td>[{'id': 3, 'name': 'The Fellowship'}]</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2</td>
+      <td>Gandalf</td>
+      <td>[{'id': 2, 'name': 'Wizards'}, {'id': 3, 'name': 'The Fellowship'}]</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<p>But we want to use SQLAlchemy, so again we create CTE objects to help us</p>
+<h2>A list of users showing the groups they belong to</h2>
+<div class="highlight"><pre><span></span><span class="n">UserGroups</span><span class="o">=</span><span class="p">(</span>
+    <span class="n">select</span><span class="p">([</span>
+        <span class="n">UserToGroup</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">user_id</span><span class="p">,</span>
+        <span class="n">json_agg</span><span class="p">(</span><span class="n">Group</span><span class="p">)</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="s1">&#39;groups&#39;</span><span class="p">)</span>
+    <span class="p">])</span>
+    <span class="o">.</span><span class="n">select_from</span><span class="p">(</span><span class="n">Group</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">UserToGroup</span><span class="p">))</span>
+    <span class="o">.</span><span class="n">group_by</span><span class="p">(</span><span class="n">UserToGroup</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">user_id</span><span class="p">)</span>
+<span class="p">)</span><span class="o">.</span><span class="n">cte</span><span class="p">(</span><span class="s1">&#39;user_groups&#39;</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="n">query</span><span class="o">=</span><span class="p">(</span>
+    <span class="n">select</span><span class="p">([</span>
+        <span class="n">User</span><span class="p">,</span>
+        <span class="n">UserGroups</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">groups</span>
+    <span class="p">])</span>
+    <span class="o">.</span><span class="n">select_from</span><span class="p">(</span>
+        <span class="n">User</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">UserGroups</span><span class="p">,</span><span class="n">User</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">id</span><span class="o">==</span><span class="n">UserGroups</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">user_id</span><span class="p">)</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="n">read</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+</pre></div>
+
+
+<div>
+<table border="1" class="dataframe table table-striped table-bordered">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>name</th>
+      <th>groups</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>4</td>
+      <td>Pippin</td>
+      <td>[{'id': 1, 'name': 'Hobbits'}, {'id': 3, 'name': 'The Fellowship'}]</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>Frodo</td>
+      <td>[{'id': 1, 'name': 'Hobbits'}, {'id': 3, 'name': 'The Fellowship'}]</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>5</td>
+      <td>Saruman</td>
+      <td>[{'id': 2, 'name': 'Wizards'}]</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>3</td>
+      <td>Legolas</td>
+      <td>[{'id': 3, 'name': 'The Fellowship'}]</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2</td>
+      <td>Gandalf</td>
+      <td>[{'id': 2, 'name': 'Wizards'}, {'id': 3, 'name': 'The Fellowship'}]</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2>A list of groups showing the users that are members of them</h2>
+<div class="highlight"><pre><span></span><span class="n">GroupUsers</span><span class="o">=</span><span class="p">(</span>
+    <span class="n">select</span><span class="p">([</span>
+        <span class="n">UserToGroup</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">group_id</span><span class="p">,</span>
+        <span class="n">json_agg</span><span class="p">(</span><span class="n">User</span><span class="p">)</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="s1">&#39;users&#39;</span><span class="p">)</span>
+    <span class="p">])</span>
+    <span class="o">.</span><span class="n">select_from</span><span class="p">(</span><span class="n">User</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">UserToGroup</span><span class="p">))</span>
+    <span class="o">.</span><span class="n">group_by</span><span class="p">(</span><span class="n">UserToGroup</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">group_id</span><span class="p">)</span>
+<span class="p">)</span><span class="o">.</span><span class="n">cte</span><span class="p">(</span><span class="s1">&#39;group_users&#39;</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="n">query</span><span class="o">=</span><span class="p">(</span>
+    <span class="n">select</span><span class="p">([</span>
+        <span class="n">Group</span><span class="p">,</span>
+        <span class="n">GroupUsers</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">users</span>
+    <span class="p">])</span>
+    <span class="o">.</span><span class="n">select_from</span><span class="p">(</span>
+        <span class="n">Group</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">GroupUsers</span><span class="p">,</span><span class="n">Group</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">id</span><span class="o">==</span><span class="n">GroupUsers</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">group_id</span><span class="p">)</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="n">read</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+</pre></div>
+
+
+<div>
+<table border="1" class="dataframe table table-striped table-bordered">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>name</th>
+      <th>users</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>Hobbits</td>
+      <td>[{'id': 1, 'name': 'Frodo'}, {'id': 4, 'name': 'Pippin'}]</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>3</td>
+      <td>The Fellowship</td>
+      <td>[{'id': 1, 'name': 'Frodo'}, {'id': 2, 'name': 'Gandalf'}, {'id': 3, 'name': 'Legolas'}, {'id': 4, 'name':...</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2</td>
+      <td>Wizards</td>
+      <td>[{'id': 2, 'name': 'Gandalf'}, {'id': 5, 'name': 'Saruman'}]</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2>And again, we can always convert this to a nested Python data structure</h2>
+<div class="highlight"><pre><span></span><span class="n">read</span><span class="p">(</span><span class="n">query</span><span class="p">)</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(</span><span class="s1">&#39;records&#39;</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>[{&#39;id&#39;: 1,
+  &#39;name&#39;: &#39;Hobbits&#39;,
+  &#39;users&#39;: [{&#39;id&#39;: 1, &#39;name&#39;: &#39;Frodo&#39;}, {&#39;id&#39;: 4, &#39;name&#39;: &#39;Pippin&#39;}]},
+ {&#39;id&#39;: 3,
+  &#39;name&#39;: &#39;The Fellowship&#39;,
+  &#39;users&#39;: [{&#39;id&#39;: 1, &#39;name&#39;: &#39;Frodo&#39;},
+   {&#39;id&#39;: 2, &#39;name&#39;: &#39;Gandalf&#39;},
+   {&#39;id&#39;: 3, &#39;name&#39;: &#39;Legolas&#39;},
+   {&#39;id&#39;: 4, &#39;name&#39;: &#39;Pippin&#39;}]},
+ {&#39;id&#39;: 2,
+  &#39;name&#39;: &#39;Wizards&#39;,
+  &#39;users&#39;: [{&#39;id&#39;: 2, &#39;name&#39;: &#39;Gandalf&#39;}, {&#39;id&#39;: 5, &#39;name&#39;: &#39;Saruman&#39;}]}]
+</pre></div>
+
+
+<h1>Conclusion</h1>
+<p>I demonstrate how to use <code>WITH</code> statements (Common Table Expressions), the <code>json_agg</code> function and SQLAlchemy to quickly convert complex SQL joins into nested Python data structures. </p>
+<p>Using techniques like the ones presented here, Postgres can act as a powerful relational data store that can still provide applications with data in helpful forms, such as nested dictionaries and lists.</p>
+                    
+                </div>  
+                
+                
+            </article>
+            <hr/>
+            <article>
                 <h2><a href="/image-recognition-with-keras-tensorflow-and-inceptionv3.html">Image recognition with Keras, Tensorflow, and InceptionV3</a></h2>
                 
                 
@@ -82,19 +898,19 @@ trvrm            </a>
 <p>One very powerful aspect of these tools is the ability to share pre-trained models with others. There are many tutorials and courses that will walk you through the process of building a neural net and training it on some data set.  But in other areas of software development we are far more likely to use off-the-shelf implementations of common algorithms rather than rolling them ourselves.  We might work through implementing a sort algorithm or a binary tree in order to better understand the concepts, but having done so we almost always end up using the algorithms that come built in to our language or programming environment.</p>
 <p>I suspect we'll see the same sort of thing happen in the machine learning world. While being able to train models on our own data will continue to be extremely valuable, there will be many cases where a model already exists that does what we want, and we'll just want to plug it in to our data.</p>
 <p>Keras already provides some pre-trained models: in this article, I'll use the <a href="https://www.tensorflow.org/tutorials/image_recognition">Inception V3</a> model to classify an image.</p>
-<div class="highlight"><pre><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">keras</span>
 </pre></div>
 
 
-<div class="highlight"><pre><span class="kn">from</span> <span class="nn">keras.preprocessing</span> <span class="kn">import</span> <span class="n">image</span>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">keras.preprocessing</span> <span class="kn">import</span> <span class="n">image</span>
 <span class="kn">from</span> <span class="nn">keras.applications.inception_v3</span> <span class="kn">import</span> <span class="n">decode_predictions</span>
 <span class="kn">from</span> <span class="nn">keras.applications.inception_v3</span> <span class="kn">import</span> <span class="n">preprocess_input</span>
 </pre></div>
 
 
 <h3>Load the pre-trained model</h3>
-<div class="highlight"><pre><span class="n">inception</span><span class="o">=</span><span class="n">keras</span><span class="o">.</span><span class="n">applications</span><span class="o">.</span><span class="n">inception_v3</span><span class="o">.</span><span class="n">InceptionV3</span><span class="p">(</span>
+<div class="highlight"><pre><span></span><span class="n">inception</span><span class="o">=</span><span class="n">keras</span><span class="o">.</span><span class="n">applications</span><span class="o">.</span><span class="n">inception_v3</span><span class="o">.</span><span class="n">InceptionV3</span><span class="p">(</span>
     <span class="n">include_top</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> 
     <span class="n">weights</span><span class="o">=</span><span class="s1">&#39;imagenet&#39;</span><span class="p">,</span> 
     <span class="n">input_tensor</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> 
@@ -104,27 +920,27 @@ trvrm            </a>
 
 
 <p>(This actually downloads the weights from github.  Keras saves your model files in <code>~/.keras/models</code> in the <a href="https://en.wikipedia.org/wiki/Hierarchical_Data_Format">HDF5</a> file format.)</p>
-<div class="highlight"><pre><span class="err">!</span><span class="n">ls</span>  <span class="o">~/.</span><span class="n">keras</span><span class="o">/</span><span class="n">models</span>
+<div class="highlight"><pre><span></span><span class="err">!</span><span class="n">ls</span>  <span class="o">~/.</span><span class="n">keras</span><span class="o">/</span><span class="n">models</span>
 </pre></div>
 
 
-<div class="highlight"><pre>inception_v3_weights_tf_dim_ordering_tf_kernels.h5
+<div class="highlight"><pre><span></span>inception_v3_weights_tf_dim_ordering_tf_kernels.h5
 </pre></div>
 
 
-<div class="highlight"><pre><span class="n">inception</span>
+<div class="highlight"><pre><span></span><span class="n">inception</span>
 </pre></div>
 
 
-<div class="highlight"><pre>&lt;keras.engine.training.Model at 0x7f6946e537b8&gt;
+<div class="highlight"><pre><span></span>&lt;keras.engine.training.Model at 0x7f6946e537b8&gt;
 </pre></div>
 
 
-<div class="highlight"><pre><span class="n">inception</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+<div class="highlight"><pre><span></span><span class="n">inception</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
 </pre></div>
 
 
-<div class="highlight"><pre>____________________________________________________________________________________________________
+<div class="highlight"><pre><span></span>____________________________________________________________________________________________________
 Layer (type)                     Output Shape          Param #     Connected to                     
 ====================================================================================================
 input_1 (InputLayer)             (None, 299, 299, 3)   0                                            
@@ -152,37 +968,37 @@ ________________________________________________________________________________
 
 
 <h3>Now let's load an image and see if Inception can recognize it</h3>
-<div class="highlight"><pre><span class="n">img</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">load_img</span><span class="p">(</span><span class="s1">&#39;./hamster.jpg&#39;</span><span class="p">,</span><span class="n">target_size</span><span class="o">=</span><span class="p">(</span><span class="mi">299</span><span class="p">,</span><span class="mi">299</span><span class="p">))</span>
+<div class="highlight"><pre><span></span><span class="n">img</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">load_img</span><span class="p">(</span><span class="s1">&#39;./hamster.jpg&#39;</span><span class="p">,</span><span class="n">target_size</span><span class="o">=</span><span class="p">(</span><span class="mi">299</span><span class="p">,</span><span class="mi">299</span><span class="p">))</span>
 </pre></div>
 
 
-<div class="highlight"><pre><span class="n">img</span>
+<div class="highlight"><pre><span></span><span class="n">img</span>
 </pre></div>
 
 
-<p><img alt="png" src="images/inception/output_14_0.png" /></p>
+<p><img alt="png" src="images/inception/output_14_0.png"></p>
 <p>Keras requires the input data to be in a specific shape.</p>
-<div class="highlight"><pre><span class="n">x</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">img_to_array</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">img_to_array</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
 <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 <span class="n">x</span> <span class="o">=</span> <span class="n">preprocess_input</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 </pre></div>
 
 
-<div class="highlight"><pre><span class="n">x</span><span class="o">.</span><span class="n">shape</span>
+<div class="highlight"><pre><span></span><span class="n">x</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>
 
 
-<div class="highlight"><pre>(1, 299, 299, 3)
+<div class="highlight"><pre><span></span>(1, 299, 299, 3)
 </pre></div>
 
 
-<div class="highlight"><pre><span class="n">predictions</span> <span class="o">=</span> <span class="n">inception</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="n">predictions</span> <span class="o">=</span> <span class="n">inception</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 <span class="n">prediction</span>  <span class="o">=</span> <span class="n">decode_predictions</span><span class="p">(</span><span class="n">predictions</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">prediction</span>
 </pre></div>
 
 
-<div class="highlight"><pre>(&#39;n02342885&#39;, &#39;hamster&#39;, 0.91639304)
+<div class="highlight"><pre><span></span>(&#39;n02342885&#39;, &#39;hamster&#39;, 0.91639304)
 </pre></div>
 
 
@@ -206,60 +1022,60 @@ we've leveraged a publicly available model to classify our image.</p>
 <p>It provides abstractions that enable you to quickly create neural network structures.  Here I'm going to try to create a simple 3 layer network, and use it to solve a basic classification problem.</p>
 <p>For reference, the problem I'm trying to solve, and the network I'm using to solve it, are roughly equivalent to <a href="http://playground.tensorflow.org/#activation=relu&amp;regularization=L1&amp;batchSize=10&amp;dataset=xor&amp;regDataset=reg-plane&amp;learningRate=0.003&amp;regularizationRate=0.001&amp;noise=0&amp;networkShape=4,1&amp;seed=0.92802&amp;showTestData=false&amp;discretize=false&amp;percTrainData=50&amp;x=true&amp;y=true&amp;xTimesY=false&amp;xSquared=false&amp;ySquared=false&amp;cosX=false&amp;sinX=false&amp;cosY=false&amp;sinY=false&amp;collectStats=false&amp;problem=classification&amp;initZero=false&amp;hideText=false">this interactive example  at playground.tensorflow.org</a></p>
 <p><strong>Tell Jupyter to display matlplotlib plots directly in the notebook</strong></p>
-<div class="highlight"><pre><span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+<div class="highlight"><pre><span></span><span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
 </pre></div>
 
 
 <h3>Imports</h3>
 <p>A lot of machine learning work ends up being about 'housekeeping' - finding, filtering, parsing, loading data, transforming it into a usable shape, and so on.  The <a href="http://pandas.pydata.org/">Pandas</a> library is excellent for this type of work</p>
-<div class="highlight"><pre><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
 </pre></div>
 
 
 <p>Numpy is commonly used for creating and managing arrays of numbers and performing a wide variety of mathematical operations on them.  Matplotlib and seaborn provide a number of useful plotting functions.</p>
-<div class="highlight"><pre><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">pl</span>
 </pre></div>
 
 
-<div class="highlight"><pre><span class="kn">import</span> <span class="nn">seaborn</span>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">seaborn</span>
 <span class="n">seaborn</span><span class="o">.</span><span class="n">set</span><span class="p">()</span>
 </pre></div>
 
 
 <p>TensorFlow is Google's Machine Learning library</p>
-<div class="highlight"><pre><span class="kn">import</span> <span class="nn">tensorflow</span> <span class="kn">as</span> <span class="nn">tf</span>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">tensorflow</span> <span class="kn">as</span> <span class="nn">tf</span>
 </pre></div>
 
 
 <p>This is a useful function for splitting data sets into training and testing subsets.</p>
-<div class="highlight"><pre><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
 </pre></div>
 
 
 <p>And finally Keras is the library I actually want to explore.  My understanding is that it provides a high-level abstraction to common TensorFlow operations</p>
-<div class="highlight"><pre><span class="kn">import</span> <span class="nn">keras</span>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">keras</span>
 <span class="kn">from</span> <span class="nn">keras.layers</span> <span class="kn">import</span> <span class="n">Dense</span><span class="p">,</span> <span class="n">Activation</span>
 </pre></div>
 
 
 <h1>Create training data.</h1>
 <p>I'm going to create an array of data with two features, <em>x1</em> and <em>x2</em></p>
-<div class="highlight"><pre><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">1500</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span><span class="o">*</span><span class="mi">20</span> <span class="o">-</span> <span class="mi">10</span><span class="p">,</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;x1&#39;</span><span class="p">,</span><span class="s1">&#39;x2&#39;</span><span class="p">])</span>
+<div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">1500</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span><span class="o">*</span><span class="mi">20</span> <span class="o">-</span> <span class="mi">10</span><span class="p">,</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;x1&#39;</span><span class="p">,</span><span class="s1">&#39;x2&#39;</span><span class="p">])</span>
 </pre></div>
 
 
 <p>For simpler visualisation, I'm going to filter out values that lie very close to the axes.</p>
-<div class="highlight"><pre><span class="n">data</span><span class="o">=</span> <span class="n">data</span><span class="p">[(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">x1</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">)</span><span class="o">&amp;</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">x2</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">)][</span><span class="mi">0</span><span class="p">:</span><span class="mi">1000</span><span class="p">]</span>
+<div class="highlight"><pre><span></span><span class="n">data</span><span class="o">=</span> <span class="n">data</span><span class="p">[(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">x1</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">)</span><span class="o">&amp;</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">x2</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">)][</span><span class="mi">0</span><span class="p">:</span><span class="mi">1000</span><span class="p">]</span>
 </pre></div>
 
 
 <p>And then for each <code>(x1,x2)</code> pair, I'm going to assign a value <em>y</em> that is true if <code>x*y</code> is greater than 0.</p>
-<div class="highlight"><pre><span class="n">data</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">]</span><span class="o">=</span><span class="p">((</span><span class="n">data</span><span class="o">.</span><span class="n">x1</span><span class="o">*</span><span class="n">data</span><span class="o">.</span><span class="n">x2</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">]</span><span class="o">=</span><span class="p">((</span><span class="n">data</span><span class="o">.</span><span class="n">x1</span><span class="o">*</span><span class="n">data</span><span class="o">.</span><span class="n">x2</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
 
-<div class="highlight"><pre><span class="n">data</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class="highlight"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
 
@@ -310,39 +1126,39 @@ we've leveraged a publicly available model to classify our image.</p>
 
 <h2>Visualize the input data</h2>
 <p>Seaborn provides a <a href="http://seaborn.pydata.org/generated/seaborn.lmplot.html">function</a> that gives me exactly the visualization that I want:</p>
-<div class="highlight"><pre><span class="n">seaborn</span><span class="o">.</span><span class="n">lmplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;x1&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;x2&quot;</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span><span class="n">fit_reg</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="n">seaborn</span><span class="o">.</span><span class="n">lmplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;x1&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;x2&quot;</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span><span class="n">fit_reg</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 </pre></div>
 
 
-<div class="highlight"><pre>&lt;seaborn.axisgrid.FacetGrid at 0x7efd8407dd68&gt;
+<div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.FacetGrid at 0x7efd8407dd68&gt;
 </pre></div>
 
 
-<p><img alt="png" src="images/basic_keras_example/output_23_1.png" /></p>
+<p><img alt="png" src="images/basic_keras_example/output_23_1.png"></p>
 <p>So we have two classes, and we're going to see if we can create a neural network that can distinguish between the two.</p>
 <h2>Create training data and test data</h2>
 <p>We assign 80% of the data to the training set, with the remaining 20% left over for testing the accuracy of our hypothesis.</p>
-<div class="highlight"><pre><span class="n">train</span><span class="p">,</span><span class="n">test</span><span class="o">=</span><span class="n">train_test_split</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="n">train_size</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="n">train</span><span class="p">,</span><span class="n">test</span><span class="o">=</span><span class="n">train_test_split</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="n">train_size</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
 </pre></div>
 
 
-<div class="highlight"><pre><span class="nb">len</span><span class="p">(</span><span class="n">train</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">test</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">train</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">test</span><span class="p">)</span>
 </pre></div>
 
 
-<div class="highlight"><pre>(800, 200)
+<div class="highlight"><pre><span></span>(800, 200)
 </pre></div>
 
 
 <p>Keras seems to require input data in the form of Numpy arrays, so we extract those from our Pandas dataframe:</p>
-<div class="highlight"><pre><span class="n">X_train</span> <span class="o">=</span> <span class="n">train</span><span class="p">[[</span><span class="s1">&#39;x1&#39;</span><span class="p">,</span><span class="s1">&#39;x2&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span>
+<div class="highlight"><pre><span></span><span class="n">X_train</span> <span class="o">=</span> <span class="n">train</span><span class="p">[[</span><span class="s1">&#39;x1&#39;</span><span class="p">,</span><span class="s1">&#39;x2&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span>
 <span class="n">Y_train</span> <span class="o">=</span> <span class="n">train</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
 </pre></div>
 
 
 <h2>Define a neural network</h2>
 <p>Now we can use Keras to define our network. I'm going to specify a network with an input layer, an output layer, and a 4-node hidden layer.</p>
-<div class="highlight"><pre><span class="n">model</span><span class="o">=</span><span class="n">keras</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">Sequential</span><span class="p">()</span>
+<div class="highlight"><pre><span></span><span class="n">model</span><span class="o">=</span><span class="n">keras</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">Sequential</span><span class="p">()</span>
 
 <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="n">output_dim</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">input_dim</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">activation</span><span class="o">=</span><span class="s1">&#39;tanh&#39;</span><span class="p">))</span>
 <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="n">output_dim</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>  <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;tanh&#39;</span><span class="p">))</span>
@@ -353,7 +1169,7 @@ we've leveraged a publicly available model to classify our image.</p>
 <h2>Train the network</h2>
 <p>This is the bit that would take considerably more lines of code in a lower-level library.  I can tweak parameters such as the cost function, the optimizer and so on. Here I choose a mean-squared-error cost function and a stochastic gradient descent optimizer.</p>
 <p>I haven't yet figured out how to change the learning rate, which would be very helpful to know.</p>
-<div class="highlight"><pre><span class="o">%%</span><span class="n">time</span>
+<div class="highlight"><pre><span></span><span class="o">%%</span><span class="n">time</span>
 <span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">loss</span><span class="o">=</span><span class="s1">&#39;mean_squared_error&#39;</span><span class="p">,</span> <span class="n">optimizer</span><span class="o">=</span><span class="s1">&#39;sgd&#39;</span><span class="p">)</span>
 
 <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span>
@@ -364,14 +1180,14 @@ we've leveraged a publicly available model to classify our image.</p>
 </pre></div>
 
 
-<div class="highlight"><pre>CPU times: user 3.26 s, sys: 40 ms, total: 3.3 s
+<div class="highlight"><pre><span></span>CPU times: user 3.26 s, sys: 40 ms, total: 3.3 s
 Wall time: 3.34 s
 </pre></div>
 
 
 <h2>Having trained the network, check it against the test data.</h2>
 <p><code>plotPrediction</code> runs the <code>predict_classes</code> method to attempt to classify the test data we provide, and then displays its guesses:</p>
-<div class="highlight"><pre><span class="k">def</span> <span class="nf">plotPrediction</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="n">model</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">plotPrediction</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="n">model</span><span class="p">):</span>
     <span class="n">X</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">ix</span><span class="p">[:,:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
     <span class="n">Y</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
 
@@ -387,15 +1203,15 @@ Wall time: 3.34 s
 </pre></div>
 
 
-<div class="highlight"><pre><span class="n">plotPrediction</span><span class="p">(</span><span class="n">test</span><span class="p">,</span><span class="n">model</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="n">plotPrediction</span><span class="p">(</span><span class="n">test</span><span class="p">,</span><span class="n">model</span><span class="p">)</span>
 </pre></div>
 
 
-<div class="highlight"><pre><span class="n">Accuracy</span><span class="o">:</span> <span class="mf">91.5</span><span class="o">%</span>
+<div class="highlight"><pre><span></span><span class="n">Accuracy</span><span class="o">:</span> <span class="mf">91.5</span><span class="o">%</span>
 </pre></div>
 
 
-<p><img alt="png" src="images/basic_keras_example/output_36_1.png" /></p>
+<p><img alt="png" src="images/basic_keras_example/output_36_1.png"></p>
 <h2>Conclusion</h2>
 <p>So we see that after 250 training cycles, the network can mostly correctly identify input data.</p>
 <p>Because the network is initialized with random data at the beginning of every run, sometimes I get better results than this and sometimes worse.  And Keras gives me many ways of quickly tweaking my algorithm - I can adjust the number of nodes in each layer, the number of layers, the activation function, the cost function, the number of training cycles, the test/training split and so on.  </p>
@@ -415,17 +1231,17 @@ Wall time: 3.34 s
                 <div class="entry-content">
 
                     <p>I tried the basic linear regression example from <a href="https://medium.com/all-of-us-are-belong-to-machines/the-gentlest-introduction-to-tensorflow-248dc871a224#.8429xmd7s">this article</a>.  I was quite surprised by this line:</p>
-<div class="highlight"><pre><span class="n">train_step</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">GradientDescentOptimizer</span><span class="p">(</span><span class="mf">0.0000001</span><span class="p">)</span><span class="o">.</span><span class="n">minimize</span><span class="p">(</span><span class="n">cost</span><span class="p">)</span>                       
+<div class="highlight"><pre><span></span><span class="n">train_step</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">GradientDescentOptimizer</span><span class="p">(</span><span class="mf">0.0000001</span><span class="p">)</span><span class="o">.</span><span class="n">minimize</span><span class="p">(</span><span class="n">cost</span><span class="p">)</span>                       
 </pre></div>
 
 
 <p>because it didn't seem to require me to tell the <code>GradientDescentOptimizer</code> what the first derivative of my cost function is.  Previously when I've used gradient descent, I've had to manually specify what the gradients with respect to my parameters as well as the cost function.</p>
 <p>A bit of reading indicates that TensorFlow can <a href="https://www.tensorflow.org/api_docs/python/train/gradient_computation">compute gradients</a> for a given computation graph.  Let's have a look at a basic example. </p>
-<div class="highlight"><pre><span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+<div class="highlight"><pre><span></span><span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
 </pre></div>
 
 
-<div class="highlight"><pre><span class="kn">import</span> <span class="nn">tensorflow</span> <span class="kn">as</span> <span class="nn">tf</span>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">tensorflow</span> <span class="kn">as</span> <span class="nn">tf</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">pi</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">mp</span>
@@ -435,35 +1251,35 @@ Wall time: 3.34 s
 
 
 <p>We'll compute the derivative of the sin function over the range 0 to <code>2*pi</code></p>
-<div class="highlight"><pre><span class="n">x_</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">pi</span><span class="o">*</span><span class="mi">2</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="n">x_</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">pi</span><span class="o">*</span><span class="mi">2</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
 </pre></div>
 
 
 <p>I'm still learning the relationship between Python variables and TensorFlow placeholders.</p>
 <p>Here <code>x_</code> and <code>y_</code> are Python variables, <code>x</code> and <code>y</code> are TensorFlow tensors</p>
-<div class="highlight"><pre><span class="n">x</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">placeholder</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="n">x</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">placeholder</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
 <span class="n">y</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 </pre></div>
 
 
-<div class="highlight"><pre><span class="n">x</span>
+<div class="highlight"><pre><span></span><span class="n">x</span>
 </pre></div>
 
 
-<div class="highlight"><pre>&lt;tf.Tensor &#39;Placeholder_3:0&#39; shape=&lt;unknown&gt; dtype=float32&gt;
+<div class="highlight"><pre><span></span>&lt;tf.Tensor &#39;Placeholder_3:0&#39; shape=&lt;unknown&gt; dtype=float32&gt;
 </pre></div>
 
 
-<div class="highlight"><pre><span class="n">y</span>
+<div class="highlight"><pre><span></span><span class="n">y</span>
 </pre></div>
 
 
-<div class="highlight"><pre>&lt;tf.Tensor &#39;Sin_3:0&#39; shape=&lt;unknown&gt; dtype=float32&gt;
+<div class="highlight"><pre><span></span>&lt;tf.Tensor &#39;Sin_3:0&#39; shape=&lt;unknown&gt; dtype=float32&gt;
 </pre></div>
 
 
 <p>Now we ask TensorFlow to compute both the <code>sin</code> function AND the first derivative.  </p>
-<div class="highlight"><pre><span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
+<div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
     <span class="n">feed_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">x</span><span class="p">:</span><span class="n">x_</span><span class="p">}</span>
     <span class="n">y_</span>  <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">feed_dict</span><span class="o">=</span><span class="n">feed_dict</span><span class="p">)</span>
     <span class="n">out</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">gradients</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">x</span><span class="p">),</span><span class="n">feed_dict</span><span class="o">=</span><span class="n">feed_dict</span><span class="p">)</span>
@@ -471,12 +1287,12 @@ Wall time: 3.34 s
 </pre></div>
 
 
-<div class="highlight"><pre><span class="n">mp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_</span><span class="p">,</span><span class="n">y_</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="n">mp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_</span><span class="p">,</span><span class="n">y_</span><span class="p">)</span>
 <span class="n">mp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_</span><span class="p">,</span><span class="n">gradient</span><span class="p">)</span>
 </pre></div>
 
 
-<p><img alt="png" src="images/tensorflow_gradient/output_12_1.png" /></p>
+<p><img alt="png" src="images/tensorflow_gradient/output_12_1.png"></p>
 <p>Note that I haven't had to declare anywhere that the first derivative of <code>sine(x)</code> is <code>cosine(x)</code>. TensorFlow seems to be able to figure that out analytically, which is pretty cool.</p>
                     
                 </div>  
@@ -495,7 +1311,7 @@ at computing the fractal dimension of a few different images.</p>
 <p>This is a very simple implementation of a <a href="https://en.wikipedia.org/wiki/Minkowski%E2%80%93Bouligand_dimension">box counting</a> algorithm.</p>
 <p>A couple of ideas are borrowed from https://github.com/twobraids/fracdim.</p>
 <p>First some imports:</p>
-<div class="highlight"><pre><span class="kn">import</span> <span class="nn">pandas</span>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span>
 <span class="kn">import</span> <span class="nn">math</span>
 <span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">display</span>
 <span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
@@ -505,7 +1321,7 @@ at computing the fractal dimension of a few different images.</p>
 
 
 <p>Then a function to create simple black and white images.</p>
-<div class="highlight"><pre><span class="k">def</span> <span class="nf">bw</span><span class="p">(</span><span class="n">img</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">bw</span><span class="p">(</span><span class="n">img</span><span class="p">):</span>
     <span class="n">gray</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="s1">&#39;L&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">gray</span><span class="o">.</span><span class="n">point</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="mi">0</span> <span class="k">if</span> <span class="n">x</span><span class="o">&lt;</span><span class="mi">128</span> <span class="k">else</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">)</span>
 </pre></div>
@@ -513,7 +1329,7 @@ at computing the fractal dimension of a few different images.</p>
 
 <p>Some sample images.  Basically, I expect the fractal dimension of the Canadian
 coastline to be higher than that of, say, a square.</p>
-<div class="highlight"><pre><span class="n">texas</span><span class="o">=</span><span class="n">bw</span><span class="p">(</span><span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;./images/texas.gif&#39;</span><span class="p">))</span>
+<div class="highlight"><pre><span></span><span class="n">texas</span><span class="o">=</span><span class="n">bw</span><span class="p">(</span><span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;./images/texas.gif&#39;</span><span class="p">))</span>
 <span class="n">tree</span><span class="o">=</span><span class="n">bw</span><span class="p">(</span><span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;./images/tree.jpg&#39;</span><span class="p">))</span>
 <span class="n">canada</span><span class="o">=</span><span class="n">bw</span><span class="p">(</span><span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;./images/Canada.png&#39;</span><span class="p">))</span>
 <span class="n">square</span><span class="o">=</span><span class="n">bw</span><span class="p">(</span><span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;./images/square.jpg&#39;</span><span class="p">))</span>
@@ -522,14 +1338,14 @@ coastline to be higher than that of, say, a square.</p>
 
 <p>At various different scales, I want to divide each image up into squares and 
 then count how many squares have at least one black pixel in them.</p>
-<div class="highlight"><pre><span class="k">def</span> <span class="nf">interesting</span><span class="p">(</span><span class="n">image</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">interesting</span><span class="p">(</span><span class="n">image</span><span class="p">):</span>
     <span class="c1">#true if any data is 0, i.e. black</span>
     <span class="k">return</span> <span class="mi">0</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">getdata</span><span class="p">())</span>
 </pre></div>
 
 
 <p>This function chops an image up into </p>
-<div class="highlight"><pre><span class="k">def</span> <span class="nf">interesting_box_count</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">length</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">interesting_box_count</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">length</span><span class="p">):</span>
     <span class="n">width</span><span class="p">,</span><span class="n">height</span><span class="o">=</span><span class="n">image</span><span class="o">.</span><span class="n">size</span>
 
     <span class="n">interesting_count</span><span class="o">=</span><span class="mi">0</span>
@@ -551,7 +1367,7 @@ then count how many squares have at least one black pixel in them.</p>
 
 <p>This returns pairs of numbers. One represents the scale, the other the (log) count 
 of boxes at that scale that have black pixels in them.</p>
-<div class="highlight"><pre><span class="k">def</span> <span class="nf">getcounts</span><span class="p">(</span><span class="n">image</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">getcounts</span><span class="p">(</span><span class="n">image</span><span class="p">):</span>
     <span class="n">length</span><span class="o">=</span><span class="nb">min</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
     <span class="k">while</span><span class="p">(</span><span class="n">length</span><span class="o">&gt;</span><span class="mi">5</span><span class="p">):</span>
         <span class="n">interesting</span> <span class="o">=</span> <span class="n">interesting_box_count</span><span class="p">(</span><span class="n">image</span><span class="p">,</span><span class="n">length</span><span class="p">)</span>
@@ -563,7 +1379,7 @@ of boxes at that scale that have black pixels in them.</p>
 </pre></div>
 
 
-<div class="highlight"><pre><span class="k">def</span> <span class="nf">dimension</span><span class="p">(</span><span class="n">image</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">dimension</span><span class="p">(</span><span class="n">image</span><span class="p">):</span>
     <span class="n">frame</span><span class="o">=</span><span class="n">counts</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">linregress</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">x</span><span class="p">,</span><span class="n">frame</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
 </pre></div>
@@ -571,62 +1387,62 @@ of boxes at that scale that have black pixels in them.</p>
 
 <p>And finally, armed with lists of pairs, we compute the slope we'd get if we 
 plotted them against each other.</p>
-<div class="highlight"><pre><span class="k">def</span> <span class="nf">analyse</span><span class="p">(</span><span class="n">image</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">analyse</span><span class="p">(</span><span class="n">image</span><span class="p">):</span>
     <span class="n">c</span><span class="o">=</span><span class="n">counts</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Fractal Dimension:&quot;</span><span class="p">,</span><span class="n">linregress</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">x</span><span class="p">,</span><span class="n">c</span><span class="o">.</span><span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">slope</span><span class="p">)</span>
 </pre></div>
 
 
 <h3>Results</h3>
-<div class="highlight"><pre><span class="n">square</span>
+<div class="highlight"><pre><span></span><span class="n">square</span>
 </pre></div>
 
 
 <p><img alt="png" src="images/fractal_dimension/output_10_0.png" width="300" height="300"></p>
-<div class="highlight"><pre><span class="n">analyse</span><span class="p">(</span><span class="n">square</span><span class="p">)</span> 
+<div class="highlight"><pre><span></span><span class="n">analyse</span><span class="p">(</span><span class="n">square</span><span class="p">)</span> 
 </pre></div>
 
 
-<div class="highlight"><pre>Fractal Dimension: 1.26420823227
+<div class="highlight"><pre><span></span>Fractal Dimension: 1.26420823227
 </pre></div>
 
 
-<div class="highlight"><pre><span class="n">texas</span>
+<div class="highlight"><pre><span></span><span class="n">texas</span>
 </pre></div>
 
 
 <p><img alt="png" src="images/fractal_dimension/output_12_0.png" width="300" height="300"></p>
-<div class="highlight"><pre><span class="n">analyse</span><span class="p">(</span><span class="n">texas</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="n">analyse</span><span class="p">(</span><span class="n">texas</span><span class="p">)</span>
 </pre></div>
 
 
-<div class="highlight"><pre>Fractal Dimension: 1.45764518178
+<div class="highlight"><pre><span></span>Fractal Dimension: 1.45764518178
 </pre></div>
 
 
-<div class="highlight"><pre><span class="n">canada</span>
+<div class="highlight"><pre><span></span><span class="n">canada</span>
 </pre></div>
 
 
 <p><img alt="png" src="images/fractal_dimension/output_14_0.png" width="300" height="300"></p>
-<div class="highlight"><pre><span class="n">analyse</span><span class="p">(</span><span class="n">canada</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="n">analyse</span><span class="p">(</span><span class="n">canada</span><span class="p">)</span>
 </pre></div>
 
 
-<div class="highlight"><pre>Fractal Dimension: 1.52450994232
+<div class="highlight"><pre><span></span>Fractal Dimension: 1.52450994232
 </pre></div>
 
 
-<div class="highlight"><pre><span class="n">tree</span>
+<div class="highlight"><pre><span></span><span class="n">tree</span>
 </pre></div>
 
 
 <p><img alt="png" src="images/fractal_dimension/output_16_0.png" width="300" height="300"></p>
-<div class="highlight"><pre><span class="n">analyse</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="n">analyse</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
 </pre></div>
 
 
-<div class="highlight"><pre>Fractal Dimension: 1.82487974473
+<div class="highlight"><pre><span></span>Fractal Dimension: 1.82487974473
 </pre></div>
 
 
@@ -650,7 +1466,7 @@ new best CSS friend.  Of course, I won't be able to use it anywhere where I have
 browsers, but so far it's been very pleasant to work with.</p>
 <p>I also used this opportunity to learn how to <a href="http://docs.getpelican.com/en/3.1.1/themes.html">create themes for Pelican</a>.  I basically took the 'simple' theme from the Pelican distribution and systematically rewrote each template
 to use Bulma classes.  Here's an example from the <code>article.html</code> template</p>
-<div class="highlight"><pre><span class="nt">&lt;section</span> <span class="na">class=</span><span class="s">&quot;section&quot;</span><span class="nt">&gt;</span>
+<div class="highlight"><pre><span></span><span class="nt">&lt;section</span> <span class="na">class=</span><span class="s">&quot;section&quot;</span><span class="nt">&gt;</span>
     <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;container&quot;</span><span class="nt">&gt;</span>
         <span class="nt">&lt;p</span> <span class="na">class=</span><span class="s">&quot;subtitle is-4&quot;</span><span class="nt">&gt;</span>
             <span class="cp">{{</span> <span class="nv">article.locale_date</span> <span class="cp">}}</span>
@@ -686,7 +1502,7 @@ are broadly similar, there are subtle differences between them when it comes to 
 like syntax highlighting.  But I've discovered today that if I use the triple-backtick
 syntax, I can get the same output from Pelican, Atom, and IPython notebooks.</p>
 <p>So</p>
-<div class="highlight"><pre>    ```python
+<div class="highlight"><pre><span></span>    ```python
     def syntax(highlighting=True):
         return &quot;cool huh?&quot;
     ```
@@ -694,7 +1510,7 @@ syntax, I can get the same output from Pelican, Atom, and IPython notebooks.</p>
 
 
 <p>yields</p>
-<div class="highlight"><pre> <span class="k">def</span> <span class="nf">syntax</span><span class="p">(</span><span class="n">highlighting</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+<div class="highlight"><pre><span></span> <span class="k">def</span> <span class="nf">syntax</span><span class="p">(</span><span class="n">highlighting</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
    <span class="k">return</span> <span class="s2">&quot;cool huh?&quot;</span>
 </pre></div>
 
@@ -723,7 +1539,7 @@ take away one of the key reasons for using node.</p>
 <p>The following is a full bottle-based python web application.</p>
 <p>A client can sucessfully call /test while another client is waiting for
 /slowproxy to return a result from a slow web service.</p>
-<div class="highlight"><pre><span class="kn">from</span> <span class="nn">gevent</span> <span class="kn">import</span> <span class="n">monkey</span><span class="p">;</span> <span class="n">monkey</span><span class="o">.</span><span class="n">patch_all</span><span class="p">()</span>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">gevent</span> <span class="kn">import</span> <span class="n">monkey</span><span class="p">;</span> <span class="n">monkey</span><span class="o">.</span><span class="n">patch_all</span><span class="p">()</span>
 
 <span class="kn">from</span> <span class="nn">bottle</span> <span class="kn">import</span> <span class="n">route</span><span class="p">,</span> <span class="n">run</span>
 <span class="kn">import</span> <span class="nn">time</span>
@@ -751,77 +1567,6 @@ take away one of the key reasons for using node.</p>
 <p>My first attempt used grequests, but apparently that's not even necessary.</p>
 <p>I guess that the call to monkey.patch_all() even patches the socket code
 that requests uses.  I'm very impressed.</p>
-
-                    
-                </div>  
-                
-                
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/coffeescript.html">CoffeeScript</a></h2>
-                
-                
-                <div class="entry-content">
-
-                    <p>Through a bizarre twist of history, the entire client-side web runs on a <a class="reference external" href="http://en.wikipedia.org/wiki/Brendan_Eich#Netscape_and_JavaScript">language</a>
-that was thrown together in 10 days.</p>
-<p>Despite huge investments in their own proprietary technology by the likes of Sun
-Microsystems, Adobe and Microsoft, this weird little spinoff of <strong>self</strong> and <strong>scheme</strong>
-is everywhere, while client-side Java, ActiveX and Flash fade into obscurity.</p>
-<p>Unsurprisingly for a language developed so quickly, Javascript is pretty ugly.
-I'm fond of saying that it's a horrible language, with a really nice language
-inside trying to get out.  It gets some things, like scoping rules, very, very
-wrong.  But it got other things, like anonymous functions, exactly right, long before
-they were adopted in Java, C#, or C++.  Even Python, my favourite language ever,
-doesn't get them quite right.</p>
-<p>Several people have attempted to build a nicer syntax on top of the javascript
-virtual machine.  In fact, the <a class="reference external" href="https://github.com/jashkenas/coffeescript/wiki/List-of-languages-that-compile-to-JS">list</a> of languages that compile to JS is startlingly
-big.</p>
-<p>For the last couple of years I've been using <a class="reference external" href="http://coffeescript.org/">CoffeeScript</a> as my standard javascript syntax.</p>
-<p>From the project page:</p>
-<blockquote>
-&quot;CoffeeScript is a little language that compiles into JavaScript.
-Underneath that awkward Java-esque patina, JavaScript has always
-had a gorgeous heart. CoffeeScript is an attempt to expose the
-good parts of JavaScript in a simple way.&quot;</blockquote>
-<p>and I think it achieves this admirably.  It doesn't solve <em>all</em> of javascript's problems -
-you can still get into trouble with the Infamous Loop Problem, but it does make the language
-considerably more succinct, mostly by stealing ideas from Python and Haskell.</p>
-<div class="section" id="examples">
-<h2>Examples</h2>
-<p>Function definitions go from</p>
-<div class="highlight"><pre><span class="kd">function</span> <span class="nx">d</span><span class="p">(</span><span class="nx">x</span><span class="p">){</span>
-    <span class="k">return</span> <span class="mi">2</span><span class="o">*</span><span class="nx">x</span>
-<span class="p">}</span>
-</pre></div>
-<p>to</p>
-<div class="highlight"><pre><span class="nv">d = </span><span class="nf">(x) -&gt;</span> <span class="mi">2</span><span class="o">*</span><span class="nx">x</span>
-</pre></div>
-<p>This makes for very quick object construction:</p>
-<div class="highlight"><pre><span class="nv">math =</span>
-    <span class="nv">root: </span>  <span class="nb">Math</span><span class="p">.</span><span class="nx">sqrt</span>
-    <span class="nv">square: </span><span class="nx">square</span>
-    <span class="nv">cube: </span>  <span class="nf">(x) -&gt;</span> <span class="nx">x</span> <span class="o">*</span> <span class="nx">square</span> <span class="nx">x</span>
-</pre></div>
-<p>It also borrows Python's list comprehension syntax:</p>
-<div class="highlight"><pre><span class="nx">values</span><span class="o">=</span><span class="p">(</span><span class="nx">option</span><span class="p">.</span><span class="nx">value</span> <span class="k">for</span> <span class="nx">option</span> <span class="k">in</span> <span class="nx">question</span><span class="p">.</span><span class="nx">options</span><span class="p">)</span>
-</pre></div>
-<p>The near complete absense of curly brackets saves a lot of wasted lines in
-my source code, and enables me to see what's going on a lot clearer than in raw
-javascript.  On the downside, I do find myself fairly regularly testing out code
-snippets in the <a class="reference external" href="http://coffeescript.org/">CoffeeScript</a> online compiler to make sure that I've properly understood
-how they will be interpreted.</p>
-<p>Because CoffeeScript is a compiled language, to work with it effectively requires
-integrating the compiler into your toolchain.  For my larger projects I've hand-written
-a tool using Python's <a class="reference external" href="https://pypi.python.org/pypi/watchdog">Watchdog</a> package to monitor my source code directories and
-output compiled javascript everytime a file changes.</p>
-<p>As a nice little extra, my tool jams in a warning message wrapped in an <code class="code">
-alert</code>
- call
-if the compliation fails, so if I introduce a syntax error in my coffeescript, as soon
-as I refresh the page that is using it I'll be presented with the source of the problem.</p>
-</div>
 
                     
                 </div>  

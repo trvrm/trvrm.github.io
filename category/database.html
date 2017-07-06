@@ -93,13 +93,13 @@ into the database across the wire, and what follows is by far the most
 efficient technique I've found so far.</p>
 <div class="section" id="set-some-visualisation-options">
 <h2>Set some visualisation options</h2>
-<div class="highlight"><pre><span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+<div class="highlight"><pre><span></span><span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
 <span class="kn">import</span> <span class="nn">seaborn</span>
 </pre></div>
 </div>
 <div class="section" id="import-the-libraries-we-ll-be-using">
 <h2>Import the libraries we'll be using</h2>
-<div class="highlight"><pre><span class="kn">import</span> <span class="nn">pandas</span>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span>
 <span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">array_split</span>
 <span class="kn">import</span> <span class="nn">psycopg2</span>
 <span class="kn">from</span> <span class="nn">psycopg2.extras</span> <span class="kn">import</span> <span class="n">Json</span>
@@ -109,7 +109,7 @@ efficient technique I've found so far.</p>
 </div>
 <div class="section" id="a-context-manager-for-timing-operations">
 <h2>A context manager for timing operations.</h2>
-<div class="highlight"><pre><span class="nd">@contextlib.contextmanager</span>
+<div class="highlight"><pre><span></span><span class="nd">@contextlib.contextmanager</span>
 <span class="k">def</span> <span class="nf">timer</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;duration&quot;</span><span class="p">):</span>
     <span class="s1">&#39;Utility function for timing execution&#39;</span>
     <span class="n">start</span><span class="o">=</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
@@ -124,7 +124,7 @@ efficient technique I've found so far.</p>
 it takes to perform inserts on it via several different methods. The
 table has a couple of default columns, a text column, and an HSTORE
 column.</p>
-<div class="highlight"><pre><span class="n">SETUP_SQL</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
+<div class="highlight"><pre><span></span><span class="n">SETUP_SQL</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">    DROP TABLE IF EXISTS upload_time_test;</span>
 
 <span class="s2">    CREATE TABLE upload_time_test(</span>
@@ -139,13 +139,13 @@ column.</p>
 </pre></div>
 <p>This is the SQL we'll use for inserting a single row into the database
 table:</p>
-<div class="highlight"><pre><span class="n">SINGLE_INSERT</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
+<div class="highlight"><pre><span></span><span class="n">SINGLE_INSERT</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">    INSERT INTO upload_time_test(text,properties)</span>
 <span class="s2">         VALUES (</span><span class="si">%(text)s</span><span class="s2">, </span><span class="si">%(properties)s</span><span class="s2">)</span>
 <span class="s2">&quot;&quot;&quot;</span>
 </pre></div>
 <p>Credentials for connecting to my local test database</p>
-<div class="highlight"><pre><span class="n">HOST</span><span class="o">=</span><span class="s1">&#39;localhost&#39;</span>
+<div class="highlight"><pre><span></span><span class="n">HOST</span><span class="o">=</span><span class="s1">&#39;localhost&#39;</span>
 <span class="n">DATABASE</span><span class="o">=</span><span class="s1">&#39;test&#39;</span>
 <span class="n">USER</span><span class="o">=</span><span class="s1">&#39;test&#39;</span>
 <span class="n">PASSWORD</span><span class="o">=</span><span class="s1">&#39;password&#39;</span>
@@ -153,7 +153,7 @@ table:</p>
 <p>Then we define a couple of simple wrappers around <code class="code">
 psycopg2</code>
 </p>
-<div class="highlight"><pre><span class="k">def</span> <span class="nf">connect</span><span class="p">():</span>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">connect</span><span class="p">():</span>
     <span class="n">connection</span><span class="o">=</span> <span class="n">psycopg2</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="n">HOST</span><span class="p">,</span><span class="n">database</span><span class="o">=</span><span class="n">DATABASE</span><span class="p">,</span><span class="n">user</span><span class="o">=</span><span class="n">USER</span><span class="p">,</span><span class="n">password</span><span class="o">=</span><span class="n">PASSWORD</span><span class="p">)</span>
     <span class="n">psycopg2</span><span class="o">.</span><span class="n">extras</span><span class="o">.</span><span class="n">register_hstore</span><span class="p">(</span><span class="n">connection</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">connection</span>
@@ -185,8 +185,8 @@ fastInsert()</code>
  is my new approach, based on using <strong>unnest()</strong> to
 unroll a set of arrays passed in through psycopg2</li>
 </ul>
-<div class="highlight"><pre><span class="k">class</span> <span class="nc">Tester</span><span class="p">():</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">count</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Tester</span><span class="p">():</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">count</span><span class="p">):</span>
         <span class="n">execute</span><span class="p">(</span><span class="n">SETUP_SQL</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">count</span><span class="o">=</span><span class="n">count</span>
 
@@ -237,7 +237,7 @@ unroll a set of arrays passed in through psycopg2</li>
 </pre></div>
 <p>So now we have the Tester class written, we can see how log each
 approach takes to insert 1000 rows</p>
-<div class="highlight"><pre><span class="k">def</span> <span class="nf">runTests</span><span class="p">(</span><span class="n">iterations</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">runTests</span><span class="p">(</span><span class="n">iterations</span><span class="p">):</span>
     <span class="n">tester</span> <span class="o">=</span> <span class="n">Tester</span><span class="p">(</span><span class="n">iterations</span><span class="p">)</span>
     <span class="k">with</span> <span class="n">timer</span><span class="p">(</span><span class="s1">&#39;slow&#39;</span><span class="p">):</span>
         <span class="n">tester</span><span class="o">.</span><span class="n">slowInsert</span><span class="p">()</span>
@@ -246,7 +246,7 @@ approach takes to insert 1000 rows</p>
     <span class="k">with</span> <span class="n">timer</span><span class="p">(</span><span class="s1">&#39;fast&#39;</span><span class="p">):</span>
         <span class="n">tester</span><span class="o">.</span><span class="n">fastInsert</span><span class="p">()</span>
 </pre></div>
-<div class="highlight"><pre><span class="n">runTests</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="n">runTests</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
 </pre></div>
 <pre class="literal-block">
 slow: 7.160489320755005 second(s)
@@ -264,7 +264,7 @@ unnest()</code>
 <p>Next, I wanted to know if this held true for inserting, say, 100,000
 rows. I won't bother with the slowest approach, because that's clearly
 unusable.</p>
-<div class="highlight"><pre><span class="n">tester</span><span class="o">=</span><span class="n">Tester</span><span class="p">(</span><span class="n">count</span><span class="o">=</span><span class="mi">100000</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="n">tester</span><span class="o">=</span><span class="n">Tester</span><span class="p">(</span><span class="n">count</span><span class="o">=</span><span class="mi">100000</span><span class="p">)</span>
 <span class="k">with</span> <span class="n">timer</span><span class="p">(</span><span class="s1">&#39;normal&#39;</span><span class="p">):</span>
     <span class="n">tester</span><span class="o">.</span><span class="n">insert</span><span class="p">()</span>
 
@@ -287,7 +287,7 @@ unnest</code>
 the number of rows being inserted.</p>
 <p>So first I wrote a couple of functions to measure the insertion rate of
 our two methods:</p>
-<div class="highlight"><pre><span class="k">def</span> <span class="nf">bulkInsertRate</span><span class="p">(</span><span class="n">count</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">bulkInsertRate</span><span class="p">(</span><span class="n">count</span><span class="p">):</span>
     <span class="n">tester</span><span class="o">=</span><span class="n">Tester</span><span class="p">(</span><span class="n">count</span><span class="p">)</span>
     <span class="n">start</span><span class="o">=</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
     <span class="n">tester</span><span class="o">.</span><span class="n">fastInsert</span><span class="p">()</span>
@@ -302,7 +302,7 @@ our two methods:</p>
     <span class="k">return</span> <span class="n">count</span><span class="o">/</span><span class="n">duration</span>
 </pre></div>
 <p>And then we run them with a range of dataset sizes</p>
-<div class="highlight"><pre><span class="n">counts</span><span class="o">=</span><span class="p">[</span><span class="mi">50</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">200</span><span class="p">,</span><span class="mi">500</span><span class="p">,</span><span class="mi">1000</span><span class="p">,</span><span class="mi">2000</span><span class="p">,</span><span class="mi">5000</span><span class="p">,</span><span class="mi">10000</span><span class="p">,</span><span class="mi">20000</span><span class="p">,</span><span class="mi">50000</span><span class="p">,</span><span class="mi">100000</span><span class="p">]</span>
+<div class="highlight"><pre><span></span><span class="n">counts</span><span class="o">=</span><span class="p">[</span><span class="mi">50</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">200</span><span class="p">,</span><span class="mi">500</span><span class="p">,</span><span class="mi">1000</span><span class="p">,</span><span class="mi">2000</span><span class="p">,</span><span class="mi">5000</span><span class="p">,</span><span class="mi">10000</span><span class="p">,</span><span class="mi">20000</span><span class="p">,</span><span class="mi">50000</span><span class="p">,</span><span class="mi">100000</span><span class="p">]</span>
 
 <span class="n">rates</span><span class="o">=</span><span class="p">[</span>
     <span class="p">{</span>
@@ -315,7 +315,7 @@ our two methods:</p>
 <span class="p">]</span>
 </pre></div>
 <p>Finally, I use Pandas to plot the output data from these tests.</p>
-<div class="highlight"><pre><span class="n">frame</span><span class="o">=</span><span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rates</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;count&#39;</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="n">frame</span><span class="o">=</span><span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rates</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;count&#39;</span><span class="p">)</span>
 <span class="n">frame</span>
 </pre></div>
 <div style="max-height:1000px;max-width:1500px;overflow:auto;">
@@ -390,7 +390,7 @@ our two methods:</p>
     </tr>
   </tbody>
 </table>
-</div><div class="highlight"><pre><span class="n">frame</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">logx</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</div><div class="highlight"><pre><span></span><span class="n">frame</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">logx</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 </pre></div>
 <pre class="literal-block">
 &lt;matplotlib.axes._subplots.AxesSubplot at 0x7fcbdecd0908&gt;
@@ -444,16 +444,16 @@ function lets you take the results from an aggregation operation and
 convert them into a JSON block - very helpful if you're then going to
 work with the returned data in a language like Python</p>
 <p>To demonstrate this, we'll first set up some simple tables.</p>
-<div class="highlight"><pre><span class="o">%</span><span class="n">load_ext</span> <span class="n">sql</span>
+<div class="highlight"><pre><span></span><span class="o">%</span><span class="n">load_ext</span> <span class="n">sql</span>
 <span class="o">%</span><span class="n">config</span> <span class="n">SqlMagic</span><span class="o">.</span><span class="n">feedback</span><span class="o">=</span><span class="bp">False</span>
 </pre></div>
-<div class="highlight"><pre><span class="o">%%</span><span class="n">sql</span>
+<div class="highlight"><pre><span></span><span class="o">%%</span><span class="n">sql</span>
 <span class="n">postgresql</span><span class="p">:</span><span class="o">//</span><span class="n">testuser</span><span class="p">:</span><span class="n">password</span><span class="nd">@localhost</span><span class="o">/</span><span class="n">test</span>
 </pre></div>
 <pre class="literal-block">
 u'Connected: <a class="reference external" href="mailto:testuser&#64;test">testuser&#64;test</a>'
 </pre>
-<div class="highlight"><pre><span class="o">%%</span><span class="n">sql</span>
+<div class="highlight"><pre><span></span><span class="o">%%</span><span class="n">sql</span>
 <span class="n">CREATE</span> <span class="n">TABLE</span> <span class="n">IF</span> <span class="n">NOT</span> <span class="n">EXISTS</span> <span class="n">person</span> <span class="p">(</span>
     <span class="n">name</span> <span class="n">text</span> <span class="n">primary</span> <span class="n">key</span>
 <span class="p">);</span>
@@ -466,7 +466,7 @@ u'Connected: <a class="reference external" href="mailto:testuser&#64;test">testu
 []
 </pre>
 <p>We can query this in the usual way:</p>
-<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="o">*</span> <span class="n">FROM</span> <span class="n">person</span><span class="p">;</span>
+<div class="highlight"><pre><span></span><span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="o">*</span> <span class="n">FROM</span> <span class="n">person</span><span class="p">;</span>
 </pre></div>
 <table class="table table-bordered">
     <tr>
@@ -487,7 +487,7 @@ u'Connected: <a class="reference external" href="mailto:testuser&#64;test">testu
 </table><p>But we can also use <code class="code">
 json_agg()</code>
 </p>
-<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="n">json_agg</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="n">FROM</span> <span class="n">person</span>
+<div class="highlight"><pre><span></span><span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="n">json_agg</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="n">FROM</span> <span class="n">person</span>
 </pre></div>
 <table class="table table-bordered">
     <tr>
@@ -501,7 +501,7 @@ particularly helpful, but it becomes very useful when we start doing
 <code class="code">
 JOINS</code>
 </p>
-<div class="highlight"><pre><span class="o">%%</span><span class="n">sql</span>
+<div class="highlight"><pre><span></span><span class="o">%%</span><span class="n">sql</span>
 <span class="n">CREATE</span> <span class="n">TABLE</span> <span class="n">IF</span> <span class="n">NOT</span> <span class="n">EXISTS</span> <span class="n">action</span><span class="p">(</span>
     <span class="nb">id</span> <span class="n">serial</span> <span class="n">primary</span> <span class="n">key</span><span class="p">,</span>
     <span class="n">created</span> <span class="n">timestamp</span> <span class="k">with</span> <span class="n">time</span> <span class="n">zone</span> <span class="n">default</span> <span class="n">now</span><span class="p">(),</span>
@@ -521,7 +521,7 @@ JOINS</code>
 </pre>
 <p>If we want to ask Postgres to give us every user and every action
 they've performed, we <em>could</em> do it this way:</p>
-<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="n">person</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>  <span class="n">action</span><span class="o">.</span><span class="n">type</span> <span class="p">,</span> <span class="n">action</span><span class="o">.</span><span class="n">created</span> <span class="n">FROM</span> <span class="n">action</span> <span class="n">JOIN</span> <span class="n">person</span> <span class="n">ON</span> <span class="n">action</span><span class="o">.</span><span class="n">person_name</span><span class="o">=</span><span class="n">person</span><span class="o">.</span><span class="n">name</span>
+<div class="highlight"><pre><span></span><span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="n">person</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>  <span class="n">action</span><span class="o">.</span><span class="n">type</span> <span class="p">,</span> <span class="n">action</span><span class="o">.</span><span class="n">created</span> <span class="n">FROM</span> <span class="n">action</span> <span class="n">JOIN</span> <span class="n">person</span> <span class="n">ON</span> <span class="n">action</span><span class="o">.</span><span class="n">person_name</span><span class="o">=</span><span class="n">person</span><span class="o">.</span><span class="n">name</span>
 </pre></div>
 <table class="table table-bordered">
     <tr>
@@ -565,7 +565,7 @@ through each action.</p>
 <p>Enter <code class="code">
 json_agg()</code>
 </p>
-<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="n">person</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>  <span class="n">json_agg</span><span class="p">(</span><span class="n">action</span><span class="p">)</span> <span class="n">FROM</span> <span class="n">action</span> <span class="n">JOIN</span> <span class="n">person</span> <span class="n">ON</span> <span class="n">action</span><span class="o">.</span><span class="n">person_name</span><span class="o">=</span><span class="n">person</span><span class="o">.</span><span class="n">name</span> <span class="n">GROUP</span> <span class="n">BY</span> <span class="n">person</span><span class="o">.</span><span class="n">name</span>
+<div class="highlight"><pre><span></span><span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="n">person</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>  <span class="n">json_agg</span><span class="p">(</span><span class="n">action</span><span class="p">)</span> <span class="n">FROM</span> <span class="n">action</span> <span class="n">JOIN</span> <span class="n">person</span> <span class="n">ON</span> <span class="n">action</span><span class="o">.</span><span class="n">person_name</span><span class="o">=</span><span class="n">person</span><span class="o">.</span><span class="n">name</span> <span class="n">GROUP</span> <span class="n">BY</span> <span class="n">person</span><span class="o">.</span><span class="n">name</span>
 </pre></div>
 <table class="table table-bordered">
     <tr>
@@ -585,9 +585,9 @@ json_agg()</code>
         <td>[{u'person_name': u'nicki', u'type': u'password_change', u'id': 5, u'created': u'2014-11-08 17:45:05.966274-05'}, {u'person_name': u'nicki', u'type': u'createpost', u'id': 6, u'created': u'2014-11-08 17:45:05.966824-05'}]</td>
     </tr>
 </table><p>Which becomes much more usable in Python:</p>
-<div class="highlight"><pre><span class="n">people</span> <span class="o">=</span> <span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="n">person</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>  <span class="n">json_agg</span><span class="p">(</span><span class="n">action</span><span class="p">)</span> <span class="n">FROM</span> <span class="n">action</span> <span class="n">JOIN</span> <span class="n">person</span> <span class="n">ON</span> <span class="n">action</span><span class="o">.</span><span class="n">person_name</span><span class="o">=</span><span class="n">person</span><span class="o">.</span><span class="n">name</span> <span class="n">GROUP</span> <span class="n">BY</span> <span class="n">person</span><span class="o">.</span><span class="n">name</span>
+<div class="highlight"><pre><span></span><span class="n">people</span> <span class="o">=</span> <span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="n">person</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>  <span class="n">json_agg</span><span class="p">(</span><span class="n">action</span><span class="p">)</span> <span class="n">FROM</span> <span class="n">action</span> <span class="n">JOIN</span> <span class="n">person</span> <span class="n">ON</span> <span class="n">action</span><span class="o">.</span><span class="n">person_name</span><span class="o">=</span><span class="n">person</span><span class="o">.</span><span class="n">name</span> <span class="n">GROUP</span> <span class="n">BY</span> <span class="n">person</span><span class="o">.</span><span class="n">name</span>
 </pre></div>
-<div class="highlight"><pre><span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">actions</span> <span class="ow">in</span> <span class="n">people</span><span class="p">:</span>
+<div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">actions</span> <span class="ow">in</span> <span class="n">people</span><span class="p">:</span>
     <span class="k">print</span> <span class="n">name</span>
 </pre></div>
 <pre class="literal-block">
@@ -595,7 +595,7 @@ arthur
 emily
 nicki
 </pre>
-<div class="highlight"><pre><span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">actions</span> <span class="ow">in</span> <span class="n">people</span><span class="p">:</span>
+<div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">actions</span> <span class="ow">in</span> <span class="n">people</span><span class="p">:</span>
     <span class="k">print</span> <span class="n">name</span>
     <span class="k">for</span> <span class="n">action</span> <span class="ow">in</span> <span class="n">actions</span><span class="p">:</span>
         <span class="k">print</span> <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span><span class="n">action</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span>
@@ -652,16 +652,16 @@ here is the tricky bit the function goes BOTH WAYS, and you can easily
 get confused if you don’t know what type you’re starting with.</p>
 <p>Furthermore, Postgres will sometimes sneakily convert one to the other
 without you asking.</p>
-<div class="highlight"><pre><span class="o">%</span><span class="n">load_ext</span> <span class="n">sql</span>
+<div class="highlight"><pre><span></span><span class="o">%</span><span class="n">load_ext</span> <span class="n">sql</span>
 <span class="o">%</span><span class="n">config</span> <span class="n">SqlMagic</span><span class="o">.</span><span class="n">feedback</span><span class="o">=</span><span class="bp">False</span>
 </pre></div>
-<div class="highlight"><pre><span class="o">%%</span><span class="n">sql</span>
+<div class="highlight"><pre><span></span><span class="o">%%</span><span class="n">sql</span>
 <span class="n">postgresql</span><span class="p">:</span><span class="o">//</span><span class="n">testuser</span><span class="p">:</span><span class="n">password</span><span class="nd">@localhost</span><span class="o">/</span><span class="n">test</span>
 </pre></div>
 <pre class="literal-block">
 u'Connected: <a class="reference external" href="mailto:testuser&#64;test">testuser&#64;test</a>'
 </pre>
-<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="n">NOW</span><span class="p">();</span>
+<div class="highlight"><pre><span></span><span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="n">NOW</span><span class="p">();</span>
 </pre></div>
 <table class="table table-bordered table-striped">
     <tr>
@@ -683,7 +683,7 @@ now()</code>
 <code class="code">
 TIMESTAMP</code>
  we will get a silent conversion:</p>
-<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="n">NOW</span><span class="p">()::</span> <span class="n">timestamp</span>
+<div class="highlight"><pre><span></span><span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="n">NOW</span><span class="p">()::</span> <span class="n">timestamp</span>
 </pre></div>
 <table class="table table-bordered table-striped">
     <tr>
@@ -695,7 +695,7 @@ TIMESTAMP</code>
 </table><p>Which is <strong>not</strong> the current UTC time. We have stripped the timezone
 offset right of it. However, if we <strong>explicitly</strong> do the conversion, we
 get:</p>
-<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="n">NOW</span><span class="p">()</span> <span class="n">AT</span> <span class="n">TIME</span> <span class="n">ZONE</span> <span class="s1">&#39;UTC&#39;</span><span class="p">;</span>
+<div class="highlight"><pre><span></span><span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="n">NOW</span><span class="p">()</span> <span class="n">AT</span> <span class="n">TIME</span> <span class="n">ZONE</span> <span class="s1">&#39;UTC&#39;</span><span class="p">;</span>
 </pre></div>
 <table class="table table-bordered table-striped">
     <tr>
@@ -730,12 +730,12 @@ what type you're getting out. I've been bitten by this in the past;
 ending up with a timestamp that is wrong by several hours because I
 wasn't clear about my inputs.</p>
 <p>Specifically, consider a table that looks like this:</p>
-<div class="highlight"><pre><span class="o">%%</span><span class="n">sql</span>
+<div class="highlight"><pre><span></span><span class="o">%%</span><span class="n">sql</span>
 <span class="n">DROP</span> <span class="n">TABLE</span> <span class="n">IF</span> <span class="n">EXISTS</span> <span class="n">test</span><span class="p">;</span>
 <span class="n">CREATE</span> <span class="n">TABLE</span> <span class="n">test</span><span class="p">(</span><span class="n">name</span> <span class="n">TEXT</span><span class="p">,</span> <span class="n">created</span> <span class="n">TIMESTAMP</span> <span class="n">DEFAULT</span> <span class="n">NOW</span><span class="p">());</span>
 </pre></div>
 <p>Which I then populate:</p>
-<div class="highlight"><pre><span class="o">%%</span><span class="n">sql</span>
+<div class="highlight"><pre><span></span><span class="o">%%</span><span class="n">sql</span>
 <span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">test</span> <span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="s1">&#39;zaphod beeblebrox&#39;</span><span class="p">);</span>
 <span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">test</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="n">created</span><span class="p">)</span> <span class="n">VALUES</span><span class="p">(</span><span class="s1">&#39;ford prefect&#39;</span><span class="p">,</span><span class="n">now</span><span class="p">()</span> <span class="n">at</span> <span class="n">time</span> <span class="n">zone</span> <span class="s1">&#39;utc&#39;</span><span class="p">);</span>
 <span class="n">SELECT</span> <span class="o">*</span> <span class="n">FROM</span> <span class="n">test</span><span class="p">;</span>
@@ -767,11 +767,11 @@ avoid any ambiguity. This is the recommendation given
 <a class="reference external" href="http://justatheory.com/computers/databases/postgresql/use-timestamptz.html">here</a>.</p>
 <p>In our above example, the simplest approach is to change the table
 definition:</p>
-<div class="highlight"><pre><span class="o">%%</span><span class="n">sql</span>
+<div class="highlight"><pre><span></span><span class="o">%%</span><span class="n">sql</span>
 <span class="n">DROP</span> <span class="n">TABLE</span> <span class="n">IF</span> <span class="n">EXISTS</span> <span class="n">test</span><span class="p">;</span>
 <span class="n">CREATE</span> <span class="n">TABLE</span> <span class="n">test</span><span class="p">(</span><span class="n">name</span> <span class="n">TEXT</span><span class="p">,</span> <span class="n">created</span> <span class="n">TIMESTAMP</span> <span class="n">WITH</span> <span class="n">TIME</span> <span class="n">ZONE</span> <span class="n">DEFAULT</span> <span class="p">(</span><span class="n">NOW</span><span class="p">()</span> <span class="p">));</span>
 </pre></div>
-<div class="highlight"><pre><span class="o">%%</span><span class="n">sql</span>
+<div class="highlight"><pre><span></span><span class="o">%%</span><span class="n">sql</span>
 <span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">test</span> <span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="s1">&#39;zaphod beeblebrox&#39;</span><span class="p">);</span>
 <span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">test</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="n">created</span><span class="p">)</span> <span class="n">VALUES</span><span class="p">(</span><span class="s1">&#39;ford prefect&#39;</span><span class="p">,</span><span class="n">now</span><span class="p">()</span> <span class="p">);</span>
 <span class="n">SELECT</span> <span class="o">*</span> <span class="n">FROM</span> <span class="n">test</span><span class="p">;</span>
@@ -792,7 +792,7 @@ definition:</p>
 </table><p>So now the dates are globally meaningful. But I <em>still</em> have to be
 careful, because if I use the wrong date format to populate this table,
 it'll still get messed up.</p>
-<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">test</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="n">created</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="s1">&#39;arthur dent&#39;</span><span class="p">,</span><span class="n">now</span><span class="p">()</span> <span class="n">at</span> <span class="n">time</span> <span class="n">zone</span> <span class="s1">&#39;utc&#39;</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="o">%</span><span class="n">sql</span> <span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">test</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="n">created</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="s1">&#39;arthur dent&#39;</span><span class="p">,</span><span class="n">now</span><span class="p">()</span> <span class="n">at</span> <span class="n">time</span> <span class="n">zone</span> <span class="s1">&#39;utc&#39;</span><span class="p">)</span>
 <span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="o">*</span> <span class="n">FROM</span> <span class="n">test</span><span class="p">;</span>
 </pre></div>
 <table class="table table-bordered table-striped">
@@ -815,9 +815,9 @@ it'll still get messed up.</p>
 </table><p>Note how <strong>arthur dent</strong> has completely the wrong created time.</p>
 <p>Now, if I want to <em>report</em> on this data, I'm going to now have to
 specify <em>which</em> timezone I want the dates formatted too:</p>
-<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">delete</span> <span class="kn">from</span> <span class="nn">test</span> <span class="nn">WHERE</span> <span class="nn">name</span><span class="o">=</span><span class="s1">&#39;arthur dent&#39;</span><span class="p">;</span>
+<div class="highlight"><pre><span></span><span class="o">%</span><span class="n">sql</span> <span class="n">delete</span> <span class="kn">from</span> <span class="nn">test</span> <span class="nn">WHERE</span> <span class="nn">name</span><span class="o">=</span><span class="s1">&#39;arthur dent&#39;</span><span class="p">;</span>
 </pre></div>
-<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">select</span> <span class="n">name</span><span class="p">,</span> <span class="n">created</span> <span class="n">FROM</span> <span class="n">test</span><span class="p">;</span>
+<div class="highlight"><pre><span></span><span class="o">%</span><span class="n">sql</span> <span class="n">select</span> <span class="n">name</span><span class="p">,</span> <span class="n">created</span> <span class="n">FROM</span> <span class="n">test</span><span class="p">;</span>
 </pre></div>
 <table class="table table-bordered table-striped">
     <tr>
@@ -836,7 +836,7 @@ specify <em>which</em> timezone I want the dates formatted too:</p>
 which isn't necessarily particularly helpful, which <em>may</em> be helpful,
 but will be less so if the actual <em>users</em> of the data are in a different
 time zone.</p>
-<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span>  <span class="n">SELECT</span> <span class="n">name</span><span class="p">,</span> <span class="n">created</span> <span class="n">at</span> <span class="n">time</span> <span class="n">zone</span> <span class="s1">&#39;utc&#39;</span> <span class="n">FROM</span> <span class="n">test</span><span class="p">;</span>
+<div class="highlight"><pre><span></span><span class="o">%</span><span class="n">sql</span>  <span class="n">SELECT</span> <span class="n">name</span><span class="p">,</span> <span class="n">created</span> <span class="n">at</span> <span class="n">time</span> <span class="n">zone</span> <span class="s1">&#39;utc&#39;</span> <span class="n">FROM</span> <span class="n">test</span><span class="p">;</span>
 </pre></div>
 <table class="table table-bordered table-striped">
     <tr>
@@ -852,7 +852,7 @@ time zone.</p>
         <td>2014-08-19 02:35:15.989726</td>
     </tr>
 </table><p>gives me the time formatted in the UTC timezone, and</p>
-<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">select</span> <span class="n">CREATED</span> <span class="n">at</span> <span class="n">time</span> <span class="n">zone</span> <span class="s1">&#39;CST&#39;</span> <span class="n">FROM</span> <span class="n">test</span><span class="p">;</span>
+<div class="highlight"><pre><span></span><span class="o">%</span><span class="n">sql</span> <span class="n">select</span> <span class="n">CREATED</span> <span class="n">at</span> <span class="n">time</span> <span class="n">zone</span> <span class="s1">&#39;CST&#39;</span> <span class="n">FROM</span> <span class="n">test</span><span class="p">;</span>
 </pre></div>
 <table class="table table-bordered table-striped">
     <tr>
@@ -873,16 +873,16 @@ In this case it's very important the we know what timezone the incoming
 data comes from. So our middleware should <em>require</em> that all dates
 include a timestamp. Fortunately, if we're writing javascript
 applications, we get this automatically:</p>
-<div class="highlight"><pre><span class="o">%%</span><span class="n">html</span>
+<div class="highlight"><pre><span></span><span class="o">%%</span><span class="n">html</span>
 <span class="o">&lt;</span><span class="n">div</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;js-output&quot;</span><span class="o">&gt;&lt;/</span><span class="n">div</span><span class="o">&gt;</span>
 </pre></div>
-<div id="js-output"></div><div class="highlight"><pre><span class="o">%%</span><span class="n">javascript</span>
+<div id="js-output"></div><div class="highlight"><pre><span></span><span class="o">%%</span><span class="n">javascript</span>
 <span class="n">var</span> <span class="n">d</span> <span class="o">=</span> <span class="n">JSON</span><span class="o">.</span><span class="n">stringify</span><span class="p">(</span><span class="n">new</span> <span class="n">Date</span><span class="p">())</span>
 </pre></div>
 <pre class="literal-block">
 &quot;2014-08-19T02:41:12.872Z&quot;
 </pre>
-<div class="highlight"><pre><span class="kn">import</span> <span class="nn">psycopg2</span><span class="o">,</span><span class="nn">pandas</span>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">psycopg2</span><span class="o">,</span><span class="nn">pandas</span>
 <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span><span class="n">params</span><span class="o">=</span><span class="p">{}):</span>
     <span class="k">with</span> <span class="n">psycopg2</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">database</span><span class="o">=</span><span class="s1">&#39;test&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">connection</span><span class="p">:</span>
         <span class="k">with</span> <span class="n">connection</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span> <span class="k">as</span> <span class="n">cursor</span><span class="p">:</span>
@@ -890,11 +890,11 @@ applications, we get this automatically:</p>
 </pre></div>
 <p>So let's imagine that we got this string submitted to us by a client,
 and we're going to store it in the database via some Python code.</p>
-<div class="highlight"><pre><span class="n">sql</span><span class="o">=</span><span class="s2">&quot;INSERT INTO test (name, created) VALUES ( &#39;externally created date&#39;, </span><span class="si">%(date)s</span><span class="s2">)&quot;</span>
+<div class="highlight"><pre><span></span><span class="n">sql</span><span class="o">=</span><span class="s2">&quot;INSERT INTO test (name, created) VALUES ( &#39;externally created date&#39;, </span><span class="si">%(date)s</span><span class="s2">)&quot;</span>
 <span class="n">params</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">date</span><span class="o">=</span><span class="s2">&quot;2014-08-19T02:35:24.321Z&quot;</span><span class="p">)</span>
 <span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span><span class="n">params</span><span class="p">)</span>
 </pre></div>
-<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="o">*</span> <span class="n">FROM</span> <span class="n">test</span>
+<div class="highlight"><pre><span></span><span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="o">*</span> <span class="n">FROM</span> <span class="n">test</span>
 </pre></div>
 <table class="table table-bordered table-striped">
     <tr>

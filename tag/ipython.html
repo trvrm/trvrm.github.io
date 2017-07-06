@@ -88,13 +88,13 @@ pip tends to have more up-to-date packages.</p>
 <p>In the end I found the simplest thing to do was to set up IPython in an isolated
 virtualenv environment.  The main trick is to let virtualenv know what version of
 Python you want it to use by default.</p>
-<div class="highlight"><pre>$ virtualenv --python<span class="o">=</span>python3.4 python_3_demo
+<div class="highlight"><pre><span></span>$ virtualenv --python<span class="o">=</span>python3.4 python_3_demo
 $ <span class="nb">cd</span> python_3_demo/
 $ <span class="nb">source</span> ./bin/activate
 $ pip install ipython
 $ ipython
 </pre></div>
-<div class="highlight"><pre><span class="n">Python</span> <span class="mf">3.4</span><span class="o">.</span><span class="mi">0</span> <span class="p">(</span><span class="n">default</span><span class="p">,</span> <span class="n">Apr</span> <span class="mi">11</span> <span class="mi">2014</span><span class="p">,</span> <span class="mi">13</span><span class="p">:</span><span class="mo">05</span><span class="p">:</span><span class="mi">11</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="n">Python</span> <span class="mf">3.4</span><span class="o">.</span><span class="mi">0</span> <span class="p">(</span><span class="n">default</span><span class="p">,</span> <span class="n">Apr</span> <span class="mi">11</span> <span class="mi">2014</span><span class="p">,</span> <span class="mi">13</span><span class="p">:</span><span class="mo">05</span><span class="p">:</span><span class="mi">11</span><span class="p">)</span>
 <span class="o">...</span>
 
 <span class="n">In</span> <span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="kn">import</span> <span class="nn">sys</span>
@@ -125,38 +125,38 @@ this is basically a modification of
 <a class="reference external" href="http://nbviewer.ipython.org/gist/deeplook/5162445">this</a> IPython
 notebook.</p>
 <p>First our imports.</p>
-<div class="highlight"><pre><span class="kn">from</span> <span class="nn">reportlab.lib</span> <span class="kn">import</span> <span class="n">colors</span>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">reportlab.lib</span> <span class="kn">import</span> <span class="n">colors</span>
 <span class="kn">from</span> <span class="nn">reportlab.graphics</span> <span class="kn">import</span> <span class="n">renderPM</span>
 <span class="kn">from</span> <span class="nn">reportlab.graphics.shapes</span> <span class="kn">import</span> <span class="n">Drawing</span><span class="p">,</span> <span class="n">Rect</span>
 <span class="kn">from</span> <span class="nn">reportlab.graphics.charts.linecharts</span> <span class="kn">import</span> <span class="n">HorizontalLineChart</span>
 </pre></div>
-<div class="highlight"><pre><span class="kn">from</span> <span class="nn">io</span> <span class="kn">import</span> <span class="n">BytesIO</span>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">io</span> <span class="kn">import</span> <span class="n">BytesIO</span>
 <span class="kn">from</span> <span class="nn">IPython.core</span> <span class="kn">import</span> <span class="n">display</span>
 </pre></div>
 <p>Now we create a hook that causes reportlab drawings to actually be
 rendered when we type out its name.</p>
-<div class="highlight"><pre><span class="k">def</span> <span class="nf">display_reportlab_drawing</span><span class="p">(</span><span class="n">drawing</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">display_reportlab_drawing</span><span class="p">(</span><span class="n">drawing</span><span class="p">):</span>
     <span class="n">buff</span><span class="o">=</span><span class="n">BytesIO</span><span class="p">()</span>
     <span class="n">renderPM</span><span class="o">.</span><span class="n">drawToFile</span><span class="p">(</span><span class="n">drawing</span><span class="p">,</span><span class="n">buff</span><span class="p">,</span><span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;png&#39;</span><span class="p">,</span><span class="n">dpi</span><span class="o">=</span><span class="mi">72</span><span class="p">)</span>
     <span class="n">data</span><span class="o">=</span><span class="n">buff</span><span class="o">.</span><span class="n">getvalue</span><span class="p">()</span>
     <span class="n">ip_img</span><span class="o">=</span><span class="n">display</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span><span class="n">format</span><span class="o">=</span><span class="s1">&#39;png&#39;</span><span class="p">,</span><span class="n">embed</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">ip_img</span><span class="o">.</span><span class="n">_repr_png_</span><span class="p">()</span>
 </pre></div>
-<div class="highlight"><pre><span class="n">png_formatter</span><span class="o">=</span><span class="n">get_ipython</span><span class="p">()</span><span class="o">.</span><span class="n">display_formatter</span><span class="o">.</span><span class="n">formatters</span><span class="p">[</span><span class="s1">&#39;image/png&#39;</span><span class="p">]</span>
+<div class="highlight"><pre><span></span><span class="n">png_formatter</span><span class="o">=</span><span class="n">get_ipython</span><span class="p">()</span><span class="o">.</span><span class="n">display_formatter</span><span class="o">.</span><span class="n">formatters</span><span class="p">[</span><span class="s1">&#39;image/png&#39;</span><span class="p">]</span>
 <span class="n">drd</span><span class="o">=</span><span class="n">png_formatter</span><span class="o">.</span><span class="n">for_type</span><span class="p">(</span><span class="n">Drawing</span><span class="p">,</span><span class="n">display_reportlab_drawing</span><span class="p">)</span>
 </pre></div>
 <p>Now that's done, we can start creating ReportLab objects and see them
 immediately.</p>
-<div class="highlight"><pre><span class="n">drawing</span> <span class="o">=</span> <span class="n">Drawing</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="n">drawing</span> <span class="o">=</span> <span class="n">Drawing</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
 <span class="n">drawing</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Rect</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">150</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="n">strokeColor</span><span class="o">=</span><span class="n">colors</span><span class="o">.</span><span class="n">black</span><span class="p">,</span><span class="n">fillColor</span><span class="o">=</span><span class="n">colors</span><span class="o">.</span><span class="n">antiquewhite</span><span class="p">))</span>
 <span class="n">drawing</span>
 </pre></div>
 <img alt="" src="reportlab-images-ipython_files/reportlab-images-ipython_8_0.png" />
-<div class="highlight"><pre><span class="n">chart</span><span class="o">=</span><span class="n">HorizontalLineChart</span><span class="p">()</span>
+<div class="highlight"><pre><span></span><span class="n">chart</span><span class="o">=</span><span class="n">HorizontalLineChart</span><span class="p">()</span>
 </pre></div>
-<div class="highlight"><pre><span class="n">drawing</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">chart</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="n">drawing</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">chart</span><span class="p">)</span>
 </pre></div>
-<div class="highlight"><pre><span class="n">drawing</span>
+<div class="highlight"><pre><span></span><span class="n">drawing</span>
 </pre></div>
 <img alt="" src="reportlab-images-ipython_files/reportlab-images-ipython_11_0.png" />
 
@@ -184,10 +184,10 @@ pip install ipython-sql</pre>
 </p>
 <p><a class="reference external" href="https://pypi.python.org/pypi/ipython-sql">https://pypi.python.org/pypi/ipython-sql</a></p>
 <p>Then we load the extension</p>
-<div class="highlight"><pre><span class="o">%</span><span class="n">load_ext</span> <span class="n">sql</span>
+<div class="highlight"><pre><span></span><span class="o">%</span><span class="n">load_ext</span> <span class="n">sql</span>
 </pre></div>
 <p>Then we set up our database connection.</p>
-<div class="highlight"><pre><span class="o">%%</span><span class="n">sql</span>
+<div class="highlight"><pre><span></span><span class="o">%%</span><span class="n">sql</span>
 <span class="n">postgresql</span><span class="p">:</span><span class="o">//</span><span class="n">testuser</span><span class="p">:</span><span class="n">password</span><span class="nd">@localhost</span><span class="o">/</span><span class="n">test</span>
 </pre></div>
 <pre class="literal-block">
@@ -197,7 +197,7 @@ u'Connected: <a class="reference external" href="mailto:testuser&#64;test">testu
 were at the <code class="code">
 psql</code>
  command line.</p>
-<div class="highlight"><pre><span class="o">%%</span><span class="n">sql</span>
+<div class="highlight"><pre><span></span><span class="o">%%</span><span class="n">sql</span>
 <span class="n">CREATE</span> <span class="n">TABLE</span> <span class="n">people</span> <span class="p">(</span><span class="n">first</span> <span class="n">text</span><span class="p">,</span> <span class="n">last</span> <span class="n">text</span><span class="p">,</span> <span class="n">drink</span> <span class="n">text</span><span class="p">);</span>
 <span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">people</span> <span class="p">(</span><span class="n">first</span><span class="p">,</span><span class="n">last</span><span class="p">,</span><span class="n">drink</span><span class="p">)</span>
 <span class="n">VALUES</span>
@@ -213,7 +213,7 @@ Done.
 <pre class="literal-block">
 []
 </pre>
-<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">select</span> <span class="o">*</span> <span class="kn">from</span> <span class="nn">people</span>
+<div class="highlight"><pre><span></span><span class="o">%</span><span class="n">sql</span> <span class="n">select</span> <span class="o">*</span> <span class="kn">from</span> <span class="nn">people</span>
 </pre></div>
 <pre class="literal-block">
 3 rows affected.
@@ -240,16 +240,16 @@ Done.
         <td>old janx spirit</td>
     </tr>
 </table><p>We can access the results as a python object:</p>
-<div class="highlight"><pre><span class="n">result</span> <span class="o">=</span> <span class="o">%</span><span class="n">sql</span> <span class="n">select</span> <span class="o">*</span> <span class="kn">from</span> <span class="nn">people</span>
+<div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="o">%</span><span class="n">sql</span> <span class="n">select</span> <span class="o">*</span> <span class="kn">from</span> <span class="nn">people</span>
 <span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
 </pre></div>
 <pre class="literal-block">
 3
 </pre>
 <p>And we can even get our recordset as a <strong>pandas</strong> dataframe</p>
-<div class="highlight"><pre><span class="o">%</span><span class="n">config</span> <span class="n">SqlMagic</span><span class="o">.</span><span class="n">autopandas</span><span class="o">=</span><span class="bp">True</span>
+<div class="highlight"><pre><span></span><span class="o">%</span><span class="n">config</span> <span class="n">SqlMagic</span><span class="o">.</span><span class="n">autopandas</span><span class="o">=</span><span class="bp">True</span>
 </pre></div>
-<div class="highlight"><pre><span class="n">frame</span> <span class="o">=</span> <span class="o">%</span><span class="n">sql</span> <span class="n">select</span> <span class="o">*</span> <span class="kn">from</span> <span class="nn">people</span>
+<div class="highlight"><pre><span></span><span class="n">frame</span> <span class="o">=</span> <span class="o">%</span><span class="n">sql</span> <span class="n">select</span> <span class="o">*</span> <span class="kn">from</span> <span class="nn">people</span>
 <span class="n">frame</span>
 </pre></div>
 <div style="max-height:1000px;max-width:1500px;overflow:auto;">
@@ -284,7 +284,7 @@ Done.
   </tbody>
 </table>
 <p>3 rows × 3 columns</p>
-</div><div class="highlight"><pre><span class="n">frame</span><span class="p">[</span><span class="s1">&#39;first&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+</div><div class="highlight"><pre><span></span><span class="n">frame</span><span class="p">[</span><span class="s1">&#39;first&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
 </pre></div>
 <pre class="literal-block">
 0    ZAPHOD
@@ -309,12 +309,12 @@ Name: first, dtype: object
 <p>Now apparently we want to manually specify the use of inline matplotlib
 rather than enable globally in the server.</p>
 <p><a class="reference external" href="http://nbviewer.ipython.org/github/ipython/ipython/blob/1.x/examples/notebooks/Part%203%20-%20Plotting%20with%20Matplotlib.ipynb">http://nbviewer.ipython.org/github/ipython/ipython/blob/1.x/examples/notebooks/Part%203%20-%20Plotting%20with%20Matplotlib.ipynb</a></p>
-<div class="highlight"><pre><span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+<div class="highlight"><pre><span></span><span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
 </pre></div>
-<div class="highlight"><pre><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 </pre></div>
-<div class="highlight"><pre><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;A simple chirp&#39;</span><span class="p">);</span>
 </pre></div>

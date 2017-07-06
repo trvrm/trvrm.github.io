@@ -86,27 +86,27 @@ to do this, we had to make changes at three levels of our software stack: in our
 in our PHP configuration settings, and in our NGINX configuration.</p>
 <h4>PHP changes</h4>
 <p>I added this at the top of the file in question:</p>
-<div class="highlight"><pre>ob_implicit_flush(1);
+<div class="highlight"><pre><span></span>ob_implicit_flush(1);
 </pre></div>
 
 
 <p>This tells PHP to simulate calling <code>flush()</code> after every output block.</p>
 <h4>PHP INI changes</h4>
 <p>I added a new .ini file in <code>/etc/php5/fpm/conf.d</code> with the following setting:</p>
-<div class="highlight"><pre>output_buffering = Off
+<div class="highlight"><pre><span></span>output_buffering = Off
 </pre></div>
 
 
 <p>This tells PHP not to buffer output.</p>
 <h4>NGINX changes</h4>
 <p>In the .conf file for the reporting site, I added</p>
-<div class="highlight"><pre>fastcgi_keep_conn on;
+<div class="highlight"><pre><span></span>fastcgi_keep_conn on;
 gzip off;
 </pre></div>
 
 
 <p>in the location block, and</p>
-<div class="highlight"><pre>ssl_buffer_size 1k;
+<div class="highlight"><pre><span></span>ssl_buffer_size 1k;
 </pre></div>
 
 
@@ -133,7 +133,7 @@ it's actually pretty straightforward to get them up and running.</p>
 <p>I present here a a setup that uses nginx and uwsgi emperor to host
 multiple python web applications simultaneously on an ubuntu 14 machine.</p>
 <p>First, the packages</p>
-<div class="highlight"><pre>$ sudo apt-get install nginx
+<div class="highlight"><pre><span></span>$ sudo apt-get install nginx
 $ sudo apt-get install uwsgi uwsgi-emperor uwsgi-plugin-python
 </pre></div>
 <p>Our configuration files will now be under <code class="code">
@@ -142,7 +142,7 @@ $ sudo apt-get install uwsgi uwsgi-emperor uwsgi-plugin-python
 /etc/uwsgi-emperor</code>
 </p>
 <p>You can start, stop, and reload nginx as follows:</p>
-<div class="highlight"><pre>$ sudo service nginx start
+<div class="highlight"><pre><span></span>$ sudo service nginx start
 $ sudo service nginx stop
 $ sudo service nginx reload
 </pre></div>
@@ -150,7 +150,7 @@ $ sudo service nginx reload
 <p>Now set up a site by creating a file in <code class="code">
 /etc/nginx/sites-available</code>
 </p>
-<div class="highlight"><pre><span class="c1">#/etc/nginx/sites-available/mysite</span>
+<div class="highlight"><pre><span></span><span class="c1">#/etc/nginx/sites-available/mysite</span>
 server<span class="o">{</span>
 
     server_name     your_host_name<span class="p">;</span>
@@ -166,7 +166,7 @@ server<span class="o">{</span>
 <span class="o">}</span>
 </pre></div>
 <p>Then,</p>
-<div class="highlight"><pre>$ sudo ln -s /etc/nginx/apps-available/mysite /etc/nginx/sites-enabled
+<div class="highlight"><pre><span></span>$ sudo ln -s /etc/nginx/apps-available/mysite /etc/nginx/sites-enabled
 </pre></div>
 <div class="alert  alert-warning compound">
 <p class="compound-first"><strong>Warning</strong></p>
@@ -184,7 +184,7 @@ Your uwsgi sub-directory will vanish and the uwsgi services will not restart.</p
 <p>Create  <code class="code">
 /etc/uwsgi-emperor/vassals/app1.ini</code>
  as follows:</p>
-<div class="highlight"><pre><span class="k">[uwsgi]</span>
+<div class="highlight"><pre><span></span><span class="k">[uwsgi]</span>
 <span class="na">plugin</span> <span class="o">=</span> <span class="s">python</span>
 <span class="na">processes</span> <span class="o">=</span> <span class="s">2</span>
 <span class="na">socket</span> <span class="o">=</span> <span class="s">/tmp/app1.socket</span>
@@ -199,7 +199,7 @@ Your uwsgi sub-directory will vanish and the uwsgi services will not restart.</p
 <p>And for your second application, create  <code class="code">
 /etc/uwsgi-emperor/vassals/app2.ini</code>
  as similarly:</p>
-<div class="highlight"><pre><span class="k">[uwsgi]</span>
+<div class="highlight"><pre><span></span><span class="k">[uwsgi]</span>
 <span class="na">plugin</span> <span class="o">=</span> <span class="s">python</span>
 <span class="na">processes</span> <span class="o">=</span> <span class="s">2</span>
 <span class="na">socket</span> <span class="o">=</span> <span class="s">/tmp/app2.socket</span>
@@ -220,14 +220,14 @@ application can be only a few lines long:</p>
 <p>Create <code class="code">
 /srv/app1/main.py</code>
 </p>
-<div class="highlight"><pre><span class="k">def</span> <span class="nf">application</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">start_response</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">application</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">start_response</span><span class="p">):</span>
     <span class="n">start_response</span><span class="p">(</span><span class="s1">&#39;200 OK&#39;</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;Content-Type&#39;</span><span class="p">,</span><span class="s1">&#39;text/html&#39;</span><span class="p">)])</span>
     <span class="k">return</span> <span class="p">[</span><span class="s2">&quot;Hello World, I am app1&quot;</span><span class="p">]</span>
 </pre></div>
 <p>And <code class="code">
 /srv/app2/main.py</code>
 </p>
-<div class="highlight"><pre><span class="k">def</span> <span class="nf">application</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">start_response</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">application</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">start_response</span><span class="p">):</span>
     <span class="n">start_response</span><span class="p">(</span><span class="s1">&#39;200 OK&#39;</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;Content-Type&#39;</span><span class="p">,</span><span class="s1">&#39;text/html&#39;</span><span class="p">)])</span>
     <span class="k">return</span> <span class="p">[</span><span class="s2">&quot;I, however, am app2. &quot;</span><span class="p">]</span>
 </pre></div>

@@ -92,14 +92,14 @@ to update the control displays whenever data in the model changes.</p>
 Knockout and React all play in this space, but it's my current favourite.</p>
 <p>Anyway, here's a little demo....</p>
 <p>Given a ractive template like this:</p>
-<div class="highlight"><pre><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Type in the boxes below.<span class="err">&lt;</span>\p&gt;
+<div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Type in the boxes below.<span class="err">&lt;</span>\p&gt;
 <span class="p">&lt;</span><span class="nt">input</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;form-control&quot;</span> <span class="na">value</span><span class="o">=</span><span class="s">&quot;{{var1}}&quot;</span><span class="p">&gt;</span>
 <span class="p">&lt;</span><span class="nt">input</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;form-control&quot;</span> <span class="na">value</span><span class="o">=</span><span class="s">&quot;{{var2}}&quot;</span><span class="p">&gt;</span>
 <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Current values are var1:<span class="p">&lt;</span><span class="nt">code</span><span class="p">&gt;</span>{{var1}}<span class="p">&lt;/</span><span class="nt">code</span><span class="p">&gt;</span>, var2:<span class="p">&lt;</span><span class="nt">code</span><span class="p">&gt;</span>{{var2}}<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
 <span class="p">&lt;</span><span class="nt">button</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;btn btn-primary&quot;</span> <span class="na">on-click</span><span class="o">=</span><span class="s">&quot;changeme&quot;</span><span class="p">&gt;</span>Set var1<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
 </pre></div>
 <p>and javascript like this:</p>
-<div class="highlight"><pre><span class="kd">var</span> <span class="nx">ractive</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Ractive</span><span class="p">({</span>
+<div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">ractive</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Ractive</span><span class="p">({</span>
    <span class="nx">el</span><span class="o">:</span><span class="s2">&quot;#demo&quot;</span><span class="p">,</span>
    <span class="nx">template</span><span class="o">:</span><span class="nx">template</span><span class="p">,</span>
    <span class="nx">data</span><span class="o">:</span><span class="p">{</span><span class="nx">var1</span><span class="o">:</span><span class="s1">&#39;beeblebrox&#39;</span><span class="p">,</span><span class="nx">var2</span><span class="o">:</span><span class="s1">&#39;lintilla&#39;</span><span class="p">}</span>
@@ -133,7 +133,7 @@ var1</code>
 in both the output paragraph and the control value, and binds the two elements together,
 refreshing them whenever needed.</p>
 <p>The code for responding to the button click is simply:</p>
-<div class="highlight"><pre><span class="nx">ractive</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;changeme&#39;</span><span class="p">,</span><span class="kd">function</span><span class="p">(){</span>
+<div class="highlight"><pre><span></span><span class="nx">ractive</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;changeme&#39;</span><span class="p">,</span><span class="kd">function</span><span class="p">(){</span>
     <span class="nx">ractive</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">&#39;var1&#39;</span><span class="p">,</span><span class="s1">&#39;zarniwoop&#39;</span><span class="p">);</span>
 <span class="p">});</span>
 </pre></div>
@@ -181,12 +181,12 @@ I have more code that reacts to changes in the data model and updates the UI.  W
 it be nice if this two-way data binding could happen automatically?  Wouldn't it be
 nice, for example, if you could do something like this:</p>
 <p>Imagine having a user interface like this:</p>
-<div class="highlight"><pre><span class="p">&lt;</span><span class="nt">label</span><span class="p">&gt;</span>
+<div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">label</span><span class="p">&gt;</span>
     <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&#39;checkbox&#39;</span> <span class="na">checked</span><span class="o">=</span><span class="s">&#39;{{visible}}&#39;</span><span class="p">&gt;</span> visible?
 <span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
 </pre></div>
 <p>And underlying data like this:</p>
-<div class="highlight"><pre><span class="nx">data</span><span class="o">:</span> <span class="p">{</span>
+<div class="highlight"><pre><span></span><span class="nx">data</span><span class="o">:</span> <span class="p">{</span>
   <span class="s2">&quot;visible&quot;</span><span class="o">:</span> <span class="kc">false</span>
 <span class="p">}</span>
 </pre></div>

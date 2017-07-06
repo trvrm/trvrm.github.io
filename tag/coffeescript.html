@@ -105,21 +105,21 @@ considerably more succinct, mostly by stealing ideas from Python and Haskell.</p
 <div class="section" id="examples">
 <h2>Examples</h2>
 <p>Function definitions go from</p>
-<div class="highlight"><pre><span class="kd">function</span> <span class="nx">d</span><span class="p">(</span><span class="nx">x</span><span class="p">){</span>
+<div class="highlight"><pre><span></span><span class="kd">function</span> <span class="nx">d</span><span class="p">(</span><span class="nx">x</span><span class="p">){</span>
     <span class="k">return</span> <span class="mi">2</span><span class="o">*</span><span class="nx">x</span>
 <span class="p">}</span>
 </pre></div>
 <p>to</p>
-<div class="highlight"><pre><span class="nv">d = </span><span class="nf">(x) -&gt;</span> <span class="mi">2</span><span class="o">*</span><span class="nx">x</span>
+<div class="highlight"><pre><span></span><span class="nv">d = </span><span class="nf">(x) -&gt;</span> <span class="mi">2</span><span class="o">*</span><span class="nx">x</span>
 </pre></div>
 <p>This makes for very quick object construction:</p>
-<div class="highlight"><pre><span class="nv">math =</span>
+<div class="highlight"><pre><span></span><span class="nv">math =</span>
     <span class="nv">root: </span>  <span class="nb">Math</span><span class="p">.</span><span class="nx">sqrt</span>
     <span class="nv">square: </span><span class="nx">square</span>
     <span class="nv">cube: </span>  <span class="nf">(x) -&gt;</span> <span class="nx">x</span> <span class="o">*</span> <span class="nx">square</span> <span class="nx">x</span>
 </pre></div>
 <p>It also borrows Python's list comprehension syntax:</p>
-<div class="highlight"><pre><span class="nx">values</span><span class="o">=</span><span class="p">(</span><span class="nx">option</span><span class="p">.</span><span class="nx">value</span> <span class="k">for</span> <span class="nx">option</span> <span class="k">in</span> <span class="nx">question</span><span class="p">.</span><span class="nx">options</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="nx">values</span><span class="o">=</span><span class="p">(</span><span class="nx">option</span><span class="p">.</span><span class="nx">value</span> <span class="k">for</span> <span class="nx">option</span> <span class="k">in</span> <span class="nx">question</span><span class="p">.</span><span class="nx">options</span><span class="p">)</span>
 </pre></div>
 <p>The near complete absense of curly brackets saves a lot of wasted lines in
 my source code, and enables me to see what's going on a lot clearer than in raw

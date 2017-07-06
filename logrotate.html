@@ -14,13 +14,13 @@
 
         <meta name="author" content="Trevor" />
         <meta name="keywords" content="logrotate,linux" />
-        <meta name="description" content="I have a large, complex mailing system that processes a significant amount of data every hour. While I&#39;m developing it, I want to know what it&#39;s doing, and whether it&#39;s having any problems. So I use the excellent python logging library to produce comprehensive monitoring data. The ..." />
+        <meta name="description" content="I have a large, complex mailing system that processes a significant amount of data every hour. While I&#39;m developing it, I want to know what it&#39;s doing, and whether it&#39;s having any problems. So I use the excellent python logging library to produce comprehensive monitoring data. The only problem is …" />
 
         <meta property="og:site_name" content="trvrm" />
         <meta property="og:type" content="article"/>
         <meta property="og:title" content="logrotate"/>
         <meta property="og:url" content="/logrotate.html"/>
-        <meta property="og:description" content="I have a large, complex mailing system that processes a significant amount of data every hour. While I&#39;m developing it, I want to know what it&#39;s doing, and whether it&#39;s having any problems. So I use the excellent python logging library to produce comprehensive monitoring data. The ..."/>
+        <meta property="og:description" content="I have a large, complex mailing system that processes a significant amount of data every hour. While I&#39;m developing it, I want to know what it&#39;s doing, and whether it&#39;s having any problems. So I use the excellent python logging library to produce comprehensive monitoring data. The only problem is …"/>
         <meta property="article:published_time" content="2015-01-01" />
             <meta property="article:section" content="Systems" />
             <meta property="article:tag" content="logrotate" />
@@ -133,8 +133,8 @@ and modifying it according to your needs.</p>
 <p><code class="code">
 vi /etc/logrotate.d/myservice</code>
 </p>
-<div class="highlight"><pre>/var/log/myservice/*.log <span class="o">{</span>
-  rotate 7
+<div class="highlight"><pre><span></span>/var/log/myservice/*.log <span class="o">{</span>
+  rotate <span class="m">7</span>
   daily
   compress
   missingok
@@ -147,7 +147,7 @@ logrotate</code>
 get triggered regularly by a script in /etc/cron.daily</p>
 <p>You can also <strong>force</strong> a rotation, a useful option when testing out a new configuration,
 via</p>
-<div class="highlight"><pre>logrotate -f /etc/logrotate.d/myservice
+<div class="highlight"><pre><span></span>logrotate -f /etc/logrotate.d/myservice
 </pre></div>
 <p>One quick word of warning: if you're using the python <a class="reference external" href="https://docs.python.org/2/library/logging.html">logging</a> library, then
 you'll want to use the <code class="code">

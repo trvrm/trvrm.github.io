@@ -86,27 +86,27 @@ to do this, we had to make changes at three levels of our software stack: in our
 in our PHP configuration settings, and in our NGINX configuration.</p>
 <h4>PHP changes</h4>
 <p>I added this at the top of the file in question:</p>
-<div class="highlight"><pre>ob_implicit_flush(1);
+<div class="highlight"><pre><span></span>ob_implicit_flush(1);
 </pre></div>
 
 
 <p>This tells PHP to simulate calling <code>flush()</code> after every output block.</p>
 <h4>PHP INI changes</h4>
 <p>I added a new .ini file in <code>/etc/php5/fpm/conf.d</code> with the following setting:</p>
-<div class="highlight"><pre>output_buffering = Off
+<div class="highlight"><pre><span></span>output_buffering = Off
 </pre></div>
 
 
 <p>This tells PHP not to buffer output.</p>
 <h4>NGINX changes</h4>
 <p>In the .conf file for the reporting site, I added</p>
-<div class="highlight"><pre>fastcgi_keep_conn on;
+<div class="highlight"><pre><span></span>fastcgi_keep_conn on;
 gzip off;
 </pre></div>
 
 
 <p>in the location block, and</p>
-<div class="highlight"><pre>ssl_buffer_size 1k;
+<div class="highlight"><pre><span></span>ssl_buffer_size 1k;
 </pre></div>
 
 

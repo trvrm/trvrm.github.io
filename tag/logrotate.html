@@ -102,8 +102,8 @@ and modifying it according to your needs.</p>
 <p><code class="code">
 vi /etc/logrotate.d/myservice</code>
 </p>
-<div class="highlight"><pre>/var/log/myservice/*.log <span class="o">{</span>
-  rotate 7
+<div class="highlight"><pre><span></span>/var/log/myservice/*.log <span class="o">{</span>
+  rotate <span class="m">7</span>
   daily
   compress
   missingok
@@ -116,7 +116,7 @@ logrotate</code>
 get triggered regularly by a script in /etc/cron.daily</p>
 <p>You can also <strong>force</strong> a rotation, a useful option when testing out a new configuration,
 via</p>
-<div class="highlight"><pre>logrotate -f /etc/logrotate.d/myservice
+<div class="highlight"><pre><span></span>logrotate -f /etc/logrotate.d/myservice
 </pre></div>
 <p>One quick word of warning: if you're using the python <a class="reference external" href="https://docs.python.org/2/library/logging.html">logging</a> library, then
 you'll want to use the <code class="code">

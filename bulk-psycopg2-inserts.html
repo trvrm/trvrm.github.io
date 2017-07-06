@@ -14,13 +14,13 @@
 
         <meta name="author" content="Trevor" />
         <meta name="keywords" content="Python,Postgres" />
-        <meta name="description" content="One of the biggest challenges I face maintaining large Postgres systems is getting data into them in an efficient manner. Postgres is very, very good at maintaining, organising, querying and retrieving data, but inserts themselves can be quite slow. Various stackoverflow questions suggest using things like COPY , but that assumes ..." />
+        <meta name="description" content="One of the biggest challenges I face maintaining large Postgres systems is getting data into them in an efficient manner. Postgres is very, very good at maintaining, organising, querying and retrieving data, but inserts themselves can be quite slow. Various stackoverflow questions suggest using things like COPY , but that assumes …" />
 
         <meta property="og:site_name" content="trvrm" />
         <meta property="og:type" content="article"/>
         <meta property="og:title" content="Efficient Postgres Bulk Inserts using Psycopg2 and Unnest"/>
         <meta property="og:url" content="/bulk-psycopg2-inserts.html"/>
-        <meta property="og:description" content="One of the biggest challenges I face maintaining large Postgres systems is getting data into them in an efficient manner. Postgres is very, very good at maintaining, organising, querying and retrieving data, but inserts themselves can be quite slow. Various stackoverflow questions suggest using things like COPY , but that assumes ..."/>
+        <meta property="og:description" content="One of the biggest challenges I face maintaining large Postgres systems is getting data into them in an efficient manner. Postgres is very, very good at maintaining, organising, querying and retrieving data, but inserts themselves can be quite slow. Various stackoverflow questions suggest using things like COPY , but that assumes …"/>
         <meta property="article:published_time" content="2015-10-22" />
             <meta property="article:section" content="Database" />
             <meta property="article:tag" content="Python" />
@@ -124,13 +124,13 @@ into the database across the wire, and what follows is by far the most
 efficient technique I've found so far.</p>
 <div class="section" id="set-some-visualisation-options">
 <h2>Set some visualisation options</h2>
-<div class="highlight"><pre><span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+<div class="highlight"><pre><span></span><span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
 <span class="kn">import</span> <span class="nn">seaborn</span>
 </pre></div>
 </div>
 <div class="section" id="import-the-libraries-we-ll-be-using">
 <h2>Import the libraries we'll be using</h2>
-<div class="highlight"><pre><span class="kn">import</span> <span class="nn">pandas</span>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span>
 <span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">array_split</span>
 <span class="kn">import</span> <span class="nn">psycopg2</span>
 <span class="kn">from</span> <span class="nn">psycopg2.extras</span> <span class="kn">import</span> <span class="n">Json</span>
@@ -140,7 +140,7 @@ efficient technique I've found so far.</p>
 </div>
 <div class="section" id="a-context-manager-for-timing-operations">
 <h2>A context manager for timing operations.</h2>
-<div class="highlight"><pre><span class="nd">@contextlib.contextmanager</span>
+<div class="highlight"><pre><span></span><span class="nd">@contextlib.contextmanager</span>
 <span class="k">def</span> <span class="nf">timer</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;duration&quot;</span><span class="p">):</span>
     <span class="s1">&#39;Utility function for timing execution&#39;</span>
     <span class="n">start</span><span class="o">=</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
@@ -155,7 +155,7 @@ efficient technique I've found so far.</p>
 it takes to perform inserts on it via several different methods. The
 table has a couple of default columns, a text column, and an HSTORE
 column.</p>
-<div class="highlight"><pre><span class="n">SETUP_SQL</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
+<div class="highlight"><pre><span></span><span class="n">SETUP_SQL</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">    DROP TABLE IF EXISTS upload_time_test;</span>
 
 <span class="s2">    CREATE TABLE upload_time_test(</span>
@@ -170,13 +170,13 @@ column.</p>
 </pre></div>
 <p>This is the SQL we'll use for inserting a single row into the database
 table:</p>
-<div class="highlight"><pre><span class="n">SINGLE_INSERT</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
+<div class="highlight"><pre><span></span><span class="n">SINGLE_INSERT</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">    INSERT INTO upload_time_test(text,properties)</span>
 <span class="s2">         VALUES (</span><span class="si">%(text)s</span><span class="s2">, </span><span class="si">%(properties)s</span><span class="s2">)</span>
 <span class="s2">&quot;&quot;&quot;</span>
 </pre></div>
 <p>Credentials for connecting to my local test database</p>
-<div class="highlight"><pre><span class="n">HOST</span><span class="o">=</span><span class="s1">&#39;localhost&#39;</span>
+<div class="highlight"><pre><span></span><span class="n">HOST</span><span class="o">=</span><span class="s1">&#39;localhost&#39;</span>
 <span class="n">DATABASE</span><span class="o">=</span><span class="s1">&#39;test&#39;</span>
 <span class="n">USER</span><span class="o">=</span><span class="s1">&#39;test&#39;</span>
 <span class="n">PASSWORD</span><span class="o">=</span><span class="s1">&#39;password&#39;</span>
@@ -184,7 +184,7 @@ table:</p>
 <p>Then we define a couple of simple wrappers around <code class="code">
 psycopg2</code>
 </p>
-<div class="highlight"><pre><span class="k">def</span> <span class="nf">connect</span><span class="p">():</span>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">connect</span><span class="p">():</span>
     <span class="n">connection</span><span class="o">=</span> <span class="n">psycopg2</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="n">HOST</span><span class="p">,</span><span class="n">database</span><span class="o">=</span><span class="n">DATABASE</span><span class="p">,</span><span class="n">user</span><span class="o">=</span><span class="n">USER</span><span class="p">,</span><span class="n">password</span><span class="o">=</span><span class="n">PASSWORD</span><span class="p">)</span>
     <span class="n">psycopg2</span><span class="o">.</span><span class="n">extras</span><span class="o">.</span><span class="n">register_hstore</span><span class="p">(</span><span class="n">connection</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">connection</span>
@@ -216,8 +216,8 @@ fastInsert()</code>
  is my new approach, based on using <strong>unnest()</strong> to
 unroll a set of arrays passed in through psycopg2</li>
 </ul>
-<div class="highlight"><pre><span class="k">class</span> <span class="nc">Tester</span><span class="p">():</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">count</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Tester</span><span class="p">():</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">count</span><span class="p">):</span>
         <span class="n">execute</span><span class="p">(</span><span class="n">SETUP_SQL</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">count</span><span class="o">=</span><span class="n">count</span>
 
@@ -268,7 +268,7 @@ unroll a set of arrays passed in through psycopg2</li>
 </pre></div>
 <p>So now we have the Tester class written, we can see how log each
 approach takes to insert 1000 rows</p>
-<div class="highlight"><pre><span class="k">def</span> <span class="nf">runTests</span><span class="p">(</span><span class="n">iterations</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">runTests</span><span class="p">(</span><span class="n">iterations</span><span class="p">):</span>
     <span class="n">tester</span> <span class="o">=</span> <span class="n">Tester</span><span class="p">(</span><span class="n">iterations</span><span class="p">)</span>
     <span class="k">with</span> <span class="n">timer</span><span class="p">(</span><span class="s1">&#39;slow&#39;</span><span class="p">):</span>
         <span class="n">tester</span><span class="o">.</span><span class="n">slowInsert</span><span class="p">()</span>
@@ -277,7 +277,7 @@ approach takes to insert 1000 rows</p>
     <span class="k">with</span> <span class="n">timer</span><span class="p">(</span><span class="s1">&#39;fast&#39;</span><span class="p">):</span>
         <span class="n">tester</span><span class="o">.</span><span class="n">fastInsert</span><span class="p">()</span>
 </pre></div>
-<div class="highlight"><pre><span class="n">runTests</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="n">runTests</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
 </pre></div>
 <pre class="literal-block">
 slow: 7.160489320755005 second(s)
@@ -295,7 +295,7 @@ unnest()</code>
 <p>Next, I wanted to know if this held true for inserting, say, 100,000
 rows. I won't bother with the slowest approach, because that's clearly
 unusable.</p>
-<div class="highlight"><pre><span class="n">tester</span><span class="o">=</span><span class="n">Tester</span><span class="p">(</span><span class="n">count</span><span class="o">=</span><span class="mi">100000</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="n">tester</span><span class="o">=</span><span class="n">Tester</span><span class="p">(</span><span class="n">count</span><span class="o">=</span><span class="mi">100000</span><span class="p">)</span>
 <span class="k">with</span> <span class="n">timer</span><span class="p">(</span><span class="s1">&#39;normal&#39;</span><span class="p">):</span>
     <span class="n">tester</span><span class="o">.</span><span class="n">insert</span><span class="p">()</span>
 
@@ -318,7 +318,7 @@ unnest</code>
 the number of rows being inserted.</p>
 <p>So first I wrote a couple of functions to measure the insertion rate of
 our two methods:</p>
-<div class="highlight"><pre><span class="k">def</span> <span class="nf">bulkInsertRate</span><span class="p">(</span><span class="n">count</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">bulkInsertRate</span><span class="p">(</span><span class="n">count</span><span class="p">):</span>
     <span class="n">tester</span><span class="o">=</span><span class="n">Tester</span><span class="p">(</span><span class="n">count</span><span class="p">)</span>
     <span class="n">start</span><span class="o">=</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
     <span class="n">tester</span><span class="o">.</span><span class="n">fastInsert</span><span class="p">()</span>
@@ -333,7 +333,7 @@ our two methods:</p>
     <span class="k">return</span> <span class="n">count</span><span class="o">/</span><span class="n">duration</span>
 </pre></div>
 <p>And then we run them with a range of dataset sizes</p>
-<div class="highlight"><pre><span class="n">counts</span><span class="o">=</span><span class="p">[</span><span class="mi">50</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">200</span><span class="p">,</span><span class="mi">500</span><span class="p">,</span><span class="mi">1000</span><span class="p">,</span><span class="mi">2000</span><span class="p">,</span><span class="mi">5000</span><span class="p">,</span><span class="mi">10000</span><span class="p">,</span><span class="mi">20000</span><span class="p">,</span><span class="mi">50000</span><span class="p">,</span><span class="mi">100000</span><span class="p">]</span>
+<div class="highlight"><pre><span></span><span class="n">counts</span><span class="o">=</span><span class="p">[</span><span class="mi">50</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">200</span><span class="p">,</span><span class="mi">500</span><span class="p">,</span><span class="mi">1000</span><span class="p">,</span><span class="mi">2000</span><span class="p">,</span><span class="mi">5000</span><span class="p">,</span><span class="mi">10000</span><span class="p">,</span><span class="mi">20000</span><span class="p">,</span><span class="mi">50000</span><span class="p">,</span><span class="mi">100000</span><span class="p">]</span>
 
 <span class="n">rates</span><span class="o">=</span><span class="p">[</span>
     <span class="p">{</span>
@@ -346,7 +346,7 @@ our two methods:</p>
 <span class="p">]</span>
 </pre></div>
 <p>Finally, I use Pandas to plot the output data from these tests.</p>
-<div class="highlight"><pre><span class="n">frame</span><span class="o">=</span><span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rates</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;count&#39;</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="n">frame</span><span class="o">=</span><span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rates</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;count&#39;</span><span class="p">)</span>
 <span class="n">frame</span>
 </pre></div>
 <div style="max-height:1000px;max-width:1500px;overflow:auto;">
@@ -421,7 +421,7 @@ our two methods:</p>
     </tr>
   </tbody>
 </table>
-</div><div class="highlight"><pre><span class="n">frame</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">logx</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</div><div class="highlight"><pre><span></span><span class="n">frame</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">logx</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 </pre></div>
 <pre class="literal-block">
 &lt;matplotlib.axes._subplots.AxesSubplot at 0x7fcbdecd0908&gt;

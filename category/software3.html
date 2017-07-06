@@ -73,6 +73,33 @@ trvrm            </a>
     <div class="row">
         <div class="col-sm-9">
             <article>
+                <h2><a href="/basic-ipython-plotting.html">Basic IPython Plotting</a></h2>
+                
+                
+                <div class="entry-content">
+
+                    <p><strong>Things have changed a bit since IPython 1</strong></p>
+<p>Now apparently we want to manually specify the use of inline matplotlib
+rather than enable globally in the server.</p>
+<p><a class="reference external" href="http://nbviewer.ipython.org/github/ipython/ipython/blob/1.x/examples/notebooks/Part%203%20-%20Plotting%20with%20Matplotlib.ipynb">http://nbviewer.ipython.org/github/ipython/ipython/blob/1.x/examples/notebooks/Part%203%20-%20Plotting%20with%20Matplotlib.ipynb</a></p>
+<div class="highlight"><pre><span></span><span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+</pre></div>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+</pre></div>
+<div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;A simple chirp&#39;</span><span class="p">);</span>
+</pre></div>
+<img alt="basic plotting example" src="Basic%20Plotting%20Example_files/Basic%20Plotting%20Example_3_0.png" />
+
+                    
+                </div>  
+                
+                
+            </article>
+            <hr/>
+            <article>
                 <h2><a href="/ractive-js.html">Ractive.js</a></h2>
                 
                 
@@ -97,12 +124,12 @@ I have more code that reacts to changes in the data model and updates the UI.  W
 it be nice if this two-way data binding could happen automatically?  Wouldn't it be
 nice, for example, if you could do something like this:</p>
 <p>Imagine having a user interface like this:</p>
-<div class="highlight"><pre><span class="p">&lt;</span><span class="nt">label</span><span class="p">&gt;</span>
+<div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">label</span><span class="p">&gt;</span>
     <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&#39;checkbox&#39;</span> <span class="na">checked</span><span class="o">=</span><span class="s">&#39;{{visible}}&#39;</span><span class="p">&gt;</span> visible?
 <span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
 </pre></div>
 <p>And underlying data like this:</p>
-<div class="highlight"><pre><span class="nx">data</span><span class="o">:</span> <span class="p">{</span>
+<div class="highlight"><pre><span></span><span class="nx">data</span><span class="o">:</span> <span class="p">{</span>
   <span class="s2">&quot;visible&quot;</span><span class="o">:</span> <span class="kc">false</span>
 <span class="p">}</span>
 </pre></div>

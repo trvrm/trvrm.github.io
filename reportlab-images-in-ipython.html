@@ -14,13 +14,13 @@
 
         <meta name="author" content="Trevor" />
         <meta name="keywords" content="Python,IPython" />
-        <meta name="description" content="With a bit of work we can get IPython to render ReportLab objects directly to the page as Matplotlib plots. Huge thanks to github user deeplook, this is basically a modification of this IPython notebook. First our imports. from reportlab.lib import colors from reportlab.graphics import renderPM from reportlab ..." />
+        <meta name="description" content="With a bit of work we can get IPython to render ReportLab objects directly to the page as Matplotlib plots. Huge thanks to github user deeplook, this is basically a modification of this IPython notebook. First our imports. from reportlab.lib import colors from reportlab.graphics import renderPM from reportlab …" />
 
         <meta property="og:site_name" content="trvrm" />
         <meta property="og:type" content="article"/>
         <meta property="og:title" content="Reportlab Images in IPython"/>
         <meta property="og:url" content="/reportlab-images-in-ipython.html"/>
-        <meta property="og:description" content="With a bit of work we can get IPython to render ReportLab objects directly to the page as Matplotlib plots. Huge thanks to github user deeplook, this is basically a modification of this IPython notebook. First our imports. from reportlab.lib import colors from reportlab.graphics import renderPM from reportlab ..."/>
+        <meta property="og:description" content="With a bit of work we can get IPython to render ReportLab objects directly to the page as Matplotlib plots. Huge thanks to github user deeplook, this is basically a modification of this IPython notebook. First our imports. from reportlab.lib import colors from reportlab.graphics import renderPM from reportlab …"/>
         <meta property="article:published_time" content="2015-01-01" />
             <meta property="article:section" content="Software" />
             <meta property="article:tag" content="Python" />
@@ -116,38 +116,38 @@ this is basically a modification of
 <a class="reference external" href="http://nbviewer.ipython.org/gist/deeplook/5162445">this</a> IPython
 notebook.</p>
 <p>First our imports.</p>
-<div class="highlight"><pre><span class="kn">from</span> <span class="nn">reportlab.lib</span> <span class="kn">import</span> <span class="n">colors</span>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">reportlab.lib</span> <span class="kn">import</span> <span class="n">colors</span>
 <span class="kn">from</span> <span class="nn">reportlab.graphics</span> <span class="kn">import</span> <span class="n">renderPM</span>
 <span class="kn">from</span> <span class="nn">reportlab.graphics.shapes</span> <span class="kn">import</span> <span class="n">Drawing</span><span class="p">,</span> <span class="n">Rect</span>
 <span class="kn">from</span> <span class="nn">reportlab.graphics.charts.linecharts</span> <span class="kn">import</span> <span class="n">HorizontalLineChart</span>
 </pre></div>
-<div class="highlight"><pre><span class="kn">from</span> <span class="nn">io</span> <span class="kn">import</span> <span class="n">BytesIO</span>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">io</span> <span class="kn">import</span> <span class="n">BytesIO</span>
 <span class="kn">from</span> <span class="nn">IPython.core</span> <span class="kn">import</span> <span class="n">display</span>
 </pre></div>
 <p>Now we create a hook that causes reportlab drawings to actually be
 rendered when we type out its name.</p>
-<div class="highlight"><pre><span class="k">def</span> <span class="nf">display_reportlab_drawing</span><span class="p">(</span><span class="n">drawing</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">display_reportlab_drawing</span><span class="p">(</span><span class="n">drawing</span><span class="p">):</span>
     <span class="n">buff</span><span class="o">=</span><span class="n">BytesIO</span><span class="p">()</span>
     <span class="n">renderPM</span><span class="o">.</span><span class="n">drawToFile</span><span class="p">(</span><span class="n">drawing</span><span class="p">,</span><span class="n">buff</span><span class="p">,</span><span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;png&#39;</span><span class="p">,</span><span class="n">dpi</span><span class="o">=</span><span class="mi">72</span><span class="p">)</span>
     <span class="n">data</span><span class="o">=</span><span class="n">buff</span><span class="o">.</span><span class="n">getvalue</span><span class="p">()</span>
     <span class="n">ip_img</span><span class="o">=</span><span class="n">display</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span><span class="n">format</span><span class="o">=</span><span class="s1">&#39;png&#39;</span><span class="p">,</span><span class="n">embed</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">ip_img</span><span class="o">.</span><span class="n">_repr_png_</span><span class="p">()</span>
 </pre></div>
-<div class="highlight"><pre><span class="n">png_formatter</span><span class="o">=</span><span class="n">get_ipython</span><span class="p">()</span><span class="o">.</span><span class="n">display_formatter</span><span class="o">.</span><span class="n">formatters</span><span class="p">[</span><span class="s1">&#39;image/png&#39;</span><span class="p">]</span>
+<div class="highlight"><pre><span></span><span class="n">png_formatter</span><span class="o">=</span><span class="n">get_ipython</span><span class="p">()</span><span class="o">.</span><span class="n">display_formatter</span><span class="o">.</span><span class="n">formatters</span><span class="p">[</span><span class="s1">&#39;image/png&#39;</span><span class="p">]</span>
 <span class="n">drd</span><span class="o">=</span><span class="n">png_formatter</span><span class="o">.</span><span class="n">for_type</span><span class="p">(</span><span class="n">Drawing</span><span class="p">,</span><span class="n">display_reportlab_drawing</span><span class="p">)</span>
 </pre></div>
 <p>Now that's done, we can start creating ReportLab objects and see them
 immediately.</p>
-<div class="highlight"><pre><span class="n">drawing</span> <span class="o">=</span> <span class="n">Drawing</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="n">drawing</span> <span class="o">=</span> <span class="n">Drawing</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
 <span class="n">drawing</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Rect</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">150</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="n">strokeColor</span><span class="o">=</span><span class="n">colors</span><span class="o">.</span><span class="n">black</span><span class="p">,</span><span class="n">fillColor</span><span class="o">=</span><span class="n">colors</span><span class="o">.</span><span class="n">antiquewhite</span><span class="p">))</span>
 <span class="n">drawing</span>
 </pre></div>
 <img alt="" src="reportlab-images-ipython_files/reportlab-images-ipython_8_0.png" />
-<div class="highlight"><pre><span class="n">chart</span><span class="o">=</span><span class="n">HorizontalLineChart</span><span class="p">()</span>
+<div class="highlight"><pre><span></span><span class="n">chart</span><span class="o">=</span><span class="n">HorizontalLineChart</span><span class="p">()</span>
 </pre></div>
-<div class="highlight"><pre><span class="n">drawing</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">chart</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="n">drawing</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">chart</span><span class="p">)</span>
 </pre></div>
-<div class="highlight"><pre><span class="n">drawing</span>
+<div class="highlight"><pre><span></span><span class="n">drawing</span>
 </pre></div>
 <img alt="" src="reportlab-images-ipython_files/reportlab-images-ipython_11_0.png" />
 

@@ -14,13 +14,13 @@
 
         <meta name="author" content="Trevor" />
         <meta name="keywords" content="Python" />
-        <meta name="description" content="Python list comprehensions are one of the most powerful and useful features of the language. However, I&#39;ve noticed even quite experienced Python programmers using less powerful idioms when a list comprehension would be the perfect solution to their problem, and even though I&#39;ve been a Python developer for ..." />
+        <meta name="description" content="Python list comprehensions are one of the most powerful and useful features of the language. However, I&#39;ve noticed even quite experienced Python programmers using less powerful idioms when a list comprehension would be the perfect solution to their problem, and even though I&#39;ve been a Python developer for more than …" />
 
         <meta property="og:site_name" content="trvrm" />
         <meta property="og:type" content="article"/>
         <meta property="og:title" content="Python Comprehensions"/>
         <meta property="og:url" content="/python-comprehensions.html"/>
-        <meta property="og:description" content="Python list comprehensions are one of the most powerful and useful features of the language. However, I&#39;ve noticed even quite experienced Python programmers using less powerful idioms when a list comprehension would be the perfect solution to their problem, and even though I&#39;ve been a Python developer for ..."/>
+        <meta property="og:description" content="Python list comprehensions are one of the most powerful and useful features of the language. However, I&#39;ve noticed even quite experienced Python programmers using less powerful idioms when a list comprehension would be the perfect solution to their problem, and even though I&#39;ve been a Python developer for more than …"/>
         <meta property="article:published_time" content="2015-01-01" />
             <meta property="article:section" content="Software" />
             <meta property="article:tag" content="Python" />
@@ -123,7 +123,7 @@ from other data sources in a tight, elegant fashion.</p>
 <p>One of the things I like most about them is they eliminate the need to
 manually create loop structures and extra variables. So consider the
 following:</p>
-<div class="highlight"><pre><span class="n">squares</span><span class="o">=</span><span class="nb">list</span><span class="p">()</span>
+<div class="highlight"><pre><span></span><span class="n">squares</span><span class="o">=</span><span class="nb">list</span><span class="p">()</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
     <span class="n">squares</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="o">**</span><span class="n">i</span><span class="p">)</span>
 <span class="n">squares</span>
@@ -137,13 +137,13 @@ for</code>
 calls to <code class="code">
 append()</code>
 </p>
-<div class="highlight"><pre><span class="p">[</span><span class="n">i</span><span class="o">**</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)]</span>
+<div class="highlight"><pre><span></span><span class="p">[</span><span class="n">i</span><span class="o">**</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)]</span>
 </pre></div>
 <pre class="literal-block">
 [1, 1, 4, 27, 256, 3125, 46656, 823543, 16777216, 387420489]
 </pre>
 <p>Comprehensions work with any kind of iterable as an import source:</p>
-<div class="highlight"><pre><span class="p">[</span><span class="nb">ord</span><span class="p">(</span><span class="n">letter</span><span class="p">)</span> <span class="k">for</span> <span class="n">letter</span> <span class="ow">in</span> <span class="s2">&quot;hello world&quot;</span><span class="p">]</span>
+<div class="highlight"><pre><span></span><span class="p">[</span><span class="nb">ord</span><span class="p">(</span><span class="n">letter</span><span class="p">)</span> <span class="k">for</span> <span class="n">letter</span> <span class="ow">in</span> <span class="s2">&quot;hello world&quot;</span><span class="p">]</span>
 </pre></div>
 <pre class="literal-block">
 [104, 101, 108, 108, 111, 32, 119, 111, 114, 108, 100]
@@ -153,14 +153,14 @@ append()</code>
 <h2>Multiple generators</h2>
 <p>To make things a little more complex, we can specifiy more than one
 input data source:</p>
-<div class="highlight"><pre><span class="p">[(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">3</span><span class="p">)]</span>
+<div class="highlight"><pre><span></span><span class="p">[(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">3</span><span class="p">)]</span>
 </pre></div>
 <pre class="literal-block">
 [(0, 0), (0, 1), (0, 2), (1, 0), (1, 1), (1, 2)]
 </pre>
 <p>Instead of just boring numbers, we could use this to construct some
 sentences.</p>
-<div class="highlight"><pre><span class="p">[(</span><span class="n">number</span><span class="p">,</span> <span class="n">animal</span><span class="p">)</span> <span class="k">for</span> <span class="n">number</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="k">for</span> <span class="n">animal</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;cats&#39;</span><span class="p">,</span><span class="s1">&#39;dogs&#39;</span><span class="p">,</span><span class="s1">&#39;elephants&#39;</span><span class="p">]]</span>
+<div class="highlight"><pre><span></span><span class="p">[(</span><span class="n">number</span><span class="p">,</span> <span class="n">animal</span><span class="p">)</span> <span class="k">for</span> <span class="n">number</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="k">for</span> <span class="n">animal</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;cats&#39;</span><span class="p">,</span><span class="s1">&#39;dogs&#39;</span><span class="p">,</span><span class="s1">&#39;elephants&#39;</span><span class="p">]]</span>
 </pre></div>
 <pre class="literal-block">
 [(0, 'cats'),
@@ -176,7 +176,7 @@ sentences.</p>
 <p>Furthermore, we have a lot of control over <em>how</em> we construct the final
 output objects - we can put any valid python expression in the
 left-hand-side.</p>
-<div class="highlight"><pre><span class="p">[</span>
+<div class="highlight"><pre><span></span><span class="p">[</span>
     <span class="s2">&quot;{0} {1}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">adjective</span><span class="p">,</span><span class="n">animal</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">adjective</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;red&#39;</span><span class="p">,</span><span class="s1">&#39;cute&#39;</span><span class="p">,</span><span class="s1">&#39;hungry&#39;</span><span class="p">]</span>
     <span class="k">for</span> <span class="n">animal</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;cat&#39;</span><span class="p">,</span><span class="s1">&#39;puppy&#39;</span><span class="p">,</span><span class="s1">&#39;hippo&#39;</span><span class="p">]</span>
@@ -194,7 +194,7 @@ left-hand-side.</p>
  'hungry hippo']
 </pre>
 <p>or even</p>
-<div class="highlight"><pre><span class="p">[</span>
+<div class="highlight"><pre><span></span><span class="p">[</span>
     <span class="s2">&quot;There are {0} {1} {2}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">number</span><span class="p">,</span> <span class="n">adjective</span><span class="p">,</span><span class="n">animal</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">number</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">adjective</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;cute&#39;</span><span class="p">,</span><span class="s1">&#39;hungry&#39;</span><span class="p">]</span>
@@ -217,7 +217,7 @@ left-hand-side.</p>
 <p>An equally powerful construct is the <em>dictionary comprehension</em>. Just
 like list comprehensions, this enables you to construct python
 dictionaries using a very similar syntax.</p>
-<div class="highlight"><pre><span class="p">{</span>
+<div class="highlight"><pre><span></span><span class="p">{</span>
     <span class="n">key</span><span class="p">:</span><span class="n">value</span>
     <span class="k">for</span> <span class="n">key</span><span class="p">,</span><span class="n">value</span> <span class="ow">in</span> <span class="p">[</span>
         <span class="p">(</span><span class="s1">&#39;k&#39;</span><span class="p">,</span><span class="s1">&#39;v&#39;</span><span class="p">),</span>
@@ -233,7 +233,7 @@ dictionaries using a very similar syntax.</p>
 from one structure to another. Recently I've found them <em>very</em> helpful
 for unpacking nested data structures.</p>
 <p>Consider a simple org-structure:</p>
-<div class="highlight"><pre><span class="n">departments</span><span class="o">=</span><span class="p">[</span>
+<div class="highlight"><pre><span></span><span class="n">departments</span><span class="o">=</span><span class="p">[</span>
     <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;Manufacturing&#39;</span><span class="p">,</span> <span class="s1">&#39;staff&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Jacob&quot;</span><span class="p">,</span><span class="s2">&quot;Jonah&quot;</span><span class="p">,</span> <span class="s2">&quot;Chloe&quot;</span><span class="p">,</span><span class="s2">&quot;Liam&quot;</span><span class="p">]},</span>
     <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;Marketing&#39;</span><span class="p">,</span><span class="s1">&#39;staff&#39;</span><span class="p">:[</span><span class="s2">&quot;Emily&quot;</span><span class="p">,</span><span class="s2">&quot;Shawn&quot;</span><span class="p">,</span><span class="s2">&quot;Alex&quot;</span><span class="p">]},</span>
     <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;HR&#39;</span><span class="p">,</span><span class="s1">&#39;staff&#39;</span><span class="p">:[</span><span class="s2">&quot;David&quot;</span><span class="p">,</span><span class="s2">&quot;Jessica&quot;</span><span class="p">]},</span>
@@ -241,19 +241,19 @@ for unpacking nested data structures.</p>
 <span class="p">]</span>
 </pre></div>
 <p>Now let's extract some data from it.</p>
-<div class="highlight"><pre><span class="c1">#Department names</span>
+<div class="highlight"><pre><span></span><span class="c1">#Department names</span>
 <span class="p">[</span><span class="n">department</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">department</span> <span class="ow">in</span> <span class="n">departments</span><span class="p">]</span>
 </pre></div>
 <pre class="literal-block">
 ['Manufacturing', 'Marketing', 'HR', 'Accounts']
 </pre>
-<div class="highlight"><pre><span class="c1">#Staff count</span>
+<div class="highlight"><pre><span></span><span class="c1">#Staff count</span>
 <span class="nb">sum</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">department</span><span class="p">[</span><span class="s1">&#39;staff&#39;</span><span class="p">])</span> <span class="k">for</span> <span class="n">department</span> <span class="ow">in</span> <span class="n">departments</span><span class="p">])</span>
 </pre></div>
 <pre class="literal-block">
 10
 </pre>
-<div class="highlight"><pre><span class="c1">#All staff names</span>
+<div class="highlight"><pre><span></span><span class="c1">#All staff names</span>
 <span class="p">[</span>
     <span class="n">name</span>
     <span class="k">for</span> <span class="n">department</span> <span class="ow">in</span> <span class="n">departments</span>
@@ -278,7 +278,7 @@ department['staff']</code>
 , used a reference from the <em>first</em> one.</p>
 <p>We can take this even further. Let's make our org-chart a little more
 complicated...</p>
-<div class="highlight"><pre><span class="n">departments</span><span class="o">=</span><span class="p">[</span>
+<div class="highlight"><pre><span></span><span class="n">departments</span><span class="o">=</span><span class="p">[</span>
     <span class="p">{</span>
         <span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;Manufacturing&#39;</span><span class="p">,</span>
         <span class="s1">&#39;staff&#39;</span><span class="p">:</span> <span class="p">[</span>
@@ -313,7 +313,7 @@ complicated...</p>
 <span class="p">]</span>
 </pre></div>
 <p>Calculate the total salary:</p>
-<div class="highlight"><pre><span class="nb">sum</span><span class="p">(</span>
+<div class="highlight"><pre><span></span><span class="nb">sum</span><span class="p">(</span>
     <span class="n">person</span><span class="p">[</span><span class="s1">&#39;salary&#39;</span><span class="p">]</span>
     <span class="k">for</span> <span class="n">department</span> <span class="ow">in</span> <span class="n">departments</span>
     <span class="k">for</span> <span class="n">person</span> <span class="ow">in</span> <span class="n">department</span><span class="p">[</span><span class="s1">&#39;staff&#39;</span><span class="p">]</span>
@@ -324,7 +324,7 @@ complicated...</p>
 </pre>
 <p>Now let's calculate the wages bill by department, and put the results in
 a dictionary</p>
-<div class="highlight"><pre><span class="p">{</span>
+<div class="highlight"><pre><span></span><span class="p">{</span>
     <span class="n">department</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="p">:</span> <span class="nb">sum</span><span class="p">(</span><span class="n">person</span><span class="p">[</span><span class="s1">&#39;salary&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">person</span> <span class="ow">in</span> <span class="n">department</span><span class="p">[</span><span class="s1">&#39;staff&#39;</span><span class="p">])</span>
     <span class="k">for</span> <span class="n">department</span> <span class="ow">in</span> <span class="n">departments</span>
 <span class="p">}</span>

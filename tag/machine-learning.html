@@ -82,19 +82,19 @@ trvrm            </a>
 <p>One very powerful aspect of these tools is the ability to share pre-trained models with others. There are many tutorials and courses that will walk you through the process of building a neural net and training it on some data set.  But in other areas of software development we are far more likely to use off-the-shelf implementations of common algorithms rather than rolling them ourselves.  We might work through implementing a sort algorithm or a binary tree in order to better understand the concepts, but having done so we almost always end up using the algorithms that come built in to our language or programming environment.</p>
 <p>I suspect we'll see the same sort of thing happen in the machine learning world. While being able to train models on our own data will continue to be extremely valuable, there will be many cases where a model already exists that does what we want, and we'll just want to plug it in to our data.</p>
 <p>Keras already provides some pre-trained models: in this article, I'll use the <a href="https://www.tensorflow.org/tutorials/image_recognition">Inception V3</a> model to classify an image.</p>
-<div class="highlight"><pre><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">keras</span>
 </pre></div>
 
 
-<div class="highlight"><pre><span class="kn">from</span> <span class="nn">keras.preprocessing</span> <span class="kn">import</span> <span class="n">image</span>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">keras.preprocessing</span> <span class="kn">import</span> <span class="n">image</span>
 <span class="kn">from</span> <span class="nn">keras.applications.inception_v3</span> <span class="kn">import</span> <span class="n">decode_predictions</span>
 <span class="kn">from</span> <span class="nn">keras.applications.inception_v3</span> <span class="kn">import</span> <span class="n">preprocess_input</span>
 </pre></div>
 
 
 <h3>Load the pre-trained model</h3>
-<div class="highlight"><pre><span class="n">inception</span><span class="o">=</span><span class="n">keras</span><span class="o">.</span><span class="n">applications</span><span class="o">.</span><span class="n">inception_v3</span><span class="o">.</span><span class="n">InceptionV3</span><span class="p">(</span>
+<div class="highlight"><pre><span></span><span class="n">inception</span><span class="o">=</span><span class="n">keras</span><span class="o">.</span><span class="n">applications</span><span class="o">.</span><span class="n">inception_v3</span><span class="o">.</span><span class="n">InceptionV3</span><span class="p">(</span>
     <span class="n">include_top</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> 
     <span class="n">weights</span><span class="o">=</span><span class="s1">&#39;imagenet&#39;</span><span class="p">,</span> 
     <span class="n">input_tensor</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> 
@@ -104,27 +104,27 @@ trvrm            </a>
 
 
 <p>(This actually downloads the weights from github.  Keras saves your model files in <code>~/.keras/models</code> in the <a href="https://en.wikipedia.org/wiki/Hierarchical_Data_Format">HDF5</a> file format.)</p>
-<div class="highlight"><pre><span class="err">!</span><span class="n">ls</span>  <span class="o">~/.</span><span class="n">keras</span><span class="o">/</span><span class="n">models</span>
+<div class="highlight"><pre><span></span><span class="err">!</span><span class="n">ls</span>  <span class="o">~/.</span><span class="n">keras</span><span class="o">/</span><span class="n">models</span>
 </pre></div>
 
 
-<div class="highlight"><pre>inception_v3_weights_tf_dim_ordering_tf_kernels.h5
+<div class="highlight"><pre><span></span>inception_v3_weights_tf_dim_ordering_tf_kernels.h5
 </pre></div>
 
 
-<div class="highlight"><pre><span class="n">inception</span>
+<div class="highlight"><pre><span></span><span class="n">inception</span>
 </pre></div>
 
 
-<div class="highlight"><pre>&lt;keras.engine.training.Model at 0x7f6946e537b8&gt;
+<div class="highlight"><pre><span></span>&lt;keras.engine.training.Model at 0x7f6946e537b8&gt;
 </pre></div>
 
 
-<div class="highlight"><pre><span class="n">inception</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+<div class="highlight"><pre><span></span><span class="n">inception</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
 </pre></div>
 
 
-<div class="highlight"><pre>____________________________________________________________________________________________________
+<div class="highlight"><pre><span></span>____________________________________________________________________________________________________
 Layer (type)                     Output Shape          Param #     Connected to                     
 ====================================================================================================
 input_1 (InputLayer)             (None, 299, 299, 3)   0                                            
@@ -152,37 +152,37 @@ ________________________________________________________________________________
 
 
 <h3>Now let's load an image and see if Inception can recognize it</h3>
-<div class="highlight"><pre><span class="n">img</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">load_img</span><span class="p">(</span><span class="s1">&#39;./hamster.jpg&#39;</span><span class="p">,</span><span class="n">target_size</span><span class="o">=</span><span class="p">(</span><span class="mi">299</span><span class="p">,</span><span class="mi">299</span><span class="p">))</span>
+<div class="highlight"><pre><span></span><span class="n">img</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">load_img</span><span class="p">(</span><span class="s1">&#39;./hamster.jpg&#39;</span><span class="p">,</span><span class="n">target_size</span><span class="o">=</span><span class="p">(</span><span class="mi">299</span><span class="p">,</span><span class="mi">299</span><span class="p">))</span>
 </pre></div>
 
 
-<div class="highlight"><pre><span class="n">img</span>
+<div class="highlight"><pre><span></span><span class="n">img</span>
 </pre></div>
 
 
-<p><img alt="png" src="images/inception/output_14_0.png" /></p>
+<p><img alt="png" src="images/inception/output_14_0.png"></p>
 <p>Keras requires the input data to be in a specific shape.</p>
-<div class="highlight"><pre><span class="n">x</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">img_to_array</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">img_to_array</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
 <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 <span class="n">x</span> <span class="o">=</span> <span class="n">preprocess_input</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 </pre></div>
 
 
-<div class="highlight"><pre><span class="n">x</span><span class="o">.</span><span class="n">shape</span>
+<div class="highlight"><pre><span></span><span class="n">x</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>
 
 
-<div class="highlight"><pre>(1, 299, 299, 3)
+<div class="highlight"><pre><span></span>(1, 299, 299, 3)
 </pre></div>
 
 
-<div class="highlight"><pre><span class="n">predictions</span> <span class="o">=</span> <span class="n">inception</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="n">predictions</span> <span class="o">=</span> <span class="n">inception</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 <span class="n">prediction</span>  <span class="o">=</span> <span class="n">decode_predictions</span><span class="p">(</span><span class="n">predictions</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">prediction</span>
 </pre></div>
 
 
-<div class="highlight"><pre>(&#39;n02342885&#39;, &#39;hamster&#39;, 0.91639304)
+<div class="highlight"><pre><span></span>(&#39;n02342885&#39;, &#39;hamster&#39;, 0.91639304)
 </pre></div>
 
 
@@ -206,60 +206,60 @@ we've leveraged a publicly available model to classify our image.</p>
 <p>It provides abstractions that enable you to quickly create neural network structures.  Here I'm going to try to create a simple 3 layer network, and use it to solve a basic classification problem.</p>
 <p>For reference, the problem I'm trying to solve, and the network I'm using to solve it, are roughly equivalent to <a href="http://playground.tensorflow.org/#activation=relu&amp;regularization=L1&amp;batchSize=10&amp;dataset=xor&amp;regDataset=reg-plane&amp;learningRate=0.003&amp;regularizationRate=0.001&amp;noise=0&amp;networkShape=4,1&amp;seed=0.92802&amp;showTestData=false&amp;discretize=false&amp;percTrainData=50&amp;x=true&amp;y=true&amp;xTimesY=false&amp;xSquared=false&amp;ySquared=false&amp;cosX=false&amp;sinX=false&amp;cosY=false&amp;sinY=false&amp;collectStats=false&amp;problem=classification&amp;initZero=false&amp;hideText=false">this interactive example  at playground.tensorflow.org</a></p>
 <p><strong>Tell Jupyter to display matlplotlib plots directly in the notebook</strong></p>
-<div class="highlight"><pre><span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+<div class="highlight"><pre><span></span><span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
 </pre></div>
 
 
 <h3>Imports</h3>
 <p>A lot of machine learning work ends up being about 'housekeeping' - finding, filtering, parsing, loading data, transforming it into a usable shape, and so on.  The <a href="http://pandas.pydata.org/">Pandas</a> library is excellent for this type of work</p>
-<div class="highlight"><pre><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
 </pre></div>
 
 
 <p>Numpy is commonly used for creating and managing arrays of numbers and performing a wide variety of mathematical operations on them.  Matplotlib and seaborn provide a number of useful plotting functions.</p>
-<div class="highlight"><pre><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">pl</span>
 </pre></div>
 
 
-<div class="highlight"><pre><span class="kn">import</span> <span class="nn">seaborn</span>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">seaborn</span>
 <span class="n">seaborn</span><span class="o">.</span><span class="n">set</span><span class="p">()</span>
 </pre></div>
 
 
 <p>TensorFlow is Google's Machine Learning library</p>
-<div class="highlight"><pre><span class="kn">import</span> <span class="nn">tensorflow</span> <span class="kn">as</span> <span class="nn">tf</span>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">tensorflow</span> <span class="kn">as</span> <span class="nn">tf</span>
 </pre></div>
 
 
 <p>This is a useful function for splitting data sets into training and testing subsets.</p>
-<div class="highlight"><pre><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
 </pre></div>
 
 
 <p>And finally Keras is the library I actually want to explore.  My understanding is that it provides a high-level abstraction to common TensorFlow operations</p>
-<div class="highlight"><pre><span class="kn">import</span> <span class="nn">keras</span>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">keras</span>
 <span class="kn">from</span> <span class="nn">keras.layers</span> <span class="kn">import</span> <span class="n">Dense</span><span class="p">,</span> <span class="n">Activation</span>
 </pre></div>
 
 
 <h1>Create training data.</h1>
 <p>I'm going to create an array of data with two features, <em>x1</em> and <em>x2</em></p>
-<div class="highlight"><pre><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">1500</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span><span class="o">*</span><span class="mi">20</span> <span class="o">-</span> <span class="mi">10</span><span class="p">,</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;x1&#39;</span><span class="p">,</span><span class="s1">&#39;x2&#39;</span><span class="p">])</span>
+<div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">1500</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span><span class="o">*</span><span class="mi">20</span> <span class="o">-</span> <span class="mi">10</span><span class="p">,</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;x1&#39;</span><span class="p">,</span><span class="s1">&#39;x2&#39;</span><span class="p">])</span>
 </pre></div>
 
 
 <p>For simpler visualisation, I'm going to filter out values that lie very close to the axes.</p>
-<div class="highlight"><pre><span class="n">data</span><span class="o">=</span> <span class="n">data</span><span class="p">[(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">x1</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">)</span><span class="o">&amp;</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">x2</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">)][</span><span class="mi">0</span><span class="p">:</span><span class="mi">1000</span><span class="p">]</span>
+<div class="highlight"><pre><span></span><span class="n">data</span><span class="o">=</span> <span class="n">data</span><span class="p">[(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">x1</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">)</span><span class="o">&amp;</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">x2</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">)][</span><span class="mi">0</span><span class="p">:</span><span class="mi">1000</span><span class="p">]</span>
 </pre></div>
 
 
 <p>And then for each <code>(x1,x2)</code> pair, I'm going to assign a value <em>y</em> that is true if <code>x*y</code> is greater than 0.</p>
-<div class="highlight"><pre><span class="n">data</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">]</span><span class="o">=</span><span class="p">((</span><span class="n">data</span><span class="o">.</span><span class="n">x1</span><span class="o">*</span><span class="n">data</span><span class="o">.</span><span class="n">x2</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">]</span><span class="o">=</span><span class="p">((</span><span class="n">data</span><span class="o">.</span><span class="n">x1</span><span class="o">*</span><span class="n">data</span><span class="o">.</span><span class="n">x2</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
 
-<div class="highlight"><pre><span class="n">data</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class="highlight"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
 
@@ -310,39 +310,39 @@ we've leveraged a publicly available model to classify our image.</p>
 
 <h2>Visualize the input data</h2>
 <p>Seaborn provides a <a href="http://seaborn.pydata.org/generated/seaborn.lmplot.html">function</a> that gives me exactly the visualization that I want:</p>
-<div class="highlight"><pre><span class="n">seaborn</span><span class="o">.</span><span class="n">lmplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;x1&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;x2&quot;</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span><span class="n">fit_reg</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="n">seaborn</span><span class="o">.</span><span class="n">lmplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;x1&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;x2&quot;</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span><span class="n">fit_reg</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 </pre></div>
 
 
-<div class="highlight"><pre>&lt;seaborn.axisgrid.FacetGrid at 0x7efd8407dd68&gt;
+<div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.FacetGrid at 0x7efd8407dd68&gt;
 </pre></div>
 
 
-<p><img alt="png" src="images/basic_keras_example/output_23_1.png" /></p>
+<p><img alt="png" src="images/basic_keras_example/output_23_1.png"></p>
 <p>So we have two classes, and we're going to see if we can create a neural network that can distinguish between the two.</p>
 <h2>Create training data and test data</h2>
 <p>We assign 80% of the data to the training set, with the remaining 20% left over for testing the accuracy of our hypothesis.</p>
-<div class="highlight"><pre><span class="n">train</span><span class="p">,</span><span class="n">test</span><span class="o">=</span><span class="n">train_test_split</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="n">train_size</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="n">train</span><span class="p">,</span><span class="n">test</span><span class="o">=</span><span class="n">train_test_split</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="n">train_size</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
 </pre></div>
 
 
-<div class="highlight"><pre><span class="nb">len</span><span class="p">(</span><span class="n">train</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">test</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">train</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">test</span><span class="p">)</span>
 </pre></div>
 
 
-<div class="highlight"><pre>(800, 200)
+<div class="highlight"><pre><span></span>(800, 200)
 </pre></div>
 
 
 <p>Keras seems to require input data in the form of Numpy arrays, so we extract those from our Pandas dataframe:</p>
-<div class="highlight"><pre><span class="n">X_train</span> <span class="o">=</span> <span class="n">train</span><span class="p">[[</span><span class="s1">&#39;x1&#39;</span><span class="p">,</span><span class="s1">&#39;x2&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span>
+<div class="highlight"><pre><span></span><span class="n">X_train</span> <span class="o">=</span> <span class="n">train</span><span class="p">[[</span><span class="s1">&#39;x1&#39;</span><span class="p">,</span><span class="s1">&#39;x2&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span>
 <span class="n">Y_train</span> <span class="o">=</span> <span class="n">train</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
 </pre></div>
 
 
 <h2>Define a neural network</h2>
 <p>Now we can use Keras to define our network. I'm going to specify a network with an input layer, an output layer, and a 4-node hidden layer.</p>
-<div class="highlight"><pre><span class="n">model</span><span class="o">=</span><span class="n">keras</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">Sequential</span><span class="p">()</span>
+<div class="highlight"><pre><span></span><span class="n">model</span><span class="o">=</span><span class="n">keras</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">Sequential</span><span class="p">()</span>
 
 <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="n">output_dim</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">input_dim</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">activation</span><span class="o">=</span><span class="s1">&#39;tanh&#39;</span><span class="p">))</span>
 <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="n">output_dim</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>  <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;tanh&#39;</span><span class="p">))</span>
@@ -353,7 +353,7 @@ we've leveraged a publicly available model to classify our image.</p>
 <h2>Train the network</h2>
 <p>This is the bit that would take considerably more lines of code in a lower-level library.  I can tweak parameters such as the cost function, the optimizer and so on. Here I choose a mean-squared-error cost function and a stochastic gradient descent optimizer.</p>
 <p>I haven't yet figured out how to change the learning rate, which would be very helpful to know.</p>
-<div class="highlight"><pre><span class="o">%%</span><span class="n">time</span>
+<div class="highlight"><pre><span></span><span class="o">%%</span><span class="n">time</span>
 <span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">loss</span><span class="o">=</span><span class="s1">&#39;mean_squared_error&#39;</span><span class="p">,</span> <span class="n">optimizer</span><span class="o">=</span><span class="s1">&#39;sgd&#39;</span><span class="p">)</span>
 
 <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span>
@@ -364,14 +364,14 @@ we've leveraged a publicly available model to classify our image.</p>
 </pre></div>
 
 
-<div class="highlight"><pre>CPU times: user 3.26 s, sys: 40 ms, total: 3.3 s
+<div class="highlight"><pre><span></span>CPU times: user 3.26 s, sys: 40 ms, total: 3.3 s
 Wall time: 3.34 s
 </pre></div>
 
 
 <h2>Having trained the network, check it against the test data.</h2>
 <p><code>plotPrediction</code> runs the <code>predict_classes</code> method to attempt to classify the test data we provide, and then displays its guesses:</p>
-<div class="highlight"><pre><span class="k">def</span> <span class="nf">plotPrediction</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="n">model</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">plotPrediction</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="n">model</span><span class="p">):</span>
     <span class="n">X</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">ix</span><span class="p">[:,:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
     <span class="n">Y</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
 
@@ -387,15 +387,15 @@ Wall time: 3.34 s
 </pre></div>
 
 
-<div class="highlight"><pre><span class="n">plotPrediction</span><span class="p">(</span><span class="n">test</span><span class="p">,</span><span class="n">model</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="n">plotPrediction</span><span class="p">(</span><span class="n">test</span><span class="p">,</span><span class="n">model</span><span class="p">)</span>
 </pre></div>
 
 
-<div class="highlight"><pre><span class="n">Accuracy</span><span class="o">:</span> <span class="mf">91.5</span><span class="o">%</span>
+<div class="highlight"><pre><span></span><span class="n">Accuracy</span><span class="o">:</span> <span class="mf">91.5</span><span class="o">%</span>
 </pre></div>
 
 
-<p><img alt="png" src="images/basic_keras_example/output_36_1.png" /></p>
+<p><img alt="png" src="images/basic_keras_example/output_36_1.png"></p>
 <h2>Conclusion</h2>
 <p>So we see that after 250 training cycles, the network can mostly correctly identify input data.</p>
 <p>Because the network is initialized with random data at the beginning of every run, sometimes I get better results than this and sometimes worse.  And Keras gives me many ways of quickly tweaking my algorithm - I can adjust the number of nodes in each layer, the number of layers, the activation function, the cost function, the number of training cycles, the test/training split and so on.  </p>
@@ -415,17 +415,17 @@ Wall time: 3.34 s
                 <div class="entry-content">
 
                     <p>I tried the basic linear regression example from <a href="https://medium.com/all-of-us-are-belong-to-machines/the-gentlest-introduction-to-tensorflow-248dc871a224#.8429xmd7s">this article</a>.  I was quite surprised by this line:</p>
-<div class="highlight"><pre><span class="n">train_step</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">GradientDescentOptimizer</span><span class="p">(</span><span class="mf">0.0000001</span><span class="p">)</span><span class="o">.</span><span class="n">minimize</span><span class="p">(</span><span class="n">cost</span><span class="p">)</span>                       
+<div class="highlight"><pre><span></span><span class="n">train_step</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">GradientDescentOptimizer</span><span class="p">(</span><span class="mf">0.0000001</span><span class="p">)</span><span class="o">.</span><span class="n">minimize</span><span class="p">(</span><span class="n">cost</span><span class="p">)</span>                       
 </pre></div>
 
 
 <p>because it didn't seem to require me to tell the <code>GradientDescentOptimizer</code> what the first derivative of my cost function is.  Previously when I've used gradient descent, I've had to manually specify what the gradients with respect to my parameters as well as the cost function.</p>
 <p>A bit of reading indicates that TensorFlow can <a href="https://www.tensorflow.org/api_docs/python/train/gradient_computation">compute gradients</a> for a given computation graph.  Let's have a look at a basic example. </p>
-<div class="highlight"><pre><span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+<div class="highlight"><pre><span></span><span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
 </pre></div>
 
 
-<div class="highlight"><pre><span class="kn">import</span> <span class="nn">tensorflow</span> <span class="kn">as</span> <span class="nn">tf</span>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">tensorflow</span> <span class="kn">as</span> <span class="nn">tf</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">pi</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">mp</span>
@@ -435,35 +435,35 @@ Wall time: 3.34 s
 
 
 <p>We'll compute the derivative of the sin function over the range 0 to <code>2*pi</code></p>
-<div class="highlight"><pre><span class="n">x_</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">pi</span><span class="o">*</span><span class="mi">2</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="n">x_</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">pi</span><span class="o">*</span><span class="mi">2</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
 </pre></div>
 
 
 <p>I'm still learning the relationship between Python variables and TensorFlow placeholders.</p>
 <p>Here <code>x_</code> and <code>y_</code> are Python variables, <code>x</code> and <code>y</code> are TensorFlow tensors</p>
-<div class="highlight"><pre><span class="n">x</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">placeholder</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="n">x</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">placeholder</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
 <span class="n">y</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 </pre></div>
 
 
-<div class="highlight"><pre><span class="n">x</span>
+<div class="highlight"><pre><span></span><span class="n">x</span>
 </pre></div>
 
 
-<div class="highlight"><pre>&lt;tf.Tensor &#39;Placeholder_3:0&#39; shape=&lt;unknown&gt; dtype=float32&gt;
+<div class="highlight"><pre><span></span>&lt;tf.Tensor &#39;Placeholder_3:0&#39; shape=&lt;unknown&gt; dtype=float32&gt;
 </pre></div>
 
 
-<div class="highlight"><pre><span class="n">y</span>
+<div class="highlight"><pre><span></span><span class="n">y</span>
 </pre></div>
 
 
-<div class="highlight"><pre>&lt;tf.Tensor &#39;Sin_3:0&#39; shape=&lt;unknown&gt; dtype=float32&gt;
+<div class="highlight"><pre><span></span>&lt;tf.Tensor &#39;Sin_3:0&#39; shape=&lt;unknown&gt; dtype=float32&gt;
 </pre></div>
 
 
 <p>Now we ask TensorFlow to compute both the <code>sin</code> function AND the first derivative.  </p>
-<div class="highlight"><pre><span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
+<div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
     <span class="n">feed_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">x</span><span class="p">:</span><span class="n">x_</span><span class="p">}</span>
     <span class="n">y_</span>  <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">feed_dict</span><span class="o">=</span><span class="n">feed_dict</span><span class="p">)</span>
     <span class="n">out</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">gradients</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">x</span><span class="p">),</span><span class="n">feed_dict</span><span class="o">=</span><span class="n">feed_dict</span><span class="p">)</span>
@@ -471,12 +471,12 @@ Wall time: 3.34 s
 </pre></div>
 
 
-<div class="highlight"><pre><span class="n">mp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_</span><span class="p">,</span><span class="n">y_</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="n">mp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_</span><span class="p">,</span><span class="n">y_</span><span class="p">)</span>
 <span class="n">mp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_</span><span class="p">,</span><span class="n">gradient</span><span class="p">)</span>
 </pre></div>
 
 
-<p><img alt="png" src="images/tensorflow_gradient/output_12_1.png" /></p>
+<p><img alt="png" src="images/tensorflow_gradient/output_12_1.png"></p>
 <p>Note that I haven't had to declare anywhere that the first derivative of <code>sine(x)</code> is <code>cosine(x)</code>. TensorFlow seems to be able to figure that out analytically, which is pretty cool.</p>
                     
                 </div>  

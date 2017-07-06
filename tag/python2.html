@@ -73,6 +73,25 @@ trvrm            </a>
     <div class="row">
         <div class="col-sm-9">
             <article>
+                <h2><a href="/configuring-systems-with-fabric-and-cuisine.html">Configuring Systems with Fabric and Cuisine</a></h2>
+                
+                
+                <div class="entry-content">
+
+                    <p>I've mentioned <a class="reference external" href="http://fabric.readthedocs.org/en/1.8/">Fabric</a> before on this blog.  Because so much of my development time is spent in Python, it makes
+sense for me to look for system administration tools that are also written in Python.  Fabric fits the bill
+perfectly, and allows me to run tasks remotely on multiple machines simultaneously.</p>
+<p>A useful addition to Fabric is <a class="reference external" href="https://github.com/sebastien/cuisine">Cuisine</a>.  <strong>Cuisine is a small set of functions that sit on top of Fabric,
+to abstract common administration operations such as file/dir operations, user/group creation,
+package install/upgrade, making it easier to write portable administration and deployment scripts.</strong></p>
+
+                    
+                </div>  
+                
+                
+            </article>
+            <hr/>
+            <article>
                 <h2><a href="/ipython-with-python-3.html">IPython with Python 3</a></h2>
                 
                 
@@ -88,13 +107,13 @@ pip tends to have more up-to-date packages.</p>
 <p>In the end I found the simplest thing to do was to set up IPython in an isolated
 virtualenv environment.  The main trick is to let virtualenv know what version of
 Python you want it to use by default.</p>
-<div class="highlight"><pre>$ virtualenv --python<span class="o">=</span>python3.4 python_3_demo
+<div class="highlight"><pre><span></span>$ virtualenv --python<span class="o">=</span>python3.4 python_3_demo
 $ <span class="nb">cd</span> python_3_demo/
 $ <span class="nb">source</span> ./bin/activate
 $ pip install ipython
 $ ipython
 </pre></div>
-<div class="highlight"><pre><span class="n">Python</span> <span class="mf">3.4</span><span class="o">.</span><span class="mi">0</span> <span class="p">(</span><span class="n">default</span><span class="p">,</span> <span class="n">Apr</span> <span class="mi">11</span> <span class="mi">2014</span><span class="p">,</span> <span class="mi">13</span><span class="p">:</span><span class="mo">05</span><span class="p">:</span><span class="mi">11</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="n">Python</span> <span class="mf">3.4</span><span class="o">.</span><span class="mi">0</span> <span class="p">(</span><span class="n">default</span><span class="p">,</span> <span class="n">Apr</span> <span class="mi">11</span> <span class="mi">2014</span><span class="p">,</span> <span class="mi">13</span><span class="p">:</span><span class="mo">05</span><span class="p">:</span><span class="mi">11</span><span class="p">)</span>
 <span class="o">...</span>
 
 <span class="n">In</span> <span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="kn">import</span> <span class="nn">sys</span>
@@ -123,7 +142,7 @@ it's actually pretty straightforward to get them up and running.</p>
 <p>I present here a a setup that uses nginx and uwsgi emperor to host
 multiple python web applications simultaneously on an ubuntu 14 machine.</p>
 <p>First, the packages</p>
-<div class="highlight"><pre>$ sudo apt-get install nginx
+<div class="highlight"><pre><span></span>$ sudo apt-get install nginx
 $ sudo apt-get install uwsgi uwsgi-emperor uwsgi-plugin-python
 </pre></div>
 <p>Our configuration files will now be under <code class="code">
@@ -132,7 +151,7 @@ $ sudo apt-get install uwsgi uwsgi-emperor uwsgi-plugin-python
 /etc/uwsgi-emperor</code>
 </p>
 <p>You can start, stop, and reload nginx as follows:</p>
-<div class="highlight"><pre>$ sudo service nginx start
+<div class="highlight"><pre><span></span>$ sudo service nginx start
 $ sudo service nginx stop
 $ sudo service nginx reload
 </pre></div>
@@ -140,7 +159,7 @@ $ sudo service nginx reload
 <p>Now set up a site by creating a file in <code class="code">
 /etc/nginx/sites-available</code>
 </p>
-<div class="highlight"><pre><span class="c1">#/etc/nginx/sites-available/mysite</span>
+<div class="highlight"><pre><span></span><span class="c1">#/etc/nginx/sites-available/mysite</span>
 server<span class="o">{</span>
 
     server_name     your_host_name<span class="p">;</span>
@@ -156,7 +175,7 @@ server<span class="o">{</span>
 <span class="o">}</span>
 </pre></div>
 <p>Then,</p>
-<div class="highlight"><pre>$ sudo ln -s /etc/nginx/apps-available/mysite /etc/nginx/sites-enabled
+<div class="highlight"><pre><span></span>$ sudo ln -s /etc/nginx/apps-available/mysite /etc/nginx/sites-enabled
 </pre></div>
 <div class="alert  alert-warning compound">
 <p class="compound-first"><strong>Warning</strong></p>
@@ -174,7 +193,7 @@ Your uwsgi sub-directory will vanish and the uwsgi services will not restart.</p
 <p>Create  <code class="code">
 /etc/uwsgi-emperor/vassals/app1.ini</code>
  as follows:</p>
-<div class="highlight"><pre><span class="k">[uwsgi]</span>
+<div class="highlight"><pre><span></span><span class="k">[uwsgi]</span>
 <span class="na">plugin</span> <span class="o">=</span> <span class="s">python</span>
 <span class="na">processes</span> <span class="o">=</span> <span class="s">2</span>
 <span class="na">socket</span> <span class="o">=</span> <span class="s">/tmp/app1.socket</span>
@@ -189,7 +208,7 @@ Your uwsgi sub-directory will vanish and the uwsgi services will not restart.</p
 <p>And for your second application, create  <code class="code">
 /etc/uwsgi-emperor/vassals/app2.ini</code>
  as similarly:</p>
-<div class="highlight"><pre><span class="k">[uwsgi]</span>
+<div class="highlight"><pre><span></span><span class="k">[uwsgi]</span>
 <span class="na">plugin</span> <span class="o">=</span> <span class="s">python</span>
 <span class="na">processes</span> <span class="o">=</span> <span class="s">2</span>
 <span class="na">socket</span> <span class="o">=</span> <span class="s">/tmp/app2.socket</span>
@@ -210,14 +229,14 @@ application can be only a few lines long:</p>
 <p>Create <code class="code">
 /srv/app1/main.py</code>
 </p>
-<div class="highlight"><pre><span class="k">def</span> <span class="nf">application</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">start_response</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">application</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">start_response</span><span class="p">):</span>
     <span class="n">start_response</span><span class="p">(</span><span class="s1">&#39;200 OK&#39;</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;Content-Type&#39;</span><span class="p">,</span><span class="s1">&#39;text/html&#39;</span><span class="p">)])</span>
     <span class="k">return</span> <span class="p">[</span><span class="s2">&quot;Hello World, I am app1&quot;</span><span class="p">]</span>
 </pre></div>
 <p>And <code class="code">
 /srv/app2/main.py</code>
 </p>
-<div class="highlight"><pre><span class="k">def</span> <span class="nf">application</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">start_response</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">application</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">start_response</span><span class="p">):</span>
     <span class="n">start_response</span><span class="p">(</span><span class="s1">&#39;200 OK&#39;</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;Content-Type&#39;</span><span class="p">,</span><span class="s1">&#39;text/html&#39;</span><span class="p">)])</span>
     <span class="k">return</span> <span class="p">[</span><span class="s2">&quot;I, however, am app2. &quot;</span><span class="p">]</span>
 </pre></div>
@@ -245,12 +264,12 @@ PDF_GENERATOR=True</code>
 <p>So you need to first make sure you have <code class="code">
 rst2pdf</code>
  installed:</p>
-<div class="highlight"><pre>$ sudo apt-get install rst2pdf
+<div class="highlight"><pre><span></span>$ sudo apt-get install rst2pdf
 </pre></div>
 <p>and then add the following to <code class="code">
 pelicanconf.py</code>
 </p>
-<div class="highlight"><pre><span class="n">PLUGIN_PATH</span> <span class="o">=</span> <span class="s1">&#39;../pelican-plugins&#39;</span>  <span class="c1"># or wherever.</span>
+<div class="highlight"><pre><span></span><span class="n">PLUGIN_PATH</span> <span class="o">=</span> <span class="s1">&#39;../pelican-plugins&#39;</span>  <span class="c1"># or wherever.</span>
 <span class="n">PLUGINS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;pdf&#39;</span><span class="p">]</span>
 </pre></div>
 <p>However, doing this seems to screw up the pygments highlighting on my regular
@@ -290,16 +309,16 @@ function lets you take the results from an aggregation operation and
 convert them into a JSON block - very helpful if you're then going to
 work with the returned data in a language like Python</p>
 <p>To demonstrate this, we'll first set up some simple tables.</p>
-<div class="highlight"><pre><span class="o">%</span><span class="n">load_ext</span> <span class="n">sql</span>
+<div class="highlight"><pre><span></span><span class="o">%</span><span class="n">load_ext</span> <span class="n">sql</span>
 <span class="o">%</span><span class="n">config</span> <span class="n">SqlMagic</span><span class="o">.</span><span class="n">feedback</span><span class="o">=</span><span class="bp">False</span>
 </pre></div>
-<div class="highlight"><pre><span class="o">%%</span><span class="n">sql</span>
+<div class="highlight"><pre><span></span><span class="o">%%</span><span class="n">sql</span>
 <span class="n">postgresql</span><span class="p">:</span><span class="o">//</span><span class="n">testuser</span><span class="p">:</span><span class="n">password</span><span class="nd">@localhost</span><span class="o">/</span><span class="n">test</span>
 </pre></div>
 <pre class="literal-block">
 u'Connected: <a class="reference external" href="mailto:testuser&#64;test">testuser&#64;test</a>'
 </pre>
-<div class="highlight"><pre><span class="o">%%</span><span class="n">sql</span>
+<div class="highlight"><pre><span></span><span class="o">%%</span><span class="n">sql</span>
 <span class="n">CREATE</span> <span class="n">TABLE</span> <span class="n">IF</span> <span class="n">NOT</span> <span class="n">EXISTS</span> <span class="n">person</span> <span class="p">(</span>
     <span class="n">name</span> <span class="n">text</span> <span class="n">primary</span> <span class="n">key</span>
 <span class="p">);</span>
@@ -312,7 +331,7 @@ u'Connected: <a class="reference external" href="mailto:testuser&#64;test">testu
 []
 </pre>
 <p>We can query this in the usual way:</p>
-<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="o">*</span> <span class="n">FROM</span> <span class="n">person</span><span class="p">;</span>
+<div class="highlight"><pre><span></span><span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="o">*</span> <span class="n">FROM</span> <span class="n">person</span><span class="p">;</span>
 </pre></div>
 <table class="table table-bordered">
     <tr>
@@ -333,7 +352,7 @@ u'Connected: <a class="reference external" href="mailto:testuser&#64;test">testu
 </table><p>But we can also use <code class="code">
 json_agg()</code>
 </p>
-<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="n">json_agg</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="n">FROM</span> <span class="n">person</span>
+<div class="highlight"><pre><span></span><span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="n">json_agg</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="n">FROM</span> <span class="n">person</span>
 </pre></div>
 <table class="table table-bordered">
     <tr>
@@ -347,7 +366,7 @@ particularly helpful, but it becomes very useful when we start doing
 <code class="code">
 JOINS</code>
 </p>
-<div class="highlight"><pre><span class="o">%%</span><span class="n">sql</span>
+<div class="highlight"><pre><span></span><span class="o">%%</span><span class="n">sql</span>
 <span class="n">CREATE</span> <span class="n">TABLE</span> <span class="n">IF</span> <span class="n">NOT</span> <span class="n">EXISTS</span> <span class="n">action</span><span class="p">(</span>
     <span class="nb">id</span> <span class="n">serial</span> <span class="n">primary</span> <span class="n">key</span><span class="p">,</span>
     <span class="n">created</span> <span class="n">timestamp</span> <span class="k">with</span> <span class="n">time</span> <span class="n">zone</span> <span class="n">default</span> <span class="n">now</span><span class="p">(),</span>
@@ -367,7 +386,7 @@ JOINS</code>
 </pre>
 <p>If we want to ask Postgres to give us every user and every action
 they've performed, we <em>could</em> do it this way:</p>
-<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="n">person</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>  <span class="n">action</span><span class="o">.</span><span class="n">type</span> <span class="p">,</span> <span class="n">action</span><span class="o">.</span><span class="n">created</span> <span class="n">FROM</span> <span class="n">action</span> <span class="n">JOIN</span> <span class="n">person</span> <span class="n">ON</span> <span class="n">action</span><span class="o">.</span><span class="n">person_name</span><span class="o">=</span><span class="n">person</span><span class="o">.</span><span class="n">name</span>
+<div class="highlight"><pre><span></span><span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="n">person</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>  <span class="n">action</span><span class="o">.</span><span class="n">type</span> <span class="p">,</span> <span class="n">action</span><span class="o">.</span><span class="n">created</span> <span class="n">FROM</span> <span class="n">action</span> <span class="n">JOIN</span> <span class="n">person</span> <span class="n">ON</span> <span class="n">action</span><span class="o">.</span><span class="n">person_name</span><span class="o">=</span><span class="n">person</span><span class="o">.</span><span class="n">name</span>
 </pre></div>
 <table class="table table-bordered">
     <tr>
@@ -411,7 +430,7 @@ through each action.</p>
 <p>Enter <code class="code">
 json_agg()</code>
 </p>
-<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="n">person</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>  <span class="n">json_agg</span><span class="p">(</span><span class="n">action</span><span class="p">)</span> <span class="n">FROM</span> <span class="n">action</span> <span class="n">JOIN</span> <span class="n">person</span> <span class="n">ON</span> <span class="n">action</span><span class="o">.</span><span class="n">person_name</span><span class="o">=</span><span class="n">person</span><span class="o">.</span><span class="n">name</span> <span class="n">GROUP</span> <span class="n">BY</span> <span class="n">person</span><span class="o">.</span><span class="n">name</span>
+<div class="highlight"><pre><span></span><span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="n">person</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>  <span class="n">json_agg</span><span class="p">(</span><span class="n">action</span><span class="p">)</span> <span class="n">FROM</span> <span class="n">action</span> <span class="n">JOIN</span> <span class="n">person</span> <span class="n">ON</span> <span class="n">action</span><span class="o">.</span><span class="n">person_name</span><span class="o">=</span><span class="n">person</span><span class="o">.</span><span class="n">name</span> <span class="n">GROUP</span> <span class="n">BY</span> <span class="n">person</span><span class="o">.</span><span class="n">name</span>
 </pre></div>
 <table class="table table-bordered">
     <tr>
@@ -431,9 +450,9 @@ json_agg()</code>
         <td>[{u'person_name': u'nicki', u'type': u'password_change', u'id': 5, u'created': u'2014-11-08 17:45:05.966274-05'}, {u'person_name': u'nicki', u'type': u'createpost', u'id': 6, u'created': u'2014-11-08 17:45:05.966824-05'}]</td>
     </tr>
 </table><p>Which becomes much more usable in Python:</p>
-<div class="highlight"><pre><span class="n">people</span> <span class="o">=</span> <span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="n">person</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>  <span class="n">json_agg</span><span class="p">(</span><span class="n">action</span><span class="p">)</span> <span class="n">FROM</span> <span class="n">action</span> <span class="n">JOIN</span> <span class="n">person</span> <span class="n">ON</span> <span class="n">action</span><span class="o">.</span><span class="n">person_name</span><span class="o">=</span><span class="n">person</span><span class="o">.</span><span class="n">name</span> <span class="n">GROUP</span> <span class="n">BY</span> <span class="n">person</span><span class="o">.</span><span class="n">name</span>
+<div class="highlight"><pre><span></span><span class="n">people</span> <span class="o">=</span> <span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="n">person</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>  <span class="n">json_agg</span><span class="p">(</span><span class="n">action</span><span class="p">)</span> <span class="n">FROM</span> <span class="n">action</span> <span class="n">JOIN</span> <span class="n">person</span> <span class="n">ON</span> <span class="n">action</span><span class="o">.</span><span class="n">person_name</span><span class="o">=</span><span class="n">person</span><span class="o">.</span><span class="n">name</span> <span class="n">GROUP</span> <span class="n">BY</span> <span class="n">person</span><span class="o">.</span><span class="n">name</span>
 </pre></div>
-<div class="highlight"><pre><span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">actions</span> <span class="ow">in</span> <span class="n">people</span><span class="p">:</span>
+<div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">actions</span> <span class="ow">in</span> <span class="n">people</span><span class="p">:</span>
     <span class="k">print</span> <span class="n">name</span>
 </pre></div>
 <pre class="literal-block">
@@ -441,7 +460,7 @@ arthur
 emily
 nicki
 </pre>
-<div class="highlight"><pre><span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">actions</span> <span class="ow">in</span> <span class="n">people</span><span class="p">:</span>
+<div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">actions</span> <span class="ow">in</span> <span class="n">people</span><span class="p">:</span>
     <span class="k">print</span> <span class="n">name</span>
     <span class="k">for</span> <span class="n">action</span> <span class="ow">in</span> <span class="n">actions</span><span class="p">:</span>
         <span class="k">print</span> <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span><span class="n">action</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span>
@@ -498,16 +517,16 @@ here is the tricky bit the function goes BOTH WAYS, and you can easily
 get confused if you don’t know what type you’re starting with.</p>
 <p>Furthermore, Postgres will sometimes sneakily convert one to the other
 without you asking.</p>
-<div class="highlight"><pre><span class="o">%</span><span class="n">load_ext</span> <span class="n">sql</span>
+<div class="highlight"><pre><span></span><span class="o">%</span><span class="n">load_ext</span> <span class="n">sql</span>
 <span class="o">%</span><span class="n">config</span> <span class="n">SqlMagic</span><span class="o">.</span><span class="n">feedback</span><span class="o">=</span><span class="bp">False</span>
 </pre></div>
-<div class="highlight"><pre><span class="o">%%</span><span class="n">sql</span>
+<div class="highlight"><pre><span></span><span class="o">%%</span><span class="n">sql</span>
 <span class="n">postgresql</span><span class="p">:</span><span class="o">//</span><span class="n">testuser</span><span class="p">:</span><span class="n">password</span><span class="nd">@localhost</span><span class="o">/</span><span class="n">test</span>
 </pre></div>
 <pre class="literal-block">
 u'Connected: <a class="reference external" href="mailto:testuser&#64;test">testuser&#64;test</a>'
 </pre>
-<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="n">NOW</span><span class="p">();</span>
+<div class="highlight"><pre><span></span><span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="n">NOW</span><span class="p">();</span>
 </pre></div>
 <table class="table table-bordered table-striped">
     <tr>
@@ -529,7 +548,7 @@ now()</code>
 <code class="code">
 TIMESTAMP</code>
  we will get a silent conversion:</p>
-<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="n">NOW</span><span class="p">()::</span> <span class="n">timestamp</span>
+<div class="highlight"><pre><span></span><span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="n">NOW</span><span class="p">()::</span> <span class="n">timestamp</span>
 </pre></div>
 <table class="table table-bordered table-striped">
     <tr>
@@ -541,7 +560,7 @@ TIMESTAMP</code>
 </table><p>Which is <strong>not</strong> the current UTC time. We have stripped the timezone
 offset right of it. However, if we <strong>explicitly</strong> do the conversion, we
 get:</p>
-<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="n">NOW</span><span class="p">()</span> <span class="n">AT</span> <span class="n">TIME</span> <span class="n">ZONE</span> <span class="s1">&#39;UTC&#39;</span><span class="p">;</span>
+<div class="highlight"><pre><span></span><span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="n">NOW</span><span class="p">()</span> <span class="n">AT</span> <span class="n">TIME</span> <span class="n">ZONE</span> <span class="s1">&#39;UTC&#39;</span><span class="p">;</span>
 </pre></div>
 <table class="table table-bordered table-striped">
     <tr>
@@ -576,12 +595,12 @@ what type you're getting out. I've been bitten by this in the past;
 ending up with a timestamp that is wrong by several hours because I
 wasn't clear about my inputs.</p>
 <p>Specifically, consider a table that looks like this:</p>
-<div class="highlight"><pre><span class="o">%%</span><span class="n">sql</span>
+<div class="highlight"><pre><span></span><span class="o">%%</span><span class="n">sql</span>
 <span class="n">DROP</span> <span class="n">TABLE</span> <span class="n">IF</span> <span class="n">EXISTS</span> <span class="n">test</span><span class="p">;</span>
 <span class="n">CREATE</span> <span class="n">TABLE</span> <span class="n">test</span><span class="p">(</span><span class="n">name</span> <span class="n">TEXT</span><span class="p">,</span> <span class="n">created</span> <span class="n">TIMESTAMP</span> <span class="n">DEFAULT</span> <span class="n">NOW</span><span class="p">());</span>
 </pre></div>
 <p>Which I then populate:</p>
-<div class="highlight"><pre><span class="o">%%</span><span class="n">sql</span>
+<div class="highlight"><pre><span></span><span class="o">%%</span><span class="n">sql</span>
 <span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">test</span> <span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="s1">&#39;zaphod beeblebrox&#39;</span><span class="p">);</span>
 <span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">test</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="n">created</span><span class="p">)</span> <span class="n">VALUES</span><span class="p">(</span><span class="s1">&#39;ford prefect&#39;</span><span class="p">,</span><span class="n">now</span><span class="p">()</span> <span class="n">at</span> <span class="n">time</span> <span class="n">zone</span> <span class="s1">&#39;utc&#39;</span><span class="p">);</span>
 <span class="n">SELECT</span> <span class="o">*</span> <span class="n">FROM</span> <span class="n">test</span><span class="p">;</span>
@@ -613,11 +632,11 @@ avoid any ambiguity. This is the recommendation given
 <a class="reference external" href="http://justatheory.com/computers/databases/postgresql/use-timestamptz.html">here</a>.</p>
 <p>In our above example, the simplest approach is to change the table
 definition:</p>
-<div class="highlight"><pre><span class="o">%%</span><span class="n">sql</span>
+<div class="highlight"><pre><span></span><span class="o">%%</span><span class="n">sql</span>
 <span class="n">DROP</span> <span class="n">TABLE</span> <span class="n">IF</span> <span class="n">EXISTS</span> <span class="n">test</span><span class="p">;</span>
 <span class="n">CREATE</span> <span class="n">TABLE</span> <span class="n">test</span><span class="p">(</span><span class="n">name</span> <span class="n">TEXT</span><span class="p">,</span> <span class="n">created</span> <span class="n">TIMESTAMP</span> <span class="n">WITH</span> <span class="n">TIME</span> <span class="n">ZONE</span> <span class="n">DEFAULT</span> <span class="p">(</span><span class="n">NOW</span><span class="p">()</span> <span class="p">));</span>
 </pre></div>
-<div class="highlight"><pre><span class="o">%%</span><span class="n">sql</span>
+<div class="highlight"><pre><span></span><span class="o">%%</span><span class="n">sql</span>
 <span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">test</span> <span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="s1">&#39;zaphod beeblebrox&#39;</span><span class="p">);</span>
 <span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">test</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="n">created</span><span class="p">)</span> <span class="n">VALUES</span><span class="p">(</span><span class="s1">&#39;ford prefect&#39;</span><span class="p">,</span><span class="n">now</span><span class="p">()</span> <span class="p">);</span>
 <span class="n">SELECT</span> <span class="o">*</span> <span class="n">FROM</span> <span class="n">test</span><span class="p">;</span>
@@ -638,7 +657,7 @@ definition:</p>
 </table><p>So now the dates are globally meaningful. But I <em>still</em> have to be
 careful, because if I use the wrong date format to populate this table,
 it'll still get messed up.</p>
-<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">test</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="n">created</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="s1">&#39;arthur dent&#39;</span><span class="p">,</span><span class="n">now</span><span class="p">()</span> <span class="n">at</span> <span class="n">time</span> <span class="n">zone</span> <span class="s1">&#39;utc&#39;</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="o">%</span><span class="n">sql</span> <span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">test</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="n">created</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="s1">&#39;arthur dent&#39;</span><span class="p">,</span><span class="n">now</span><span class="p">()</span> <span class="n">at</span> <span class="n">time</span> <span class="n">zone</span> <span class="s1">&#39;utc&#39;</span><span class="p">)</span>
 <span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="o">*</span> <span class="n">FROM</span> <span class="n">test</span><span class="p">;</span>
 </pre></div>
 <table class="table table-bordered table-striped">
@@ -661,9 +680,9 @@ it'll still get messed up.</p>
 </table><p>Note how <strong>arthur dent</strong> has completely the wrong created time.</p>
 <p>Now, if I want to <em>report</em> on this data, I'm going to now have to
 specify <em>which</em> timezone I want the dates formatted too:</p>
-<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">delete</span> <span class="kn">from</span> <span class="nn">test</span> <span class="nn">WHERE</span> <span class="nn">name</span><span class="o">=</span><span class="s1">&#39;arthur dent&#39;</span><span class="p">;</span>
+<div class="highlight"><pre><span></span><span class="o">%</span><span class="n">sql</span> <span class="n">delete</span> <span class="kn">from</span> <span class="nn">test</span> <span class="nn">WHERE</span> <span class="nn">name</span><span class="o">=</span><span class="s1">&#39;arthur dent&#39;</span><span class="p">;</span>
 </pre></div>
-<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">select</span> <span class="n">name</span><span class="p">,</span> <span class="n">created</span> <span class="n">FROM</span> <span class="n">test</span><span class="p">;</span>
+<div class="highlight"><pre><span></span><span class="o">%</span><span class="n">sql</span> <span class="n">select</span> <span class="n">name</span><span class="p">,</span> <span class="n">created</span> <span class="n">FROM</span> <span class="n">test</span><span class="p">;</span>
 </pre></div>
 <table class="table table-bordered table-striped">
     <tr>
@@ -682,7 +701,7 @@ specify <em>which</em> timezone I want the dates formatted too:</p>
 which isn't necessarily particularly helpful, which <em>may</em> be helpful,
 but will be less so if the actual <em>users</em> of the data are in a different
 time zone.</p>
-<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span>  <span class="n">SELECT</span> <span class="n">name</span><span class="p">,</span> <span class="n">created</span> <span class="n">at</span> <span class="n">time</span> <span class="n">zone</span> <span class="s1">&#39;utc&#39;</span> <span class="n">FROM</span> <span class="n">test</span><span class="p">;</span>
+<div class="highlight"><pre><span></span><span class="o">%</span><span class="n">sql</span>  <span class="n">SELECT</span> <span class="n">name</span><span class="p">,</span> <span class="n">created</span> <span class="n">at</span> <span class="n">time</span> <span class="n">zone</span> <span class="s1">&#39;utc&#39;</span> <span class="n">FROM</span> <span class="n">test</span><span class="p">;</span>
 </pre></div>
 <table class="table table-bordered table-striped">
     <tr>
@@ -698,7 +717,7 @@ time zone.</p>
         <td>2014-08-19 02:35:15.989726</td>
     </tr>
 </table><p>gives me the time formatted in the UTC timezone, and</p>
-<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">select</span> <span class="n">CREATED</span> <span class="n">at</span> <span class="n">time</span> <span class="n">zone</span> <span class="s1">&#39;CST&#39;</span> <span class="n">FROM</span> <span class="n">test</span><span class="p">;</span>
+<div class="highlight"><pre><span></span><span class="o">%</span><span class="n">sql</span> <span class="n">select</span> <span class="n">CREATED</span> <span class="n">at</span> <span class="n">time</span> <span class="n">zone</span> <span class="s1">&#39;CST&#39;</span> <span class="n">FROM</span> <span class="n">test</span><span class="p">;</span>
 </pre></div>
 <table class="table table-bordered table-striped">
     <tr>
@@ -719,16 +738,16 @@ In this case it's very important the we know what timezone the incoming
 data comes from. So our middleware should <em>require</em> that all dates
 include a timestamp. Fortunately, if we're writing javascript
 applications, we get this automatically:</p>
-<div class="highlight"><pre><span class="o">%%</span><span class="n">html</span>
+<div class="highlight"><pre><span></span><span class="o">%%</span><span class="n">html</span>
 <span class="o">&lt;</span><span class="n">div</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;js-output&quot;</span><span class="o">&gt;&lt;/</span><span class="n">div</span><span class="o">&gt;</span>
 </pre></div>
-<div id="js-output"></div><div class="highlight"><pre><span class="o">%%</span><span class="n">javascript</span>
+<div id="js-output"></div><div class="highlight"><pre><span></span><span class="o">%%</span><span class="n">javascript</span>
 <span class="n">var</span> <span class="n">d</span> <span class="o">=</span> <span class="n">JSON</span><span class="o">.</span><span class="n">stringify</span><span class="p">(</span><span class="n">new</span> <span class="n">Date</span><span class="p">())</span>
 </pre></div>
 <pre class="literal-block">
 &quot;2014-08-19T02:41:12.872Z&quot;
 </pre>
-<div class="highlight"><pre><span class="kn">import</span> <span class="nn">psycopg2</span><span class="o">,</span><span class="nn">pandas</span>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">psycopg2</span><span class="o">,</span><span class="nn">pandas</span>
 <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span><span class="n">params</span><span class="o">=</span><span class="p">{}):</span>
     <span class="k">with</span> <span class="n">psycopg2</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">database</span><span class="o">=</span><span class="s1">&#39;test&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">connection</span><span class="p">:</span>
         <span class="k">with</span> <span class="n">connection</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span> <span class="k">as</span> <span class="n">cursor</span><span class="p">:</span>
@@ -736,11 +755,11 @@ applications, we get this automatically:</p>
 </pre></div>
 <p>So let's imagine that we got this string submitted to us by a client,
 and we're going to store it in the database via some Python code.</p>
-<div class="highlight"><pre><span class="n">sql</span><span class="o">=</span><span class="s2">&quot;INSERT INTO test (name, created) VALUES ( &#39;externally created date&#39;, </span><span class="si">%(date)s</span><span class="s2">)&quot;</span>
+<div class="highlight"><pre><span></span><span class="n">sql</span><span class="o">=</span><span class="s2">&quot;INSERT INTO test (name, created) VALUES ( &#39;externally created date&#39;, </span><span class="si">%(date)s</span><span class="s2">)&quot;</span>
 <span class="n">params</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">date</span><span class="o">=</span><span class="s2">&quot;2014-08-19T02:35:24.321Z&quot;</span><span class="p">)</span>
 <span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span><span class="n">params</span><span class="p">)</span>
 </pre></div>
-<div class="highlight"><pre><span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="o">*</span> <span class="n">FROM</span> <span class="n">test</span>
+<div class="highlight"><pre><span></span><span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="o">*</span> <span class="n">FROM</span> <span class="n">test</span>
 </pre></div>
 <table class="table table-bordered table-striped">
     <tr>
@@ -792,7 +811,7 @@ from other data sources in a tight, elegant fashion.</p>
 <p>One of the things I like most about them is they eliminate the need to
 manually create loop structures and extra variables. So consider the
 following:</p>
-<div class="highlight"><pre><span class="n">squares</span><span class="o">=</span><span class="nb">list</span><span class="p">()</span>
+<div class="highlight"><pre><span></span><span class="n">squares</span><span class="o">=</span><span class="nb">list</span><span class="p">()</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
     <span class="n">squares</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="o">**</span><span class="n">i</span><span class="p">)</span>
 <span class="n">squares</span>
@@ -806,13 +825,13 @@ for</code>
 calls to <code class="code">
 append()</code>
 </p>
-<div class="highlight"><pre><span class="p">[</span><span class="n">i</span><span class="o">**</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)]</span>
+<div class="highlight"><pre><span></span><span class="p">[</span><span class="n">i</span><span class="o">**</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)]</span>
 </pre></div>
 <pre class="literal-block">
 [1, 1, 4, 27, 256, 3125, 46656, 823543, 16777216, 387420489]
 </pre>
 <p>Comprehensions work with any kind of iterable as an import source:</p>
-<div class="highlight"><pre><span class="p">[</span><span class="nb">ord</span><span class="p">(</span><span class="n">letter</span><span class="p">)</span> <span class="k">for</span> <span class="n">letter</span> <span class="ow">in</span> <span class="s2">&quot;hello world&quot;</span><span class="p">]</span>
+<div class="highlight"><pre><span></span><span class="p">[</span><span class="nb">ord</span><span class="p">(</span><span class="n">letter</span><span class="p">)</span> <span class="k">for</span> <span class="n">letter</span> <span class="ow">in</span> <span class="s2">&quot;hello world&quot;</span><span class="p">]</span>
 </pre></div>
 <pre class="literal-block">
 [104, 101, 108, 108, 111, 32, 119, 111, 114, 108, 100]
@@ -822,14 +841,14 @@ append()</code>
 <h2>Multiple generators</h2>
 <p>To make things a little more complex, we can specifiy more than one
 input data source:</p>
-<div class="highlight"><pre><span class="p">[(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">3</span><span class="p">)]</span>
+<div class="highlight"><pre><span></span><span class="p">[(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">3</span><span class="p">)]</span>
 </pre></div>
 <pre class="literal-block">
 [(0, 0), (0, 1), (0, 2), (1, 0), (1, 1), (1, 2)]
 </pre>
 <p>Instead of just boring numbers, we could use this to construct some
 sentences.</p>
-<div class="highlight"><pre><span class="p">[(</span><span class="n">number</span><span class="p">,</span> <span class="n">animal</span><span class="p">)</span> <span class="k">for</span> <span class="n">number</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="k">for</span> <span class="n">animal</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;cats&#39;</span><span class="p">,</span><span class="s1">&#39;dogs&#39;</span><span class="p">,</span><span class="s1">&#39;elephants&#39;</span><span class="p">]]</span>
+<div class="highlight"><pre><span></span><span class="p">[(</span><span class="n">number</span><span class="p">,</span> <span class="n">animal</span><span class="p">)</span> <span class="k">for</span> <span class="n">number</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="k">for</span> <span class="n">animal</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;cats&#39;</span><span class="p">,</span><span class="s1">&#39;dogs&#39;</span><span class="p">,</span><span class="s1">&#39;elephants&#39;</span><span class="p">]]</span>
 </pre></div>
 <pre class="literal-block">
 [(0, 'cats'),
@@ -845,7 +864,7 @@ sentences.</p>
 <p>Furthermore, we have a lot of control over <em>how</em> we construct the final
 output objects - we can put any valid python expression in the
 left-hand-side.</p>
-<div class="highlight"><pre><span class="p">[</span>
+<div class="highlight"><pre><span></span><span class="p">[</span>
     <span class="s2">&quot;{0} {1}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">adjective</span><span class="p">,</span><span class="n">animal</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">adjective</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;red&#39;</span><span class="p">,</span><span class="s1">&#39;cute&#39;</span><span class="p">,</span><span class="s1">&#39;hungry&#39;</span><span class="p">]</span>
     <span class="k">for</span> <span class="n">animal</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;cat&#39;</span><span class="p">,</span><span class="s1">&#39;puppy&#39;</span><span class="p">,</span><span class="s1">&#39;hippo&#39;</span><span class="p">]</span>
@@ -863,7 +882,7 @@ left-hand-side.</p>
  'hungry hippo']
 </pre>
 <p>or even</p>
-<div class="highlight"><pre><span class="p">[</span>
+<div class="highlight"><pre><span></span><span class="p">[</span>
     <span class="s2">&quot;There are {0} {1} {2}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">number</span><span class="p">,</span> <span class="n">adjective</span><span class="p">,</span><span class="n">animal</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">number</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">adjective</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;cute&#39;</span><span class="p">,</span><span class="s1">&#39;hungry&#39;</span><span class="p">]</span>
@@ -886,7 +905,7 @@ left-hand-side.</p>
 <p>An equally powerful construct is the <em>dictionary comprehension</em>. Just
 like list comprehensions, this enables you to construct python
 dictionaries using a very similar syntax.</p>
-<div class="highlight"><pre><span class="p">{</span>
+<div class="highlight"><pre><span></span><span class="p">{</span>
     <span class="n">key</span><span class="p">:</span><span class="n">value</span>
     <span class="k">for</span> <span class="n">key</span><span class="p">,</span><span class="n">value</span> <span class="ow">in</span> <span class="p">[</span>
         <span class="p">(</span><span class="s1">&#39;k&#39;</span><span class="p">,</span><span class="s1">&#39;v&#39;</span><span class="p">),</span>
@@ -902,7 +921,7 @@ dictionaries using a very similar syntax.</p>
 from one structure to another. Recently I've found them <em>very</em> helpful
 for unpacking nested data structures.</p>
 <p>Consider a simple org-structure:</p>
-<div class="highlight"><pre><span class="n">departments</span><span class="o">=</span><span class="p">[</span>
+<div class="highlight"><pre><span></span><span class="n">departments</span><span class="o">=</span><span class="p">[</span>
     <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;Manufacturing&#39;</span><span class="p">,</span> <span class="s1">&#39;staff&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Jacob&quot;</span><span class="p">,</span><span class="s2">&quot;Jonah&quot;</span><span class="p">,</span> <span class="s2">&quot;Chloe&quot;</span><span class="p">,</span><span class="s2">&quot;Liam&quot;</span><span class="p">]},</span>
     <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;Marketing&#39;</span><span class="p">,</span><span class="s1">&#39;staff&#39;</span><span class="p">:[</span><span class="s2">&quot;Emily&quot;</span><span class="p">,</span><span class="s2">&quot;Shawn&quot;</span><span class="p">,</span><span class="s2">&quot;Alex&quot;</span><span class="p">]},</span>
     <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;HR&#39;</span><span class="p">,</span><span class="s1">&#39;staff&#39;</span><span class="p">:[</span><span class="s2">&quot;David&quot;</span><span class="p">,</span><span class="s2">&quot;Jessica&quot;</span><span class="p">]},</span>
@@ -910,19 +929,19 @@ for unpacking nested data structures.</p>
 <span class="p">]</span>
 </pre></div>
 <p>Now let's extract some data from it.</p>
-<div class="highlight"><pre><span class="c1">#Department names</span>
+<div class="highlight"><pre><span></span><span class="c1">#Department names</span>
 <span class="p">[</span><span class="n">department</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">department</span> <span class="ow">in</span> <span class="n">departments</span><span class="p">]</span>
 </pre></div>
 <pre class="literal-block">
 ['Manufacturing', 'Marketing', 'HR', 'Accounts']
 </pre>
-<div class="highlight"><pre><span class="c1">#Staff count</span>
+<div class="highlight"><pre><span></span><span class="c1">#Staff count</span>
 <span class="nb">sum</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">department</span><span class="p">[</span><span class="s1">&#39;staff&#39;</span><span class="p">])</span> <span class="k">for</span> <span class="n">department</span> <span class="ow">in</span> <span class="n">departments</span><span class="p">])</span>
 </pre></div>
 <pre class="literal-block">
 10
 </pre>
-<div class="highlight"><pre><span class="c1">#All staff names</span>
+<div class="highlight"><pre><span></span><span class="c1">#All staff names</span>
 <span class="p">[</span>
     <span class="n">name</span>
     <span class="k">for</span> <span class="n">department</span> <span class="ow">in</span> <span class="n">departments</span>
@@ -947,7 +966,7 @@ department['staff']</code>
 , used a reference from the <em>first</em> one.</p>
 <p>We can take this even further. Let's make our org-chart a little more
 complicated...</p>
-<div class="highlight"><pre><span class="n">departments</span><span class="o">=</span><span class="p">[</span>
+<div class="highlight"><pre><span></span><span class="n">departments</span><span class="o">=</span><span class="p">[</span>
     <span class="p">{</span>
         <span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;Manufacturing&#39;</span><span class="p">,</span>
         <span class="s1">&#39;staff&#39;</span><span class="p">:</span> <span class="p">[</span>
@@ -982,7 +1001,7 @@ complicated...</p>
 <span class="p">]</span>
 </pre></div>
 <p>Calculate the total salary:</p>
-<div class="highlight"><pre><span class="nb">sum</span><span class="p">(</span>
+<div class="highlight"><pre><span></span><span class="nb">sum</span><span class="p">(</span>
     <span class="n">person</span><span class="p">[</span><span class="s1">&#39;salary&#39;</span><span class="p">]</span>
     <span class="k">for</span> <span class="n">department</span> <span class="ow">in</span> <span class="n">departments</span>
     <span class="k">for</span> <span class="n">person</span> <span class="ow">in</span> <span class="n">department</span><span class="p">[</span><span class="s1">&#39;staff&#39;</span><span class="p">]</span>
@@ -993,7 +1012,7 @@ complicated...</p>
 </pre>
 <p>Now let's calculate the wages bill by department, and put the results in
 a dictionary</p>
-<div class="highlight"><pre><span class="p">{</span>
+<div class="highlight"><pre><span></span><span class="p">{</span>
     <span class="n">department</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="p">:</span> <span class="nb">sum</span><span class="p">(</span><span class="n">person</span><span class="p">[</span><span class="s1">&#39;salary&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">person</span> <span class="ow">in</span> <span class="n">department</span><span class="p">[</span><span class="s1">&#39;staff&#39;</span><span class="p">])</span>
     <span class="k">for</span> <span class="n">department</span> <span class="ow">in</span> <span class="n">departments</span>
 <span class="p">}</span>
@@ -1050,12 +1069,12 @@ collection of little recipes, and with this I can interact with all the servers
 in our infrastructure.</p>
 <p>So for example, if I want to see at a glance which version of linux I'm running on
 all my servers, I have a task set up in my fabfile like this:</p>
-<div class="highlight"><pre><span class="nd">@parallel</span>
+<div class="highlight"><pre><span></span><span class="nd">@parallel</span>
 <span class="k">def</span> <span class="nf">lsb_release</span><span class="p">():</span>
     <span class="n">run</span><span class="p">(</span><span class="s1">&#39;lsb_release -a&#39;</span><span class="p">)</span>
 </pre></div>
 <p>When I invoke this via:</p>
-<div class="highlight"><pre>$ fab lsb_release
+<div class="highlight"><pre><span></span>$ fab lsb_release
 </pre></div>
 <p>I get a nice little print-out of the current version of all my servers.  Fabric
 runs the task in parallel against every host in the <code class="code">
@@ -1064,7 +1083,7 @@ env.hosts</code>
 which can be set at the command line or in the <strong>fabfile</strong>.</p>
 <p>The following example allows me to see a list of every database running on every
 database server.</p>
-<div class="highlight"><pre><span class="n">DATABASE_HOST_MACHINES</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;dbserver1&#39;</span><span class="p">,</span><span class="s1">&#39;dbserver2&#39;</span><span class="p">,</span><span class="o">...</span><span class="p">]</span>
+<div class="highlight"><pre><span></span><span class="n">DATABASE_HOST_MACHINES</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;dbserver1&#39;</span><span class="p">,</span><span class="s1">&#39;dbserver2&#39;</span><span class="p">,</span><span class="o">...</span><span class="p">]</span>
 
 <span class="nd">@hosts</span><span class="p">(</span><span class="n">DATABASE_HOST_MACHINES</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">databases</span><span class="p">():</span>
@@ -1072,65 +1091,11 @@ database server.</p>
         <span class="n">run</span><span class="p">(</span><span class="s1">&#39;psql -c &quot;select datname from pg_database;&quot;&#39;</span><span class="p">)</span>
 </pre></div>
 <p>And <em>voila</em>, a call to</p>
-<div class="highlight"><pre>$ fab databases
+<div class="highlight"><pre><span></span>$ fab databases
 </pre></div>
 <p>gives me a company-wide view of all our databases.</p>
 <p>One further demonstration - this blog itself is generated using Fabric! For details, see
 the fabfile my <a class="reference external" href="https://github.com/trvrm/trvrm.github.io/blob/master/fabfile.py">Github</a> repository.</p>
-
-                    
-                </div>  
-                
-                
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/reportlab-images-in-ipython.html">Reportlab Images in IPython</a></h2>
-                
-                
-                <div class="entry-content">
-
-                    <p>With a bit of work we can get IPython to render ReportLab objects
-directly to the page as Matplotlib plots.</p>
-<p>Huge thanks to github user <a class="reference external" href="https://github.com/deeplook">deeplook</a>,
-this is basically a modification of
-<a class="reference external" href="http://nbviewer.ipython.org/gist/deeplook/5162445">this</a> IPython
-notebook.</p>
-<p>First our imports.</p>
-<div class="highlight"><pre><span class="kn">from</span> <span class="nn">reportlab.lib</span> <span class="kn">import</span> <span class="n">colors</span>
-<span class="kn">from</span> <span class="nn">reportlab.graphics</span> <span class="kn">import</span> <span class="n">renderPM</span>
-<span class="kn">from</span> <span class="nn">reportlab.graphics.shapes</span> <span class="kn">import</span> <span class="n">Drawing</span><span class="p">,</span> <span class="n">Rect</span>
-<span class="kn">from</span> <span class="nn">reportlab.graphics.charts.linecharts</span> <span class="kn">import</span> <span class="n">HorizontalLineChart</span>
-</pre></div>
-<div class="highlight"><pre><span class="kn">from</span> <span class="nn">io</span> <span class="kn">import</span> <span class="n">BytesIO</span>
-<span class="kn">from</span> <span class="nn">IPython.core</span> <span class="kn">import</span> <span class="n">display</span>
-</pre></div>
-<p>Now we create a hook that causes reportlab drawings to actually be
-rendered when we type out its name.</p>
-<div class="highlight"><pre><span class="k">def</span> <span class="nf">display_reportlab_drawing</span><span class="p">(</span><span class="n">drawing</span><span class="p">):</span>
-    <span class="n">buff</span><span class="o">=</span><span class="n">BytesIO</span><span class="p">()</span>
-    <span class="n">renderPM</span><span class="o">.</span><span class="n">drawToFile</span><span class="p">(</span><span class="n">drawing</span><span class="p">,</span><span class="n">buff</span><span class="p">,</span><span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;png&#39;</span><span class="p">,</span><span class="n">dpi</span><span class="o">=</span><span class="mi">72</span><span class="p">)</span>
-    <span class="n">data</span><span class="o">=</span><span class="n">buff</span><span class="o">.</span><span class="n">getvalue</span><span class="p">()</span>
-    <span class="n">ip_img</span><span class="o">=</span><span class="n">display</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span><span class="n">format</span><span class="o">=</span><span class="s1">&#39;png&#39;</span><span class="p">,</span><span class="n">embed</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">ip_img</span><span class="o">.</span><span class="n">_repr_png_</span><span class="p">()</span>
-</pre></div>
-<div class="highlight"><pre><span class="n">png_formatter</span><span class="o">=</span><span class="n">get_ipython</span><span class="p">()</span><span class="o">.</span><span class="n">display_formatter</span><span class="o">.</span><span class="n">formatters</span><span class="p">[</span><span class="s1">&#39;image/png&#39;</span><span class="p">]</span>
-<span class="n">drd</span><span class="o">=</span><span class="n">png_formatter</span><span class="o">.</span><span class="n">for_type</span><span class="p">(</span><span class="n">Drawing</span><span class="p">,</span><span class="n">display_reportlab_drawing</span><span class="p">)</span>
-</pre></div>
-<p>Now that's done, we can start creating ReportLab objects and see them
-immediately.</p>
-<div class="highlight"><pre><span class="n">drawing</span> <span class="o">=</span> <span class="n">Drawing</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
-<span class="n">drawing</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Rect</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">150</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="n">strokeColor</span><span class="o">=</span><span class="n">colors</span><span class="o">.</span><span class="n">black</span><span class="p">,</span><span class="n">fillColor</span><span class="o">=</span><span class="n">colors</span><span class="o">.</span><span class="n">antiquewhite</span><span class="p">))</span>
-<span class="n">drawing</span>
-</pre></div>
-<img alt="" src="reportlab-images-ipython_files/reportlab-images-ipython_8_0.png" />
-<div class="highlight"><pre><span class="n">chart</span><span class="o">=</span><span class="n">HorizontalLineChart</span><span class="p">()</span>
-</pre></div>
-<div class="highlight"><pre><span class="n">drawing</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">chart</span><span class="p">)</span>
-</pre></div>
-<div class="highlight"><pre><span class="n">drawing</span>
-</pre></div>
-<img alt="" src="reportlab-images-ipython_files/reportlab-images-ipython_11_0.png" />
 
                     
                 </div>  
