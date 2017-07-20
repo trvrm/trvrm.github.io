@@ -1182,7 +1182,7 @@ Wall time: 3.34 s
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;img alt="png" src="images/tensorflow_gradient/output_12_1.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="png" src="/images/tensorflow_gradient/output_12_1.png"&gt;&lt;/p&gt;
 &lt;p&gt;Note that I haven't had to declare anywhere that the first derivative of &lt;code&gt;sine(x)&lt;/code&gt; is &lt;code&gt;cosine(x)&lt;/code&gt;. TensorFlow seems to be able to figure that out analytically, which is pretty cool.&lt;/p&gt;</content><category term="Python"></category><category term="TensorFlow"></category><category term="Machine Learning"></category></entry><entry><title>Fractal Dimension</title><link href="/fractal-dimension.html" rel="alternate"></link><published>2017-01-24T00:00:00+01:00</published><updated>2017-01-24T00:00:00+01:00</updated><author><name>Trevor</name></author><id>tag:None,2017-01-24:/fractal-dimension.html</id><summary type="html">&lt;p&gt;Inspired by the &lt;a href="https://www.youtube.com/watch?v=bSfe5M_zG2s"&gt;keynote&lt;/a&gt; given at PyCon Portland by K Lars Lohn,, I wanted to try my hand 
 at computing the fractal dimension of a few different images.&lt;/p&gt;
 &lt;p&gt;This is a very simple implementation of a &lt;a href="https://en.wikipedia.org/wiki/Minkowski%E2%80%93Bouligand_dimension"&gt;box counting&lt;/a&gt; algorithm.&lt;/p&gt;
