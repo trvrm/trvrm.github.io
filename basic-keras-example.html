@@ -156,7 +156,7 @@ trvrm            </a>
 </pre></div>
 
 
-<h1>Create training data.</h1>
+<h2>Create training data.</h2>
 <p>I'm going to create an array of data with two features, <em>x1</em> and <em>x2</em></p>
 <div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">1500</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span><span class="o">*</span><span class="mi">20</span> <span class="o">-</span> <span class="mi">10</span><span class="p">,</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;x1&#39;</span><span class="p">,</span><span class="s1">&#39;x2&#39;</span><span class="p">])</span>
 </pre></div>
@@ -231,7 +231,7 @@ trvrm            </a>
 </pre></div>
 
 
-<p><img alt="png" src="images/basic_keras_example/output_23_1.png"></p>
+<p><img alt="png" src="/images/basic_keras_example/output_23_1.png"></p>
 <p>So we have two classes, and we're going to see if we can create a neural network that can distinguish between the two.</p>
 <h2>Create training data and test data</h2>
 <p>We assign 80% of the data to the training set, with the remaining 20% left over for testing the accuracy of our hypothesis.</p>
@@ -308,7 +308,7 @@ Wall time: 3.34 s
 </pre></div>
 
 
-<p><img alt="png" src="images/basic_keras_example/output_36_1.png"></p>
+<p><img alt="png" src="/images/basic_keras_example/output_36_1.png"></p>
 <h2>Conclusion</h2>
 <p>So we see that after 250 training cycles, the network can mostly correctly identify input data.</p>
 <p>Because the network is initialized with random data at the beginning of every run, sometimes I get better results than this and sometimes worse.  And Keras gives me many ways of quickly tweaking my algorithm - I can adjust the number of nodes in each layer, the number of layers, the activation function, the cost function, the number of training cycles, the test/training split and so on.  </p>

@@ -801,7 +801,7 @@
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;h1&gt;Conclusion&lt;/h1&gt;
+&lt;h2&gt;Conclusion&lt;/h2&gt;
 &lt;p&gt;I demonstrate how to use &lt;code&gt;WITH&lt;/code&gt; statements (Common Table Expressions), the &lt;code&gt;json_agg&lt;/code&gt; function and SQLAlchemy to quickly convert complex SQL joins into nested Python data structures. &lt;/p&gt;
 &lt;p&gt;Using techniques like the ones presented here, Postgres can act as a powerful relational data store that can still provide applications with data in helpful forms, such as nested dictionaries and lists.&lt;/p&gt;</content><category term="Python"></category><category term="SqlAlchemy"></category><category term="Postgres"></category></entry><entry><title>Image recognition with Keras, Tensorflow, and InceptionV3</title><link href="/image-recognition-with-keras-tensorflow-and-inceptionv3.html" rel="alternate"></link><published>2017-03-17T00:00:00+01:00</published><updated>2017-03-17T00:00:00+01:00</updated><author><name>Trevor</name></author><id>tag:None,2017-03-17:/image-recognition-with-keras-tensorflow-and-inceptionv3.html</id><summary type="html">&lt;p&gt;Neural networks are a powerful tool for teaching computers to recognize complex patterns, and now tools like &lt;a href="https://keras.io/"&gt;Keras&lt;/a&gt; and &lt;a href="https://www.tensorflow.org/"&gt;TensorFlow&lt;/a&gt; are beginning to make them a practical tool for programmers who don't have a PhD in machine learning.&lt;/p&gt;
 &lt;p&gt;One very powerful aspect of these tools is the ability to share …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Neural networks are a powerful tool for teaching computers to recognize complex patterns, and now tools like &lt;a href="https://keras.io/"&gt;Keras&lt;/a&gt; and &lt;a href="https://www.tensorflow.org/"&gt;TensorFlow&lt;/a&gt; are beginning to make them a practical tool for programmers who don't have a PhD in machine learning.&lt;/p&gt;
@@ -886,7 +886,7 @@ ________________________________________________________________________________
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;img alt="png" src="images/inception/output_14_0.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="png" src="/images/inception/output_14_0.png"&gt;&lt;/p&gt;
 &lt;p&gt;Keras requires the input data to be in a specific shape.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;image&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;img_to_array&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;img&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;expand_dims&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;axis&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
@@ -957,7 +957,7 @@ we've leveraged a publicly available model to classify our image.&lt;/p&gt;</con
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;h1&gt;Create training data.&lt;/h1&gt;
+&lt;h2&gt;Create training data.&lt;/h2&gt;
 &lt;p&gt;I'm going to create an array of data with two features, &lt;em&gt;x1&lt;/em&gt; and &lt;em&gt;x2&lt;/em&gt;&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;DataFrame&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;random&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;random&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="mi"&gt;1500&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="mi"&gt;20&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;columns&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;x1&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;x2&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
@@ -1032,7 +1032,7 @@ we've leveraged a publicly available model to classify our image.&lt;/p&gt;</con
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;img alt="png" src="images/basic_keras_example/output_23_1.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="png" src="/images/basic_keras_example/output_23_1.png"&gt;&lt;/p&gt;
 &lt;p&gt;So we have two classes, and we're going to see if we can create a neural network that can distinguish between the two.&lt;/p&gt;
 &lt;h2&gt;Create training data and test data&lt;/h2&gt;
 &lt;p&gt;We assign 80% of the data to the training set, with the remaining 20% left over for testing the accuracy of our hypothesis.&lt;/p&gt;
@@ -1109,7 +1109,7 @@ Wall time: 3.34 s
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;img alt="png" src="images/basic_keras_example/output_36_1.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="png" src="/images/basic_keras_example/output_36_1.png"&gt;&lt;/p&gt;
 &lt;h2&gt;Conclusion&lt;/h2&gt;
 &lt;p&gt;So we see that after 250 training cycles, the network can mostly correctly identify input data.&lt;/p&gt;
 &lt;p&gt;Because the network is initialized with random data at the beginning of every run, sometimes I get better results than this and sometimes worse.  And Keras gives me many ways of quickly tweaking my algorithm - I can adjust the number of nodes in each layer, the number of layers, the activation function, the cost function, the number of training cycles, the test/training split and so on.  &lt;/p&gt;
