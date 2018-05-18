@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<head>
+    <title>logrotate - trvrm</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <link href="/images/favicon.png" rel="icon">
+
+<link rel="canonical" href="/2015/01/01/logrotate/">
+
+        <meta name="author" content="Trevor" />
+        <meta name="keywords" content="logrotate,linux" />
+        <meta name="description" content="I have a large, complex mailing system that processes a significant amount of data every hour. While I&#39;m developing it, I want to know what it&#39;s doing, and whether it&#39;s having any problems. So I use the excellent python logging library to produce comprehensive monitoring data. The only problem is …" />
+
+        <meta property="og:site_name" content="trvrm" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="logrotate"/>
+        <meta property="og:url" content="/2015/01/01/logrotate/"/>
+        <meta property="og:description" content="I have a large, complex mailing system that processes a significant amount of data every hour. While I&#39;m developing it, I want to know what it&#39;s doing, and whether it&#39;s having any problems. So I use the excellent python logging library to produce comprehensive monitoring data. The only problem is …"/>
+        <meta property="article:published_time" content="2015-01-01" />
+            <meta property="article:section" content="Systems" />
+            <meta property="article:tag" content="logrotate" />
+            <meta property="article:tag" content="linux" />
+            <meta property="article:author" content="Trevor" />
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="/theme/css/bootstrap.flatly.min.css" type="text/css"/>
+    <link href="/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="/theme/css/pygments/tango.css" rel="stylesheet">
+    <link rel="stylesheet" href="/theme/css/style.css" type="text/css"/>
+
+
+
+
+
+</head>
+<body>
+
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+	<div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="/" class="navbar-brand">
+trvrm            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                        <li >
+                            <a href="/category/database.html">Database</a>
+                        </li>
+                        <li >
+                            <a href="/category/software.html">Software</a>
+                        </li>
+                        <li class="active">
+                            <a href="/category/systems.html">Systems</a>
+                        </li>
+                        <li >
+                            <a href="/category/test.html">Test</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="/archives.html"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+<!-- Banner -->
+<!-- End Banner -->
+<div class="container">
+    <div class="row">
+        
+        <pre>
+            [<pelican.contents.Page object at 0x7f71ad43d510>]
+        </pre>
+        
+        <div class="col-sm-9">
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="/2015/01/01/logrotate/"
+                       rel="bookmark"
+                       title="Permalink to logrotate">
+                        logrotate
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2015-01-01T00:00:00+01:00"> Thu 01 January 2015</time>
+    </span>
+
+
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="/tag/logrotate.html">logrotate</a>
+        /
+	<a href="/tag/linux.html">linux</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <p>I have a large, complex <a class="reference external" href="/2015/01/01/postfix/">mailing system</a> that processes
+a significant amount of data every hour.  While I'm developing it, I want to know
+what it's doing, and whether it's having any problems.  So I use the excellent
+python <a class="reference external" href="https://docs.python.org/2/library/logging.html">logging</a> library to produce comprehensive monitoring data.</p>
+<p>The only problem is that these log files can get pretty big.  And because I don't
+know ahead of time when I'm going to need to hunt through them, I tend to leave
+the logging system in a fairly verbose state.</p>
+<p>Enter <a class="reference external" href="http://www.thegeekstuff.com/2010/07/logrotate-examples/">logrotate</a>.  This is a standard service on Ubuntu that regularly rotates
+your log files, throwing away old data, compressing middle-age data, and leaving
+young log files fresh and accessible.  Thus you are protected from
+runaway log file growth and nasty calls in the middle of the night from your
+monitoring service telling you that your server just died because the hard
+drives were full.</p>
+<p>A default ubuntu installation comes with logrotate already set up for various services.
+If you don't have it, install it with <code class="code">
+apt-get install logrotate</code>
+, and
+then it's mostly just a question of copying a file from <code class="code">
+/etc/logrotate.d/</code>
+
+and modifying it according to your needs.</p>
+<p><code class="code">
+vi /etc/logrotate.d/myservice</code>
+</p>
+<div class="highlight"><pre><span></span>/var/log/myservice/*.log <span class="o">{</span>
+  rotate <span class="m">7</span>
+  daily
+  compress
+  missingok
+  notifempty
+<span class="o">}</span>
+</pre></div>
+<p>And that's it!  The actually invocation of the <code class="code">
+logrotate</code>
+ command will
+get triggered regularly by a script in /etc/cron.daily</p>
+<p>You can also <strong>force</strong> a rotation, a useful option when testing out a new configuration,
+via</p>
+<div class="highlight"><pre><span></span>logrotate -f /etc/logrotate.d/myservice
+</pre></div>
+<p>One quick word of warning: if you're using the python <a class="reference external" href="https://docs.python.org/2/library/logging.html">logging</a> library, then
+you'll want to use the <code class="code">
+WatchedFileHandler</code>
+ class.  If the logfile gets
+rotated out while it's in use, WatchedFileHandler will notice this, close the file
+stream and open a new one.</p>
+
+            </div>
+            <!-- /.entry-content -->
+        </article>
+    </section>
+
+        </div>
+        <div class="col-sm-3" id="sidebar">
+            <aside>
+
+<section class="well well-sm">
+    <ul class="list-group list-group-flush">
+            <li class="list-group-item"><h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Social</span></h4>
+              <ul class="list-group" id="social">
+                <li class="list-group-item"><a href="https://twitter.com/trvrm"><i class="fa fa-twitter-square fa-lg"></i> twitter</a></li>
+              </ul>
+            </li>
+
+
+
+
+
+    </ul>
+</section>
+            </aside>
+        </div>
+    </div>
+</div>
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2017 trvrm
+            &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="/theme/js/respond.min.js"></script>
+
+
+</body>
+</html>

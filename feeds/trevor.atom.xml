@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>trvrm - Trevor</title><link href="/" rel="alternate"></link><link href="/feeds/trevor.atom.xml" rel="self"></link><id>/</id><updated>2017-07-06T00:00:00+02:00</updated><entry><title>Using SQLAlchemy and Postgres functions to produce JSON tree structures from SQL joins</title><link href="/using-sqlalchemy-and-postgres-functions-to-produce-json-tree-structures-from-sql-joins.html" rel="alternate"></link><published>2017-07-06T00:00:00+02:00</published><updated>2017-07-06T00:00:00+02:00</updated><author><name>Trevor</name></author><id>tag:None,2017-07-06:/using-sqlalchemy-and-postgres-functions-to-produce-json-tree-structures-from-sql-joins.html</id><summary type="html">&lt;p&gt;More and more I'm discovering that Postgres is an amazingly powerful 'NoSQL' database, as well as the best relational database available today.&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>trvrm.github.io - Trevor</title><link href="/" rel="alternate"></link><link href="/feeds/trevor.atom.xml" rel="self"></link><id>/</id><updated>2017-07-06T00:00:00-05:00</updated><entry><title>Using SQLAlchemy and Postgres functions to produce JSON tree structures from SQL joins</title><link href="/using-sqlalchemy-and-postgres-functions-to-produce-json-tree-structures-from-sql-joins.html" rel="alternate"></link><published>2017-07-06T00:00:00-05:00</published><updated>2017-07-06T00:00:00-05:00</updated><author><name>Trevor</name></author><id>tag:None,2017-07-06:/using-sqlalchemy-and-postgres-functions-to-produce-json-tree-structures-from-sql-joins.html</id><summary type="html">&lt;p&gt;More and more I'm discovering that Postgres is an amazingly powerful 'NoSQL' database, as well as the best relational database available today.&lt;/p&gt;
 &lt;p&gt;Since the introduction of the JSON and JSONB data types, I've been able to store both deeply nested, unstructured data AND highly relational data in the same data …&lt;/p&gt;</summary><content type="html">&lt;p&gt;More and more I'm discovering that Postgres is an amazingly powerful 'NoSQL' database, as well as the best relational database available today.&lt;/p&gt;
 &lt;p&gt;Since the introduction of the JSON and JSONB data types, I've been able to store both deeply nested, unstructured data AND highly relational data in the same data store.&lt;/p&gt;
 &lt;p&gt;But sometimes I need to be able to map between the two domains. For example, I want to perform a join across two tables and return the result as a nested tree structure, perhaps for rendering on a webpage.&lt;/p&gt;
@@ -68,7 +68,7 @@
 
 &lt;div&gt;
 
-&lt;table border="1" class="dataframe table table-striped table-bordered"&gt;
+&lt;table border="1" class="dataframe table table-striped table-bordered is-striped is-bordered"&gt;
   &lt;thead&gt;
     &lt;tr style="text-align: right;"&gt;
       &lt;th&gt;&lt;/th&gt;
@@ -101,7 +101,7 @@
 
 
 &lt;div&gt;
-&lt;table border="1" class="dataframe table table-striped table-bordered"&gt;
+&lt;table border="1" class="dataframe table table-striped table-bordered  is-striped is-bordered"&gt;
   &lt;thead&gt;
     &lt;tr style="text-align: right;"&gt;
       &lt;th&gt;&lt;/th&gt;
@@ -161,7 +161,7 @@
 
 
 &lt;div&gt;
-&lt;table border="1" class="dataframe table table-striped table-bordered"&gt;
+&lt;table border="1" class="dataframe table table-striped table-bordered is-striped is-bordered"&gt;
   &lt;thead&gt;
     &lt;tr style="text-align: right;"&gt;
       &lt;th&gt;&lt;/th&gt;
@@ -246,7 +246,7 @@
 
 
 &lt;div&gt;
-&lt;table border="1" class="dataframe table table-striped table-bordered"&gt;
+&lt;table border="1" class="dataframe table table-striped table-bordered is-striped is-bordered"&gt;
   &lt;thead&gt;
     &lt;tr style="text-align: right;"&gt;
       &lt;th&gt;&lt;/th&gt;
@@ -353,7 +353,7 @@
 
 
 &lt;div&gt;
-&lt;table border="1" class="dataframe table table-striped table-bordered"&gt;
+&lt;table border="1" class="dataframe table table-striped table-bordered  is-striped is-bordered"&gt;
   &lt;thead&gt;
     &lt;tr style="text-align: right;"&gt;
       &lt;th&gt;&lt;/th&gt;
@@ -391,10 +391,7 @@
 
 &lt;p&gt;And as before we can turn this into a nested Python data structure&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;authors&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;frame&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;to_dict&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;records&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;authors&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;name&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="n"&gt;authors&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;name&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -489,7 +486,7 @@
 
 
 &lt;div&gt;
-&lt;table border="1" class="dataframe table table-striped table-bordered"&gt;
+&lt;table border="1" class="dataframe table table-striped table-bordered  is-striped is-bordered"&gt;
   &lt;thead&gt;
     &lt;tr style="text-align: right;"&gt;
       &lt;th&gt;&lt;/th&gt;
@@ -602,7 +599,7 @@
 
 
 &lt;div&gt;
-&lt;table border="1" class="dataframe table table-striped table-bordered"&gt;
+&lt;table border="1" class="dataframe table table-striped table-bordered is-striped is-bordered"&gt;
   &lt;thead&gt;
     &lt;tr style="text-align: right;"&gt;
       &lt;th&gt;&lt;/th&gt;
@@ -676,7 +673,7 @@
 
 
 &lt;div&gt;
-&lt;table border="1" class="dataframe table table-striped table-bordered"&gt;
+&lt;table border="1" class="dataframe table table-striped table-bordered  is-striped is-bordered"&gt;
   &lt;thead&gt;
     &lt;tr style="text-align: right;"&gt;
       &lt;th&gt;&lt;/th&gt;
@@ -749,7 +746,7 @@
 
 
 &lt;div&gt;
-&lt;table border="1" class="dataframe table table-striped table-bordered"&gt;
+&lt;table border="1" class="dataframe table table-striped table-bordered is-striped is-bordered"&gt;
   &lt;thead&gt;
     &lt;tr style="text-align: right;"&gt;
       &lt;th&gt;&lt;/th&gt;
@@ -803,7 +800,7 @@
 
 &lt;h2&gt;Conclusion&lt;/h2&gt;
 &lt;p&gt;I demonstrate how to use &lt;code&gt;WITH&lt;/code&gt; statements (Common Table Expressions), the &lt;code&gt;json_agg&lt;/code&gt; function and SQLAlchemy to quickly convert complex SQL joins into nested Python data structures. &lt;/p&gt;
-&lt;p&gt;Using techniques like the ones presented here, Postgres can act as a powerful relational data store that can still provide applications with data in helpful forms, such as nested dictionaries and lists.&lt;/p&gt;</content><category term="Python"></category><category term="SqlAlchemy"></category><category term="Postgres"></category></entry><entry><title>Image recognition with Keras, Tensorflow, and InceptionV3</title><link href="/image-recognition-with-keras-tensorflow-and-inceptionv3.html" rel="alternate"></link><published>2017-03-17T00:00:00+01:00</published><updated>2017-03-17T00:00:00+01:00</updated><author><name>Trevor</name></author><id>tag:None,2017-03-17:/image-recognition-with-keras-tensorflow-and-inceptionv3.html</id><summary type="html">&lt;p&gt;Neural networks are a powerful tool for teaching computers to recognize complex patterns, and now tools like &lt;a href="https://keras.io/"&gt;Keras&lt;/a&gt; and &lt;a href="https://www.tensorflow.org/"&gt;TensorFlow&lt;/a&gt; are beginning to make them a practical tool for programmers who don't have a PhD in machine learning.&lt;/p&gt;
+&lt;p&gt;Using techniques like the ones presented here, Postgres can act as a powerful relational data store that can still provide applications with data in helpful forms, such as nested dictionaries and lists.&lt;/p&gt;</content><category term="Python"></category><category term="SqlAlchemy"></category><category term="Postgres"></category></entry><entry><title>Image recognition with Keras, Tensorflow, and InceptionV3</title><link href="/image-recognition-with-keras-tensorflow-and-inceptionv3.html" rel="alternate"></link><published>2017-03-17T00:00:00-05:00</published><updated>2017-03-17T00:00:00-05:00</updated><author><name>Trevor</name></author><id>tag:None,2017-03-17:/image-recognition-with-keras-tensorflow-and-inceptionv3.html</id><summary type="html">&lt;p&gt;Neural networks are a powerful tool for teaching computers to recognize complex patterns, and now tools like &lt;a href="https://keras.io/"&gt;Keras&lt;/a&gt; and &lt;a href="https://www.tensorflow.org/"&gt;TensorFlow&lt;/a&gt; are beginning to make them a practical tool for programmers who don't have a PhD in machine learning.&lt;/p&gt;
 &lt;p&gt;One very powerful aspect of these tools is the ability to share …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Neural networks are a powerful tool for teaching computers to recognize complex patterns, and now tools like &lt;a href="https://keras.io/"&gt;Keras&lt;/a&gt; and &lt;a href="https://www.tensorflow.org/"&gt;TensorFlow&lt;/a&gt; are beginning to make them a practical tool for programmers who don't have a PhD in machine learning.&lt;/p&gt;
 &lt;p&gt;One very powerful aspect of these tools is the ability to share pre-trained models with others. There are many tutorials and courses that will walk you through the process of building a neural net and training it on some data set.  But in other areas of software development we are far more likely to use off-the-shelf implementations of common algorithms rather than rolling them ourselves.  We might work through implementing a sort algorithm or a binary tree in order to better understand the concepts, but having done so we almost always end up using the algorithms that come built in to our language or programming environment.&lt;/p&gt;
 &lt;p&gt;I suspect we'll see the same sort of thing happen in the machine learning world. While being able to train models on our own data will continue to be extremely valuable, there will be many cases where a model already exists that does what we want, and we'll just want to plug it in to our data.&lt;/p&gt;
@@ -915,7 +912,7 @@ ________________________________________________________________________________
 &lt;h3&gt;And we're done&lt;/h3&gt;
 &lt;p&gt;Inception is pretty confident that this is a picture of a hamster.  Without having 
 to do any training ourselves, or really having to know anything at all about neural networks,
-we've leveraged a publicly available model to classify our image.&lt;/p&gt;</content><category term="Python"></category><category term="TensorFlow"></category><category term="Machine Learning"></category><category term="Keras"></category></entry><entry><title>Basic Keras Example</title><link href="/basic-keras-example.html" rel="alternate"></link><published>2017-02-26T00:00:00+01:00</published><updated>2017-02-26T00:00:00+01:00</updated><author><name>Trevor</name></author><id>tag:None,2017-02-26:/basic-keras-example.html</id><summary type="html">&lt;p&gt;&lt;a href="https://keras.io/"&gt;Keras&lt;/a&gt; is a high-level neural network Python library, designed to sit on top of lower level implementations such as &lt;a href="https://www.tensorflow.org/"&gt;TensorFlow&lt;/a&gt;.&lt;/p&gt;
+we've leveraged a publicly available model to classify our image.&lt;/p&gt;</content><category term="Python"></category><category term="TensorFlow"></category><category term="Machine Learning"></category><category term="Keras"></category></entry><entry><title>Basic Keras Example</title><link href="/basic-keras-example.html" rel="alternate"></link><published>2017-02-26T00:00:00-05:00</published><updated>2017-02-26T00:00:00-05:00</updated><author><name>Trevor</name></author><id>tag:None,2017-02-26:/basic-keras-example.html</id><summary type="html">&lt;p&gt;&lt;a href="https://keras.io/"&gt;Keras&lt;/a&gt; is a high-level neural network Python library, designed to sit on top of lower level implementations such as &lt;a href="https://www.tensorflow.org/"&gt;TensorFlow&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;It provides abstractions that enable you to quickly create neural network structures.  Here I'm going to try to create a simple 3 layer network, and use it to solve a …&lt;/p&gt;</summary><content type="html">&lt;p&gt;&lt;a href="https://keras.io/"&gt;Keras&lt;/a&gt; is a high-level neural network Python library, designed to sit on top of lower level implementations such as &lt;a href="https://www.tensorflow.org/"&gt;TensorFlow&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;It provides abstractions that enable you to quickly create neural network structures.  Here I'm going to try to create a simple 3 layer network, and use it to solve a basic classification problem.&lt;/p&gt;
 &lt;p&gt;For reference, the problem I'm trying to solve, and the network I'm using to solve it, are roughly equivalent to &lt;a href="http://playground.tensorflow.org/#activation=relu&amp;amp;regularization=L1&amp;amp;batchSize=10&amp;amp;dataset=xor&amp;amp;regDataset=reg-plane&amp;amp;learningRate=0.003&amp;amp;regularizationRate=0.001&amp;amp;noise=0&amp;amp;networkShape=4,1&amp;amp;seed=0.92802&amp;amp;showTestData=false&amp;amp;discretize=false&amp;amp;percTrainData=50&amp;amp;x=true&amp;amp;y=true&amp;amp;xTimesY=false&amp;amp;xSquared=false&amp;amp;ySquared=false&amp;amp;cosX=false&amp;amp;sinX=false&amp;amp;cosY=false&amp;amp;sinY=false&amp;amp;collectStats=false&amp;amp;problem=classification&amp;amp;initZero=false&amp;amp;hideText=false"&gt;this interactive example  at playground.tensorflow.org&lt;/a&gt;&lt;/p&gt;
@@ -978,7 +975,7 @@ we've leveraged a publicly available model to classify our image.&lt;/p&gt;</con
 
 
 &lt;div&gt;
-&lt;table border="1" class="dataframe table table-striped table-bordered"&gt;
+&lt;table border="1" class="dataframe table table-striped table-bordered is-striped is-bordered"&gt;
   &lt;thead&gt;
     &lt;tr style="text-align: right;"&gt;
       &lt;th&gt;&lt;/th&gt;
@@ -1115,7 +1112,7 @@ Wall time: 3.34 s
 &lt;p&gt;Because the network is initialized with random data at the beginning of every run, sometimes I get better results than this and sometimes worse.  And Keras gives me many ways of quickly tweaking my algorithm - I can adjust the number of nodes in each layer, the number of layers, the activation function, the cost function, the number of training cycles, the test/training split and so on.  &lt;/p&gt;
 &lt;p&gt;Next I'd like to figure out how to adjust regularization parameters and the learning rate, and explore how that affects the efficiency of the network.&lt;/p&gt;
 &lt;h3&gt;Source&lt;/h3&gt;
-&lt;p&gt;The source for this post is &lt;a href="https://github.com/trvrm/notebooks/blob/master/Basic%20Keras%20example.ipynb"&gt;available here on github&lt;/a&gt;&lt;/p&gt;</content><category term="Python"></category><category term="TensorFlow"></category><category term="Machine Learning"></category><category term="Keras"></category></entry><entry><title>Using TensorFlow to compute gradients</title><link href="/using-tensorflow-to-compute-gradients.html" rel="alternate"></link><published>2017-02-09T00:00:00+01:00</published><updated>2017-02-09T00:00:00+01:00</updated><author><name>Trevor</name></author><id>tag:None,2017-02-09:/using-tensorflow-to-compute-gradients.html</id><summary type="html">&lt;p&gt;I tried the basic linear regression example from &lt;a href="https://medium.com/all-of-us-are-belong-to-machines/the-gentlest-introduction-to-tensorflow-248dc871a224#.8429xmd7s"&gt;this article&lt;/a&gt;.  I was quite surprised by this line:&lt;/p&gt;
+&lt;p&gt;The source for this post is &lt;a href="https://github.com/trvrm/notebooks/blob/master/Basic%20Keras%20example.ipynb"&gt;available here on github&lt;/a&gt;&lt;/p&gt;</content><category term="Python"></category><category term="TensorFlow"></category><category term="Machine Learning"></category><category term="Keras"></category></entry><entry><title>Using TensorFlow to compute gradients</title><link href="/using-tensorflow-to-compute-gradients.html" rel="alternate"></link><published>2017-02-09T00:00:00-05:00</published><updated>2017-02-09T00:00:00-05:00</updated><author><name>Trevor</name></author><id>tag:None,2017-02-09:/using-tensorflow-to-compute-gradients.html</id><summary type="html">&lt;p&gt;I tried the basic linear regression example from &lt;a href="https://medium.com/all-of-us-are-belong-to-machines/the-gentlest-introduction-to-tensorflow-248dc871a224#.8429xmd7s"&gt;this article&lt;/a&gt;.  I was quite surprised by this line:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;train_step&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;tf&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;train&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;GradientDescentOptimizer&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mf"&gt;0.0000001&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;minimize&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;cost&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;                       
 &lt;/pre&gt;&lt;/div&gt;
 
@@ -1183,7 +1180,7 @@ Wall time: 3.34 s
 
 
 &lt;p&gt;&lt;img alt="png" src="/images/tensorflow_gradient/output_12_1.png"&gt;&lt;/p&gt;
-&lt;p&gt;Note that I haven't had to declare anywhere that the first derivative of &lt;code&gt;sine(x)&lt;/code&gt; is &lt;code&gt;cosine(x)&lt;/code&gt;. TensorFlow seems to be able to figure that out analytically, which is pretty cool.&lt;/p&gt;</content><category term="Python"></category><category term="TensorFlow"></category><category term="Machine Learning"></category></entry><entry><title>Fractal Dimension</title><link href="/fractal-dimension.html" rel="alternate"></link><published>2017-01-24T00:00:00+01:00</published><updated>2017-01-24T00:00:00+01:00</updated><author><name>Trevor</name></author><id>tag:None,2017-01-24:/fractal-dimension.html</id><summary type="html">&lt;p&gt;Inspired by the &lt;a href="https://www.youtube.com/watch?v=bSfe5M_zG2s"&gt;keynote&lt;/a&gt; given at PyCon Portland by K Lars Lohn,, I wanted to try my hand 
+&lt;p&gt;Note that I haven't had to declare anywhere that the first derivative of &lt;code&gt;sine(x)&lt;/code&gt; is &lt;code&gt;cosine(x)&lt;/code&gt;. TensorFlow seems to be able to figure that out analytically, which is pretty cool.&lt;/p&gt;</content><category term="Python"></category><category term="TensorFlow"></category><category term="Machine Learning"></category></entry><entry><title>Fractal Dimension</title><link href="/fractal-dimension.html" rel="alternate"></link><published>2017-01-24T00:00:00-05:00</published><updated>2017-01-24T00:00:00-05:00</updated><author><name>Trevor</name></author><id>tag:None,2017-01-24:/fractal-dimension.html</id><summary type="html">&lt;p&gt;Inspired by the &lt;a href="https://www.youtube.com/watch?v=bSfe5M_zG2s"&gt;keynote&lt;/a&gt; given at PyCon Portland by K Lars Lohn,, I wanted to try my hand 
 at computing the fractal dimension of a few different images.&lt;/p&gt;
 &lt;p&gt;This is a very simple implementation of a &lt;a href="https://en.wikipedia.org/wiki/Minkowski%E2%80%93Bouligand_dimension"&gt;box counting&lt;/a&gt; algorithm.&lt;/p&gt;
 &lt;p&gt;A couple of ideas are borrowed from https://github.com/twobraids …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Inspired by the &lt;a href="https://www.youtube.com/watch?v=bSfe5M_zG2s"&gt;keynote&lt;/a&gt; given at PyCon Portland by K Lars Lohn,, I wanted to try my hand 
@@ -1327,7 +1324,7 @@ plotted them against each other.&lt;/p&gt;
 
 
 &lt;p&gt;&lt;strong&gt;Which is exactly what we expected.&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;As K Lars Lohn said in his keynote, it's very rewarding when you try something out in Python and the result actually matches neatly up with the theory!&lt;/p&gt;</content><category term="Python"></category></entry><entry><title>New Blog Theme</title><link href="/new-blog-theme.html" rel="alternate"></link><published>2016-05-13T00:00:00+02:00</published><updated>2016-05-13T00:00:00+02:00</updated><author><name>Trevor</name></author><id>tag:None,2016-05-13:/new-blog-theme.html</id><summary type="html">&lt;p&gt;Yesterday I discovered the &lt;a href="http://bulma.io/"&gt;Bulma&lt;/a&gt; CSS library.  It seems to be basically 'bootstrap for the flexbox world.'&lt;/p&gt;
+&lt;p&gt;As K Lars Lohn said in his keynote, it's very rewarding when you try something out in Python and the result actually matches neatly up with the theory!&lt;/p&gt;</content><category term="Python"></category></entry><entry><title>New Blog Theme</title><link href="/new-blog-theme.html" rel="alternate"></link><published>2016-05-13T00:00:00-05:00</published><updated>2016-05-13T00:00:00-05:00</updated><author><name>Trevor</name></author><id>tag:None,2016-05-13:/new-blog-theme.html</id><summary type="html">&lt;p&gt;Yesterday I discovered the &lt;a href="http://bulma.io/"&gt;Bulma&lt;/a&gt; CSS library.  It seems to be basically 'bootstrap for the flexbox world.'&lt;/p&gt;
 &lt;p&gt;Given that Bootstrap version 4 has been promising us Flexbox support for nearly a year now, I think Bulma could be my
 new best CSS friend.  Of course, I won't be able to …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Yesterday I discovered the &lt;a href="http://bulma.io/"&gt;Bulma&lt;/a&gt; CSS library.  It seems to be basically 'bootstrap for the flexbox world.'&lt;/p&gt;
 &lt;p&gt;Given that Bootstrap version 4 has been promising us Flexbox support for nearly a year now, I think Bulma could be my
@@ -1347,7 +1344,7 @@ to use Bulma classes.  Here's an example from the &lt;code&gt;article.html&lt;/c
             &lt;span class="nt"&gt;&amp;lt;/a&amp;gt;&lt;/span&gt;
         &lt;span class="nt"&gt;&amp;lt;/h2&amp;gt;&lt;/span&gt;
         ...
-&lt;/pre&gt;&lt;/div&gt;</content><category term="Python"></category><category term="Pelican"></category><category term="Bulma"></category></entry><entry><title>Streaming PHP Output with FPM and NGINX</title><link href="/streaming-php-output-with-fpm-and-nginx.html" rel="alternate"></link><published>2015-10-25T00:00:00+02:00</published><updated>2015-10-25T00:00:00+02:00</updated><author><name>Trevor</name></author><id>tag:None,2015-10-25:/streaming-php-output-with-fpm-and-nginx.html</id><summary type="html">&lt;p&gt;&lt;strong&gt;Problem:&lt;/strong&gt; We had a PHP report that takes around 45 seconds to render.  To give the user feedback
+&lt;/pre&gt;&lt;/div&gt;</content><category term="Python"></category><category term="Pelican"></category><category term="Bulma"></category></entry><entry><title>Streaming PHP Output with FPM and NGINX</title><link href="/streaming-php-output-with-fpm-and-nginx.html" rel="alternate"></link><published>2015-10-25T00:00:00-05:00</published><updated>2015-10-25T00:00:00-05:00</updated><author><name>Trevor</name></author><id>tag:None,2015-10-25:/streaming-php-output-with-fpm-and-nginx.html</id><summary type="html">&lt;p&gt;&lt;strong&gt;Problem:&lt;/strong&gt; We had a PHP report that takes around 45 seconds to render.  To give the user feedback
 that their report was actually being generated, I wanted to change our PHP installation to deliver at least some output to the client as soon as possible, rather than waiting until the …&lt;/p&gt;</summary><content type="html">&lt;p&gt;&lt;strong&gt;Problem:&lt;/strong&gt; We had a PHP report that takes around 45 seconds to render.  To give the user feedback
 that their report was actually being generated, I wanted to change our PHP installation to deliver at least some output to the client as soon as possible, rather than waiting until the entire page was rendered.&lt;/p&gt;
 &lt;p&gt;In general, PHP and NGINX work hard to buffer output, so this was mostly an exercise in fighting with
@@ -1385,7 +1382,7 @@ to 16k, and even with all the other changes made, when accessing the site via
 HTTPS, NGINX will still buffer your output.&lt;/p&gt;
 &lt;h4&gt;References&lt;/h4&gt;
 &lt;p&gt;&lt;a href="https://stackoverflow.com/questions/4870697/php-flush-that-works-even-in-nginx"&gt;This&lt;/a&gt;
-Stack Overflow question got me pointed in the right direction. &lt;/p&gt;</content><category term="PHP"></category><category term="FPM"></category><category term="NGINX"></category></entry><entry><title>Efficient Postgres Bulk Inserts using Psycopg2 and Unnest</title><link href="/bulk-psycopg2-inserts.html" rel="alternate"></link><published>2015-10-22T00:00:00+02:00</published><updated>2015-10-22T00:00:00+02:00</updated><author><name>Trevor</name></author><id>tag:None,2015-10-22:/bulk-psycopg2-inserts.html</id><summary type="html">&lt;p&gt;One of the biggest challenges I face maintaining large Postgres systems
+Stack Overflow question got me pointed in the right direction. &lt;/p&gt;</content><category term="PHP"></category><category term="FPM"></category><category term="NGINX"></category></entry><entry><title>Efficient Postgres Bulk Inserts using Psycopg2 and Unnest</title><link href="/bulk-psycopg2-inserts.html" rel="alternate"></link><published>2015-10-22T00:00:00-05:00</published><updated>2015-10-22T00:00:00-05:00</updated><author><name>Trevor</name></author><id>tag:None,2015-10-22:/bulk-psycopg2-inserts.html</id><summary type="html">&lt;p&gt;One of the biggest challenges I face maintaining large Postgres systems
 is getting data &lt;em&gt;into&lt;/em&gt; them in an efficient manner. Postgres is very,
 very good at maintaining, organising, querying and retrieving data, but
 inserts themselves can be quite slow.&lt;/p&gt;
@@ -1633,7 +1630,7 @@ our two methods:&lt;/p&gt;
 &lt;span class="n"&gt;frame&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;div style="max-height:1000px;max-width:1500px;overflow:auto;"&gt;
-&lt;table border="1" class="dataframe table table-striped table-bordered"&gt;
+&lt;table border="1" class="dataframe table table-striped table-bordered is-striped is-bordered"&gt;
   &lt;thead&gt;
     &lt;tr style="text-align: right;"&gt;
       &lt;th&gt;&lt;/th&gt;
@@ -1729,7 +1726,7 @@ is transferred back and forth across the network.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-</content><category term="Python"></category><category term="Postgres"></category></entry><entry><title>Pelican, Atom and Markdown</title><link href="/pelican-atom-and-markdown.html" rel="alternate"></link><published>2015-06-26T00:00:00+02:00</published><updated>2015-06-26T00:00:00+02:00</updated><author><name>Trevor</name></author><id>tag:None,2015-06-26:/pelican-atom-and-markdown.html</id><summary type="html">&lt;p&gt;I've been using reStructured text in general to write this blog, but I think I'm
+</content><category term="Python"></category><category term="Postgres"></category></entry><entry><title>Pelican, Atom and Markdown</title><link href="/pelican-atom-and-markdown.html" rel="alternate"></link><published>2015-06-26T00:00:00-05:00</published><updated>2015-06-26T00:00:00-05:00</updated><author><name>Trevor</name></author><id>tag:None,2015-06-26:/pelican-atom-and-markdown.html</id><summary type="html">&lt;p&gt;I've been using reStructured text in general to write this blog, but I think I'm
 going to be switching to Markdown.  As an experiment, I'm writing this post in Markdown.&lt;/p&gt;
 &lt;p&gt;I'm also writing it in the &lt;a href="https://atom.io/"&gt;Atom text editor&lt;/a&gt;, which has really come on a
 long way since I last …&lt;/p&gt;</summary><content type="html">&lt;p&gt;I've been using reStructured text in general to write this blog, but I think I'm
@@ -1762,7 +1759,7 @@ can be seen &lt;a href="https://github.com/trvrm/notebooks/blob/master/Markdown%
 allows me to use the same syntax for my GitHub documentation, my IPython notebooks, and
 my blog posts.  &lt;/p&gt;
 &lt;p&gt;I do use &lt;strong&gt;Sphinx&lt;/strong&gt; in various places for Python code documentation, so that will still
-require reStructured text, but elsewhere I think Markdown is the way to go&lt;/p&gt;</content><category term="pelican"></category><category term="markdown"></category></entry><entry><title>Asynchronous Python</title><link href="/asynchronous-python.html" rel="alternate"></link><published>2015-01-01T00:00:00+01:00</published><updated>2015-01-01T00:00:00+01:00</updated><author><name>Trevor</name></author><id>tag:None,2015-01-01:/asynchronous-python.html</id><summary type="html">&lt;p&gt;It's possible to get python to do node-like non-blocking requests, this could
+require reStructured text, but elsewhere I think Markdown is the way to go&lt;/p&gt;</content><category term="pelican"></category><category term="markdown"></category></entry><entry><title>Asynchronous Python</title><link href="/asynchronous-python.html" rel="alternate"></link><published>2015-01-01T00:00:00-05:00</published><updated>2015-01-01T00:00:00-05:00</updated><author><name>Trevor</name></author><id>tag:None,2015-01-01:/asynchronous-python.html</id><summary type="html">&lt;p&gt;It's possible to get python to do node-like non-blocking requests, this could
 take away one of the key reasons for using node.&lt;/p&gt;
 &lt;p&gt;The following is a full bottle-based python web application.&lt;/p&gt;
 &lt;p&gt;A client can sucessfully call /test while another client is waiting for
@@ -1799,7 +1796,7 @@ take away one of the key reasons for using node.&lt;/p&gt;
 &lt;p&gt;My first attempt used grequests, but apparently that's not even necessary.&lt;/p&gt;
 &lt;p&gt;I guess that the call to monkey.patch_all() even patches the socket code
 that requests uses.  I'm very impressed.&lt;/p&gt;
-</content><category term="Python"></category><category term="gevent"></category></entry><entry><title>CoffeeScript</title><link href="/coffeescript.html" rel="alternate"></link><published>2015-01-01T00:00:00+01:00</published><updated>2015-01-01T00:00:00+01:00</updated><author><name>Trevor</name></author><id>tag:None,2015-01-01:/coffeescript.html</id><summary type="html">&lt;p&gt;Through a bizarre twist of history, the entire client-side web runs on a &lt;a class="reference external" href="http://en.wikipedia.org/wiki/Brendan_Eich#Netscape_and_JavaScript"&gt;language&lt;/a&gt;
+</content><category term="Python"></category><category term="gevent"></category></entry><entry><title>CoffeeScript</title><link href="/coffeescript.html" rel="alternate"></link><published>2015-01-01T00:00:00-05:00</published><updated>2015-01-01T00:00:00-05:00</updated><author><name>Trevor</name></author><id>tag:None,2015-01-01:/coffeescript.html</id><summary type="html">&lt;p&gt;Through a bizarre twist of history, the entire client-side web runs on a &lt;a class="reference external" href="http://en.wikipedia.org/wiki/Brendan_Eich#Netscape_and_JavaScript"&gt;language&lt;/a&gt;
 that was thrown together in 10 days.&lt;/p&gt;
 &lt;p&gt;Despite huge investments in their own proprietary technology by the likes of Sun
 Microsystems, Adobe and Microsoft, this weird little spinoff of &lt;strong&gt;self&lt;/strong&gt; and &lt;strong&gt;scheme&lt;/strong&gt;
@@ -1861,7 +1858,7 @@ alert&lt;/code&gt;
 if the compliation fails, so if I introduce a syntax error in my coffeescript, as soon
 as I refresh the page that is using it I'll be presented with the source of the problem.&lt;/p&gt;
 &lt;/div&gt;
-</content><category term="coffeescript"></category><category term="javascript"></category></entry><entry><title>Configuring Systems with Fabric and Cuisine</title><link href="/configuring-systems-with-fabric-and-cuisine.html" rel="alternate"></link><published>2015-01-01T00:00:00+01:00</published><updated>2015-01-01T00:00:00+01:00</updated><author><name>Trevor</name></author><id>tag:None,2015-01-01:/configuring-systems-with-fabric-and-cuisine.html</id><summary type="html">&lt;p&gt;I've mentioned &lt;a class="reference external" href="http://fabric.readthedocs.org/en/1.8/"&gt;Fabric&lt;/a&gt; before on this blog.  Because so much of my development time is spent in Python, it makes
+</content><category term="coffeescript"></category><category term="javascript"></category></entry><entry><title>Configuring Systems with Fabric and Cuisine</title><link href="/configuring-systems-with-fabric-and-cuisine.html" rel="alternate"></link><published>2015-01-01T00:00:00-05:00</published><updated>2015-01-01T00:00:00-05:00</updated><author><name>Trevor</name></author><id>tag:None,2015-01-01:/configuring-systems-with-fabric-and-cuisine.html</id><summary type="html">&lt;p&gt;I've mentioned &lt;a class="reference external" href="http://fabric.readthedocs.org/en/1.8/"&gt;Fabric&lt;/a&gt; before on this blog.  Because so much of my development time is spent in Python, it makes
 sense for me to look for system administration tools that are also written in Python.  Fabric fits the bill
 perfectly, and allows me to run tasks remotely on multiple machines …&lt;/p&gt;</summary><content type="html">&lt;p&gt;I've mentioned &lt;a class="reference external" href="http://fabric.readthedocs.org/en/1.8/"&gt;Fabric&lt;/a&gt; before on this blog.  Because so much of my development time is spent in Python, it makes
 sense for me to look for system administration tools that are also written in Python.  Fabric fits the bill
@@ -1869,7 +1866,7 @@ perfectly, and allows me to run tasks remotely on multiple machines simultaneous
 &lt;p&gt;A useful addition to Fabric is &lt;a class="reference external" href="https://github.com/sebastien/cuisine"&gt;Cuisine&lt;/a&gt;.  &lt;strong&gt;Cuisine is a small set of functions that sit on top of Fabric,
 to abstract common administration operations such as file/dir operations, user/group creation,
 package install/upgrade, making it easier to write portable administration and deployment scripts.&lt;/strong&gt;&lt;/p&gt;
-</content><category term="linux"></category><category term="python"></category><category term="fabric"></category></entry><entry><title>IPython with Python 3</title><link href="/ipython-with-python-3.html" rel="alternate"></link><published>2015-01-01T00:00:00+01:00</published><updated>2015-01-01T00:00:00+01:00</updated><author><name>Trevor</name></author><id>tag:None,2015-01-01:/ipython-with-python-3.html</id><summary type="html">&lt;p&gt;This took me longer than I was expecting.&lt;/p&gt;
+</content><category term="linux"></category><category term="python"></category><category term="fabric"></category></entry><entry><title>IPython with Python 3</title><link href="/ipython-with-python-3.html" rel="alternate"></link><published>2015-01-01T00:00:00-05:00</published><updated>2015-01-01T00:00:00-05:00</updated><author><name>Trevor</name></author><id>tag:None,2015-01-01:/ipython-with-python-3.html</id><summary type="html">&lt;p&gt;This took me longer than I was expecting.&lt;/p&gt;
 &lt;p&gt;In general when working with IPython I use &lt;code class="code"&gt;
 pip&lt;/code&gt;
  rather than &lt;code class="code"&gt;
@@ -1904,7 +1901,7 @@ $ ipython
 &lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;And voila, I have Python 3 in the best Python interpreter ever built, I'm ready to
 start wrapping my head around byte arrays and UTF-8 encodings.&lt;/p&gt;
-</content><category term="Python"></category><category term="IPython"></category></entry><entry><title>logrotate</title><link href="/logrotate.html" rel="alternate"></link><published>2015-01-01T00:00:00+01:00</published><updated>2015-01-01T00:00:00+01:00</updated><author><name>Trevor</name></author><id>tag:None,2015-01-01:/logrotate.html</id><summary type="html">&lt;p&gt;I have a large, complex &lt;a class="reference external" href="/postfix.html"&gt;mailing system&lt;/a&gt; that processes
+</content><category term="Python"></category><category term="IPython"></category></entry><entry><title>logrotate</title><link href="/logrotate.html" rel="alternate"></link><published>2015-01-01T00:00:00-05:00</published><updated>2015-01-01T00:00:00-05:00</updated><author><name>Trevor</name></author><id>tag:None,2015-01-01:/logrotate.html</id><summary type="html">&lt;p&gt;I have a large, complex &lt;a class="reference external" href="/postfix.html"&gt;mailing system&lt;/a&gt; that processes
 a significant amount of data every hour.  While I'm developing it, I want to know
 what it's doing, and whether it's having any problems.  So I use the excellent
 python &lt;a class="reference external" href="https://docs.python.org/2/library/logging.html"&gt;logging&lt;/a&gt; library to produce comprehensive monitoring data.&lt;/p&gt;
@@ -1954,7 +1951,7 @@ WatchedFileHandler&lt;/code&gt;
  class.  If the logfile gets
 rotated out while it's in use, WatchedFileHandler will notice this, close the file
 stream and open a new one.&lt;/p&gt;
-</content><category term="logrotate"></category><category term="linux"></category></entry><entry><title>More Ractive</title><link href="/more-ractive.html" rel="alternate"></link><published>2015-01-01T00:00:00+01:00</published><updated>2015-01-01T00:00:00+01:00</updated><author><name>Trevor</name></author><id>tag:None,2015-01-01:/more-ractive.html</id><summary type="html">&lt;p&gt;I've used &lt;a class="reference external" href="http://www.ractivejs.org/"&gt;Ractive&lt;/a&gt; for several projects recently.
+</content><category term="logrotate"></category><category term="linux"></category></entry><entry><title>More Ractive</title><link href="/more-ractive.html" rel="alternate"></link><published>2015-01-01T00:00:00-05:00</published><updated>2015-01-01T00:00:00-05:00</updated><author><name>Trevor</name></author><id>tag:None,2015-01-01:/more-ractive.html</id><summary type="html">&lt;p&gt;I've used &lt;a class="reference external" href="http://www.ractivejs.org/"&gt;Ractive&lt;/a&gt; for several projects recently.
 It's been like a breath of fresh air.  I've been writing user interfaces of one
 kind or another for more than a decade, and keeping &lt;em&gt;what's displayed to the user&lt;/em&gt;
 in sync with &lt;em&gt;what's stored in the data structures&lt;/em&gt; has often been a …&lt;/p&gt;</summary><content type="html">&lt;p&gt;I've used &lt;a class="reference external" href="http://www.ractivejs.org/"&gt;Ractive&lt;/a&gt; for several projects recently.
@@ -2028,7 +2025,7 @@ framework.  For those who like all-in-one solutions, this will be a weakness, bu
 someone who believes in the unix philosophy of building systems from tools that
 each do one thing well, I'm very impressed.&lt;/p&gt;
 &lt;/div&gt;
-</content><category term="javascript"></category><category term="ractive"></category></entry><entry><title>Nginx and UWSGI on Ubuntu 14</title><link href="/nginx-uwsgi-ubuntu-14.html" rel="alternate"></link><published>2015-01-01T00:00:00+01:00</published><updated>2015-01-01T00:00:00+01:00</updated><author><name>Trevor</name></author><id>tag:None,2015-01-01:/nginx-uwsgi-ubuntu-14.html</id><summary type="html">&lt;p&gt;The documentation for Nginx and UWSGI is long and complex, but with ubuntu 14
+</content><category term="javascript"></category><category term="ractive"></category></entry><entry><title>Nginx and UWSGI on Ubuntu 14</title><link href="/nginx-uwsgi-ubuntu-14.html" rel="alternate"></link><published>2015-01-01T00:00:00-05:00</published><updated>2015-01-01T00:00:00-05:00</updated><author><name>Trevor</name></author><id>tag:None,2015-01-01:/nginx-uwsgi-ubuntu-14.html</id><summary type="html">&lt;p&gt;The documentation for Nginx and UWSGI is long and complex, but with ubuntu 14
 it's actually pretty straightforward to get them up and running.&lt;/p&gt;
 &lt;p&gt;I present here a a setup that uses nginx and uwsgi emperor to host
 multiple python web applications simultaneously on an ubuntu 14 machine.&lt;/p&gt;
@@ -2138,7 +2135,7 @@ application can be only a few lines long:&lt;/p&gt;
 &lt;p&gt;And that's it!&lt;/p&gt;
 &lt;p&gt;Visiting &lt;a class="reference external" href="http://your_host_name/app1"&gt;http://your_host_name/app1&lt;/a&gt; or &lt;a class="reference external" href="http://your_host_name/app2"&gt;http://your_host_name/app2&lt;/a&gt; should return the text
 you put in the python files.&lt;/p&gt;
-</content><category term="Python"></category><category term="nginx"></category><category term="uwsgi"></category></entry><entry><title>PDF Generation With Pelican</title><link href="/pdf-generation-with-pelican.html" rel="alternate"></link><published>2015-01-01T00:00:00+01:00</published><updated>2015-01-01T00:00:00+01:00</updated><author><name>Trevor</name></author><id>tag:None,2015-01-01:/pdf-generation-with-pelican.html</id><summary type="html">&lt;p&gt;The existing documentation is a little unclear on this, because it says
+</content><category term="Python"></category><category term="nginx"></category><category term="uwsgi"></category></entry><entry><title>PDF Generation With Pelican</title><link href="/pdf-generation-with-pelican.html" rel="alternate"></link><published>2015-01-01T00:00:00-05:00</published><updated>2015-01-01T00:00:00-05:00</updated><author><name>Trevor</name></author><id>tag:None,2015-01-01:/pdf-generation-with-pelican.html</id><summary type="html">&lt;p&gt;The existing documentation is a little unclear on this, because it says
 you need to add &lt;code class="code"&gt;
 PDF_GENERATOR=True&lt;/code&gt;
  to your &lt;cite&gt;pelicanconf.py&lt;/cite&gt; file.&lt;/p&gt;
@@ -2170,7 +2167,7 @@ all the pygment elements have their CSS classes prepended with &lt;code class="c
 pygment-&lt;/code&gt;
 .  I haven't
 figured out how to generate HTML and PDF nicely at the same time.&lt;/p&gt;
-</content><category term="python"></category><category term="pelican"></category></entry><entry><title>Postfix</title><link href="/postfix.html" rel="alternate"></link><published>2015-01-01T00:00:00+01:00</published><updated>2015-01-01T00:00:00+01:00</updated><author><name>Trevor</name></author><id>tag:None,2015-01-01:/postfix.html</id><summary type="html">&lt;p&gt;Postfix is a ghastly horror that really should be quietly eliminated.  But that truism hides a deeper issue - email itself is a ghastly horror, the result of 30 years of hacks, edge-cases, non-conformant implementations and competing design constraints, that only persists because we still haven't come up with anything better …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Postfix is a ghastly horror that really should be quietly eliminated.  But that truism hides a deeper issue - email itself is a ghastly horror, the result of 30 years of hacks, edge-cases, non-conformant implementations and competing design constraints, that only persists because we still haven't come up with anything better.&lt;/p&gt;
+</content><category term="python"></category><category term="pelican"></category></entry><entry><title>Postfix</title><link href="/postfix.html" rel="alternate"></link><published>2015-01-01T00:00:00-05:00</published><updated>2015-01-01T00:00:00-05:00</updated><author><name>Trevor</name></author><id>tag:None,2015-01-01:/postfix.html</id><summary type="html">&lt;p&gt;Postfix is a ghastly horror that really should be quietly eliminated.  But that truism hides a deeper issue - email itself is a ghastly horror, the result of 30 years of hacks, edge-cases, non-conformant implementations and competing design constraints, that only persists because we still haven't come up with anything better …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Postfix is a ghastly horror that really should be quietly eliminated.  But that truism hides a deeper issue - email itself is a ghastly horror, the result of 30 years of hacks, edge-cases, non-conformant implementations and competing design constraints, that only persists because we still haven't come up with anything better.&lt;/p&gt;
 &lt;p&gt;Take the simple question 'what is a valid email address'.&lt;/p&gt;
 &lt;p&gt;I have a couple of standard regexes I use to validate email addresses,
 such as &lt;code class="code"&gt;
@@ -2250,7 +2247,7 @@ parallel with each other.&lt;/p&gt;
 few years I've built and maintained a massively parallel mail delivery, management
 and monitoring system on top of Postfix that, at the last count, had successfully
 delivered almost 10 million messages for clients of &lt;a class="reference external" href="http://nooro.com"&gt;Nooro Online Research&lt;/a&gt;.&lt;/p&gt;
-</content><category term="postfix"></category><category term="email"></category></entry><entry><title>Postgres JSON Aggregation</title><link href="/postgres-json-aggregation.html" rel="alternate"></link><published>2015-01-01T00:00:00+01:00</published><updated>2015-01-01T00:00:00+01:00</updated><author><name>Trevor</name></author><id>tag:None,2015-01-01:/postgres-json-aggregation.html</id><summary type="html">&lt;p&gt;I've been using the new JSON functionality in Postgres a lot recently:
+</content><category term="postfix"></category><category term="email"></category></entry><entry><title>Postgres JSON Aggregation</title><link href="/postgres-json-aggregation.html" rel="alternate"></link><published>2015-01-01T00:00:00-05:00</published><updated>2015-01-01T00:00:00-05:00</updated><author><name>Trevor</name></author><id>tag:None,2015-01-01:/postgres-json-aggregation.html</id><summary type="html">&lt;p&gt;I've been using the new JSON functionality in Postgres a lot recently:
 I'm fond of saying that Postgresql is the best NoSQL database available
 today. I'm quite serious about this: having used key-value and JSON
 stores such as CouchDB in the past, it's amazing to me how the Postgres
@@ -2294,7 +2291,7 @@ u'Connected: &lt;a class="reference external" href="mailto:testuser&amp;#64;test
 &lt;p&gt;We can query this in the usual way:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;sql&lt;/span&gt; &lt;span class="n"&gt;SELECT&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;FROM&lt;/span&gt; &lt;span class="n"&gt;person&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-&lt;table class="table table-bordered"&gt;
+&lt;table class="table table-bordered  is-striped is-bordered"&gt;
     &lt;tr&gt;
         &lt;th&gt;name&lt;/th&gt;
     &lt;/tr&gt;
@@ -2315,7 +2312,7 @@ json_agg()&lt;/code&gt;
 &lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;sql&lt;/span&gt; &lt;span class="n"&gt;SELECT&lt;/span&gt; &lt;span class="n"&gt;json_agg&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="n"&gt;FROM&lt;/span&gt; &lt;span class="n"&gt;person&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-&lt;table class="table table-bordered"&gt;
+&lt;table class="table table-bordered  is-striped is-bordered"&gt;
     &lt;tr&gt;
         &lt;th&gt;json_agg&lt;/th&gt;
     &lt;/tr&gt;
@@ -2349,7 +2346,7 @@ JOINS&lt;/code&gt;
 they've performed, we &lt;em&gt;could&lt;/em&gt; do it this way:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;sql&lt;/span&gt; &lt;span class="n"&gt;SELECT&lt;/span&gt; &lt;span class="n"&gt;person&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;  &lt;span class="n"&gt;action&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;type&lt;/span&gt; &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;action&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;created&lt;/span&gt; &lt;span class="n"&gt;FROM&lt;/span&gt; &lt;span class="n"&gt;action&lt;/span&gt; &lt;span class="n"&gt;JOIN&lt;/span&gt; &lt;span class="n"&gt;person&lt;/span&gt; &lt;span class="n"&gt;ON&lt;/span&gt; &lt;span class="n"&gt;action&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;person_name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;person&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-&lt;table class="table table-bordered"&gt;
+&lt;table class="table table-bordered  is-striped is-bordered"&gt;
     &lt;tr&gt;
         &lt;th&gt;name&lt;/th&gt;
         &lt;th&gt;type&lt;/th&gt;
@@ -2393,7 +2390,7 @@ json_agg()&lt;/code&gt;
 &lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;sql&lt;/span&gt; &lt;span class="n"&gt;SELECT&lt;/span&gt; &lt;span class="n"&gt;person&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;  &lt;span class="n"&gt;json_agg&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;action&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="n"&gt;FROM&lt;/span&gt; &lt;span class="n"&gt;action&lt;/span&gt; &lt;span class="n"&gt;JOIN&lt;/span&gt; &lt;span class="n"&gt;person&lt;/span&gt; &lt;span class="n"&gt;ON&lt;/span&gt; &lt;span class="n"&gt;action&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;person_name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;person&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt; &lt;span class="n"&gt;GROUP&lt;/span&gt; &lt;span class="n"&gt;BY&lt;/span&gt; &lt;span class="n"&gt;person&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-&lt;table class="table table-bordered"&gt;
+&lt;table class="table table-bordered is-striped is-bordered"&gt;
     &lt;tr&gt;
         &lt;th&gt;name&lt;/th&gt;
         &lt;th&gt;json_agg&lt;/th&gt;
@@ -2440,7 +2437,7 @@ nicki
 &lt;p&gt;So now we've managed to easily convert relational Postgres data into a
 hierarchical Python data structure. From here we can easily continue to
 XML, JSON, HTML or whatever document type suits your need.&lt;/p&gt;
-</content><category term="Python"></category><category term="Postgres"></category></entry><entry><title>Postgres Timestamps</title><link href="/postgres-timestamps.html" rel="alternate"></link><published>2015-01-01T00:00:00+01:00</published><updated>2015-01-01T00:00:00+01:00</updated><author><name>Trevor</name></author><id>tag:None,2015-01-01:/postgres-timestamps.html</id><summary type="html">&lt;p&gt;At my company, I maintain a large distributed. data collection platform
+</content><category term="Python"></category><category term="Postgres"></category></entry><entry><title>Postgres Timestamps</title><link href="/postgres-timestamps.html" rel="alternate"></link><published>2015-01-01T00:00:00-05:00</published><updated>2015-01-01T00:00:00-05:00</updated><author><name>Trevor</name></author><id>tag:None,2015-01-01:/postgres-timestamps.html</id><summary type="html">&lt;p&gt;At my company, I maintain a large distributed. data collection platform
 . Pretty much every record we collect needs to be stamped with a
 &lt;code class="code"&gt;
 created&lt;/code&gt;
@@ -2482,7 +2479,7 @@ u'Connected: &lt;a class="reference external" href="mailto:testuser&amp;#64;test
 &lt;/pre&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;sql&lt;/span&gt; &lt;span class="n"&gt;SELECT&lt;/span&gt; &lt;span class="n"&gt;NOW&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-&lt;table class="table table-bordered table-striped"&gt;
+&lt;table class="table table-bordered table-striped is-striped is-bordered"&gt;
     &lt;tr&gt;
         &lt;th&gt;now&lt;/th&gt;
     &lt;/tr&gt;
@@ -2504,7 +2501,7 @@ TIMESTAMP&lt;/code&gt;
  we will get a silent conversion:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;sql&lt;/span&gt; &lt;span class="n"&gt;SELECT&lt;/span&gt; &lt;span class="n"&gt;NOW&lt;/span&gt;&lt;span class="p"&gt;()::&lt;/span&gt; &lt;span class="n"&gt;timestamp&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-&lt;table class="table table-bordered table-striped"&gt;
+&lt;table class="table table-bordered table-striped is-striped is-bordered"&gt;
     &lt;tr&gt;
         &lt;th&gt;now&lt;/th&gt;
     &lt;/tr&gt;
@@ -2516,7 +2513,7 @@ offset right of it. However, if we &lt;strong&gt;explicitly&lt;/strong&gt; do th
 get:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;sql&lt;/span&gt; &lt;span class="n"&gt;SELECT&lt;/span&gt; &lt;span class="n"&gt;NOW&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="n"&gt;AT&lt;/span&gt; &lt;span class="n"&gt;TIME&lt;/span&gt; &lt;span class="n"&gt;ZONE&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;UTC&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-&lt;table class="table table-bordered table-striped"&gt;
+&lt;table class="table table-bordered table-striped is-striped is-bordered"&gt;
     &lt;tr&gt;
         &lt;th&gt;timezone&lt;/th&gt;
     &lt;/tr&gt;
@@ -2541,7 +2538,7 @@ time zone&lt;/p&gt;
 &lt;/td&gt;&lt;td&gt;&lt;p&gt;timestamp without time zone&lt;/p&gt;
 &lt;/td&gt;&lt;td&gt;&lt;p&gt;Convert given time stamp with time zone to the new time zone, with no
 time zone designation&lt;/p&gt;
-&lt;/td&gt;&lt;/tr&gt;&lt;table class="table table-bordered table-striped"&gt;&lt;p&gt;The danger here is that the &lt;code class="code"&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;table class="table table-bordered table-striped is-striped is-bordered"&gt;&lt;p&gt;The danger here is that the &lt;code class="code"&gt;
 AT TIMEZONE&lt;/code&gt;
  construct goes &lt;strong&gt;both
 ways&lt;/strong&gt;. If you don't know what type you're feeding in, you won't know
@@ -2559,7 +2556,7 @@ wasn't clear about my inputs.&lt;/p&gt;
 &lt;span class="n"&gt;INSERT&lt;/span&gt; &lt;span class="n"&gt;INTO&lt;/span&gt; &lt;span class="n"&gt;test&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;created&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="n"&gt;VALUES&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;ford prefect&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;now&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="n"&gt;at&lt;/span&gt; &lt;span class="n"&gt;time&lt;/span&gt; &lt;span class="n"&gt;zone&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;utc&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 &lt;span class="n"&gt;SELECT&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;FROM&lt;/span&gt; &lt;span class="n"&gt;test&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-&lt;table class="table table-bordered table-striped"&gt;
+&lt;table class="table table-bordered table-striped is-striped is-bordered"&gt;
     &lt;tr&gt;
         &lt;th&gt;name&lt;/th&gt;
         &lt;th&gt;created&lt;/th&gt;
@@ -2595,7 +2592,7 @@ definition:&lt;/p&gt;
 &lt;span class="n"&gt;INSERT&lt;/span&gt; &lt;span class="n"&gt;INTO&lt;/span&gt; &lt;span class="n"&gt;test&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;created&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="n"&gt;VALUES&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;ford prefect&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;now&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;);&lt;/span&gt;
 &lt;span class="n"&gt;SELECT&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;FROM&lt;/span&gt; &lt;span class="n"&gt;test&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-&lt;table class="table table-bordered table-striped"&gt;
+&lt;table class="table table-bordered table-striped is-striped is-bordered"&gt;
     &lt;tr&gt;
         &lt;th&gt;name&lt;/th&gt;
         &lt;th&gt;created&lt;/th&gt;
@@ -2614,7 +2611,7 @@ it'll still get messed up.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;sql&lt;/span&gt; &lt;span class="n"&gt;INSERT&lt;/span&gt; &lt;span class="n"&gt;INTO&lt;/span&gt; &lt;span class="n"&gt;test&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;created&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="n"&gt;VALUES&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;arthur dent&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;now&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="n"&gt;at&lt;/span&gt; &lt;span class="n"&gt;time&lt;/span&gt; &lt;span class="n"&gt;zone&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;utc&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;sql&lt;/span&gt; &lt;span class="n"&gt;SELECT&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;FROM&lt;/span&gt; &lt;span class="n"&gt;test&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-&lt;table class="table table-bordered table-striped"&gt;
+&lt;table class="table table-bordered table-striped is-striped is-bordered"&gt;
     &lt;tr&gt;
         &lt;th&gt;name&lt;/th&gt;
         &lt;th&gt;created&lt;/th&gt;
@@ -2638,7 +2635,7 @@ specify &lt;em&gt;which&lt;/em&gt; timezone I want the dates formatted too:&lt;/
 &lt;/pre&gt;&lt;/div&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;sql&lt;/span&gt; &lt;span class="n"&gt;select&lt;/span&gt; &lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;created&lt;/span&gt; &lt;span class="n"&gt;FROM&lt;/span&gt; &lt;span class="n"&gt;test&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-&lt;table class="table table-bordered table-striped"&gt;
+&lt;table class="table table-bordered table-striped is-striped is-bordered"&gt;
     &lt;tr&gt;
         &lt;th&gt;name&lt;/th&gt;
         &lt;th&gt;created&lt;/th&gt;
@@ -2657,7 +2654,7 @@ but will be less so if the actual &lt;em&gt;users&lt;/em&gt; of the data are in 
 time zone.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;sql&lt;/span&gt;  &lt;span class="n"&gt;SELECT&lt;/span&gt; &lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;created&lt;/span&gt; &lt;span class="n"&gt;at&lt;/span&gt; &lt;span class="n"&gt;time&lt;/span&gt; &lt;span class="n"&gt;zone&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;utc&amp;#39;&lt;/span&gt; &lt;span class="n"&gt;FROM&lt;/span&gt; &lt;span class="n"&gt;test&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-&lt;table class="table table-bordered table-striped"&gt;
+&lt;table class="table table-bordered table-striped is-striped is-bordered"&gt;
     &lt;tr&gt;
         &lt;th&gt;name&lt;/th&gt;
         &lt;th&gt;timezone&lt;/th&gt;
@@ -2673,7 +2670,7 @@ time zone.&lt;/p&gt;
 &lt;/table&gt;&lt;p&gt;gives me the time formatted in the UTC timezone, and&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;sql&lt;/span&gt; &lt;span class="n"&gt;select&lt;/span&gt; &lt;span class="n"&gt;CREATED&lt;/span&gt; &lt;span class="n"&gt;at&lt;/span&gt; &lt;span class="n"&gt;time&lt;/span&gt; &lt;span class="n"&gt;zone&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;CST&amp;#39;&lt;/span&gt; &lt;span class="n"&gt;FROM&lt;/span&gt; &lt;span class="n"&gt;test&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-&lt;table class="table table-bordered table-striped"&gt;
+&lt;table class="table table-bordered table-striped is-striped is-bordered"&gt;
     &lt;tr&gt;
         &lt;th&gt;timezone&lt;/th&gt;
     &lt;/tr&gt;
@@ -2715,7 +2712,7 @@ and we're going to store it in the database via some Python code.&lt;/p&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;sql&lt;/span&gt; &lt;span class="n"&gt;SELECT&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;FROM&lt;/span&gt; &lt;span class="n"&gt;test&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-&lt;table class="table table-bordered table-striped"&gt;
+&lt;table class="table table-bordered table-striped is-striped is-bordered"&gt;
     &lt;tr&gt;
         &lt;th&gt;name&lt;/th&gt;
         &lt;th&gt;created&lt;/th&gt;
@@ -2735,7 +2732,7 @@ and we're going to store it in the database via some Python code.&lt;/p&gt;
 &lt;/table&gt;&lt;p&gt;And now we're getting to the point where all our timestamp data is both
 stored and displayed unambiguously.&lt;/p&gt;
 &lt;/div&gt;
-</content><category term="Python"></category><category term="Postgres"></category></entry><entry><title>Python Comprehensions</title><link href="/python-comprehensions.html" rel="alternate"></link><published>2015-01-01T00:00:00+01:00</published><updated>2015-01-01T00:00:00+01:00</updated><author><name>Trevor</name></author><id>tag:None,2015-01-01:/python-comprehensions.html</id><summary type="html">&lt;p&gt;Python &lt;strong&gt;list comprehensions&lt;/strong&gt; are one of the most powerful and useful
+</content><category term="Python"></category><category term="Postgres"></category></entry><entry><title>Python Comprehensions</title><link href="/python-comprehensions.html" rel="alternate"></link><published>2015-01-01T00:00:00-05:00</published><updated>2015-01-01T00:00:00-05:00</updated><author><name>Trevor</name></author><id>tag:None,2015-01-01:/python-comprehensions.html</id><summary type="html">&lt;p&gt;Python &lt;strong&gt;list comprehensions&lt;/strong&gt; are one of the most powerful and useful
 features of the language. However, I've noticed even quite experienced
 Python programmers using less powerful idioms when a list comprehension
 would be the perfect solution to their problem, and even though I've
@@ -2983,7 +2980,7 @@ for&lt;/code&gt;
 -loop.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-</content><category term="Python"></category></entry><entry><title>Remote Systems Administration with Fabric</title><link href="/remote-systems-administration-with-fabric.html" rel="alternate"></link><published>2015-01-01T00:00:00+01:00</published><updated>2015-01-01T00:00:00+01:00</updated><author><name>Trevor</name></author><id>tag:None,2015-01-01:/remote-systems-administration-with-fabric.html</id><summary type="html">&lt;p&gt;A tool I'm finding myself using more and more these days is &lt;a class="reference external" href="http://fabric.readthedocs.org/en/1.8/"&gt;Fabric&lt;/a&gt;.&lt;/p&gt;
+</content><category term="Python"></category></entry><entry><title>Remote Systems Administration with Fabric</title><link href="/remote-systems-administration-with-fabric.html" rel="alternate"></link><published>2015-01-01T00:00:00-05:00</published><updated>2015-01-01T00:00:00-05:00</updated><author><name>Trevor</name></author><id>tag:None,2015-01-01:/remote-systems-administration-with-fabric.html</id><summary type="html">&lt;p&gt;A tool I'm finding myself using more and more these days is &lt;a class="reference external" href="http://fabric.readthedocs.org/en/1.8/"&gt;Fabric&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Fabric is a python utility and library for streamlining systems administration
 tasks on multiple machines.&lt;/p&gt;
 &lt;p&gt;Although I'm primarily a developer and systems architect, I find that as our
@@ -3032,7 +3029,7 @@ database server.&lt;/p&gt;
 &lt;p&gt;gives me a company-wide view of all our databases.&lt;/p&gt;
 &lt;p&gt;One further demonstration - this blog itself is generated using Fabric! For details, see
 the fabfile my &lt;a class="reference external" href="https://github.com/trvrm/trvrm.github.io/blob/master/fabfile.py"&gt;Github&lt;/a&gt; repository.&lt;/p&gt;
-</content><category term="linux"></category><category term="python"></category></entry><entry><title>Reportlab Images in IPython</title><link href="/reportlab-images-in-ipython.html" rel="alternate"></link><published>2015-01-01T00:00:00+01:00</published><updated>2015-01-01T00:00:00+01:00</updated><author><name>Trevor</name></author><id>tag:None,2015-01-01:/reportlab-images-in-ipython.html</id><summary type="html">&lt;p&gt;With a bit of work we can get IPython to render ReportLab objects
+</content><category term="linux"></category><category term="python"></category></entry><entry><title>Reportlab Images in IPython</title><link href="/reportlab-images-in-ipython.html" rel="alternate"></link><published>2015-01-01T00:00:00-05:00</published><updated>2015-01-01T00:00:00-05:00</updated><author><name>Trevor</name></author><id>tag:None,2015-01-01:/reportlab-images-in-ipython.html</id><summary type="html">&lt;p&gt;With a bit of work we can get IPython to render ReportLab objects
 directly to the page as Matplotlib plots.&lt;/p&gt;
 &lt;p&gt;Huge thanks to github user &lt;a class="reference external" href="https://github.com/deeplook"&gt;deeplook&lt;/a&gt;,
 this is basically a modification of
@@ -3082,7 +3079,7 @@ immediately.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;drawing&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;img alt="" src="reportlab-images-ipython_files/reportlab-images-ipython_11_0.png" /&gt;
-</content><category term="Python"></category><category term="IPython"></category></entry><entry><title>A Seriously Subtle Bug</title><link href="/seriously-subtle-bug.html" rel="alternate"></link><published>2015-01-01T00:00:00+01:00</published><updated>2015-01-01T00:00:00+01:00</updated><author><name>Trevor</name></author><id>tag:None,2015-01-01:/seriously-subtle-bug.html</id><summary type="html">&lt;p&gt;I build and maintain a number of web applications built using &lt;a class="reference external" href="http://python.org"&gt;Python&lt;/a&gt;, &lt;a class="reference external" href="http://bottlepy.org/docs/dev/index.html"&gt;Bottle&lt;/a&gt;, and &lt;a class="reference external" href="http://uwsgi-docs.readthedocs.org/en/latest/index.html"&gt;uWSGI&lt;/a&gt;.
+</content><category term="Python"></category><category term="IPython"></category></entry><entry><title>A Seriously Subtle Bug</title><link href="/seriously-subtle-bug.html" rel="alternate"></link><published>2015-01-01T00:00:00-05:00</published><updated>2015-01-01T00:00:00-05:00</updated><author><name>Trevor</name></author><id>tag:None,2015-01-01:/seriously-subtle-bug.html</id><summary type="html">&lt;p&gt;I build and maintain a number of web applications built using &lt;a class="reference external" href="http://python.org"&gt;Python&lt;/a&gt;, &lt;a class="reference external" href="http://bottlepy.org/docs/dev/index.html"&gt;Bottle&lt;/a&gt;, and &lt;a class="reference external" href="http://uwsgi-docs.readthedocs.org/en/latest/index.html"&gt;uWSGI&lt;/a&gt;.
 In general, I've found this a very powerful and robust software stack.  However, this week
 we encountered a very strange issue that took us many hours to fully diagnose.&lt;/p&gt;
 &lt;p&gt;Our first indication that something was …&lt;/p&gt;</summary><content type="html">&lt;p&gt;I build and maintain a number of web applications built using &lt;a class="reference external" href="http://python.org"&gt;Python&lt;/a&gt;, &lt;a class="reference external" href="http://bottlepy.org/docs/dev/index.html"&gt;Bottle&lt;/a&gt;, and &lt;a class="reference external" href="http://uwsgi-docs.readthedocs.org/en/latest/index.html"&gt;uWSGI&lt;/a&gt;.
@@ -3323,7 +3320,7 @@ supposed to do - I clearly have more research to do, time permitting.  And becau
 &lt;em&gt;interacted&lt;/em&gt; -  I couldn't trigger it in one or other environment on its own - it's hard to say that either project has
 a bug.  But hopefully this analysis will help prevent others from going through the same headaches I just did.&lt;/p&gt;
 &lt;/div&gt;
-</content><category term="linux"></category><category term="python"></category><category term="uwsgi"></category><category term="bottle"></category></entry><entry><title>SQL Magic</title><link href="/sql-magic.html" rel="alternate"></link><published>2015-01-01T00:00:00+01:00</published><updated>2015-01-01T00:00:00+01:00</updated><author><name>Trevor</name></author><id>tag:None,2015-01-01:/sql-magic.html</id><summary type="html">&lt;p&gt;I'm finding the &lt;code class="code"&gt;
+</content><category term="linux"></category><category term="python"></category><category term="uwsgi"></category><category term="bottle"></category></entry><entry><title>SQL Magic</title><link href="/sql-magic.html" rel="alternate"></link><published>2015-01-01T00:00:00-05:00</published><updated>2015-01-01T00:00:00-05:00</updated><author><name>Trevor</name></author><id>tag:None,2015-01-01:/sql-magic.html</id><summary type="html">&lt;p&gt;I'm finding the &lt;code class="code"&gt;
 %sql&lt;/code&gt;
  magic function extremely useful. It turns
 IPython into a very nice front-end to Postgresql.&lt;/p&gt;
@@ -3383,7 +3380,7 @@ Done.
 &lt;pre class="literal-block"&gt;
 3 rows affected.
 &lt;/pre&gt;
-&lt;table class="table table-bordered table-striped"&gt;
+&lt;table class="table table-bordered table-striped is-striped is-bordered"&gt;
     &lt;tr&gt;
         &lt;th&gt;first&lt;/th&gt;
         &lt;th&gt;last&lt;/th&gt;
@@ -3418,7 +3415,7 @@ Done.
 &lt;span class="n"&gt;frame&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;div style="max-height:1000px;max-width:1500px;overflow:auto;"&gt;
-&lt;table class="table table-bordered table-striped"&gt;
+&lt;table class="table table-bordered table-striped is-striped is-bordered"&gt;
   &lt;thead&gt;
     &lt;tr style="text-align: right;"&gt;
       &lt;th&gt;&lt;/th&gt;
@@ -3457,7 +3454,19 @@ Done.
 2      FORD
 Name: first, dtype: object
 &lt;/pre&gt;
-</content><category term="Python"></category><category term="IPython"></category></entry><entry><title>Basic IPython Plotting</title><link href="/basic-ipython-plotting.html" rel="alternate"></link><published>2014-05-20T16:00:00+02:00</published><updated>2014-05-20T16:00:00+02:00</updated><author><name>Trevor</name></author><id>tag:None,2014-05-20:/basic-ipython-plotting.html</id><summary type="html">&lt;p&gt;&lt;strong&gt;Things have changed a bit since IPython 1&lt;/strong&gt;&lt;/p&gt;
+</content><category term="Python"></category><category term="IPython"></category></entry><entry><title>Test</title><link href="/test.html" rel="alternate"></link><published>2014-09-27T00:00:00-05:00</published><updated>2014-09-27T00:00:00-05:00</updated><author><name>Trevor</name></author><id>tag:None,2014-09-27:/test.html</id><summary type="html">
+    &lt;h1&gt;This is just a test&lt;/h1&gt;
+    But it seems to work OK
+    
+    Can I tweak routes?
+ 
+</summary><content type="html">
+    &lt;h1&gt;This is just a test&lt;/h1&gt;
+    But it seems to work OK
+    
+    Can I tweak routes?
+ 
+</content></entry><entry><title>Basic IPython Plotting</title><link href="/basic-ipython-plotting.html" rel="alternate"></link><published>2014-05-20T16:00:00-05:00</published><updated>2014-05-20T16:00:00-05:00</updated><author><name>Trevor</name></author><id>tag:None,2014-05-20:/basic-ipython-plotting.html</id><summary type="html">&lt;p&gt;&lt;strong&gt;Things have changed a bit since IPython 1&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;Now apparently we want to manually specify the use of inline matplotlib
 rather than enable globally in the server.&lt;/p&gt;
 &lt;p&gt;&lt;a class="reference external" href="http://nbviewer.ipython.org/github/ipython/ipython/blob/1.x/examples/notebooks/Part%203%20-%20Plotting%20with%20Matplotlib.ipynb"&gt;http://nbviewer.ipython.org/github/ipython/ipython/blob/1.x/examples/notebooks/Part%203%20-%20Plotting%20with%20Matplotlib.ipynb&lt;/a&gt;&lt;/p&gt;
@@ -3477,7 +3486,7 @@ rather than enable globally in the server.&lt;/p&gt;
 &lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;title&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;A simple chirp&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;img alt="basic plotting example" src="Basic%20Plotting%20Example_files/Basic%20Plotting%20Example_3_0.png" /&gt;
-</content><category term="Python"></category><category term="IPython"></category></entry><entry><title>Ractive.js</title><link href="/ractive-js.html" rel="alternate"></link><published>2014-01-01T00:00:00+01:00</published><updated>2014-01-01T00:00:00+01:00</updated><author><name>Trevor</name></author><id>tag:None,2014-01-01:/ractive-js.html</id><summary type="html">&lt;p&gt;&lt;a class="reference external" href="http://www.ractivejs.org/"&gt;Ractive.js&lt;/a&gt; caught my eye this week.  I've been using &lt;a class="reference external" href="http://backbonejs.org/"&gt;Backbone&lt;/a&gt; for the last couple
+</content><category term="Python"></category><category term="IPython"></category></entry><entry><title>Ractive.js</title><link href="/ractive-js.html" rel="alternate"></link><published>2014-01-01T00:00:00-05:00</published><updated>2014-01-01T00:00:00-05:00</updated><author><name>Trevor</name></author><id>tag:None,2014-01-01:/ractive-js.html</id><summary type="html">&lt;p&gt;&lt;a class="reference external" href="http://www.ractivejs.org/"&gt;Ractive.js&lt;/a&gt; caught my eye this week.  I've been using &lt;a class="reference external" href="http://backbonejs.org/"&gt;Backbone&lt;/a&gt; for the last couple
 of years to develop single page client-side applications, and I've liked how
 it doesn't get in your way, but simply allows you to get on with your work.&lt;/p&gt;
 &lt;p&gt;When I noticed that three of the …&lt;/p&gt;</summary><content type="html">&lt;p&gt;&lt;a class="reference external" href="http://www.ractivejs.org/"&gt;Ractive.js&lt;/a&gt; caught my eye this week.  I've been using &lt;a class="reference external" href="http://backbonejs.org/"&gt;Backbone&lt;/a&gt; for the last couple

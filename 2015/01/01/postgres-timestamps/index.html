@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<head>
+    <title>Postgres Timestamps - trvrm</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <link href="/images/favicon.png" rel="icon">
+
+<link rel="canonical" href="/2015/01/01/postgres-timestamps/">
+
+        <meta name="author" content="Trevor" />
+        <meta name="keywords" content="Python,Postgres" />
+        <meta name="description" content="At my company, I maintain a large distributed. data collection platform . Pretty much every record we collect needs to be stamped with a created field. But because the incoming data comes from sources on various devices in multiple countries and timezones, making sure that the timestamps are precise and meaningful …" />
+
+        <meta property="og:site_name" content="trvrm" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="Postgres Timestamps"/>
+        <meta property="og:url" content="/2015/01/01/postgres-timestamps/"/>
+        <meta property="og:description" content="At my company, I maintain a large distributed. data collection platform . Pretty much every record we collect needs to be stamped with a created field. But because the incoming data comes from sources on various devices in multiple countries and timezones, making sure that the timestamps are precise and meaningful …"/>
+        <meta property="article:published_time" content="2015-01-01" />
+            <meta property="article:section" content="Database" />
+            <meta property="article:tag" content="Python" />
+            <meta property="article:tag" content="Postgres" />
+            <meta property="article:author" content="Trevor" />
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="/theme/css/bootstrap.flatly.min.css" type="text/css"/>
+    <link href="/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="/theme/css/pygments/tango.css" rel="stylesheet">
+    <link rel="stylesheet" href="/theme/css/style.css" type="text/css"/>
+
+
+
+
+
+</head>
+<body>
+
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+	<div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="/" class="navbar-brand">
+trvrm            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                        <li class="active">
+                            <a href="/category/database.html">Database</a>
+                        </li>
+                        <li >
+                            <a href="/category/software.html">Software</a>
+                        </li>
+                        <li >
+                            <a href="/category/systems.html">Systems</a>
+                        </li>
+                        <li >
+                            <a href="/category/test.html">Test</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="/archives.html"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+<!-- Banner -->
+<!-- End Banner -->
+<div class="container">
+    <div class="row">
+        
+        <pre>
+            [<pelican.contents.Page object at 0x7f71ad43d510>]
+        </pre>
+        
+        <div class="col-sm-9">
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="/2015/01/01/postgres-timestamps/"
+                       rel="bookmark"
+                       title="Permalink to Postgres Timestamps">
+                        Postgres Timestamps
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2015-01-01T00:00:00+01:00"> Thu 01 January 2015</time>
+    </span>
+
+
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="/tag/python.html">Python</a>
+        /
+	<a href="/tag/postgres.html">Postgres</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <p>At my company, I maintain a large distributed. data collection platform
+. Pretty much every record we collect needs to be stamped with a
+<code class="code">
+created</code>
+ field. But because the incoming data comes from sources on
+various devices in multiple countries and timezones, making sure that
+the timestamps are precise and meaningful can be a challenge.
+<a class="reference external" href="http://www.postgresql.org/">Postgres</a> can do this very elegantly,
+but can also trip you up in subtle ways.</p>
+<p>Postgres has two subtly different timestamp data types: <code class="code">
+TIMESTAMP</code>
+
+and <code class="code">
+TIMESTAMP WITH TIMEZONE</code>
+.</p>
+<p>The former stores year/month/day/hour/minutes/second/milliseconds, as
+you’d expect, and the later ALSO stores a timezone offset, expressed in
+hours.</p>
+<p>We can switch between the two using the <code class="code">
+AT TIMEZONE</code>
+ syntax, but, and
+here is the tricky bit the function goes BOTH WAYS, and you can easily
+get confused if you don’t know what type you’re starting with.</p>
+<p>Furthermore, Postgres will sometimes sneakily convert one to the other
+without you asking.</p>
+<div class="highlight"><pre><span></span><span class="o">%</span><span class="n">load_ext</span> <span class="n">sql</span>
+<span class="o">%</span><span class="n">config</span> <span class="n">SqlMagic</span><span class="o">.</span><span class="n">feedback</span><span class="o">=</span><span class="bp">False</span>
+</pre></div>
+<div class="highlight"><pre><span></span><span class="o">%%</span><span class="n">sql</span>
+<span class="n">postgresql</span><span class="p">:</span><span class="o">//</span><span class="n">testuser</span><span class="p">:</span><span class="n">password</span><span class="nd">@localhost</span><span class="o">/</span><span class="n">test</span>
+</pre></div>
+<pre class="literal-block">
+u'Connected: <a class="reference external" href="mailto:testuser&#64;test">testuser&#64;test</a>'
+</pre>
+<div class="highlight"><pre><span></span><span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="n">NOW</span><span class="p">();</span>
+</pre></div>
+<table class="table table-bordered table-striped">
+    <tr>
+        <th>now</th>
+    </tr>
+    <tr>
+        <td>2014-08-18 22:33:58.998549-04:00</td>
+    </tr>
+</table><p><code class="code">
+now()</code>
+ returns a <code class="code">
+TIMESTAMP WITH TIME ZONE</code>
+. It shows the current
+<strong>local</strong> time, and the offset between that time and UTC
+(<a class="reference external" href="http://time.is/UTC">http://time.is/UTC</a>)</p>
+<p>But if we put the output from <code class="code">
+now()</code>
+ into a field that has type
+<code class="code">
+TIMESTAMP</code>
+ we will get a silent conversion:</p>
+<div class="highlight"><pre><span></span><span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="n">NOW</span><span class="p">()::</span> <span class="n">timestamp</span>
+</pre></div>
+<table class="table table-bordered table-striped">
+    <tr>
+        <th>now</th>
+    </tr>
+    <tr>
+        <td>2014-08-18 22:33:58.998549</td>
+    </tr>
+</table><p>Which is <strong>not</strong> the current UTC time. We have stripped the timezone
+offset right of it. However, if we <strong>explicitly</strong> do the conversion, we
+get:</p>
+<div class="highlight"><pre><span></span><span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="n">NOW</span><span class="p">()</span> <span class="n">AT</span> <span class="n">TIME</span> <span class="n">ZONE</span> <span class="s1">&#39;UTC&#39;</span><span class="p">;</span>
+</pre></div>
+<table class="table table-bordered table-striped">
+    <tr>
+        <th>timezone</th>
+    </tr>
+    <tr>
+        <td>2014-08-19 02:33:58.998549</td>
+    </tr>
+</table><p>Which <em>is</em> the current UTC time: (<a class="reference external" href="http://time.is/UTC">http://time.is/UTC</a>)</p>
+<p>It's worth reviewing the <a class="reference external" href="http://www.postgresql.org/docs/9.1/static/functions-datetime.html#FUNCTIONS-DATETIME-ZONECONVERT-TABLE">Postgresql documentation on this
+construct</a>
+at this point.</p>
+<table class="table table-bordered">
+<tr><th><p>Expression</p>
+</th><th><p>Return Type</p>
+</th><th><p>Description</p>
+</th></tr>
+<tr><td><p>timestamp without time zone AT TIME ZONE zone</p>
+</td><td><p>timestamp with time zone</p>
+</td><td><p>Treat given time stamp without time zone as located in the specified
+time zone</p>
+</td></tr>
+<tr><td><p>timestamp with time zone AT TIME ZONE zone</p>
+</td><td><p>timestamp without time zone</p>
+</td><td><p>Convert given time stamp with time zone to the new time zone, with no
+time zone designation</p>
+</td></tr><table class="table table-bordered table-striped"><p>The danger here is that the <code class="code">
+AT TIMEZONE</code>
+ construct goes <strong>both
+ways</strong>. If you don't know what type you're feeding in, you won't know
+what type you're getting out. I've been bitten by this in the past;
+ending up with a timestamp that is wrong by several hours because I
+wasn't clear about my inputs.</p>
+<p>Specifically, consider a table that looks like this:</p>
+<div class="highlight"><pre><span></span><span class="o">%%</span><span class="n">sql</span>
+<span class="n">DROP</span> <span class="n">TABLE</span> <span class="n">IF</span> <span class="n">EXISTS</span> <span class="n">test</span><span class="p">;</span>
+<span class="n">CREATE</span> <span class="n">TABLE</span> <span class="n">test</span><span class="p">(</span><span class="n">name</span> <span class="n">TEXT</span><span class="p">,</span> <span class="n">created</span> <span class="n">TIMESTAMP</span> <span class="n">DEFAULT</span> <span class="n">NOW</span><span class="p">());</span>
+</pre></div>
+<p>Which I then populate:</p>
+<div class="highlight"><pre><span></span><span class="o">%%</span><span class="n">sql</span>
+<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">test</span> <span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="s1">&#39;zaphod beeblebrox&#39;</span><span class="p">);</span>
+<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">test</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="n">created</span><span class="p">)</span> <span class="n">VALUES</span><span class="p">(</span><span class="s1">&#39;ford prefect&#39;</span><span class="p">,</span><span class="n">now</span><span class="p">()</span> <span class="n">at</span> <span class="n">time</span> <span class="n">zone</span> <span class="s1">&#39;utc&#39;</span><span class="p">);</span>
+<span class="n">SELECT</span> <span class="o">*</span> <span class="n">FROM</span> <span class="n">test</span><span class="p">;</span>
+</pre></div>
+<table class="table table-bordered table-striped">
+    <tr>
+        <th>name</th>
+        <th>created</th>
+    </tr>
+    <tr>
+        <td>zaphod beeblebrox</td>
+        <td>2014-08-18 22:34:03.620583</td>
+    </tr>
+    <tr>
+        <td>ford prefect</td>
+        <td>2014-08-19 02:34:03.621957</td>
+    </tr>
+</table><p>Note that the second record contains the current UTC time, but the first
+contains the current time <strong>local to the database server</strong>. This <em>seems</em>
+a good idea, and tends to work fine in local testing. But when you try
+to maintain a system where the database may be in one province, the data
+<em>collected</em> in another, and then <em>reviewed</em> in a third, you start to
+understand why this is too simplistic.</p>
+<p>The fact that it's 10:12 now in Toronto isn't very helpful for a record
+that's getting created for a user in Halifax and is monitored from
+Vancouver.</p>
+<p>So it's probably best to save timestamps WITH their timezone so as to
+avoid any ambiguity. This is the recommendation given
+<a class="reference external" href="http://justatheory.com/computers/databases/postgresql/use-timestamptz.html">here</a>.</p>
+<p>In our above example, the simplest approach is to change the table
+definition:</p>
+<div class="highlight"><pre><span></span><span class="o">%%</span><span class="n">sql</span>
+<span class="n">DROP</span> <span class="n">TABLE</span> <span class="n">IF</span> <span class="n">EXISTS</span> <span class="n">test</span><span class="p">;</span>
+<span class="n">CREATE</span> <span class="n">TABLE</span> <span class="n">test</span><span class="p">(</span><span class="n">name</span> <span class="n">TEXT</span><span class="p">,</span> <span class="n">created</span> <span class="n">TIMESTAMP</span> <span class="n">WITH</span> <span class="n">TIME</span> <span class="n">ZONE</span> <span class="n">DEFAULT</span> <span class="p">(</span><span class="n">NOW</span><span class="p">()</span> <span class="p">));</span>
+</pre></div>
+<div class="highlight"><pre><span></span><span class="o">%%</span><span class="n">sql</span>
+<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">test</span> <span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="s1">&#39;zaphod beeblebrox&#39;</span><span class="p">);</span>
+<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">test</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="n">created</span><span class="p">)</span> <span class="n">VALUES</span><span class="p">(</span><span class="s1">&#39;ford prefect&#39;</span><span class="p">,</span><span class="n">now</span><span class="p">()</span> <span class="p">);</span>
+<span class="n">SELECT</span> <span class="o">*</span> <span class="n">FROM</span> <span class="n">test</span><span class="p">;</span>
+</pre></div>
+<table class="table table-bordered table-striped">
+    <tr>
+        <th>name</th>
+        <th>created</th>
+    </tr>
+    <tr>
+        <td>zaphod beeblebrox</td>
+        <td>2014-08-18 22:35:15.988764-04:00</td>
+    </tr>
+    <tr>
+        <td>ford prefect</td>
+        <td>2014-08-18 22:35:15.989726-04:00</td>
+    </tr>
+</table><p>So now the dates are globally meaningful. But I <em>still</em> have to be
+careful, because if I use the wrong date format to populate this table,
+it'll still get messed up.</p>
+<div class="highlight"><pre><span></span><span class="o">%</span><span class="n">sql</span> <span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">test</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="n">created</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="s1">&#39;arthur dent&#39;</span><span class="p">,</span><span class="n">now</span><span class="p">()</span> <span class="n">at</span> <span class="n">time</span> <span class="n">zone</span> <span class="s1">&#39;utc&#39;</span><span class="p">)</span>
+<span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="o">*</span> <span class="n">FROM</span> <span class="n">test</span><span class="p">;</span>
+</pre></div>
+<table class="table table-bordered table-striped">
+    <tr>
+        <th>name</th>
+        <th>created</th>
+    </tr>
+    <tr>
+        <td>zaphod beeblebrox</td>
+        <td>2014-08-18 22:35:15.988764-04:00</td>
+    </tr>
+    <tr>
+        <td>ford prefect</td>
+        <td>2014-08-18 22:35:15.989726-04:00</td>
+    </tr>
+    <tr>
+        <td>arthur dent</td>
+        <td>2014-08-19 02:35:15.990308-04:00</td>
+    </tr>
+</table><p>Note how <strong>arthur dent</strong> has completely the wrong created time.</p>
+<p>Now, if I want to <em>report</em> on this data, I'm going to now have to
+specify <em>which</em> timezone I want the dates formatted too:</p>
+<div class="highlight"><pre><span></span><span class="o">%</span><span class="n">sql</span> <span class="n">delete</span> <span class="kn">from</span> <span class="nn">test</span> <span class="nn">WHERE</span> <span class="nn">name</span><span class="o">=</span><span class="s1">&#39;arthur dent&#39;</span><span class="p">;</span>
+</pre></div>
+<div class="highlight"><pre><span></span><span class="o">%</span><span class="n">sql</span> <span class="n">select</span> <span class="n">name</span><span class="p">,</span> <span class="n">created</span> <span class="n">FROM</span> <span class="n">test</span><span class="p">;</span>
+</pre></div>
+<table class="table table-bordered table-striped">
+    <tr>
+        <th>name</th>
+        <th>created</th>
+    </tr>
+    <tr>
+        <td>zaphod beeblebrox</td>
+        <td>2014-08-18 22:35:15.988764-04:00</td>
+    </tr>
+    <tr>
+        <td>ford prefect</td>
+        <td>2014-08-18 22:35:15.989726-04:00</td>
+    </tr>
+</table><p>gives me timestamps formatted in the timezone of the database server,
+which isn't necessarily particularly helpful, which <em>may</em> be helpful,
+but will be less so if the actual <em>users</em> of the data are in a different
+time zone.</p>
+<div class="highlight"><pre><span></span><span class="o">%</span><span class="n">sql</span>  <span class="n">SELECT</span> <span class="n">name</span><span class="p">,</span> <span class="n">created</span> <span class="n">at</span> <span class="n">time</span> <span class="n">zone</span> <span class="s1">&#39;utc&#39;</span> <span class="n">FROM</span> <span class="n">test</span><span class="p">;</span>
+</pre></div>
+<table class="table table-bordered table-striped">
+    <tr>
+        <th>name</th>
+        <th>timezone</th>
+    </tr>
+    <tr>
+        <td>zaphod beeblebrox</td>
+        <td>2014-08-19 02:35:15.988764</td>
+    </tr>
+    <tr>
+        <td>ford prefect</td>
+        <td>2014-08-19 02:35:15.989726</td>
+    </tr>
+</table><p>gives me the time formatted in the UTC timezone, and</p>
+<div class="highlight"><pre><span></span><span class="o">%</span><span class="n">sql</span> <span class="n">select</span> <span class="n">CREATED</span> <span class="n">at</span> <span class="n">time</span> <span class="n">zone</span> <span class="s1">&#39;CST&#39;</span> <span class="n">FROM</span> <span class="n">test</span><span class="p">;</span>
+</pre></div>
+<table class="table table-bordered table-striped">
+    <tr>
+        <th>timezone</th>
+    </tr>
+    <tr>
+        <td>2014-08-18 20:35:15.988764</td>
+    </tr>
+    <tr>
+        <td>2014-08-18 20:35:15.989726</td>
+    </tr>
+</table><p>gives me the time formatted for central standard time.</p>
+<div class="section" id="external-data">
+<h2>external data</h2>
+<p>Now so far we've been letting the database create the timestamps, but
+sometimes we want to save data provided to us from an external source.
+In this case it's very important the we know what timezone the incoming
+data comes from. So our middleware should <em>require</em> that all dates
+include a timestamp. Fortunately, if we're writing javascript
+applications, we get this automatically:</p>
+<div class="highlight"><pre><span></span><span class="o">%%</span><span class="n">html</span>
+<span class="o">&lt;</span><span class="n">div</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;js-output&quot;</span><span class="o">&gt;&lt;/</span><span class="n">div</span><span class="o">&gt;</span>
+</pre></div>
+<div id="js-output"></div><div class="highlight"><pre><span></span><span class="o">%%</span><span class="n">javascript</span>
+<span class="n">var</span> <span class="n">d</span> <span class="o">=</span> <span class="n">JSON</span><span class="o">.</span><span class="n">stringify</span><span class="p">(</span><span class="n">new</span> <span class="n">Date</span><span class="p">())</span>
+</pre></div>
+<pre class="literal-block">
+&quot;2014-08-19T02:41:12.872Z&quot;
+</pre>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">psycopg2</span><span class="o">,</span><span class="nn">pandas</span>
+<span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span><span class="n">params</span><span class="o">=</span><span class="p">{}):</span>
+    <span class="k">with</span> <span class="n">psycopg2</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">database</span><span class="o">=</span><span class="s1">&#39;test&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">connection</span><span class="p">:</span>
+        <span class="k">with</span> <span class="n">connection</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span> <span class="k">as</span> <span class="n">cursor</span><span class="p">:</span>
+            <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span><span class="n">params</span><span class="p">)</span>
+</pre></div>
+<p>So let's imagine that we got this string submitted to us by a client,
+and we're going to store it in the database via some Python code.</p>
+<div class="highlight"><pre><span></span><span class="n">sql</span><span class="o">=</span><span class="s2">&quot;INSERT INTO test (name, created) VALUES ( &#39;externally created date&#39;, </span><span class="si">%(date)s</span><span class="s2">)&quot;</span>
+<span class="n">params</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">date</span><span class="o">=</span><span class="s2">&quot;2014-08-19T02:35:24.321Z&quot;</span><span class="p">)</span>
+<span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span><span class="n">params</span><span class="p">)</span>
+</pre></div>
+<div class="highlight"><pre><span></span><span class="o">%</span><span class="n">sql</span> <span class="n">SELECT</span> <span class="o">*</span> <span class="n">FROM</span> <span class="n">test</span>
+</pre></div>
+<table class="table table-bordered table-striped">
+    <tr>
+        <th>name</th>
+        <th>created</th>
+    </tr>
+    <tr>
+        <td>zaphod beeblebrox</td>
+        <td>2014-08-18 22:35:15.988764-04:00</td>
+    </tr>
+    <tr>
+        <td>ford prefect</td>
+        <td>2014-08-18 22:35:15.989726-04:00</td>
+    </tr>
+    <tr>
+        <td>externally created date</td>
+        <td>2014-08-18 22:35:24.321000-04:00</td>
+    </tr>
+</table><p>And now we're getting to the point where all our timestamp data is both
+stored and displayed unambiguously.</p>
+</div>
+
+            </div>
+            <!-- /.entry-content -->
+        </article>
+    </section>
+
+        </div>
+        <div class="col-sm-3" id="sidebar">
+            <aside>
+
+<section class="well well-sm">
+    <ul class="list-group list-group-flush">
+            <li class="list-group-item"><h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Social</span></h4>
+              <ul class="list-group" id="social">
+                <li class="list-group-item"><a href="https://twitter.com/trvrm"><i class="fa fa-twitter-square fa-lg"></i> twitter</a></li>
+              </ul>
+            </li>
+
+
+
+
+
+    </ul>
+</section>
+            </aside>
+        </div>
+    </div>
+</div>
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2017 trvrm
+            &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="/theme/js/respond.min.js"></script>
+
+
+</body>
+</html>

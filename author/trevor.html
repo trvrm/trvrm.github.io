@@ -1,83 +1,101 @@
 <!DOCTYPE html>
-<html lang="en" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<html lang="en">
 <head>
-    <title>Articles by Trevor - trvrm</title>
-    <!-- Using the latest rendering mode for IE -->
+        <link href="/images/favicon.png" rel="icon">
+    <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    
+        
+        <title>trvrm.github.io - Articles by Trevor</title>
+            <link rel="stylesheet" type="text/css" href="/theme/css/flatly.min.css" />
+        
+        <link rel="stylesheet" type="text/css" href="/theme/css/style.css" />
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" />
 
-
-    <link href="/images/favicon.png" rel="icon">
-
-
-        <meta name="author" content="trvrm" />
-
-    <!-- Open Graph tags -->
-        <meta property="og:site_name" content="trvrm" />
-        <meta property="og:type" content="website"/>
-        <meta property="og:title" content="trvrm"/>
-        <meta property="og:url" content=""/>
-        <meta property="og:description" content="trvrm"/>
-
-
-    <!-- Bootstrap -->
-        <link rel="stylesheet" href="/theme/css/bootstrap.cosmo.min.css" type="text/css"/>
-    <link href="/theme/css/font-awesome.min.css" rel="stylesheet">
-
-    <link href="/theme/css/pygments/tango.css" rel="stylesheet">
-    <link rel="stylesheet" href="/theme/css/style.css" type="text/css"/>
-
-
-
-
-
+        <link href="/theme/css/pygments/tango.css" rel="stylesheet">
+        
 </head>
+
 <body>
-
-<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-	<div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a href="/" class="navbar-brand">
-trvrm            </a>
+    <section class="hero is-primary">
+    <!-- Hero header: will stick at the top -->
+    <div class="hero-head">
+        <nav class="navbar  ">
+            <div class="navbar-menu is-active">
+                <div class="navbar-end">
+                    <a class="navbar-item" href="https://twitter.com/trvrm">
+                        <span class="icon"> <i class="fa fa-twitter"></i> </span>
+                        twitter
+                    </a>
+                    <a class="navbar-item" href="https://github.com/trvrm">
+                        <span class="icon"> <i class="fa fa-github"></i> </span>
+                        github
+                    </a>
+                </div>
+            </div>
         </div>
-        <div class="collapse navbar-collapse navbar-ex1-collapse">
-            <ul class="nav navbar-nav">
-                        <li >
-                            <a href="/category/database.html">Database</a>
-                        </li>
-                        <li >
-                            <a href="/category/software.html">Software</a>
-                        </li>
-                        <li >
-                            <a href="/category/systems.html">Systems</a>
-                        </li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-              <li><a href="/archives.html"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
-            </ul>
-        </div>
-        <!-- /.navbar-collapse -->
     </div>
-</div> <!-- /.navbar -->
-<!-- Banner -->
-<!-- End Banner -->
-<div class="container">
-    <div class="row">
-        <div class="col-sm-9">
-            <article>
-                <h2><a href="/using-sqlalchemy-and-postgres-functions-to-produce-json-tree-structures-from-sql-joins.html">Using SQLAlchemy and Postgres functions to produce JSON tree structures from SQL joins</a></h2>
+    <!-- Hero content: will be in the middle -->
+     <div class="hero-body">
+            
+             
+             <div class="container has-text-centered">
+               <p class="title is-1">trvrm.github.io</p>
+               
+<h2>Articles by Trevor</h2>
+             </div>
+     </div>
+     <div class="hero-foot">
+         <nav class="navbar  ">
+             
+            <div class="navbar-brand is-active">
+                <a href="/" class="navbar-item" >
+                    trvrm.github.io
+                </a>
+            </div>
+            <div class="navbar-menu is-active">
+               <div class="navbar-start">
+                   
+                           <a class="navbar-item  " href="/category/database.html">Database</a>
+                           <a class="navbar-item  " href="/category/software.html">Software</a>
+                           <a class="navbar-item  " href="/category/systems.html">Systems</a>
+                           <a class="navbar-item  " href="/category/test.html">Test</a>
+               
                 
-                
-                <div class="entry-content">
+               </div>
+               
+             </div>
+           
+         </nav>
 
-                    <p>More and more I'm discovering that Postgres is an amazingly powerful 'NoSQL' database, as well as the best relational database available today.</p>
+     </div>
+  </section>
+  
+  
+  
+  
+
+
+  
+
+
+
+    <section class="section">
+        
+            
+            <p class="title is-3">
+                <a href="/using-sqlalchemy-and-postgres-functions-to-produce-json-tree-structures-from-sql-joins.html" rel="bookmark" title="Permalink to Using SQLAlchemy and Postgres functions to produce JSON tree structures from SQL joins">
+                    Using SQLAlchemy and Postgres functions to produce JSON tree structures from SQL joins
+                </a>
+            </p>
+            <p class="subtitle is-5">
+                Thu 06 July 2017
+            </p>
+            <hr>
+            <div class="content ">
+                <p>More and more I'm discovering that Postgres is an amazingly powerful 'NoSQL' database, as well as the best relational database available today.</p>
 <p>Since the introduction of the JSON and JSONB data types, I've been able to store both deeply nested, unstructured data AND highly relational data in the same data store.</p>
 <p>But sometimes I need to be able to map between the two domains. For example, I want to perform a join across two tables and return the result as a nested tree structure, perhaps for rendering on a webpage.</p>
 <p>In the past I might have aggregated the data manually in a loop, but here I demonstrate some neat tricks to get Postgres to do the heavy lifting for you.</p>
@@ -145,7 +163,7 @@ trvrm            </a>
 
 <div>
 
-<table border="1" class="dataframe table table-striped table-bordered">
+<table border="1" class="dataframe table table-striped table-bordered is-striped is-bordered">
   <thead>
     <tr style="text-align: right;">
       <th></th>
@@ -178,7 +196,7 @@ trvrm            </a>
 
 
 <div>
-<table border="1" class="dataframe table table-striped table-bordered">
+<table border="1" class="dataframe table table-striped table-bordered  is-striped is-bordered">
   <thead>
     <tr style="text-align: right;">
       <th></th>
@@ -238,7 +256,7 @@ trvrm            </a>
 
 
 <div>
-<table border="1" class="dataframe table table-striped table-bordered">
+<table border="1" class="dataframe table table-striped table-bordered is-striped is-bordered">
   <thead>
     <tr style="text-align: right;">
       <th></th>
@@ -323,7 +341,7 @@ trvrm            </a>
 
 
 <div>
-<table border="1" class="dataframe table table-striped table-bordered">
+<table border="1" class="dataframe table table-striped table-bordered is-striped is-bordered">
   <thead>
     <tr style="text-align: right;">
       <th></th>
@@ -430,7 +448,7 @@ trvrm            </a>
 
 
 <div>
-<table border="1" class="dataframe table table-striped table-bordered">
+<table border="1" class="dataframe table table-striped table-bordered  is-striped is-bordered">
   <thead>
     <tr style="text-align: right;">
       <th></th>
@@ -468,10 +486,7 @@ trvrm            </a>
 
 <p>And as before we can turn this into a nested Python data structure</p>
 <div class="highlight"><pre><span></span><span class="n">authors</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(</span><span class="s1">&#39;records&#39;</span><span class="p">)</span>
-</pre></div>
-
-
-<div class="highlight"><pre><span></span><span class="n">authors</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
+<span class="n">authors</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
 </pre></div>
 
 
@@ -566,7 +581,7 @@ trvrm            </a>
 
 
 <div>
-<table border="1" class="dataframe table table-striped table-bordered">
+<table border="1" class="dataframe table table-striped table-bordered  is-striped is-bordered">
   <thead>
     <tr style="text-align: right;">
       <th></th>
@@ -679,7 +694,7 @@ trvrm            </a>
 
 
 <div>
-<table border="1" class="dataframe table table-striped table-bordered">
+<table border="1" class="dataframe table table-striped table-bordered is-striped is-bordered">
   <thead>
     <tr style="text-align: right;">
       <th></th>
@@ -753,7 +768,7 @@ trvrm            </a>
 
 
 <div>
-<table border="1" class="dataframe table table-striped table-bordered">
+<table border="1" class="dataframe table table-striped table-bordered  is-striped is-bordered">
   <thead>
     <tr style="text-align: right;">
       <th></th>
@@ -826,7 +841,7 @@ trvrm            </a>
 
 
 <div>
-<table border="1" class="dataframe table table-striped table-bordered">
+<table border="1" class="dataframe table table-striped table-bordered is-striped is-bordered">
   <thead>
     <tr style="text-align: right;">
       <th></th>
@@ -881,19 +896,24 @@ trvrm            </a>
 <h2>Conclusion</h2>
 <p>I demonstrate how to use <code>WITH</code> statements (Common Table Expressions), the <code>json_agg</code> function and SQLAlchemy to quickly convert complex SQL joins into nested Python data structures. </p>
 <p>Using techniques like the ones presented here, Postgres can act as a powerful relational data store that can still provide applications with data in helpful forms, such as nested dictionaries and lists.</p>
-                    
-                </div>  
-                
-                
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/image-recognition-with-keras-tensorflow-and-inceptionv3.html">Image recognition with Keras, Tensorflow, and InceptionV3</a></h2>
-                
-                
-                <div class="entry-content">
 
-                    <p>Neural networks are a powerful tool for teaching computers to recognize complex patterns, and now tools like <a href="https://keras.io/">Keras</a> and <a href="https://www.tensorflow.org/">TensorFlow</a> are beginning to make them a practical tool for programmers who don't have a PhD in machine learning.</p>
+            </div>
+        
+    </section>
+    <section class="section">
+        
+            
+            <p class="title is-3">
+                <a href="/image-recognition-with-keras-tensorflow-and-inceptionv3.html" rel="bookmark" title="Permalink to Image recognition with Keras, Tensorflow, and InceptionV3">
+                    Image recognition with Keras, Tensorflow, and InceptionV3
+                </a>
+            </p>
+            <p class="subtitle is-5">
+                Fri 17 March 2017
+            </p>
+            <hr>
+            <div class="content ">
+                <p>Neural networks are a powerful tool for teaching computers to recognize complex patterns, and now tools like <a href="https://keras.io/">Keras</a> and <a href="https://www.tensorflow.org/">TensorFlow</a> are beginning to make them a practical tool for programmers who don't have a PhD in machine learning.</p>
 <p>One very powerful aspect of these tools is the ability to share pre-trained models with others. There are many tutorials and courses that will walk you through the process of building a neural net and training it on some data set.  But in other areas of software development we are far more likely to use off-the-shelf implementations of common algorithms rather than rolling them ourselves.  We might work through implementing a sort algorithm or a binary tree in order to better understand the concepts, but having done so we almost always end up using the algorithms that come built in to our language or programming environment.</p>
 <p>I suspect we'll see the same sort of thing happen in the machine learning world. While being able to train models on our own data will continue to be extremely valuable, there will be many cases where a model already exists that does what we want, and we'll just want to plug it in to our data.</p>
 <p>Keras already provides some pre-trained models: in this article, I'll use the <a href="https://www.tensorflow.org/tutorials/image_recognition">Inception V3</a> model to classify an image.</p>
@@ -1005,19 +1025,24 @@ ________________________________________________________________________________
 <p>Inception is pretty confident that this is a picture of a hamster.  Without having 
 to do any training ourselves, or really having to know anything at all about neural networks,
 we've leveraged a publicly available model to classify our image.</p>
-                    
-                </div>  
-                
-                
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/basic-keras-example.html">Basic Keras Example</a></h2>
-                
-                
-                <div class="entry-content">
 
-                    <p><a href="https://keras.io/">Keras</a> is a high-level neural network Python library, designed to sit on top of lower level implementations such as <a href="https://www.tensorflow.org/">TensorFlow</a>.</p>
+            </div>
+        
+    </section>
+    <section class="section">
+        
+            
+            <p class="title is-3">
+                <a href="/basic-keras-example.html" rel="bookmark" title="Permalink to Basic Keras Example">
+                    Basic Keras Example
+                </a>
+            </p>
+            <p class="subtitle is-5">
+                Sun 26 February 2017
+            </p>
+            <hr>
+            <div class="content ">
+                <p><a href="https://keras.io/">Keras</a> is a high-level neural network Python library, designed to sit on top of lower level implementations such as <a href="https://www.tensorflow.org/">TensorFlow</a>.</p>
 <p>It provides abstractions that enable you to quickly create neural network structures.  Here I'm going to try to create a simple 3 layer network, and use it to solve a basic classification problem.</p>
 <p>For reference, the problem I'm trying to solve, and the network I'm using to solve it, are roughly equivalent to <a href="http://playground.tensorflow.org/#activation=relu&amp;regularization=L1&amp;batchSize=10&amp;dataset=xor&amp;regDataset=reg-plane&amp;learningRate=0.003&amp;regularizationRate=0.001&amp;noise=0&amp;networkShape=4,1&amp;seed=0.92802&amp;showTestData=false&amp;discretize=false&amp;percTrainData=50&amp;x=true&amp;y=true&amp;xTimesY=false&amp;xSquared=false&amp;ySquared=false&amp;cosX=false&amp;sinX=false&amp;cosY=false&amp;sinY=false&amp;collectStats=false&amp;problem=classification&amp;initZero=false&amp;hideText=false">this interactive example  at playground.tensorflow.org</a></p>
 <p><strong>Tell Jupyter to display matlplotlib plots directly in the notebook</strong></p>
@@ -1079,7 +1104,7 @@ we've leveraged a publicly available model to classify our image.</p>
 
 
 <div>
-<table border="1" class="dataframe table table-striped table-bordered">
+<table border="1" class="dataframe table table-striped table-bordered is-striped is-bordered">
   <thead>
     <tr style="text-align: right;">
       <th></th>
@@ -1217,19 +1242,24 @@ Wall time: 3.34 s
 <p>Next I'd like to figure out how to adjust regularization parameters and the learning rate, and explore how that affects the efficiency of the network.</p>
 <h3>Source</h3>
 <p>The source for this post is <a href="https://github.com/trvrm/notebooks/blob/master/Basic%20Keras%20example.ipynb">available here on github</a></p>
-                    
-                </div>  
-                
-                
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/using-tensorflow-to-compute-gradients.html">Using TensorFlow to compute gradients</a></h2>
-                
-                
-                <div class="entry-content">
 
-                    <p>I tried the basic linear regression example from <a href="https://medium.com/all-of-us-are-belong-to-machines/the-gentlest-introduction-to-tensorflow-248dc871a224#.8429xmd7s">this article</a>.  I was quite surprised by this line:</p>
+            </div>
+        
+    </section>
+    <section class="section">
+        
+            
+            <p class="title is-3">
+                <a href="/using-tensorflow-to-compute-gradients.html" rel="bookmark" title="Permalink to Using TensorFlow to compute gradients">
+                    Using TensorFlow to compute gradients
+                </a>
+            </p>
+            <p class="subtitle is-5">
+                Thu 09 February 2017
+            </p>
+            <hr>
+            <div class="content ">
+                <p>I tried the basic linear regression example from <a href="https://medium.com/all-of-us-are-belong-to-machines/the-gentlest-introduction-to-tensorflow-248dc871a224#.8429xmd7s">this article</a>.  I was quite surprised by this line:</p>
 <div class="highlight"><pre><span></span><span class="n">train_step</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">GradientDescentOptimizer</span><span class="p">(</span><span class="mf">0.0000001</span><span class="p">)</span><span class="o">.</span><span class="n">minimize</span><span class="p">(</span><span class="n">cost</span><span class="p">)</span>                       
 </pre></div>
 
@@ -1293,19 +1323,24 @@ Wall time: 3.34 s
 
 <p><img alt="png" src="/images/tensorflow_gradient/output_12_1.png"></p>
 <p>Note that I haven't had to declare anywhere that the first derivative of <code>sine(x)</code> is <code>cosine(x)</code>. TensorFlow seems to be able to figure that out analytically, which is pretty cool.</p>
-                    
-                </div>  
-                
-                
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/fractal-dimension.html">Fractal Dimension</a></h2>
-                
-                
-                <div class="entry-content">
 
-                    <p>Inspired by the <a href="https://www.youtube.com/watch?v=bSfe5M_zG2s">keynote</a> given at PyCon Portland by K Lars Lohn,, I wanted to try my hand 
+            </div>
+        
+    </section>
+    <section class="section">
+        
+            
+            <p class="title is-3">
+                <a href="/fractal-dimension.html" rel="bookmark" title="Permalink to Fractal Dimension">
+                    Fractal Dimension
+                </a>
+            </p>
+            <p class="subtitle is-5">
+                Tue 24 January 2017
+            </p>
+            <hr>
+            <div class="content ">
+                <p>Inspired by the <a href="https://www.youtube.com/watch?v=bSfe5M_zG2s">keynote</a> given at PyCon Portland by K Lars Lohn,, I wanted to try my hand 
 at computing the fractal dimension of a few different images.</p>
 <p>This is a very simple implementation of a <a href="https://en.wikipedia.org/wiki/Minkowski%E2%80%93Bouligand_dimension">box counting</a> algorithm.</p>
 <p>A couple of ideas are borrowed from https://github.com/twobraids/fracdim.</p>
@@ -1447,19 +1482,24 @@ plotted them against each other.</p>
 
 <p><strong>Which is exactly what we expected.</strong></p>
 <p>As K Lars Lohn said in his keynote, it's very rewarding when you try something out in Python and the result actually matches neatly up with the theory!</p>
-                    
-                </div>  
-                
-                
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/new-blog-theme.html">New Blog Theme</a></h2>
-                
-                
-                <div class="entry-content">
 
-                    <p>Yesterday I discovered the <a href="http://bulma.io/">Bulma</a> CSS library.  It seems to be basically 'bootstrap for the flexbox world.'</p>
+            </div>
+        
+    </section>
+    <section class="section">
+        
+            
+            <p class="title is-3">
+                <a href="/new-blog-theme.html" rel="bookmark" title="Permalink to New Blog Theme">
+                    New Blog Theme
+                </a>
+            </p>
+            <p class="subtitle is-5">
+                Fri 13 May 2016
+            </p>
+            <hr>
+            <div class="content ">
+                <p>Yesterday I discovered the <a href="http://bulma.io/">Bulma</a> CSS library.  It seems to be basically 'bootstrap for the flexbox world.'</p>
 <p>Given that Bootstrap version 4 has been promising us Flexbox support for nearly a year now, I think Bulma could be my
 new best CSS friend.  Of course, I won't be able to use it anywhere where I have to support even reasonably old
 browsers, but so far it's been very pleasant to work with.</p>
@@ -1478,19 +1518,24 @@ to use Bulma classes.  Here's an example from the <code>article.html</code> temp
         <span class="nt">&lt;/h2&gt;</span>
         ...
 </pre></div>
-                    
-                </div>  
-                
-                
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/streaming-php-output-with-fpm-and-nginx.html">Streaming PHP Output with FPM and NGINX</a></h2>
-                
-                
-                <div class="entry-content">
 
-                    <p><strong>Problem:</strong> We had a PHP report that takes around 45 seconds to render.  To give the user feedback
+            </div>
+        
+    </section>
+    <section class="section">
+        
+            
+            <p class="title is-3">
+                <a href="/streaming-php-output-with-fpm-and-nginx.html" rel="bookmark" title="Permalink to Streaming PHP Output with FPM and NGINX">
+                    Streaming PHP Output with FPM and NGINX
+                </a>
+            </p>
+            <p class="subtitle is-5">
+                Sun 25 October 2015
+            </p>
+            <hr>
+            <div class="content ">
+                <p><strong>Problem:</strong> We had a PHP report that takes around 45 seconds to render.  To give the user feedback
 that their report was actually being generated, I wanted to change our PHP installation to deliver at least some output to the client as soon as possible, rather than waiting until the entire page was rendered.</p>
 <p>In general, PHP and NGINX work hard to buffer output, so this was mostly an exercise in fighting with
 PHP and NGINX to make them stop doing optimizations that do, in general, make sense.  It turns out that
@@ -1528,19 +1573,24 @@ HTTPS, NGINX will still buffer your output.</p>
 <h4>References</h4>
 <p><a href="https://stackoverflow.com/questions/4870697/php-flush-that-works-even-in-nginx">This</a>
 Stack Overflow question got me pointed in the right direction. </p>
-                    
-                </div>  
-                
-                
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/bulk-psycopg2-inserts.html">Efficient Postgres Bulk Inserts using Psycopg2 and Unnest</a></h2>
-                
-                
-                <div class="entry-content">
 
-                    <p>One of the biggest challenges I face maintaining large Postgres systems
+            </div>
+        
+    </section>
+    <section class="section">
+        
+            
+            <p class="title is-3">
+                <a href="/bulk-psycopg2-inserts.html" rel="bookmark" title="Permalink to Efficient Postgres Bulk Inserts using Psycopg2 and Unnest">
+                    Efficient Postgres Bulk Inserts using Psycopg2 and Unnest
+                </a>
+            </p>
+            <p class="subtitle is-5">
+                Thu 22 October 2015
+            </p>
+            <hr>
+            <div class="content ">
+                <p>One of the biggest challenges I face maintaining large Postgres systems
 is getting data <em>into</em> them in an efficient manner. Postgres is very,
 very good at maintaining, organising, querying and retrieving data, but
 inserts themselves can be quite slow.</p>
@@ -1781,7 +1831,7 @@ our two methods:</p>
 <span class="n">frame</span>
 </pre></div>
 <div style="max-height:1000px;max-width:1500px;overflow:auto;">
-<table border="1" class="dataframe table table-striped table-bordered">
+<table border="1" class="dataframe table table-striped table-bordered is-striped is-bordered">
   <thead>
     <tr style="text-align: right;">
       <th></th>
@@ -1878,68 +1928,69 @@ is transferred back and forth across the network.</li>
 </div>
 </div>
 
-                    
-                </div>  
-                
-                
-            </article>
-            <hr/>
 
-        <ul class="pagination">
-                <li class="prev disabled"><a href="#">&laquo;</a></li>
-                    <li class="active"><a
-                            href="/author/trevor.html">1</a></li>
-                    <li class=""><a
-                            href="/author/trevor2.html">2</a></li>
-                    <li class=""><a
-                            href="/author/trevor3.html">3</a></li>
-                    <li class=""><a
-                            href="/author/trevor4.html">4</a></li>
-                <li class="next"><a
-                        href="/author/trevor2.html">&raquo;</a></li>
-        </ul>
-        </div>
-        <div class="col-sm-3" id="sidebar">
-            <aside>
+            </div>
+        
+    </section>
 
-<section class="well well-sm">
-    <ul class="list-group list-group-flush">
-            <li class="list-group-item"><h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Social</span></h4>
-              <ul class="list-group" id="social">
-                <li class="list-group-item"><a href="https://twitter.com/trvrm"><i class="fa fa-twitter-square fa-lg"></i> twitter</a></li>
-              </ul>
-            </li>
+   
 
 
-
-
-
-    </ul>
+<section class="section">
+    
+        
+        <nav class="pagination   is-centered" role="navigation" aria-label="pagination">
+                <a href="/author/trevor2.html" class="pagination-next">Next</a>
+            
+            <ul class="pagination-list">
+                    <li >
+                        <a href="/author/trevor.html"
+                            class="pagination-link is-current"    >
+                            1
+                        </a>
+                    </li>
+                    <li >
+                        <a href="/author/trevor2.html"
+                            class="pagination-link "    >
+                            2
+                        </a>
+                    </li>
+                    <li >
+                        <a href="/author/trevor3.html"
+                            class="pagination-link "    >
+                            3
+                        </a>
+                    </li>
+                    <li >
+                        <a href="/author/trevor4.html"
+                            class="pagination-link "    >
+                            4
+                        </a>
+                    </li>
+            </ul>
+            
+            
+            
+        </nav>
+    
+    
 </section>
-            </aside>
+
+
+
+  
+ 
+    
+    <footer class="footer">
+        <div class="container">
+            <div class="content has-text-centered">
+                <p>
+                    Powered by <a href="http://getpelican.com/">Pelican</a>, <a href="http://python.org">Python</a>, 
+                    and <a href="http://bulma.io/">Bulma</a>
+                </p>
+                <p class="subtitle is-6">Ubi Caritas et Amor, Deus Ibi Est</p>
+            </div>
         </div>
-    </div>
-</div>
-<footer>
-   <div class="container">
-      <hr>
-      <div class="row">
-         <div class="col-xs-10">&copy; 2017 trvrm
-            &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
-            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
-            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
-         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
-      </div>
-   </div>
-</footer>
-<script src="/theme/js/jquery.min.js"></script>
-
-<!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="/theme/js/bootstrap.min.js"></script>
-
-<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
-<script src="/theme/js/respond.min.js"></script>
-
-
+    </footer>
 </body>
 </html>

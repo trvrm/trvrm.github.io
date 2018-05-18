@@ -1,83 +1,101 @@
 <!DOCTYPE html>
-<html lang="en" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<html lang="en">
 <head>
-    <title>Articles by Trevor - trvrm</title>
-    <!-- Using the latest rendering mode for IE -->
+        <link href="/images/favicon.png" rel="icon">
+    <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    
+        
+        <title>trvrm.github.io - Articles by Trevor</title>
+            <link rel="stylesheet" type="text/css" href="/theme/css/flatly.min.css" />
+        
+        <link rel="stylesheet" type="text/css" href="/theme/css/style.css" />
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" />
 
-
-    <link href="/images/favicon.png" rel="icon">
-
-
-        <meta name="author" content="trvrm" />
-
-    <!-- Open Graph tags -->
-        <meta property="og:site_name" content="trvrm" />
-        <meta property="og:type" content="website"/>
-        <meta property="og:title" content="trvrm"/>
-        <meta property="og:url" content=""/>
-        <meta property="og:description" content="trvrm"/>
-
-
-    <!-- Bootstrap -->
-        <link rel="stylesheet" href="/theme/css/bootstrap.cosmo.min.css" type="text/css"/>
-    <link href="/theme/css/font-awesome.min.css" rel="stylesheet">
-
-    <link href="/theme/css/pygments/tango.css" rel="stylesheet">
-    <link rel="stylesheet" href="/theme/css/style.css" type="text/css"/>
-
-
-
-
-
+        <link href="/theme/css/pygments/tango.css" rel="stylesheet">
+        
 </head>
+
 <body>
-
-<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-	<div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a href="/" class="navbar-brand">
-trvrm            </a>
+    <section class="hero is-primary">
+    <!-- Hero header: will stick at the top -->
+    <div class="hero-head">
+        <nav class="navbar  ">
+            <div class="navbar-menu is-active">
+                <div class="navbar-end">
+                    <a class="navbar-item" href="https://twitter.com/trvrm">
+                        <span class="icon"> <i class="fa fa-twitter"></i> </span>
+                        twitter
+                    </a>
+                    <a class="navbar-item" href="https://github.com/trvrm">
+                        <span class="icon"> <i class="fa fa-github"></i> </span>
+                        github
+                    </a>
+                </div>
+            </div>
         </div>
-        <div class="collapse navbar-collapse navbar-ex1-collapse">
-            <ul class="nav navbar-nav">
-                        <li >
-                            <a href="/category/database.html">Database</a>
-                        </li>
-                        <li >
-                            <a href="/category/software.html">Software</a>
-                        </li>
-                        <li >
-                            <a href="/category/systems.html">Systems</a>
-                        </li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-              <li><a href="/archives.html"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
-            </ul>
-        </div>
-        <!-- /.navbar-collapse -->
     </div>
-</div> <!-- /.navbar -->
-<!-- Banner -->
-<!-- End Banner -->
-<div class="container">
-    <div class="row">
-        <div class="col-sm-9">
-            <article>
-                <h2><a href="/sql-magic.html">SQL Magic</a></h2>
+    <!-- Hero content: will be in the middle -->
+     <div class="hero-body">
+            
+             
+             <div class="container has-text-centered">
+               <p class="title is-1">trvrm.github.io</p>
+               
+<h2>Articles by Trevor</h2>
+             </div>
+     </div>
+     <div class="hero-foot">
+         <nav class="navbar  ">
+             
+            <div class="navbar-brand is-active">
+                <a href="/" class="navbar-item" >
+                    trvrm.github.io
+                </a>
+            </div>
+            <div class="navbar-menu is-active">
+               <div class="navbar-start">
+                   
+                           <a class="navbar-item  " href="/category/database.html">Database</a>
+                           <a class="navbar-item  " href="/category/software.html">Software</a>
+                           <a class="navbar-item  " href="/category/systems.html">Systems</a>
+                           <a class="navbar-item  " href="/category/test.html">Test</a>
+               
                 
-                
-                <div class="entry-content">
+               </div>
+               
+             </div>
+           
+         </nav>
 
-                    <p>I'm finding the <code class="code">
+     </div>
+  </section>
+  
+  
+  
+  
+
+
+  
+
+
+
+    <section class="section">
+        
+            
+            <p class="title is-3">
+                <a href="/sql-magic.html" rel="bookmark" title="Permalink to SQL Magic">
+                    SQL Magic
+                </a>
+            </p>
+            <p class="subtitle is-5">
+                Thu 01 January 2015
+            </p>
+            <hr>
+            <div class="content ">
+                <p>I'm finding the <code class="code">
 %sql</code>
  magic function extremely useful. It turns
 IPython into a very nice front-end to Postgresql.</p>
@@ -123,7 +141,7 @@ Done.
 <pre class="literal-block">
 3 rows affected.
 </pre>
-<table class="table table-bordered table-striped">
+<table class="table table-bordered table-striped is-striped is-bordered">
     <tr>
         <th>first</th>
         <th>last</th>
@@ -158,7 +176,7 @@ Done.
 <span class="n">frame</span>
 </pre></div>
 <div style="max-height:1000px;max-width:1500px;overflow:auto;">
-<table class="table table-bordered table-striped">
+<table class="table table-bordered table-striped is-striped is-bordered">
   <thead>
     <tr style="text-align: right;">
       <th></th>
@@ -198,19 +216,48 @@ Done.
 Name: first, dtype: object
 </pre>
 
-                    
-                </div>  
-                
-                
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/basic-ipython-plotting.html">Basic IPython Plotting</a></h2>
-                
-                
-                <div class="entry-content">
 
-                    <p><strong>Things have changed a bit since IPython 1</strong></p>
+            </div>
+        
+    </section>
+    <section class="section">
+        
+            
+            <p class="title is-3">
+                <a href="/test.html" rel="bookmark" title="Permalink to Test">
+                    Test
+                </a>
+            </p>
+            <p class="subtitle is-5">
+                Sat 27 September 2014
+            </p>
+            <hr>
+            <div class="content ">
+                
+    <h1>This is just a test</h1>
+    But it seems to work OK
+    
+    Can I tweak routes?
+ 
+
+
+            </div>
+        
+    </section>
+    <section class="section">
+        
+            
+            <p class="title is-3">
+                <a href="/basic-ipython-plotting.html" rel="bookmark" title="Permalink to Basic IPython Plotting">
+                    Basic IPython Plotting
+                </a>
+            </p>
+            <p class="subtitle is-5">
+                Tue 20 May 2014
+            </p>
+            <hr>
+            <div class="content ">
+                <p><strong>Things have changed a bit since IPython 1</strong></p>
 <p>Now apparently we want to manually specify the use of inline matplotlib
 rather than enable globally in the server.</p>
 <p><a class="reference external" href="http://nbviewer.ipython.org/github/ipython/ipython/blob/1.x/examples/notebooks/Part%203%20-%20Plotting%20with%20Matplotlib.ipynb">http://nbviewer.ipython.org/github/ipython/ipython/blob/1.x/examples/notebooks/Part%203%20-%20Plotting%20with%20Matplotlib.ipynb</a></p>
@@ -225,19 +272,24 @@ rather than enable globally in the server.</p>
 </pre></div>
 <img alt="basic plotting example" src="Basic%20Plotting%20Example_files/Basic%20Plotting%20Example_3_0.png" />
 
-                    
-                </div>  
-                
-                
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/ractive-js.html">Ractive.js</a></h2>
-                
-                
-                <div class="entry-content">
 
-                    <p><a class="reference external" href="http://www.ractivejs.org/">Ractive.js</a> caught my eye this week.  I've been using <a class="reference external" href="http://backbonejs.org/">Backbone</a> for the last couple
+            </div>
+        
+    </section>
+    <section class="section">
+        
+            
+            <p class="title is-3">
+                <a href="/ractive-js.html" rel="bookmark" title="Permalink to Ractive.js">
+                    Ractive.js
+                </a>
+            </p>
+            <p class="subtitle is-5">
+                Wed 01 January 2014
+            </p>
+            <hr>
+            <div class="content ">
+                <p><a class="reference external" href="http://www.ractivejs.org/">Ractive.js</a> caught my eye this week.  I've been using <a class="reference external" href="http://backbonejs.org/">Backbone</a> for the last couple
 of years to develop single page client-side applications, and I've liked how
 it doesn't get in your way, but simply allows you to get on with your work.</p>
 <p>When I noticed that three of the tools I was using: Coffeescript, Underscore, and
@@ -281,68 +333,70 @@ the library in an elegant, interactive fashion.  No more jumping through package
 and dependency hell before you can try out a new framework.  <em>This</em> is the way to
 introduce people to your work.  I'm very impressed.</p>
 
-                    
-                </div>  
+
+            </div>
+        
+    </section>
+
+   
+
+
+<section class="section">
+    
+        
+        <nav class="pagination   is-centered" role="navigation" aria-label="pagination">
                 
-                
-            </article>
-            <hr/>
-
-        <ul class="pagination">
-                <li class="prev"><a href="/author/trevor3.html">&laquo;</a>
-                </li>
-                    <li class=""><a
-                            href="/author/trevor.html">1</a></li>
-                    <li class=""><a
-                            href="/author/trevor2.html">2</a></li>
-                    <li class=""><a
-                            href="/author/trevor3.html">3</a></li>
-                    <li class="active"><a
-                            href="/author/trevor4.html">4</a></li>
-                <li class="next disabled"><a href="#">&raquo;</a></li>
-        </ul>
-        </div>
-        <div class="col-sm-3" id="sidebar">
-            <aside>
-
-<section class="well well-sm">
-    <ul class="list-group list-group-flush">
-            <li class="list-group-item"><h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Social</span></h4>
-              <ul class="list-group" id="social">
-                <li class="list-group-item"><a href="https://twitter.com/trvrm"><i class="fa fa-twitter-square fa-lg"></i> twitter</a></li>
-              </ul>
-            </li>
-
-
-
-
-
-    </ul>
+                <a href="/author/trevor3.html" class="pagination-previous">Previous</a>
+            
+            <ul class="pagination-list">
+                    <li >
+                        <a href="/author/trevor.html"
+                            class="pagination-link "    >
+                            1
+                        </a>
+                    </li>
+                    <li >
+                        <a href="/author/trevor2.html"
+                            class="pagination-link "    >
+                            2
+                        </a>
+                    </li>
+                    <li >
+                        <a href="/author/trevor3.html"
+                            class="pagination-link "    >
+                            3
+                        </a>
+                    </li>
+                    <li >
+                        <a href="/author/trevor4.html"
+                            class="pagination-link is-current"    >
+                            4
+                        </a>
+                    </li>
+            </ul>
+            
+            
+            
+        </nav>
+    
+    
 </section>
-            </aside>
+
+
+
+  
+ 
+    
+    <footer class="footer">
+        <div class="container">
+            <div class="content has-text-centered">
+                <p>
+                    Powered by <a href="http://getpelican.com/">Pelican</a>, <a href="http://python.org">Python</a>, 
+                    and <a href="http://bulma.io/">Bulma</a>
+                </p>
+                <p class="subtitle is-6">Ubi Caritas et Amor, Deus Ibi Est</p>
+            </div>
         </div>
-    </div>
-</div>
-<footer>
-   <div class="container">
-      <hr>
-      <div class="row">
-         <div class="col-xs-10">&copy; 2017 trvrm
-            &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
-            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
-            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
-         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
-      </div>
-   </div>
-</footer>
-<script src="/theme/js/jquery.min.js"></script>
-
-<!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="/theme/js/bootstrap.min.js"></script>
-
-<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
-<script src="/theme/js/respond.min.js"></script>
-
-
+    </footer>
 </body>
 </html>

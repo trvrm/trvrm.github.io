@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<head>
+    <title>Nginx and UWSGI on Ubuntu 14 - trvrm</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <link href="/images/favicon.png" rel="icon">
+
+<link rel="canonical" href="/2015/01/01/nginx-uwsgi-ubuntu-14/">
+
+        <meta name="author" content="Trevor" />
+        <meta name="keywords" content="Python,nginx,uwsgi" />
+        <meta name="description" content="The documentation for Nginx and UWSGI is long and complex, but with ubuntu 14 it&#39;s actually pretty straightforward to get them up and running. I present here a a setup that uses nginx and uwsgi emperor to host multiple python web applications simultaneously on an ubuntu 14 machine. First, the …" />
+
+        <meta property="og:site_name" content="trvrm" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="Nginx and UWSGI on Ubuntu 14"/>
+        <meta property="og:url" content="/2015/01/01/nginx-uwsgi-ubuntu-14/"/>
+        <meta property="og:description" content="The documentation for Nginx and UWSGI is long and complex, but with ubuntu 14 it&#39;s actually pretty straightforward to get them up and running. I present here a a setup that uses nginx and uwsgi emperor to host multiple python web applications simultaneously on an ubuntu 14 machine. First, the …"/>
+        <meta property="article:published_time" content="2015-01-01" />
+            <meta property="article:section" content="Systems" />
+            <meta property="article:tag" content="Python" />
+            <meta property="article:tag" content="nginx" />
+            <meta property="article:tag" content="uwsgi" />
+            <meta property="article:author" content="Trevor" />
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="/theme/css/bootstrap.flatly.min.css" type="text/css"/>
+    <link href="/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="/theme/css/pygments/tango.css" rel="stylesheet">
+    <link rel="stylesheet" href="/theme/css/style.css" type="text/css"/>
+
+
+
+
+
+</head>
+<body>
+
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+	<div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="/" class="navbar-brand">
+trvrm            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                        <li >
+                            <a href="/category/database.html">Database</a>
+                        </li>
+                        <li >
+                            <a href="/category/software.html">Software</a>
+                        </li>
+                        <li class="active">
+                            <a href="/category/systems.html">Systems</a>
+                        </li>
+                        <li >
+                            <a href="/category/test.html">Test</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="/archives.html"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+<!-- Banner -->
+<!-- End Banner -->
+<div class="container">
+    <div class="row">
+        
+        <pre>
+            [<pelican.contents.Page object at 0x7f71ad43d510>]
+        </pre>
+        
+        <div class="col-sm-9">
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="/2015/01/01/nginx-uwsgi-ubuntu-14/"
+                       rel="bookmark"
+                       title="Permalink to Nginx and UWSGI on Ubuntu 14">
+                        Nginx and UWSGI on Ubuntu 14
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2015-01-01T00:00:00+01:00"> Thu 01 January 2015</time>
+    </span>
+
+
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="/tag/python.html">Python</a>
+        /
+	<a href="/tag/nginx.html">nginx</a>
+        /
+	<a href="/tag/uwsgi.html">uwsgi</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <p>The documentation for Nginx and UWSGI is long and complex, but with ubuntu 14
+it's actually pretty straightforward to get them up and running.</p>
+<p>I present here a a setup that uses nginx and uwsgi emperor to host
+multiple python web applications simultaneously on an ubuntu 14 machine.</p>
+<p>First, the packages</p>
+<div class="highlight"><pre><span></span>$ sudo apt-get install nginx
+$ sudo apt-get install uwsgi uwsgi-emperor uwsgi-plugin-python
+</pre></div>
+<p>Our configuration files will now be under <code class="code">
+/etc/nginx</code>
+ and <code class="code">
+/etc/uwsgi-emperor</code>
+</p>
+<p>You can start, stop, and reload nginx as follows:</p>
+<div class="highlight"><pre><span></span>$ sudo service nginx start
+$ sudo service nginx stop
+$ sudo service nginx reload
+</pre></div>
+<p>The last command is useful when changing configuration settings.</p>
+<p>Now set up a site by creating a file in <code class="code">
+/etc/nginx/sites-available</code>
+</p>
+<div class="highlight"><pre><span></span><span class="c1">#/etc/nginx/sites-available/mysite</span>
+server<span class="o">{</span>
+
+    server_name     your_host_name<span class="p">;</span>
+
+    location /app1 <span class="o">{</span>
+        uwsgi_pass unix:/tmp/app1.socket<span class="p">;</span>
+        include uwsgi_params<span class="p">;</span>
+    <span class="o">}</span>
+    location /app2 <span class="o">{</span>
+        uwsgi_pass unix:/tmp/app2.socket<span class="p">;</span>
+        include uwsgi_params<span class="p">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+<p>Then,</p>
+<div class="highlight"><pre><span></span>$ sudo ln -s /etc/nginx/apps-available/mysite /etc/nginx/sites-enabled
+</pre></div>
+<div class="alert  alert-warning compound">
+<p class="compound-first"><strong>Warning</strong></p>
+<p class="compound-last">A previous version of this tutorial had the sockets placed in <code class="code">
+/run/uwsgi</code>
+.
+This was a mistake, because under Ubuntu <code class="code">
+/run</code>
+ is mounted as a <code class="code">
+tmpfs</code>
+, and its content will be deleted on reboot
+Your uwsgi sub-directory will vanish and the uwsgi services will not restart.</p>
+</div>
+<p>Next, set up your 'vassals' (<a class="reference external" href="http://uwsgi-docs.readthedocs.org/en/latest/Emperor.html">http://uwsgi-docs.readthedocs.org/en/latest/Emperor.html</a>)</p>
+<p>Create  <code class="code">
+/etc/uwsgi-emperor/vassals/app1.ini</code>
+ as follows:</p>
+<div class="highlight"><pre><span></span><span class="k">[uwsgi]</span>
+<span class="na">plugin</span> <span class="o">=</span> <span class="s">python</span>
+<span class="na">processes</span> <span class="o">=</span> <span class="s">2</span>
+<span class="na">socket</span> <span class="o">=</span> <span class="s">/tmp/app1.socket</span>
+<span class="na">chmod-socket</span> <span class="o">=</span> <span class="s">666</span>
+
+<span class="na">chdir</span> <span class="o">=</span> <span class="s">/srv/app1</span>
+<span class="na">wsgi-file</span> <span class="o">=</span> <span class="s">/srv/app1/main.py</span>
+
+<span class="na">uid</span> <span class="o">=</span> <span class="s">www-data</span>
+<span class="na">gid</span> <span class="o">=</span> <span class="s">www-data</span>
+</pre></div>
+<p>And for your second application, create  <code class="code">
+/etc/uwsgi-emperor/vassals/app2.ini</code>
+ as similarly:</p>
+<div class="highlight"><pre><span></span><span class="k">[uwsgi]</span>
+<span class="na">plugin</span> <span class="o">=</span> <span class="s">python</span>
+<span class="na">processes</span> <span class="o">=</span> <span class="s">2</span>
+<span class="na">socket</span> <span class="o">=</span> <span class="s">/tmp/app2.socket</span>
+<span class="na">chmod-socket</span> <span class="o">=</span> <span class="s">666</span>
+
+<span class="na">chdir</span> <span class="o">=</span> <span class="s">/srv/app1</span>
+<span class="na">wsgi-file</span> <span class="o">=</span> <span class="s">/srv/app2/main.py</span>
+
+<span class="na">uid</span> <span class="o">=</span> <span class="s">www-data</span>
+<span class="na">gid</span> <span class="o">=</span> <span class="s">www-data</span>
+</pre></div>
+<p>The simple act of <em>creating</em> or touching a .ini file in <code class="code">
+/etc/uwsgi-emperor/vassals</code>
+ will cause
+the emperor process to try to restart your application.</p>
+<p>Of course, your applications don't exist yet, so let's create them.  The simplest wsgi
+application can be only a few lines long:</p>
+<p>Create <code class="code">
+/srv/app1/main.py</code>
+</p>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">application</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">start_response</span><span class="p">):</span>
+    <span class="n">start_response</span><span class="p">(</span><span class="s1">&#39;200 OK&#39;</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;Content-Type&#39;</span><span class="p">,</span><span class="s1">&#39;text/html&#39;</span><span class="p">)])</span>
+    <span class="k">return</span> <span class="p">[</span><span class="s2">&quot;Hello World, I am app1&quot;</span><span class="p">]</span>
+</pre></div>
+<p>And <code class="code">
+/srv/app2/main.py</code>
+</p>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">application</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">start_response</span><span class="p">):</span>
+    <span class="n">start_response</span><span class="p">(</span><span class="s1">&#39;200 OK&#39;</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;Content-Type&#39;</span><span class="p">,</span><span class="s1">&#39;text/html&#39;</span><span class="p">)])</span>
+    <span class="k">return</span> <span class="p">[</span><span class="s2">&quot;I, however, am app2. &quot;</span><span class="p">]</span>
+</pre></div>
+<p>And that's it!</p>
+<p>Visiting <a class="reference external" href="http://your_host_name/app1">http://your_host_name/app1</a> or <a class="reference external" href="http://your_host_name/app2">http://your_host_name/app2</a> should return the text
+you put in the python files.</p>
+
+            </div>
+            <!-- /.entry-content -->
+        </article>
+    </section>
+
+        </div>
+        <div class="col-sm-3" id="sidebar">
+            <aside>
+
+<section class="well well-sm">
+    <ul class="list-group list-group-flush">
+            <li class="list-group-item"><h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Social</span></h4>
+              <ul class="list-group" id="social">
+                <li class="list-group-item"><a href="https://twitter.com/trvrm"><i class="fa fa-twitter-square fa-lg"></i> twitter</a></li>
+              </ul>
+            </li>
+
+
+
+
+
+    </ul>
+</section>
+            </aside>
+        </div>
+    </div>
+</div>
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2017 trvrm
+            &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="/theme/js/respond.min.js"></script>
+
+
+</body>
+</html>

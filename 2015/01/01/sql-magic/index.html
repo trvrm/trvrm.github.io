@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<head>
+    <title>SQL Magic - trvrm</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <link href="/images/favicon.png" rel="icon">
+
+<link rel="canonical" href="/2015/01/01/sql-magic/">
+
+        <meta name="author" content="Trevor" />
+        <meta name="keywords" content="Python,IPython" />
+        <meta name="description" content="I&#39;m finding the %sql magic function extremely useful. It turns IPython into a very nice front-end to Postgresql. First, make sure you have the ipython-sql extension installed: pip install ipython-sql https://pypi.python.org/pypi/ipython-sql Then we load the extension %load_ext sql Then we set up our database connection …" />
+
+        <meta property="og:site_name" content="trvrm" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="SQL Magic"/>
+        <meta property="og:url" content="/2015/01/01/sql-magic/"/>
+        <meta property="og:description" content="I&#39;m finding the %sql magic function extremely useful. It turns IPython into a very nice front-end to Postgresql. First, make sure you have the ipython-sql extension installed: pip install ipython-sql https://pypi.python.org/pypi/ipython-sql Then we load the extension %load_ext sql Then we set up our database connection …"/>
+        <meta property="article:published_time" content="2015-01-01" />
+            <meta property="article:section" content="Software" />
+            <meta property="article:tag" content="Python" />
+            <meta property="article:tag" content="IPython" />
+            <meta property="article:author" content="Trevor" />
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="/theme/css/bootstrap.flatly.min.css" type="text/css"/>
+    <link href="/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="/theme/css/pygments/tango.css" rel="stylesheet">
+    <link rel="stylesheet" href="/theme/css/style.css" type="text/css"/>
+
+
+
+
+
+</head>
+<body>
+
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+	<div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="/" class="navbar-brand">
+trvrm            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                        <li >
+                            <a href="/category/database.html">Database</a>
+                        </li>
+                        <li class="active">
+                            <a href="/category/software.html">Software</a>
+                        </li>
+                        <li >
+                            <a href="/category/systems.html">Systems</a>
+                        </li>
+                        <li >
+                            <a href="/category/test.html">Test</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="/archives.html"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+<!-- Banner -->
+<!-- End Banner -->
+<div class="container">
+    <div class="row">
+        
+        <pre>
+            [<pelican.contents.Page object at 0x7f71ad43d510>]
+        </pre>
+        
+        <div class="col-sm-9">
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="/2015/01/01/sql-magic/"
+                       rel="bookmark"
+                       title="Permalink to SQL Magic">
+                        SQL Magic
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2015-01-01T00:00:00+01:00"> Thu 01 January 2015</time>
+    </span>
+
+
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="/tag/python.html">Python</a>
+        /
+	<a href="/tag/ipython.html">IPython</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <p>I'm finding the <code class="code">
+%sql</code>
+ magic function extremely useful. It turns
+IPython into a very nice front-end to Postgresql.</p>
+<p>First, make sure you have the <code class="code">
+ipython-sql</code>
+ extension installed:</p>
+<p><pre>
+pip install ipython-sql</pre>
+</p>
+<p><a class="reference external" href="https://pypi.python.org/pypi/ipython-sql">https://pypi.python.org/pypi/ipython-sql</a></p>
+<p>Then we load the extension</p>
+<div class="highlight"><pre><span></span><span class="o">%</span><span class="n">load_ext</span> <span class="n">sql</span>
+</pre></div>
+<p>Then we set up our database connection.</p>
+<div class="highlight"><pre><span></span><span class="o">%%</span><span class="n">sql</span>
+<span class="n">postgresql</span><span class="p">:</span><span class="o">//</span><span class="n">testuser</span><span class="p">:</span><span class="n">password</span><span class="nd">@localhost</span><span class="o">/</span><span class="n">test</span>
+</pre></div>
+<pre class="literal-block">
+u'Connected: <a class="reference external" href="mailto:testuser&#64;test">testuser&#64;test</a>'
+</pre>
+<p>And now we can start interacting directly with the database as if we
+were at the <code class="code">
+psql</code>
+ command line.</p>
+<div class="highlight"><pre><span></span><span class="o">%%</span><span class="n">sql</span>
+<span class="n">CREATE</span> <span class="n">TABLE</span> <span class="n">people</span> <span class="p">(</span><span class="n">first</span> <span class="n">text</span><span class="p">,</span> <span class="n">last</span> <span class="n">text</span><span class="p">,</span> <span class="n">drink</span> <span class="n">text</span><span class="p">);</span>
+<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">people</span> <span class="p">(</span><span class="n">first</span><span class="p">,</span><span class="n">last</span><span class="p">,</span><span class="n">drink</span><span class="p">)</span>
+<span class="n">VALUES</span>
+    <span class="p">(</span><span class="s1">&#39;zaphod&#39;</span><span class="p">,</span><span class="s1">&#39;beeblebrox&#39;</span><span class="p">,</span><span class="s1">&#39;pan galactic gargle blaster&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;arthur&#39;</span><span class="p">,</span><span class="s1">&#39;dent&#39;</span><span class="p">,</span><span class="s1">&#39;tea&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;ford&#39;</span><span class="p">,</span><span class="s1">&#39;prefect&#39;</span><span class="p">,</span><span class="s1">&#39;old janx spirit&#39;</span><span class="p">)</span>
+    <span class="p">;</span>
+</pre></div>
+<pre class="literal-block">
+Done.
+3 rows affected.
+</pre>
+<pre class="literal-block">
+[]
+</pre>
+<div class="highlight"><pre><span></span><span class="o">%</span><span class="n">sql</span> <span class="n">select</span> <span class="o">*</span> <span class="kn">from</span> <span class="nn">people</span>
+</pre></div>
+<pre class="literal-block">
+3 rows affected.
+</pre>
+<table class="table table-bordered table-striped">
+    <tr>
+        <th>first</th>
+        <th>last</th>
+        <th>drink</th>
+    </tr>
+    <tr>
+        <td>zaphod</td>
+        <td>beeblebrox</td>
+        <td>pan galactic gargle blaster</td>
+    </tr>
+    <tr>
+        <td>arthur</td>
+        <td>dent</td>
+        <td>tea</td>
+    </tr>
+    <tr>
+        <td>ford</td>
+        <td>prefect</td>
+        <td>old janx spirit</td>
+    </tr>
+</table><p>We can access the results as a python object:</p>
+<div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="o">%</span><span class="n">sql</span> <span class="n">select</span> <span class="o">*</span> <span class="kn">from</span> <span class="nn">people</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</pre></div>
+<pre class="literal-block">
+3
+</pre>
+<p>And we can even get our recordset as a <strong>pandas</strong> dataframe</p>
+<div class="highlight"><pre><span></span><span class="o">%</span><span class="n">config</span> <span class="n">SqlMagic</span><span class="o">.</span><span class="n">autopandas</span><span class="o">=</span><span class="bp">True</span>
+</pre></div>
+<div class="highlight"><pre><span></span><span class="n">frame</span> <span class="o">=</span> <span class="o">%</span><span class="n">sql</span> <span class="n">select</span> <span class="o">*</span> <span class="kn">from</span> <span class="nn">people</span>
+<span class="n">frame</span>
+</pre></div>
+<div style="max-height:1000px;max-width:1500px;overflow:auto;">
+<table class="table table-bordered table-striped">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>first</th>
+      <th>last</th>
+      <th>drink</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td> zaphod</td>
+      <td> beeblebrox</td>
+      <td> pan galactic gargle blaster</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td> arthur</td>
+      <td>       dent</td>
+      <td>                         tea</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>   ford</td>
+      <td>    prefect</td>
+      <td>             old janx spirit</td>
+    </tr>
+  </tbody>
+</table>
+<p>3 rows × 3 columns</p>
+</div><div class="highlight"><pre><span></span><span class="n">frame</span><span class="p">[</span><span class="s1">&#39;first&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+</pre></div>
+<pre class="literal-block">
+0    ZAPHOD
+1    ARTHUR
+2      FORD
+Name: first, dtype: object
+</pre>
+
+            </div>
+            <!-- /.entry-content -->
+        </article>
+    </section>
+
+        </div>
+        <div class="col-sm-3" id="sidebar">
+            <aside>
+
+<section class="well well-sm">
+    <ul class="list-group list-group-flush">
+            <li class="list-group-item"><h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Social</span></h4>
+              <ul class="list-group" id="social">
+                <li class="list-group-item"><a href="https://twitter.com/trvrm"><i class="fa fa-twitter-square fa-lg"></i> twitter</a></li>
+              </ul>
+            </li>
+
+
+
+
+
+    </ul>
+</section>
+            </aside>
+        </div>
+    </div>
+</div>
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2017 trvrm
+            &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="/theme/js/respond.min.js"></script>
+
+
+</body>
+</html>

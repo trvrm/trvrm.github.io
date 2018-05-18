@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<head>
+    <title>Image recognition with Keras, Tensorflow, and InceptionV3 - trvrm</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <link href="/images/favicon.png" rel="icon">
+
+<link rel="canonical" href="/2017/03/17/image-recognition-with-keras-tensorflow-and-inceptionv3/">
+
+        <meta name="author" content="Trevor" />
+        <meta name="keywords" content="Python,TensorFlow,Machine Learning,Keras" />
+        <meta name="description" content="Neural networks are a powerful tool for teaching computers to recognize complex patterns, and now tools like Keras and TensorFlow are beginning to make them a practical tool for programmers who don&#39;t have a PhD in machine learning. One very powerful aspect of these tools is the ability to share …" />
+
+        <meta property="og:site_name" content="trvrm" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="Image recognition with Keras, Tensorflow, and InceptionV3"/>
+        <meta property="og:url" content="/2017/03/17/image-recognition-with-keras-tensorflow-and-inceptionv3/"/>
+        <meta property="og:description" content="Neural networks are a powerful tool for teaching computers to recognize complex patterns, and now tools like Keras and TensorFlow are beginning to make them a practical tool for programmers who don&#39;t have a PhD in machine learning. One very powerful aspect of these tools is the ability to share …"/>
+        <meta property="article:published_time" content="2017-03-17" />
+            <meta property="article:section" content="Software" />
+            <meta property="article:tag" content="Python" />
+            <meta property="article:tag" content="TensorFlow" />
+            <meta property="article:tag" content="Machine Learning" />
+            <meta property="article:tag" content="Keras" />
+            <meta property="article:author" content="Trevor" />
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="/theme/css/bootstrap.flatly.min.css" type="text/css"/>
+    <link href="/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="/theme/css/pygments/tango.css" rel="stylesheet">
+    <link rel="stylesheet" href="/theme/css/style.css" type="text/css"/>
+
+
+
+
+
+</head>
+<body>
+
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+	<div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="/" class="navbar-brand">
+trvrm            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                        <li >
+                            <a href="/category/database.html">Database</a>
+                        </li>
+                        <li class="active">
+                            <a href="/category/software.html">Software</a>
+                        </li>
+                        <li >
+                            <a href="/category/systems.html">Systems</a>
+                        </li>
+                        <li >
+                            <a href="/category/test.html">Test</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="/archives.html"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+<!-- Banner -->
+<!-- End Banner -->
+<div class="container">
+    <div class="row">
+        
+        <pre>
+            [<pelican.contents.Page object at 0x7f71ad43d510>]
+        </pre>
+        
+        <div class="col-sm-9">
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="/2017/03/17/image-recognition-with-keras-tensorflow-and-inceptionv3/"
+                       rel="bookmark"
+                       title="Permalink to Image recognition with Keras, Tensorflow, and InceptionV3">
+                        Image recognition with Keras, Tensorflow, and InceptionV3
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2017-03-17T00:00:00+01:00"> Fri 17 March 2017</time>
+    </span>
+
+
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="/tag/python.html">Python</a>
+        /
+	<a href="/tag/tensorflow.html">TensorFlow</a>
+        /
+	<a href="/tag/machine-learning.html">Machine Learning</a>
+        /
+	<a href="/tag/keras.html">Keras</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <p>Neural networks are a powerful tool for teaching computers to recognize complex patterns, and now tools like <a href="https://keras.io/">Keras</a> and <a href="https://www.tensorflow.org/">TensorFlow</a> are beginning to make them a practical tool for programmers who don't have a PhD in machine learning.</p>
+<p>One very powerful aspect of these tools is the ability to share pre-trained models with others. There are many tutorials and courses that will walk you through the process of building a neural net and training it on some data set.  But in other areas of software development we are far more likely to use off-the-shelf implementations of common algorithms rather than rolling them ourselves.  We might work through implementing a sort algorithm or a binary tree in order to better understand the concepts, but having done so we almost always end up using the algorithms that come built in to our language or programming environment.</p>
+<p>I suspect we'll see the same sort of thing happen in the machine learning world. While being able to train models on our own data will continue to be extremely valuable, there will be many cases where a model already exists that does what we want, and we'll just want to plug it in to our data.</p>
+<p>Keras already provides some pre-trained models: in this article, I'll use the <a href="https://www.tensorflow.org/tutorials/image_recognition">Inception V3</a> model to classify an image.</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">keras</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">keras.preprocessing</span> <span class="kn">import</span> <span class="n">image</span>
+<span class="kn">from</span> <span class="nn">keras.applications.inception_v3</span> <span class="kn">import</span> <span class="n">decode_predictions</span>
+<span class="kn">from</span> <span class="nn">keras.applications.inception_v3</span> <span class="kn">import</span> <span class="n">preprocess_input</span>
+</pre></div>
+
+
+<h3>Load the pre-trained model</h3>
+<div class="highlight"><pre><span></span><span class="n">inception</span><span class="o">=</span><span class="n">keras</span><span class="o">.</span><span class="n">applications</span><span class="o">.</span><span class="n">inception_v3</span><span class="o">.</span><span class="n">InceptionV3</span><span class="p">(</span>
+    <span class="n">include_top</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> 
+    <span class="n">weights</span><span class="o">=</span><span class="s1">&#39;imagenet&#39;</span><span class="p">,</span> 
+    <span class="n">input_tensor</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> 
+    <span class="n">input_shape</span><span class="o">=</span><span class="bp">None</span>
+<span class="p">)</span>
+</pre></div>
+
+
+<p>(This actually downloads the weights from github.  Keras saves your model files in <code>~/.keras/models</code> in the <a href="https://en.wikipedia.org/wiki/Hierarchical_Data_Format">HDF5</a> file format.)</p>
+<div class="highlight"><pre><span></span><span class="err">!</span><span class="n">ls</span>  <span class="o">~/.</span><span class="n">keras</span><span class="o">/</span><span class="n">models</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>inception_v3_weights_tf_dim_ordering_tf_kernels.h5
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="n">inception</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>&lt;keras.engine.training.Model at 0x7f6946e537b8&gt;
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="n">inception</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>____________________________________________________________________________________________________
+Layer (type)                     Output Shape          Param #     Connected to                     
+====================================================================================================
+input_1 (InputLayer)             (None, 299, 299, 3)   0                                            
+____________________________________________________________________________________________________
+conv2d_1 (Conv2D)                (None, 149, 149, 32)  864                                          
+____________________________________________________________________________________________________
+batch_normalization_1 (BatchNorm (None, 149, 149, 32)  96
+
+
+(snipped several hundred lines here...)
+
+
+
+mixed10 (Concatenate)            (None, 8, 8, 2048)    0                                            
+____________________________________________________________________________________________________
+avg_pool (GlobalAveragePooling2D (None, 2048)          0                                            
+____________________________________________________________________________________________________
+predictions (Dense)              (None, 1000)          2049000                                      
+====================================================================================================
+Total params: 23,851,784.0
+Trainable params: 23,817,352.0
+Non-trainable params: 34,432.0
+____________________________________________________________________________________________________
+</pre></div>
+
+
+<h3>Now let's load an image and see if Inception can recognize it</h3>
+<div class="highlight"><pre><span></span><span class="n">img</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">load_img</span><span class="p">(</span><span class="s1">&#39;./hamster.jpg&#39;</span><span class="p">,</span><span class="n">target_size</span><span class="o">=</span><span class="p">(</span><span class="mi">299</span><span class="p">,</span><span class="mi">299</span><span class="p">))</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="n">img</span>
+</pre></div>
+
+
+<p><img alt="png" src="/images/inception/output_14_0.png"></p>
+<p>Keras requires the input data to be in a specific shape.</p>
+<div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">img_to_array</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">preprocess_input</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="n">x</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>(1, 299, 299, 3)
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="n">predictions</span> <span class="o">=</span> <span class="n">inception</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">prediction</span>  <span class="o">=</span> <span class="n">decode_predictions</span><span class="p">(</span><span class="n">predictions</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">prediction</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>(&#39;n02342885&#39;, &#39;hamster&#39;, 0.91639304)
+</pre></div>
+
+
+<h3>And we're done</h3>
+<p>Inception is pretty confident that this is a picture of a hamster.  Without having 
+to do any training ourselves, or really having to know anything at all about neural networks,
+we've leveraged a publicly available model to classify our image.</p>
+            </div>
+            <!-- /.entry-content -->
+        </article>
+    </section>
+
+        </div>
+        <div class="col-sm-3" id="sidebar">
+            <aside>
+
+<section class="well well-sm">
+    <ul class="list-group list-group-flush">
+            <li class="list-group-item"><h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Social</span></h4>
+              <ul class="list-group" id="social">
+                <li class="list-group-item"><a href="https://twitter.com/trvrm"><i class="fa fa-twitter-square fa-lg"></i> twitter</a></li>
+              </ul>
+            </li>
+
+
+
+
+
+    </ul>
+</section>
+            </aside>
+        </div>
+    </div>
+</div>
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2017 trvrm
+            &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="/theme/js/respond.min.js"></script>
+
+
+</body>
+</html>

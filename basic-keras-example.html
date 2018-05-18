@@ -1,121 +1,106 @@
 <!DOCTYPE html>
-<html lang="en" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<html lang="en">
 <head>
-    <title>Basic Keras Example - trvrm</title>
-    <!-- Using the latest rendering mode for IE -->
+        <link href="/images/favicon.png" rel="icon">
+    <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    
+          
+        <title>trvrm.github.io</title>
+            <link rel="stylesheet" type="text/css" href="/theme/css/flatly.min.css" />
+        
+        <link rel="stylesheet" type="text/css" href="/theme/css/style.css" />
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" />
 
-
-    <link href="/images/favicon.png" rel="icon">
-
-<link rel="canonical" href="/basic-keras-example.html">
-
-        <meta name="author" content="Trevor" />
-        <meta name="keywords" content="Python,TensorFlow,Machine Learning,Keras" />
-        <meta name="description" content="Keras is a high-level neural network Python library, designed to sit on top of lower level implementations such as TensorFlow. It provides abstractions that enable you to quickly create neural network structures. Here I&#39;m going to try to create a simple 3 layer network, and use it to solve a …" />
-
-        <meta property="og:site_name" content="trvrm" />
-        <meta property="og:type" content="article"/>
-        <meta property="og:title" content="Basic Keras Example"/>
-        <meta property="og:url" content="/basic-keras-example.html"/>
-        <meta property="og:description" content="Keras is a high-level neural network Python library, designed to sit on top of lower level implementations such as TensorFlow. It provides abstractions that enable you to quickly create neural network structures. Here I&#39;m going to try to create a simple 3 layer network, and use it to solve a …"/>
-        <meta property="article:published_time" content="2017-02-26" />
-            <meta property="article:section" content="Software" />
-            <meta property="article:tag" content="Python" />
-            <meta property="article:tag" content="TensorFlow" />
-            <meta property="article:tag" content="Machine Learning" />
-            <meta property="article:tag" content="Keras" />
-            <meta property="article:author" content="Trevor" />
-
-
-    <!-- Bootstrap -->
-        <link rel="stylesheet" href="/theme/css/bootstrap.cosmo.min.css" type="text/css"/>
-    <link href="/theme/css/font-awesome.min.css" rel="stylesheet">
-
-    <link href="/theme/css/pygments/tango.css" rel="stylesheet">
-    <link rel="stylesheet" href="/theme/css/style.css" type="text/css"/>
+        <link href="/theme/css/pygments/tango.css" rel="stylesheet">
+        
 
 
 
-
+    <meta name="tags" content="Python" />
+    <meta name="tags" content="TensorFlow" />
+    <meta name="tags" content="Machine Learning" />
+    <meta name="tags" content="Keras" />
 
 </head>
+
 <body>
-
-<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-	<div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a href="/" class="navbar-brand">
-trvrm            </a>
-        </div>
-        <div class="collapse navbar-collapse navbar-ex1-collapse">
-            <ul class="nav navbar-nav">
-                        <li >
-                            <a href="/category/database.html">Database</a>
-                        </li>
-                        <li class="active">
-                            <a href="/category/software.html">Software</a>
-                        </li>
-                        <li >
-                            <a href="/category/systems.html">Systems</a>
-                        </li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-              <li><a href="/archives.html"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
-            </ul>
-        </div>
-        <!-- /.navbar-collapse -->
-    </div>
-</div> <!-- /.navbar -->
-<!-- Banner -->
-<!-- End Banner -->
-<div class="container">
-    <div class="row">
-        <div class="col-sm-9">
-    <section id="content">
-        <article>
-            <header class="page-header">
-                <h1>
-                    <a href="/basic-keras-example.html"
-                       rel="bookmark"
-                       title="Permalink to Basic Keras Example">
-                        Basic Keras Example
+    <section class="hero is-primary">
+    <!-- Hero header: will stick at the top -->
+    <div class="hero-head">
+        <nav class="navbar  ">
+            <div class="navbar-menu is-active">
+                <div class="navbar-end">
+                    <a class="navbar-item" href="https://twitter.com/trvrm">
+                        <span class="icon"> <i class="fa fa-twitter"></i> </span>
+                        twitter
                     </a>
-                </h1>
-            </header>
-            <div class="entry-content">
-                <div class="panel">
-                    <div class="panel-body">
-<footer class="post-info">
-    <span class="label label-default">Date</span>
-    <span class="published">
-        <i class="fa fa-calendar"></i><time datetime="2017-02-26T00:00:00+01:00"> Sun 26 February 2017</time>
-    </span>
-
-
-
-
-
-<span class="label label-default">Tags</span>
-	<a href="/tag/python.html">Python</a>
-        /
-	<a href="/tag/tensorflow.html">TensorFlow</a>
-        /
-	<a href="/tag/machine-learning.html">Machine Learning</a>
-        /
-	<a href="/tag/keras.html">Keras</a>
-    
-</footer><!-- /.post-info -->                    </div>
+                    <a class="navbar-item" href="https://github.com/trvrm">
+                        <span class="icon"> <i class="fa fa-github"></i> </span>
+                        github
+                    </a>
                 </div>
-                <p><a href="https://keras.io/">Keras</a> is a high-level neural network Python library, designed to sit on top of lower level implementations such as <a href="https://www.tensorflow.org/">TensorFlow</a>.</p>
+            </div>
+        </div>
+    </div>
+    <!-- Hero content: will be in the middle -->
+     <div class="hero-body">
+            
+             
+             <div class="container has-text-centered">
+               <p class="title is-1">trvrm.github.io</p>
+               
+                   
+             </div>
+     </div>
+     <div class="hero-foot">
+         <nav class="navbar  ">
+             
+            <div class="navbar-brand is-active">
+                <a href="/" class="navbar-item" >
+                    trvrm.github.io
+                </a>
+            </div>
+            <div class="navbar-menu is-active">
+               <div class="navbar-start">
+                   
+                           <a class="navbar-item  " href="/category/database.html">Database</a>
+                           <a class="navbar-item   is-active " href="/category/software.html">Software</a>
+                           <a class="navbar-item  " href="/category/systems.html">Systems</a>
+                           <a class="navbar-item  " href="/category/test.html">Test</a>
+               
+                
+               </div>
+               
+             </div>
+           
+         </nav>
+
+     </div>
+  </section>
+  
+  
+  
+  
+
+
+  
+    <section class="section">
+         <div class="container has-text-centered">
+            <p class="title is-3">
+                <a href="/basic-keras-example.html" rel="bookmark" title="Permalink to Basic Keras Example">
+                    Basic Keras Example
+                </a>
+            </p>
+            <p class="subtitle is-5">
+                Sun 26 February 2017
+            </p>
+        </div>
+        <hr>
+        <div class="content ">
+            <p><a href="https://keras.io/">Keras</a> is a high-level neural network Python library, designed to sit on top of lower level implementations such as <a href="https://www.tensorflow.org/">TensorFlow</a>.</p>
 <p>It provides abstractions that enable you to quickly create neural network structures.  Here I'm going to try to create a simple 3 layer network, and use it to solve a basic classification problem.</p>
 <p>For reference, the problem I'm trying to solve, and the network I'm using to solve it, are roughly equivalent to <a href="http://playground.tensorflow.org/#activation=relu&amp;regularization=L1&amp;batchSize=10&amp;dataset=xor&amp;regDataset=reg-plane&amp;learningRate=0.003&amp;regularizationRate=0.001&amp;noise=0&amp;networkShape=4,1&amp;seed=0.92802&amp;showTestData=false&amp;discretize=false&amp;percTrainData=50&amp;x=true&amp;y=true&amp;xTimesY=false&amp;xSquared=false&amp;ySquared=false&amp;cosX=false&amp;sinX=false&amp;cosY=false&amp;sinY=false&amp;collectStats=false&amp;problem=classification&amp;initZero=false&amp;hideText=false">this interactive example  at playground.tensorflow.org</a></p>
 <p><strong>Tell Jupyter to display matlplotlib plots directly in the notebook</strong></p>
@@ -177,7 +162,7 @@ trvrm            </a>
 
 
 <div>
-<table border="1" class="dataframe table table-striped table-bordered">
+<table border="1" class="dataframe table table-striped table-bordered is-striped is-bordered">
   <thead>
     <tr style="text-align: right;">
       <th></th>
@@ -315,53 +300,24 @@ Wall time: 3.34 s
 <p>Next I'd like to figure out how to adjust regularization parameters and the learning rate, and explore how that affects the efficiency of the network.</p>
 <h3>Source</h3>
 <p>The source for this post is <a href="https://github.com/trvrm/notebooks/blob/master/Basic%20Keras%20example.ipynb">available here on github</a></p>
-            </div>
-            <!-- /.entry-content -->
-        </article>
+
+        </div>
+
     </section>
 
+  
+ 
+    
+    <footer class="footer">
+        <div class="container">
+            <div class="content has-text-centered">
+                <p>
+                    Powered by <a href="http://getpelican.com/">Pelican</a>, <a href="http://python.org">Python</a>, 
+                    and <a href="http://bulma.io/">Bulma</a>
+                </p>
+                <p class="subtitle is-6">Ubi Caritas et Amor, Deus Ibi Est</p>
+            </div>
         </div>
-        <div class="col-sm-3" id="sidebar">
-            <aside>
-
-<section class="well well-sm">
-    <ul class="list-group list-group-flush">
-            <li class="list-group-item"><h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Social</span></h4>
-              <ul class="list-group" id="social">
-                <li class="list-group-item"><a href="https://twitter.com/trvrm"><i class="fa fa-twitter-square fa-lg"></i> twitter</a></li>
-              </ul>
-            </li>
-
-
-
-
-
-    </ul>
-</section>
-            </aside>
-        </div>
-    </div>
-</div>
-<footer>
-   <div class="container">
-      <hr>
-      <div class="row">
-         <div class="col-xs-10">&copy; 2017 trvrm
-            &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
-            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
-            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
-         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
-      </div>
-   </div>
-</footer>
-<script src="/theme/js/jquery.min.js"></script>
-
-<!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="/theme/js/bootstrap.min.js"></script>
-
-<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
-<script src="/theme/js/respond.min.js"></script>
-
-
+    </footer>
 </body>
 </html>

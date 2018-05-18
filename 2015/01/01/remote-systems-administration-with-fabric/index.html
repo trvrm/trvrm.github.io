@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<head>
+    <title>Remote Systems Administration with Fabric - trvrm</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <link href="/images/favicon.png" rel="icon">
+
+<link rel="canonical" href="/2015/01/01/remote-systems-administration-with-fabric/">
+
+        <meta name="author" content="Trevor" />
+        <meta name="keywords" content="linux,python" />
+        <meta name="description" content="A tool I&#39;m finding myself using more and more these days is Fabric. Fabric is a python utility and library for streamlining systems administration tasks on multiple machines. Although I&#39;m primarily a developer and systems architect, I find that as our company grows I keep getting drawn into sysadmin and …" />
+
+        <meta property="og:site_name" content="trvrm" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="Remote Systems Administration with Fabric"/>
+        <meta property="og:url" content="/2015/01/01/remote-systems-administration-with-fabric/"/>
+        <meta property="og:description" content="A tool I&#39;m finding myself using more and more these days is Fabric. Fabric is a python utility and library for streamlining systems administration tasks on multiple machines. Although I&#39;m primarily a developer and systems architect, I find that as our company grows I keep getting drawn into sysadmin and …"/>
+        <meta property="article:published_time" content="2015-01-01" />
+            <meta property="article:section" content="Systems" />
+            <meta property="article:tag" content="linux" />
+            <meta property="article:tag" content="python" />
+            <meta property="article:author" content="Trevor" />
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="/theme/css/bootstrap.flatly.min.css" type="text/css"/>
+    <link href="/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="/theme/css/pygments/tango.css" rel="stylesheet">
+    <link rel="stylesheet" href="/theme/css/style.css" type="text/css"/>
+
+
+
+
+
+</head>
+<body>
+
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+	<div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="/" class="navbar-brand">
+trvrm            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                        <li >
+                            <a href="/category/database.html">Database</a>
+                        </li>
+                        <li >
+                            <a href="/category/software.html">Software</a>
+                        </li>
+                        <li class="active">
+                            <a href="/category/systems.html">Systems</a>
+                        </li>
+                        <li >
+                            <a href="/category/test.html">Test</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="/archives.html"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+<!-- Banner -->
+<!-- End Banner -->
+<div class="container">
+    <div class="row">
+        
+        <pre>
+            [<pelican.contents.Page object at 0x7f71ad43d510>]
+        </pre>
+        
+        <div class="col-sm-9">
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="/2015/01/01/remote-systems-administration-with-fabric/"
+                       rel="bookmark"
+                       title="Permalink to Remote Systems Administration with Fabric">
+                        Remote Systems Administration with Fabric
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2015-01-01T00:00:00+01:00"> Thu 01 January 2015</time>
+    </span>
+
+
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="/tag/linux.html">linux</a>
+        /
+	<a href="/tag/python.html">python</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <p>A tool I'm finding myself using more and more these days is <a class="reference external" href="http://fabric.readthedocs.org/en/1.8/">Fabric</a>.</p>
+<p>Fabric is a python utility and library for streamlining systems administration
+tasks on multiple machines.</p>
+<p>Although I'm primarily a developer and systems architect, I find that as our
+company grows I keep getting drawn into sysadmin and devops tasks.   We now
+have quite a number of servers which I need to monitor and manage.</p>
+<p>Now, as Larry Wall so profoundly said, one of the great virtues of a programmer
+is <em>laziness</em>, so if there's a way I can perform the same task on multiple machines
+without having to manually type out the commands dozens of times, then I'm all for it.</p>
+<p>Fabric does precisely that.  It's written in Python, and its configuration files
+are python scripts, so there's no need to learn yet another domain-specific language.
+I have a file called <code class="code">
+fabfile.py</code>
+ on my local machine that contains a growing
+collection of little recipes, and with this I can interact with all the servers
+in our infrastructure.</p>
+<p>So for example, if I want to see at a glance which version of linux I'm running on
+all my servers, I have a task set up in my fabfile like this:</p>
+<div class="highlight"><pre><span></span><span class="nd">@parallel</span>
+<span class="k">def</span> <span class="nf">lsb_release</span><span class="p">():</span>
+    <span class="n">run</span><span class="p">(</span><span class="s1">&#39;lsb_release -a&#39;</span><span class="p">)</span>
+</pre></div>
+<p>When I invoke this via:</p>
+<div class="highlight"><pre><span></span>$ fab lsb_release
+</pre></div>
+<p>I get a nice little print-out of the current version of all my servers.  Fabric
+runs the task in parallel against every host in the <code class="code">
+env.hosts</code>
+ variable,
+which can be set at the command line or in the <strong>fabfile</strong>.</p>
+<p>The following example allows me to see a list of every database running on every
+database server.</p>
+<div class="highlight"><pre><span></span><span class="n">DATABASE_HOST_MACHINES</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;dbserver1&#39;</span><span class="p">,</span><span class="s1">&#39;dbserver2&#39;</span><span class="p">,</span><span class="o">...</span><span class="p">]</span>
+
+<span class="nd">@hosts</span><span class="p">(</span><span class="n">DATABASE_HOST_MACHINES</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">databases</span><span class="p">():</span>
+    <span class="k">with</span> <span class="n">warn_only</span><span class="p">():</span>
+        <span class="n">run</span><span class="p">(</span><span class="s1">&#39;psql -c &quot;select datname from pg_database;&quot;&#39;</span><span class="p">)</span>
+</pre></div>
+<p>And <em>voila</em>, a call to</p>
+<div class="highlight"><pre><span></span>$ fab databases
+</pre></div>
+<p>gives me a company-wide view of all our databases.</p>
+<p>One further demonstration - this blog itself is generated using Fabric! For details, see
+the fabfile my <a class="reference external" href="https://github.com/trvrm/trvrm.github.io/blob/master/fabfile.py">Github</a> repository.</p>
+
+            </div>
+            <!-- /.entry-content -->
+        </article>
+    </section>
+
+        </div>
+        <div class="col-sm-3" id="sidebar">
+            <aside>
+
+<section class="well well-sm">
+    <ul class="list-group list-group-flush">
+            <li class="list-group-item"><h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Social</span></h4>
+              <ul class="list-group" id="social">
+                <li class="list-group-item"><a href="https://twitter.com/trvrm"><i class="fa fa-twitter-square fa-lg"></i> twitter</a></li>
+              </ul>
+            </li>
+
+
+
+
+
+    </ul>
+</section>
+            </aside>
+        </div>
+    </div>
+</div>
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2017 trvrm
+            &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="/theme/js/respond.min.js"></script>
+
+
+</body>
+</html>
