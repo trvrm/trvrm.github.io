@@ -61,7 +61,6 @@
                            <a class="navbar-item  " href="/category/database.html">Database</a>
                            <a class="navbar-item  " href="/category/software.html">Software</a>
                            <a class="navbar-item  " href="/category/systems.html">Systems</a>
-                           <a class="navbar-item  " href="/category/test.html">Test</a>
                
                 
                </div>
@@ -86,6 +85,27 @@
         <h1 class="title">Archives for trvrm.github.io</h1>
         
         <div class="columns is-multiline">
+                <div class="column is-one-quarter">
+                    <article class="message is-primary">
+                        <div class="message-header">
+                            Mon 24 December 2018
+                        </div>
+                        <div class="message-body">
+                            <a href="/efficient-postgres-bulk-inserts-take-2.html" rel="bookmark" title="Permalink to Efficient Postgres Bulk Inserts Take 2">
+                                Efficient Postgres Bulk Inserts Take 2
+                            </a>
+                            
+                            <div class="content">
+                                <p>In a previous <a href="/bulk-psycopg2-inserts.html">post</a> I outlined a technique for achieving highly efficient 
+bulk inserts from Python into a Postgres database.</p>
+<p>The heart of this technique relies on passing multiple rows to postgres as a <em>single</em> 
+parameter, and using the <code>unnest</code> function to convert that parameter from an
+array into a …</p>
+                            </div>
+                        </div>
+                    </article>
+                
+                </div>
                 <div class="column is-one-quarter">
                     <article class="message is-primary">
                         <div class="message-header">
@@ -611,29 +631,6 @@ pip install ipython-sql</pre>
 <div class="highlight"><pre><span></span><span class="o">%</span><span class="n">load_ext</span> <span class="n">sql</span>
 </pre></div>
 <p>Then we set up our database connection …</p>
-                            </div>
-                        </div>
-                    </article>
-                
-                </div>
-                <div class="column is-one-quarter">
-                    <article class="message is-primary">
-                        <div class="message-header">
-                            Sat 27 September 2014
-                        </div>
-                        <div class="message-body">
-                            <a href="/test.html" rel="bookmark" title="Permalink to Test">
-                                Test
-                            </a>
-                            
-                            <div class="content">
-                                
-    <h1>This is just a test</h1>
-    But it seems to work OK
-    
-    Can I tweak routes?
- 
-
                             </div>
                         </div>
                     </article>

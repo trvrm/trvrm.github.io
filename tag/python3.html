@@ -61,7 +61,6 @@
                            <a class="navbar-item  " href="/category/database.html">Database</a>
                            <a class="navbar-item  " href="/category/software.html">Software</a>
                            <a class="navbar-item  " href="/category/systems.html">Systems</a>
-                           <a class="navbar-item  " href="/category/test.html">Test</a>
                
                 
                </div>
@@ -82,6 +81,69 @@
 
 
 
+    <section class="section">
+        
+            
+            <p class="title is-3">
+                <a href="/remote-systems-administration-with-fabric.html" rel="bookmark" title="Permalink to Remote Systems Administration with Fabric">
+                    Remote Systems Administration with Fabric
+                </a>
+            </p>
+            <p class="subtitle is-5">
+                Thu 01 January 2015
+            </p>
+            <hr>
+            <div class="content ">
+                <p>A tool I'm finding myself using more and more these days is <a class="reference external" href="http://fabric.readthedocs.org/en/1.8/">Fabric</a>.</p>
+<p>Fabric is a python utility and library for streamlining systems administration
+tasks on multiple machines.</p>
+<p>Although I'm primarily a developer and systems architect, I find that as our
+company grows I keep getting drawn into sysadmin and devops tasks.   We now
+have quite a number of servers which I need to monitor and manage.</p>
+<p>Now, as Larry Wall so profoundly said, one of the great virtues of a programmer
+is <em>laziness</em>, so if there's a way I can perform the same task on multiple machines
+without having to manually type out the commands dozens of times, then I'm all for it.</p>
+<p>Fabric does precisely that.  It's written in Python, and its configuration files
+are python scripts, so there's no need to learn yet another domain-specific language.
+I have a file called <code class="code">
+fabfile.py</code>
+ on my local machine that contains a growing
+collection of little recipes, and with this I can interact with all the servers
+in our infrastructure.</p>
+<p>So for example, if I want to see at a glance which version of linux I'm running on
+all my servers, I have a task set up in my fabfile like this:</p>
+<div class="highlight"><pre><span></span><span class="nd">@parallel</span>
+<span class="k">def</span> <span class="nf">lsb_release</span><span class="p">():</span>
+    <span class="n">run</span><span class="p">(</span><span class="s1">&#39;lsb_release -a&#39;</span><span class="p">)</span>
+</pre></div>
+<p>When I invoke this via:</p>
+<div class="highlight"><pre><span></span>$ fab lsb_release
+</pre></div>
+<p>I get a nice little print-out of the current version of all my servers.  Fabric
+runs the task in parallel against every host in the <code class="code">
+env.hosts</code>
+ variable,
+which can be set at the command line or in the <strong>fabfile</strong>.</p>
+<p>The following example allows me to see a list of every database running on every
+database server.</p>
+<div class="highlight"><pre><span></span><span class="n">DATABASE_HOST_MACHINES</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;dbserver1&#39;</span><span class="p">,</span><span class="s1">&#39;dbserver2&#39;</span><span class="p">,</span><span class="o">...</span><span class="p">]</span>
+
+<span class="nd">@hosts</span><span class="p">(</span><span class="n">DATABASE_HOST_MACHINES</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">databases</span><span class="p">():</span>
+    <span class="k">with</span> <span class="n">warn_only</span><span class="p">():</span>
+        <span class="n">run</span><span class="p">(</span><span class="s1">&#39;psql -c &quot;select datname from pg_database;&quot;&#39;</span><span class="p">)</span>
+</pre></div>
+<p>And <em>voila</em>, a call to</p>
+<div class="highlight"><pre><span></span>$ fab databases
+</pre></div>
+<p>gives me a company-wide view of all our databases.</p>
+<p>One further demonstration - this blog itself is generated using Fabric! For details, see
+the fabfile my <a class="reference external" href="https://github.com/trvrm/trvrm.github.io/blob/master/fabfile.py">Github</a> repository.</p>
+
+
+            </div>
+        
+    </section>
     <section class="section">
         
             
